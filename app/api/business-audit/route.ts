@@ -1,0 +1,142 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+
+export async function POST(request: NextRequest) {
+  try {
+    const { name, email, website, businessType, currentChallenges, timeSpentDaily } = await request.json()
+
+    // Validate required fields
+    if (!name || !email || !website || !businessType || !currentChallenges || !timeSpentDaily) {
+      return NextResponse.json(
+        { error: 'All fields are required' },
+        { status: 400 }
+      )
+    }
+
+    // Fetch website content
+    let websiteContent = ''
+    try {
+      const websiteResponse = await fetch(website, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; AyothedocBot/1.0)'
+        },
+        timeout: 10000
+      })
+      if (websiteResponse.ok) {
+        const html = await websiteResponse.text()
+        // Extract basic content (simplified)
+        websiteContent = html
+          .replace(/<script[^>]*>.*?<\/script>/gis, '')
+          .replace(/<style[^>]*>.*?<\/style>/gis, '')
+          .replace(/<[^>]*>/g, ' ')
+          .replace(/\s+/g, ' ')
+          .substring(0, 3000) // Limit content length
+      }
+    } catch (error) {
+      console.log('Could not fetch website content:', error)
+      websiteContent = 'Website content could not be analyzed'
+    }
+
+    // Generate AI analysis using Gemini
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+
+    const prompt = `
+    As an expert business automation consultant, analyze the following business and provide a comprehensive automation audit report:
+
+    BUSINESS INFORMATION:
+    - Name: ${name}
+    - Business Type: ${businessType}
+    - Website: ${website}
+    - Daily Hours on Repetitive Tasks: ${timeSpentDaily}
+    - Current Challenges: ${currentChallenges}
+
+    WEBSITE CONTENT ANALYSIS:
+    ${websiteContent}
+
+    Please provide a detailed, personalized report in the following format:
+
+    # Business Automation Audit Report for ${name}
+
+    ## Executive Summary
+    [2-3 sentence overview of automation potential]
+
+    ## Business Analysis
+    [Analysis of their business model based on website content and type]
+
+    ## Top 5 Automation Opportunities
+    
+    ### 1. [Automation Name]
+    - **What it does:** [Description]
+    - **Tools needed:** [Specific tools/platforms]
+    - **Time saved:** [Hours per week]
+    - **Cost estimate:** [Implementation cost]
+    - **ROI timeline:** [Payback period]
+
+    ### 2. [Automation Name]
+    [Same format for 5 opportunities total]
+
+    ## Priority Implementation Roadmap
+    - **Phase 1 (Month 1):** [Quick wins]
+    - **Phase 2 (Month 2-3):** [Medium complexity]
+    - **Phase 3 (Month 4-6):** [Advanced automations]
+
+    ## Projected Annual Savings
+    - **Time saved:** [Total hours per year]
+    - **Cost savings:** [Dollar amount]
+    - **Revenue potential:** [Additional revenue opportunities]
+
+    ## Next Steps
+    [Specific actionable recommendations]
+
+    Make this report highly specific to their business type, challenges, and website content. Focus on practical, implementable solutions using tools like Make.com, Zapier, AI assistants, and custom workflows.
+    `
+
+    const result = await model.generateContent(prompt)
+    const auditReport = result.response.text()
+
+    // Send email with the report (using EmailJS or similar service)
+    const emailContent = {
+      to_name: name,
+      to_email: email,
+      subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
+      message: auditReport,
+      website_analyzed: website,
+      business_type: businessType,
+    }
+
+    // Send via EmailJS (you'll need to configure this)
+    const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        template_id: process.env.NEXT_PUBLIC_EMAILJS_AUDIT_TEMPLATE_ID,
+        user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+        template_params: emailContent,
+      }),
+    })
+
+    if (!emailResponse.ok) {
+      throw new Error('Failed to send email')
+    }
+
+    // Log the audit for analytics (optional)
+    console.log(`Audit generated for ${email} - ${businessType}`)
+
+    return NextResponse.json({
+      success: true,
+      message: 'Audit report generated and sent successfully'
+    })
+
+  } catch (error) {
+    console.error('Business audit error:', error)
+    return NextResponse.json(
+      { error: 'Failed to generate audit report' },
+      { status: 500 }
+    )
+  }
+}
