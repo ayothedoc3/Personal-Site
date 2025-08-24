@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ROICalculator } from "@/components/roi-calculator"
 import { useEffect, useState, useCallback } from "react"
 import Image from "next/image"
 
@@ -668,6 +669,13 @@ export default function Home() {
               <div className="text-xs text-muted-foreground/60">⏰ Only 5 spots available this month</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator Section */}
+      <section id="calculator" className="py-20 bg-gradient-to-b from-background to-gray-950/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ROICalculator />
         </div>
       </section>
     </div>

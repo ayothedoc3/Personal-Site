@@ -11,6 +11,20 @@ const nextConfig = {
   },
   // Add standalone output for Docker builds
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
+  
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+  },
+  
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // Modern JavaScript targeting
+  swcMinify: true,
 }
 
 export default nextConfig
