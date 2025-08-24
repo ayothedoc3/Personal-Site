@@ -324,6 +324,7 @@ export default function Home() {
 
         <h1
           className={`text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-6xl transition-all duration-1000 delay-500 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+          style={{ minHeight: '1.2em' }}
         >
           <span className="text-lime-400 inline-block hover:scale-105 transition-transform duration-300">
             {typedText.includes("Full Service") ? "Full Service" : typedText}
@@ -338,12 +339,14 @@ export default function Home() {
 
         <p
           className={`text-muted-foreground text-xl md:text-2xl mb-4 max-w-3xl leading-relaxed transition-all duration-1000 delay-700 font-medium ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+          style={{ minHeight: '2.4em' }}
         >
           Save 10+ Hours Weekly with Custom Web Development & AI Automation
         </p>
 
         <p
           className={`text-muted-foreground/80 text-lg mb-12 max-w-2xl leading-relaxed transition-all duration-1000 delay-800 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+          style={{ minHeight: '1.8em' }}
         >
           Transform your business operations with intelligent workflows that work 24/7 while you focus on growth
         </p>
