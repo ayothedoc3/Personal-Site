@@ -23,8 +23,6 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   
-  // Modern JavaScript targeting
-  swcMinify: true,
 }
 
 export default nextConfig
