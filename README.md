@@ -1,30 +1,119 @@
-# TrustData website clone
+# Ayothedoc - Digital Agency Website
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+*Professional web development and AI automation services*
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/ayothedocs-projects-fd6a8ff8/v0-trust-data-website-clone)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/7dA5FyqVXBd)
+[![Built by Ayothedoc](https://img.shields.io/badge/Built%20by-Ayothedoc-lime?style=for-the-badge)](https://ayothedoc.com)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 
 ## Overview
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+A modern, responsive website for Ayothedoc - a full-service digital agency specializing in web development and AI automation. Built with Next.js 15, TypeScript, and TailwindCSS with beautiful animations and a comprehensive contact system.
 
-## Deployment
+### Features
+- 🌟 Modern, responsive design with dark/light theme support
+- 📧 Advanced contact form with EmailJS integration
+- 🎨 Interactive animations and smooth scrolling
+- 📱 Mobile-first responsive design
+- ⚡ Fast loading with Next.js 15 optimizations
+- 🔍 SEO optimized with structured data
+- ♿ Accessible with ARIA labels and keyboard navigation
 
-Your project is live at:
+## Technology Stack
 
-**[https://vercel.com/ayothedocs-projects-fd6a8ff8/v0-trust-data-website-clone](https://vercel.com/ayothedocs-projects-fd6a8ff8/v0-trust-data-website-clone)**
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: TailwindCSS v4 with custom themes
+- **UI Components**: shadcn/ui with Radix UI primitives
+- **Forms**: React Hook Form with Zod validation
+- **Email**: EmailJS for contact form submissions
+- **Icons**: Lucide React
+- **Fonts**: Geist Sans & Mono
 
-## Build your app
+## Quick Start
 
-Continue building your app on:
+### Prerequisites
+- Node.js 18+ 
+- npm or pnpm
 
-**[https://v0.app/chat/projects/7dA5FyqVXBd](https://v0.app/chat/projects/7dA5FyqVXBd)**
+### Installation
 
-## How It Works
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd Personal-Site
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your EmailJS credentials
+
+# Start development server
+npm run dev
+```
+
+### Build Commands
+
+```bash
+# Development
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm run start
+
+# Lint code
+npm run lint
+```
+
+## Deployment with Coolify
+
+This project is configured for deployment with [Coolify](https://coolify.io/):
+
+### Setup Steps:
+
+1. **Connect Repository**: Link your GitHub repository in Coolify
+2. **Environment Variables**: Add your EmailJS credentials:
+   - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
+   - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
+   - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
+3. **Build Settings**: Coolify will auto-detect Next.js and use:
+   - Build Command: `npm run build`
+   - Start Command: `npm run start`
+   - Port: `3000`
+
+### Coolify Configuration
+
+No additional configuration needed! The project includes:
+- ✅ Standard Next.js build process
+- ✅ Static asset optimization
+- ✅ Environment variable support
+- ✅ Production-ready builds
+
+## Contact Form Setup
+
+1. Create an [EmailJS](https://emailjs.com) account
+2. Set up your email service and template
+3. Copy credentials to `.env.local`
+4. Update Calendly URL in the code
+
+See `SETUP.md` for detailed instructions.
+
+## About Ayothedoc
+
+**Ayothedoc** is a full-service digital agency specializing in:
+- 🌐 Custom Web Development
+- 🤖 AI Automation Solutions  
+- 📈 Business Process Optimization
+- 👥 Virtual Assistance Services
+- ⚡ Technical Support & Maintenance
+
+**Contact**: [ayothedoc.com](https://ayothedoc.com)
+
+---
+
+*Built with ❤️ by Ayothedoc - Transforming businesses through smart automation and custom web solutions.*

@@ -4,19 +4,13 @@ import type React from "react"
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ContactForm } from "@/components/contact-form"
 import { useState, useEffect } from "react"
 
 export default function Contact() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState({})
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    company: "",
-    service: "",
-    message: "",
-  })
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -46,17 +40,16 @@ export default function Contact() {
     }
   }, [])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+  const handleFormSuccess = () => {
+    setShowSuccessAnimation(true)
+    setTimeout(() => setShowSuccessAnimation(false), 3000)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   return (
@@ -114,7 +107,10 @@ export default function Contact() {
 
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-6 py-2 rounded-full shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group">
+<Button 
+              onClick={() => window.open('https://calendly.com/ayothedoc', '_blank')}
+              className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full shadow-lg hover:shadow-lime-400/25 transition-all duration-300 hover:scale-105 group"
+            >
               <span className="group-hover:scale-110 transition-transform duration-200">Book a Consultation</span>
             </Button>
           </div>
@@ -164,140 +160,17 @@ export default function Contact() {
         <div className="relative max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
             <div
-              className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 opacity-0 animate-fade-in-up"
+              className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-lime-400/10 transition-all duration-500 opacity-0 animate-fade-in-up"
               data-animate
               id="contact-form"
               style={{ animationDelay: "0.8s" }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-emerald-400/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
-                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
                   Send Us a Message
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="group">
-                      <label
-                        htmlFor="firstName"
-                        className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors duration-200"
-                      >
-                        First Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        required
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div className="group">
-                      <label
-                        htmlFor="lastName"
-                        className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors duration-200"
-                      >
-                        Last Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        required
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="group">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors duration-200"
-                    >
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  <div className="group">
-                    <label
-                      htmlFor="company"
-                      className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors duration-200"
-                    >
-                      Company Name
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
-                      placeholder="Your Company"
-                    />
-                  </div>
-
-                  <div className="group">
-                    <label
-                      htmlFor="service"
-                      className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors duration-200"
-                    >
-                      Service Interest
-                    </label>
-                    <select
-                      id="service"
-                      name="service"
-                      value={formData.service}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
-                    >
-                      <option value="">Select a service</option>
-                      <option value="web-development">Web Development</option>
-                      <option value="ai-automation">AI Automation</option>
-                      <option value="business-development">Online Business Development</option>
-                      <option value="virtual-assistance">Virtual Assistance</option>
-                      <option value="process-optimization">Process Optimization</option>
-                      <option value="technical-support">Technical Support</option>
-                    </select>
-                  </div>
-
-                  <div className="group">
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-primary transition-colors duration-200"
-                    >
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={5}
-                      required
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50 resize-none"
-                      placeholder="Tell us about your project and how we can help..."
-                    ></textarea>
-                  </div>
-
-                  <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground py-4 rounded-xl text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-[1.02] group">
-                    <span className="group-hover:scale-110 transition-transform duration-200">Send Message</span>
-                  </Button>
-                </form>
+                <ContactForm onSuccess={handleFormSuccess} />
               </div>
             </div>
 
@@ -386,7 +259,10 @@ export default function Contact() {
                 id="book-now-button"
                 style={{ animationDelay: "1.6s" }}
               >
-                <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
+                <Button 
+                  onClick={() => window.open('https://calendly.com/ayothedoc', '_blank')}
+                  className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-lime-400/25 transition-all duration-300 hover:scale-110 group"
+                >
                   <span className="group-hover:scale-110 transition-transform duration-200">I'm Ready - Book Now</span>
                 </Button>
               </div>

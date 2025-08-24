@@ -35,6 +35,21 @@ export default function Home() {
   const [currentStat, setCurrentStat] = useState(0)
   const fullText = "Full Service Digital Agency"
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
+  const openCalendly = () => {
+    window.open('https://calendly.com/ayothedoc', '_blank')
+  }
+
+  const navigateToContact = () => {
+    window.location.href = '/contact'
+  }
+
   const stats: StatItem[] = [
     { number: 150, label: "Projects Completed", suffix: "+" },
     { number: 98, label: "Client Satisfaction", suffix: "%" },
@@ -235,16 +250,17 @@ export default function Home() {
 
         <nav className="hidden md:flex items-center gap-8 relative z-10" role="navigation" aria-label="Main navigation">
           {[
-            { href: "#main-content", text: "Home", active: true },
-            { href: "/services", text: "Services" },
-            { href: "/about", text: "About" },
-            { href: "/contact", text: "Contact" },
-            { href: "/blog", text: "Blog" },
+            { href: "#main-content", text: "Home", active: true, onClick: () => scrollToSection('main-content') },
+            { href: "/services", text: "Services", onClick: undefined },
+            { href: "/about", text: "About", onClick: undefined },
+            { href: "/contact", text: "Contact", onClick: undefined },
+            { href: "/blog", text: "Blog", onClick: undefined },
           ].map((item, index) => (
             <a
               key={item.text}
               href={item.href}
-              className={`${item.active ? "text-foreground" : "text-muted-foreground"} hover:text-lime-400 focus:text-lime-400 transition-all duration-300 hover:scale-105 focus:scale-105 relative group focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background rounded-lg px-2 py-1`}
+              onClick={item.onClick ? (e: React.MouseEvent) => { e.preventDefault(); item.onClick!() } : undefined}
+              className={`${item.active ? "text-foreground" : "text-muted-foreground"} hover:text-lime-400 focus:text-lime-400 transition-all duration-300 hover:scale-105 focus:scale-105 relative group focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background rounded-lg px-2 py-1 cursor-pointer`}
               style={{ animationDelay: `${index * 100}ms` }}
               aria-current={item.active ? "page" : undefined}
             >
@@ -258,6 +274,7 @@ export default function Home() {
         <div className="flex items-center gap-3 relative z-10">
           <ThemeToggle />
           <Button
+            onClick={openCalendly}
             className="bg-card/50 backdrop-blur-md hover:bg-card/70 focus:bg-card/70 text-foreground px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105 focus:scale-105 hover:shadow-xl focus:shadow-xl hover:shadow-lime-400/20 focus:shadow-lime-400/20 border border-border hover:border-lime-400/50 focus:border-lime-400/50 group overflow-hidden focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background"
             aria-label="Book a consultation with Ayothedoc"
           >
@@ -348,6 +365,7 @@ export default function Home() {
           className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-1000 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
         >
           <Button
+            onClick={navigateToContact}
             className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 focus:from-lime-500 focus:to-emerald-500 text-gray-900 px-8 py-4 rounded-2xl text-lg font-bold transition-all duration-300 hover:scale-105 focus:scale-105 hover:shadow-2xl focus:shadow-2xl hover:shadow-lime-400/40 focus:shadow-lime-400/40 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background"
             aria-label="Get a free consultation with Ayothedoc today"
           >
@@ -356,12 +374,13 @@ export default function Home() {
             <span className="relative group-hover:animate-bounce">Get Free Consultation Today</span>
           </Button>
           <Button
+            onClick={() => scrollToSection('services-section')}
             variant="outline"
             className="border-border text-foreground hover:bg-card/50 focus:bg-card/50 px-8 py-4 rounded-2xl text-lg bg-card/20 backdrop-blur-md transition-all duration-300 hover:scale-105 focus:scale-105 hover:border-lime-400/50 focus:border-lime-400/50 hover:shadow-xl focus:shadow-xl hover:shadow-foreground/10 focus:shadow-foreground/10 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background"
-            aria-label="View our portfolio and previous work"
+            aria-label="View our services and previous work"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-lime-400/10 to-emerald-400/10 translate-y-[100%] group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-500 ease-out"></span>
-            <span className="relative">View Our Work</span>
+            <span className="relative">View Our Services</span>
           </Button>
         </div>
 
@@ -409,6 +428,7 @@ export default function Home() {
             </span>
           </h2>
           <Button
+            onClick={() => scrollToSection('services-section')}
             className="bg-lime-400 hover:bg-lime-500 focus:bg-lime-500 text-gray-900 px-8 py-3 rounded-full text-lg font-semibold mt-8 transition-all duration-300 hover:scale-105 focus:scale-105 hover:shadow-xl focus:shadow-xl hover:shadow-lime-400/30 focus:shadow-lime-400/30 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background"
             aria-label="Learn more about our automation services"
           >
@@ -629,6 +649,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                 <Button
+                  onClick={navigateToContact}
                   className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 focus:from-lime-500 focus:to-emerald-500 text-gray-900 px-10 py-4 rounded-2xl text-lg font-bold transition-all duration-300 hover:scale-110 focus:scale-110 hover:shadow-2xl focus:shadow-2xl hover:shadow-lime-400/40 focus:shadow-lime-400/40 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-background"
                   aria-label="Claim your free strategy session - limited availability"
                 >
