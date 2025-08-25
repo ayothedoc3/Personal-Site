@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { BusinessAudit } from "@/components/business-audit"
 import { useEffect, useState, useCallback } from "react"
 import Image from "next/image"
 
@@ -235,6 +234,7 @@ export default function Home() {
           {[
             { href: "#main-content", text: "Home", active: true, onClick: () => scrollToSection('main-content') },
             { href: "/services", text: "Services", onClick: undefined },
+            { href: "/audit", text: "Business Audit", onClick: undefined },
             { href: "/about", text: "About", onClick: undefined },
             { href: "/contact", text: "Contact", onClick: undefined },
             { href: "/blog", text: "Blog", onClick: undefined },
@@ -652,12 +652,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Business Audit Section */}
-      <section id="audit" className="py-20 bg-gradient-to-b from-background to-gray-950/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <BusinessAudit />
-        </div>
-      </section>
     </div>
   )
 }
