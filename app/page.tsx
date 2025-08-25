@@ -31,10 +31,8 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isTyping, setIsTyping] = useState(false)
-  const [typedText, setTypedText] = useState("")
+  const [typedText] = useState("Full Service Digital Agency")
   const [currentStat, setCurrentStat] = useState(0)
-  const fullText = "Full Service Digital Agency"
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -141,21 +139,6 @@ export default function Home() {
   useEffect(() => {
     setIsLoaded(true)
 
-    const typeWriter = () => {
-      setIsTyping(true)
-      let i = 0
-      const timer = setInterval(() => {
-        if (i < fullText.length) {
-          setTypedText(fullText.slice(0, i + 1))
-          i++
-        } else {
-          clearInterval(timer)
-          setIsTyping(false)
-        }
-      }, 100)
-    }
-
-    const typewriterTimeout = setTimeout(typeWriter, 1500)
 
     const statInterval = setInterval(() => {
       setCurrentStat((prev) => (prev + 1) % stats.length)
@@ -187,7 +170,6 @@ export default function Home() {
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("keydown", handleKeyDown)
       window.removeEventListener("mousedown", handleMouseDown)
-      clearTimeout(typewriterTimeout)
       clearInterval(statInterval)
     }
   }, [handleMouseMove, handleKeyDown, handleMouseDown, stats.length])
@@ -324,29 +306,24 @@ export default function Home() {
 
         <h1
           className={`text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-6xl transition-all duration-1000 delay-500 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-          style={{ minHeight: '1.2em' }}
+          style={{ minHeight: '200px' }}
         >
           <span className="text-lime-400 inline-block hover:scale-105 transition-transform duration-300">
-            {typedText.includes("Full Service") ? "Full Service" : typedText}
+            Full Service
           </span>
-          {typedText.length > "Full Service".length && <span> {typedText.slice("Full Service".length)}</span>}
-          {isTyping && (
-            <span className="animate-pulse" aria-hidden="true">
-              |
-            </span>
-          )}
+          <span> Digital Agency</span>
         </h1>
 
         <p
           className={`text-muted-foreground text-xl md:text-2xl mb-4 max-w-3xl leading-relaxed transition-all duration-1000 delay-700 font-medium ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-          style={{ minHeight: '2.4em' }}
+          style={{ minHeight: '60px' }}
         >
           Save 10+ Hours Weekly with Custom Web Development & AI Automation
         </p>
 
         <p
           className={`text-muted-foreground/80 text-lg mb-12 max-w-2xl leading-relaxed transition-all duration-1000 delay-800 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-          style={{ minHeight: '1.8em' }}
+          style={{ minHeight: '50px' }}
         >
           Transform your business operations with intelligent workflows that work 24/7 while you focus on growth
         </p>
@@ -356,12 +333,12 @@ export default function Home() {
           role="region"
           aria-label="Company statistics"
         >
-          <div className="bg-card/30 backdrop-blur-xl px-8 py-4 rounded-2xl border border-border shadow-xl">
-            <div className="text-3xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
+          <div className="bg-card/30 backdrop-blur-xl px-8 py-4 rounded-2xl border border-border shadow-xl" style={{ minHeight: '100px', width: '200px' }}>
+            <div className="text-3xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent" style={{ minHeight: '40px' }}>
               {stats[currentStat].number}
               {stats[currentStat].suffix}
             </div>
-            <div className="text-sm text-muted-foreground mt-1">{stats[currentStat].label}</div>
+            <div className="text-sm text-muted-foreground mt-1" style={{ minHeight: '20px' }}>{stats[currentStat].label}</div>
           </div>
         </div>
 
