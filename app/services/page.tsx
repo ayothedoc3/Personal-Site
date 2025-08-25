@@ -68,6 +68,7 @@ export default function Services() {
             {[
               { href: "/", label: "Home" },
               { href: "/services", label: "Services", active: true },
+              { href: "/audit", label: "Business Audit" },
               { href: "/about", label: "About" },
               { href: "/contact", label: "Contact" },
               { href: "/blog", label: "Blog" },

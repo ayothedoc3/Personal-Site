@@ -84,6 +84,7 @@ export default function Contact() {
             {[
               { href: "/", label: "Home" },
               { href: "/services", label: "Services" },
+              { href: "/audit", label: "Business Audit" },
               { href: "/about", label: "About" },
               { href: "/contact", label: "Contact", active: true },
               { href: "/blog", label: "Blog" },

@@ -68,6 +68,7 @@ export default function About() {
             {[
               { href: "/", label: "Home" },
               { href: "/services", label: "Services" },
+              { href: "/audit", label: "Business Audit" },
               { href: "/about", label: "About", active: true },
               { href: "/contact", label: "Contact" },
               { href: "/blog", label: "Blog" },
