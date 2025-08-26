@@ -154,9 +154,20 @@ export async function POST(request: NextRequest) {
           email: email,
           from_name: 'Ayothedoc Business Audit',
           subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
-          message: auditReport,
-          audit_report: auditReport,
+          message: `Hi ${name},
+
+Thank you for requesting your personalized business automation audit! Based on your website and business information, our AI has analyzed your operations and created a comprehensive automation roadmap specifically for ${businessType} businesses.
+
+${auditReport}
+
+Questions about implementing these automations? Reply to this email or book a free consultation at https://calendly.com/ayothedoc
+
+Best regards,
+The Ayothedoc Team
+
+P.S. This audit was generated using advanced AI analysis of your website and business model. Each recommendation is tailored to your specific challenges and industry.`,
           business_type: businessType,
+          company: businessType,
           website_url: website,
           time_spent: timeSpentDaily,
           challenges: currentChallenges,
