@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const { data, error } = await resend.emails.send({
-        from: 'Ayothedoc Business Audit <audit@ayothedoc.com>',
+        from: 'Ayothedoc Business Audit <onboarding@resend.dev>',
         to: [email],
         subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
         html: `
