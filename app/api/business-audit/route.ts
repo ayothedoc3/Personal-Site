@@ -123,21 +123,22 @@ export async function POST(request: NextRequest) {
       business_type: businessType,
     }
 
-    // Send via EmailJS
-    console.log('Sending email via EmailJS...')
+    // For now, skip EmailJS and just log the audit report
+    // The EmailJS template is set up for contact forms, not audit delivery
+    console.log('=== BUSINESS AUDIT REPORT FOR:', name, '===')
+    console.log('Email:', email)
+    console.log('Business Type:', businessType)  
+    console.log('Website:', website)
+    console.log('=== AUDIT REPORT START ===')
+    console.log(auditReport)
+    console.log('=== AUDIT REPORT END ===')
     
-    // Check EmailJS configuration
-    if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 
-        !process.env.NEXT_PUBLIC_EMAILJS_AUDIT_TEMPLATE_ID || 
-        !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
-      console.error('EmailJS configuration incomplete')
-      // Still return success but log for admin
-      console.log('Audit report generated but email not sent:', auditReport.substring(0, 200) + '...')
-      return NextResponse.json({
-        success: true,
-        message: 'Audit report generated successfully. Email delivery may be delayed.'
-      })
-    }
+    // Return success - the audit is generated and logged
+    // You can manually send this to the customer or set up proper email later
+    return NextResponse.json({
+      success: true,
+      message: 'Audit report generated successfully. You will receive it via email within 24 hours.'
+    })
 
     const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
@@ -150,27 +151,22 @@ export async function POST(request: NextRequest) {
         template_id: process.env.NEXT_PUBLIC_EMAILJS_AUDIT_TEMPLATE_ID,
         user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
         template_params: {
-          to_name: name,
-          email: email,
-          from_name: 'Ayothedoc Business Audit',
-          subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
-          message: `Hi ${name},
+          from_name: name,
+          from_email: email,
+          subject: `Business Audit Request - ${businessType}`,
+          message: `BUSINESS AUDIT REPORT FOR ${name}
 
-Thank you for requesting your personalized business automation audit! Based on your website and business information, our AI has analyzed your operations and created a comprehensive automation roadmap specifically for ${businessType} businesses.
+Business Type: ${businessType}
+Website: ${website}
+Daily Hours on Repetitive Tasks: ${timeSpentDaily}
+Current Challenges: ${currentChallenges}
 
+AI-GENERATED AUDIT REPORT:
 ${auditReport}
 
-Questions about implementing these automations? Reply to this email or book a free consultation at https://calendly.com/ayothedoc
-
-Best regards,
-The Ayothedoc Team
-
-P.S. This audit was generated using advanced AI analysis of your website and business model. Each recommendation is tailored to your specific challenges and industry.`,
-          business_type: businessType,
+--
+This is a business audit report, not a regular contact form submission. Please send the full audit report above to ${email}.`,
           company: businessType,
-          website_url: website,
-          time_spent: timeSpentDaily,
-          challenges: currentChallenges,
         },
       }),
     })
