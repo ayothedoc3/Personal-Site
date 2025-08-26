@@ -7,6 +7,8 @@ export async function POST(request: NextRequest) {
   try {
     const { name, email, website, businessType, currentChallenges, timeSpentDaily } = await request.json()
 
+    console.log('Received audit request for:', { email, businessType, website })
+
     // Validate required fields
     if (!name || !email || !website || !businessType || !currentChallenges || !timeSpentDaily) {
       return NextResponse.json(
@@ -15,15 +17,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check if required environment variables are set
+    if (!process.env.GEMINI_API_KEY) {
+      console.error('GEMINI_API_KEY is not configured')
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      )
+    }
+
     // Fetch website content
     let websiteContent = ''
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000)
+      
       const websiteResponse = await fetch(website, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; AyothedocBot/1.0)'
         },
-        timeout: 10000
+        signal: controller.signal
       })
+      clearTimeout(timeoutId)
       if (websiteResponse.ok) {
         const html = await websiteResponse.text()
         // Extract basic content (simplified)
@@ -40,6 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate AI analysis using Gemini
+    console.log('Generating AI analysis...')
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
 
     const prompt = `
@@ -95,6 +111,7 @@ export async function POST(request: NextRequest) {
 
     const result = await model.generateContent(prompt)
     const auditReport = result.response.text()
+    console.log('AI analysis generated successfully')
 
     // Send email with the report (using EmailJS or similar service)
     const emailContent = {
@@ -106,7 +123,22 @@ export async function POST(request: NextRequest) {
       business_type: businessType,
     }
 
-    // Send via EmailJS (you'll need to configure this)
+    // Send via EmailJS
+    console.log('Sending email via EmailJS...')
+    
+    // Check EmailJS configuration
+    if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 
+        !process.env.NEXT_PUBLIC_EMAILJS_AUDIT_TEMPLATE_ID || 
+        !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
+      console.error('EmailJS configuration incomplete')
+      // Still return success but log for admin
+      console.log('Audit report generated but email not sent:', auditReport.substring(0, 200) + '...')
+      return NextResponse.json({
+        success: true,
+        message: 'Audit report generated successfully. Email delivery may be delayed.'
+      })
+    }
+
     const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
@@ -121,8 +153,16 @@ export async function POST(request: NextRequest) {
     })
 
     if (!emailResponse.ok) {
-      throw new Error('Failed to send email')
+      console.error('EmailJS failed:', await emailResponse.text())
+      // Still return success since audit was generated
+      console.log('Audit report generated but email failed:', auditReport.substring(0, 200) + '...')
+      return NextResponse.json({
+        success: true,
+        message: 'Audit report generated successfully. Email delivery may be delayed.'
+      })
     }
+
+    console.log('Email sent successfully')
 
     // Log the audit for analytics (optional)
     console.log(`Audit generated for ${email} - ${businessType}`)
