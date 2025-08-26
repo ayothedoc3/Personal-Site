@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { Resend } from 'resend'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: NextRequest) {
   try {
@@ -123,85 +125,83 @@ export async function POST(request: NextRequest) {
       business_type: businessType,
     }
 
-    // For now, skip EmailJS and just log the audit report
-    // The EmailJS template is set up for contact forms, not audit delivery
-    console.log('=== BUSINESS AUDIT REPORT FOR:', name, '===')
-    console.log('Email:', email)
-    console.log('Business Type:', businessType)  
-    console.log('Website:', website)
-    console.log('=== AUDIT REPORT START ===')
-    console.log(auditReport)
-    console.log('=== AUDIT REPORT END ===')
+    // Send email using Resend
+    console.log('Sending audit report via Resend...')
     
-    // Return success - the audit is generated and logged
-    // You can manually send this to the customer or set up proper email later
-    return NextResponse.json({
-      success: true,
-      message: 'Audit report generated successfully. You will receive it via email within 24 hours.'
-    })
-
-    const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'https://ayothedoc.com', // Add origin header for EmailJS
-      },
-      body: JSON.stringify({
-        service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        template_id: process.env.NEXT_PUBLIC_EMAILJS_AUDIT_TEMPLATE_ID,
-        user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-        template_params: {
-          from_name: name,
-          from_email: email,
-          subject: `Business Audit Request - ${businessType}`,
-          message: `BUSINESS AUDIT REPORT FOR ${name}
-
-Business Type: ${businessType}
-Website: ${website}
-Daily Hours on Repetitive Tasks: ${timeSpentDaily}
-Current Challenges: ${currentChallenges}
-
-AI-GENERATED AUDIT REPORT:
-${auditReport}
-
---
-This is a business audit report, not a regular contact form submission. Please send the full audit report above to ${email}.`,
-          company: businessType,
-        },
-      }),
-    })
-
-    if (!emailResponse.ok) {
-      const errorText = await emailResponse.text()
-      console.error('EmailJS failed with status:', emailResponse.status)
-      console.error('EmailJS error response:', errorText)
-      console.error('Template params sent:', JSON.stringify({
-        to_name: name,
-        email: email,
-        from_name: 'Ayothedoc Business Audit',
-        subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
-        business_type: businessType,
-        website_url: website,
-        time_spent: timeSpentDaily,
-        challenges: currentChallenges,
-      }, null, 2))
-      // Still return success since audit was generated
-      console.log('Audit report generated but email failed:', auditReport.substring(0, 200) + '...')
-      return NextResponse.json({
-        success: true,
-        message: 'Audit report generated successfully. Email delivery may be delayed.'
-      })
+    if (!process.env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY not configured')
+      return NextResponse.json(
+        { error: 'Email service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      )
     }
 
-    console.log('Email sent successfully')
+    try {
+      const { data, error } = await resend.emails.send({
+        from: 'Ayothedoc Business Audit <audit@ayothedoc.com>',
+        to: [email],
+        subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+              <h1 style="margin: 0; font-size: 28px;">Your Business Automation Audit Report</h1>
+              <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Personalized recommendations for ${businessType}</p>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+              <h2 style="color: #333; margin-top: 0;">Hi ${name},</h2>
+              <p style="color: #666; line-height: 1.6;">
+                Thank you for requesting your personalized business automation audit! Our AI has analyzed your website and business information to create a comprehensive automation roadmap specifically for your ${businessType} business.
+              </p>
+            </div>
+            
+            <div style="white-space: pre-wrap; line-height: 1.6; color: #333; background: white; padding: 25px; border-radius: 10px; border-left: 4px solid #667eea; margin-bottom: 25px;">
+${auditReport}
+            </div>
+            
+            <div style="background: #e8f4fd; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+              <h3 style="color: #1a73e8; margin-top: 0;">Ready to Implement These Automations?</h3>
+              <p style="color: #666; line-height: 1.6; margin-bottom: 15px;">
+                Questions about implementing these automations? Let's discuss how we can help you save those ${timeSpentDaily} hours per day and transform your business operations.
+              </p>
+              <a href="https://calendly.com/ayothedoc" style="display: inline-block; background: #1a73e8; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                Book Your Free Consultation
+              </a>
+            </div>
+            
+            <div style="border-top: 1px solid #eee; padding-top: 20px; color: #888; font-size: 14px;">
+              <p>Best regards,<br>The Ayothedoc Team</p>
+              <p style="margin-top: 15px; font-size: 12px;">
+                <em>This audit was generated using advanced AI analysis of your website (${website}) and business model. Each recommendation is tailored to your specific challenges and industry.</em>
+              </p>
+            </div>
+          </div>
+        `,
+      })
 
-    // Log the audit for analytics (optional)
-    console.log(`Audit generated for ${email} - ${businessType}`)
+      if (error) {
+        console.error('Resend error:', error)
+        return NextResponse.json(
+          { error: 'Failed to send audit report' },
+          { status: 500 }
+        )
+      }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Audit report generated and sent successfully'
-    })
+      console.log('Email sent successfully via Resend:', data?.id)
+      console.log(`Audit generated for ${email} - ${businessType}`)
+
+      return NextResponse.json({
+        success: true,
+        message: 'Audit report generated and sent successfully! Check your email in a few minutes.'
+      })
+
+    } catch (error) {
+      console.error('Email sending failed:', error)
+      return NextResponse.json(
+        { error: 'Failed to send audit report' },
+        { status: 500 }
+      )
+    }
 
   } catch (error) {
     console.error('Business audit error:', error)

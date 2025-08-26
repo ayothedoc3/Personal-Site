@@ -3,74 +3,68 @@
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useState, useEffect } from "react"
+import emailjs from "emailjs-com"
+import { getPublishedPosts, getCategories, BlogPost } from "@/lib/blog-data"
 
 export default function Blog() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState({})
   const [activeFilter, setActiveFilter] = useState("All")
+  const [email, setEmail] = useState("")
+  const [isSubscribing, setIsSubscribing] = useState(false)
+  const [subscribeMessage, setSubscribeMessage] = useState("")
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: "10 Business Processes You Should Automate Today",
-      excerpt: "Discover the most common business tasks that can be automated to save hours of manual work every week.",
-      date: "March 15, 2024",
-      category: "Automation",
-      readTime: "5 min read",
-      image: "/business-automation-workflow.png",
-    },
-    {
-      id: 2,
-      title: "WordPress vs Custom Development: Which is Right for Your Business?",
-      excerpt: "A comprehensive guide to choosing between WordPress and custom development for your next web project.",
-      date: "March 10, 2024",
-      category: "Web Development",
-      readTime: "8 min read",
-      image: "/wordpress-development-comparison.png",
-    },
-    {
-      id: 3,
-      title: "How Make.com Saved Our Client 15 Hours Per Week",
-      excerpt: "A real case study showing how intelligent automation transformed a client's daily operations.",
-      date: "March 5, 2024",
-      category: "Case Study",
-      readTime: "6 min read",
-      image: "/make-com-automation-success.png",
-    },
-    {
-      id: 4,
-      title: "The Ultimate Guide to N8N Workflows for Small Businesses",
-      excerpt:
-        "Learn how to set up powerful N8N workflows that streamline your business operations without technical complexity.",
-      date: "February 28, 2024",
-      category: "Automation",
-      readTime: "12 min read",
-      image: "/n8n-workflow-automation-guide.png",
-    },
-    {
-      id: 5,
-      title: "5 Signs Your Website Needs a Performance Audit",
-      excerpt: "Identify the warning signs that your website is underperforming and costing you potential customers.",
-      date: "February 20, 2024",
-      category: "Web Development",
-      readTime: "4 min read",
-      image: "/website-performance.png",
-    },
-    {
-      id: 6,
-      title: "Building a Virtual Assistant Workflow That Actually Works",
-      excerpt:
-        "Step-by-step guide to creating efficient virtual assistant processes that scale with your business growth.",
-      date: "February 15, 2024",
-      category: "Business Optimization",
-      readTime: "7 min read",
-      image: "/virtual-assistant-workflow-management.png",
-    },
-  ]
+  const blogPosts = getPublishedPosts()
 
-  const categories = ["All", "Automation", "Web Development", "Case Study", "Business Optimization"]
+  const categories = ["All", ...getCategories()]
 
   const filteredPosts = activeFilter === "All" ? blogPosts : blogPosts.filter((post) => post.category === activeFilter)
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!email) {
+      setSubscribeMessage("Please enter your email address")
+      return
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setSubscribeMessage("Please enter a valid email address")
+      return
+    }
+
+    setIsSubscribing(true)
+    setSubscribeMessage("")
+
+    try {
+      const templateParams = {
+        to_name: "Newsletter Subscriber",
+        from_name: email,
+        from_email: email,
+        message: `New newsletter subscription request from: ${email}`,
+        subject: "New Newsletter Subscription"
+      }
+
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+      )
+
+      setSubscribeMessage("🎉 Successfully subscribed! Thank you for joining our newsletter.")
+      setEmail("")
+    } catch (error) {
+      console.error('Newsletter subscription failed:', error)
+      setSubscribeMessage("❌ Subscription failed. Please try again later.")
+    } finally {
+      setIsSubscribing(false)
+      // Clear message after 5 seconds
+      setTimeout(() => setSubscribeMessage(""), 5000)
+    }
+  }
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -362,16 +356,36 @@ export default function Blog() {
             Get the latest automation tips, web development insights, and business optimization strategies delivered to
             your inbox.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
+              disabled={isSubscribing}
             />
-            <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group">
-              <span className="group-hover:scale-110 transition-transform duration-200">Subscribe</span>
+            <Button 
+              type="submit"
+              disabled={isSubscribing}
+              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              <span className="group-hover:scale-110 transition-transform duration-200">
+                {isSubscribing ? "Subscribing..." : "Subscribe"}
+              </span>
             </Button>
-          </div>
+          </form>
+          {subscribeMessage && (
+            <p className={`text-sm mt-4 font-medium ${
+              subscribeMessage.includes("🎉") 
+                ? "text-green-400" 
+                : subscribeMessage.includes("❌") 
+                ? "text-red-400" 
+                : "text-yellow-400"
+            }`}>
+              {subscribeMessage}
+            </p>
+          )}
           <p className="text-muted-foreground text-sm mt-4">
             Thank you for reading this post, don't forget to subscribe!
           </p>

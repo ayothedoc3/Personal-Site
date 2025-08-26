@@ -11,7 +11,10 @@
       "Bash(git push:*)",
       "Bash(pnpm install:*)",
       "WebFetch(domain:pagespeed.web.dev)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }
