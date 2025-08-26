@@ -143,17 +143,41 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Origin': 'https://ayothedoc.com', // Add origin header for EmailJS
       },
       body: JSON.stringify({
         service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         template_id: process.env.NEXT_PUBLIC_EMAILJS_AUDIT_TEMPLATE_ID,
         user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-        template_params: emailContent,
+        template_params: {
+          to_name: name,
+          email: email,
+          from_name: 'Ayothedoc Business Audit',
+          subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
+          message: auditReport,
+          audit_report: auditReport,
+          business_type: businessType,
+          website_url: website,
+          time_spent: timeSpentDaily,
+          challenges: currentChallenges,
+        },
       }),
     })
 
     if (!emailResponse.ok) {
-      console.error('EmailJS failed:', await emailResponse.text())
+      const errorText = await emailResponse.text()
+      console.error('EmailJS failed with status:', emailResponse.status)
+      console.error('EmailJS error response:', errorText)
+      console.error('Template params sent:', JSON.stringify({
+        to_name: name,
+        email: email,
+        from_name: 'Ayothedoc Business Audit',
+        subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
+        business_type: businessType,
+        website_url: website,
+        time_spent: timeSpentDaily,
+        challenges: currentChallenges,
+      }, null, 2))
       // Still return success since audit was generated
       console.log('Audit report generated but email failed:', auditReport.substring(0, 200) + '...')
       return NextResponse.json({
