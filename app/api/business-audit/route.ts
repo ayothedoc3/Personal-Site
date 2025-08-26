@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
     // Generate AI analysis using Gemini
     console.log('Generating AI analysis...')
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
     const prompt = `
     As an expert business automation consultant, analyze the following business and provide a comprehensive automation audit report:
