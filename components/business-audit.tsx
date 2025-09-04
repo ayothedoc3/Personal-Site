@@ -13,7 +13,16 @@ import { Loader2, Globe, Mail, Sparkles, Target, TrendingUp, Zap } from "lucide-
 const auditSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  website: z.string().url("Please enter a valid website URL"),
+  website: z.string()
+    .min(1, "Please enter your website")
+    .transform((val) => {
+      // Add https:// if no protocol is present
+      if (!val.match(/^https?:\/\//)) {
+        return `https://${val}`
+      }
+      return val
+    })
+    .pipe(z.string().url("Please enter a valid website URL")),
   businessType: z.string().min(3, "Please describe your business type"),
   currentChallenges: z.string().min(20, "Please provide more detail about your challenges"),
   timeSpentDaily: z.number().min(1).max(24, "Hours must be between 1-24"),
@@ -161,13 +170,13 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
                 Your Website URL *
               </label>
               <Input
-                type="url"
-                placeholder="https://yourwebsite.com"
+                type="text"
+                placeholder="yourwebsite.com or https://yourwebsite.com"
                 error={errors.website?.message}
                 {...register("website")}
               />
               <p className="text-xs text-muted-foreground mt-1">
-                Our AI will analyze your site to understand your business
+                Our AI will analyze your site to understand your business. You can enter with or without https://
               </p>
             </div>
 
