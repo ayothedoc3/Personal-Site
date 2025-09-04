@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAuth - Ayothedoc Blog</title>
+</head>
+<body>
+  <script>
+    (function() {
+      function getParam(key) {
+        var params = new URLSearchParams(window.location.search);
+        return params.get(key);
+      }
+
+      function receiveMessage(e) {
+        console.log("Received message:", e);
+        
+        // Send message to parent window (Decap CMS)
+        if (window.opener) {
+          window.opener.postMessage(
+            'authorization:github:success:{"token":"' + e.data.token + '","provider":"github"}',
+            window.location.origin
+          );
+          window.close();
+        }
+      }
+
+      window.addEventListener("message", receiveMessage, false);
+
+      // GitHub OAuth flow
+      var code = getParam('code');
+      if (code) {
+        fetch('/api/auth?code=' + code)
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            if (data.error) {
+              throw new Error(data.error);
+            }
+            
+            // Send success message to parent window
+            if (window.opener) {
+              window.opener.postMessage(
+                'authorization:github:success:{"token":"' + data.token + '","provider":"github"}',
+                window.location.origin
+              );
+              window.close();
+            }
+          })
+          .catch(function(error) {
+            console.error('Auth error:', error);
+            if (window.opener) {
+              window.opener.postMessage(
+                'authorization:github:error:' + error.message,
+                window.location.origin
+              );
+              window.close();
+            }
+          });
+      } else {
+        // Redirect to GitHub OAuth
+        var clientId = 'YOUR_GITHUB_CLIENT_ID'; // This will be replaced with actual client ID
+        var redirectUri = encodeURIComponent(window.location.href);
+        var authUrl = 'https://github.com/login/oauth/authorize?client_id=' + clientId + '&redirect_uri=' + redirectUri + '&scope=repo,user';
+        window.location.href = authUrl;
+      }
+    })();
+  </script>
+</body>
+</html>

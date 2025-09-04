@@ -1,0 +1,36 @@
+backend:
+  name: github
+  repo: ayothedoc/personal-site # Replace with your actual repo
+  branch: main
+  api_root: https://api.github.com
+  site_domain: your-site-domain.vercel.app # Replace with your actual domain
+  auth_endpoint: api/auth
+  auth_token_endpoint: api/auth
+  auth_scope: repo
+
+# Local development
+local_backend: true
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: "Blog Posts"
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { name: title, label: "Title", widget: string }
+      - { name: slug, label: "Slug", widget: string }
+      - { name: date, label: "Date", widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { name: excerpt, label: "Excerpt", widget: text }
+      - { name: image, label: "Featured Image", widget: image }
+      - { name: category, label: "Category", widget: select, options: ["Automation", "Web Development", "Case Study", "Tutorials"] }
+      - { name: readTime, label: "Read Time", widget: string, default: "5 min read" }
+      - { name: tags, label: "Tags", widget: list }
+      - { name: author, label: "Author", widget: string, default: "Ayothedoc Team" }
+      - { name: published, label: "Published", widget: boolean, default: true }
+      - { name: body, label: "Content", widget: markdown }
