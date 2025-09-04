@@ -46,7 +46,7 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [typedText] = useState("The Fastest Way to Build What's Next")
+  const [typedText] = useState("Web Development & Business Automation")
   const [currentStat, setCurrentStat] = useState(0)
 
   const scrollToSection = (sectionId: string) => {
@@ -77,7 +77,7 @@ export default function Home() {
       company: "TechStart Solutions",
       role: "CEO",
       testimonial:
-        "The Build Room transformed our operations with AI automations that saved us 20+ hours per week. The ROI was immediate.",
+        "Ayothedoc transformed our operations with AI automations that saved us 20+ hours per week. The ROI was immediate.",
       rating: 5,
       avatar: "/professional-woman-ceo.png",
     },
@@ -155,8 +155,8 @@ export default function Home() {
     {
       name: "Ayokunle",
       role: "Principal AI Strategist",
-      title: "Founder of The Build Room",
-      quote: "I founded The Build Room with a single mission: demystify artificial intelligence and show people how they can leverage this amazing technology.",
+      title: "Founder of Ayothedoc",
+      quote: "I founded Ayothedoc with a single mission: demystify web development and business automation to help businesses scale efficiently.",
       avatar: "/ayokunle.png",
       links: ["LinkedIn", "Skool", "YouTube"],
       recognition: ["Y Combinator", "Forbes 30u30", "TechCrunch"],
@@ -249,7 +249,7 @@ export default function Home() {
             </svg>
           </div>
           <span className="text-xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent group-hover:from-lime-400 group-hover:to-emerald-400 transition-all duration-500">
-            The Build Room
+            Ayothedoc
           </span>
         </div>
 
@@ -440,7 +440,7 @@ export default function Home() {
 
             {/* Stats Section */}
             <div className="mt-20">
-              <h3 className="text-3xl font-bold text-center mb-12">The Build Room Difference</h3>
+              <h3 className="text-3xl font-bold text-center mb-12">The Ayothedoc Difference</h3>
               <div className="grid md:grid-cols-4 gap-8 text-center">
                 {stats.map((stat, index) => (
                   <div
