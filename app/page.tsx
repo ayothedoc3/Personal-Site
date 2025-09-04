@@ -255,20 +255,22 @@ export default function Home() {
 
         <nav className="hidden md:flex items-center gap-8 relative z-10" role="navigation">
           {[
-            { href: "#services", text: "Services", onClick: () => scrollToSection('services') },
-            { href: "#approach", text: "Approach", onClick: () => scrollToSection('approach') },
-            { href: "#reviews", text: "Reviews", onClick: () => scrollToSection('reviews') },
-            { href: "#team", text: "Team", onClick: () => scrollToSection('team') },
-            { href: "#solutions", text: "Solutions", onClick: () => scrollToSection('solutions') },
+            { href: "#main-content", text: "Home", onClick: () => scrollToSection('main-content') },
+            { href: "/services", text: "Services", onClick: undefined },
+            { href: "/audit", text: "Business Audit", onClick: undefined },
+            { href: "/about", text: "About", onClick: undefined },
+            { href: "/contact", text: "Contact", onClick: undefined },
+            { href: "/blog", text: "Blog", onClick: undefined },
           ].map((item, index) => (
-            <button
+            <a
               key={item.text}
-              onClick={item.onClick}
+              href={item.onClick ? "#" : item.href}
+              onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick(); } : undefined}
               className="relative px-3 py-2 text-muted-foreground hover:text-foreground transition-all duration-500 hover:scale-110 group"
             >
               <span className="relative z-10">{item.text}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 to-emerald-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-            </button>
+            </a>
           ))}
         </nav>
 
