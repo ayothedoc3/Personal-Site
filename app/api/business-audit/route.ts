@@ -47,22 +47,54 @@ async function saveUserData(userData: any) {
 // Function to convert markdown to HTML
 function convertMarkdownToHtml(markdown: string): string {
   try {
-    return marked(markdown, {
+    // Use marked to convert markdown to HTML
+    let html = marked(markdown, {
       headerIds: false,
-      mangle: false
+      mangle: false,
+      breaks: true
     })
+    
+    // Add inline styles to the HTML for email compatibility
+    html = html
+      .replace(/<h1>/g, '<h1 style="color: #1f2937; margin: 30px 0 15px 0; font-size: 28px; font-weight: 700; line-height: 1.2;">')
+      .replace(/<h2>/g, '<h2 style="color: #374151; margin: 25px 0 12px 0; font-size: 22px; font-weight: 600; line-height: 1.3;">')
+      .replace(/<h3>/g, '<h3 style="color: #4b5563; margin: 20px 0 10px 0; font-size: 18px; font-weight: 600; line-height: 1.4;">')
+      .replace(/<p>/g, '<p style="color: #374151; margin: 12px 0; line-height: 1.7; font-size: 16px;">')
+      .replace(/<ul>/g, '<ul style="color: #374151; margin: 15px 0; padding-left: 25px;">')
+      .replace(/<ol>/g, '<ol style="color: #374151; margin: 15px 0; padding-left: 25px;">')
+      .replace(/<li>/g, '<li style="margin: 8px 0; line-height: 1.6; font-size: 16px;">')
+      .replace(/<strong>/g, '<strong style="color: #1f2937; font-weight: 600;">')
+      .replace(/<em>/g, '<em style="color: #4b5563;">')
+      .replace(/<blockquote>/g, '<blockquote style="border-left: 4px solid #4f46e5; padding: 15px 20px; margin: 20px 0; background: #f3f4f6; color: #374151; font-style: italic;">')
+      .replace(/<code>/g, '<code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: Monaco, Consolas, monospace; font-size: 14px; color: #1e40af;">')
+      .replace(/<pre>/g, '<pre style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; overflow-x: auto; margin: 15px 0;">')
+    
+    return html
+    
   } catch (error) {
     console.error('Error converting markdown to HTML:', error)
-    // Fallback to simple conversion
+    
+    // Enhanced fallback conversion with better regex patterns
     return markdown
-      .replace(/^# (.*$)/gim, '<h1 style="color: #333; margin: 20px 0 10px 0; font-size: 24px;">$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2 style="color: #333; margin: 20px 0 10px 0; font-size: 20px;">$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3 style="color: #333; margin: 16px 0 8px 0; font-size: 18px;">$1</h3>')
-      .replace(/^\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-      .replace(/^\* (.*$)/gim, '<li style="margin: 5px 0;">$1</li>')
-      .replace(/\n\n/g, '</p><p style="margin: 12px 0; line-height: 1.6;">')
-      .replace(/^/, '<p style="margin: 12px 0; line-height: 1.6;">')
-      .replace(/$/, '</p>')
+      // Convert headers
+      .replace(/^# (.*$)/gim, '<h1 style="color: #1f2937; margin: 30px 0 15px 0; font-size: 28px; font-weight: 700; line-height: 1.2;">$1</h1>')
+      .replace(/^## (.*$)/gim, '<h2 style="color: #374151; margin: 25px 0 12px 0; font-size: 22px; font-weight: 600; line-height: 1.3;">$1</h2>')
+      .replace(/^### (.*$)/gim, '<h3 style="color: #4b5563; margin: 20px 0 10px 0; font-size: 18px; font-weight: 600; line-height: 1.4;">$1</h3>')
+      
+      // Convert bold text
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #1f2937; font-weight: 600;">$1</strong>')
+      
+      // Convert bullet points
+      .replace(/^- (.*$)/gim, '• $1<br>')
+      .replace(/^\* (.*$)/gim, '• $1<br>')
+      
+      // Convert line breaks
+      .replace(/\n\n/g, '</p><p style="color: #374151; margin: 12px 0; line-height: 1.7; font-size: 16px;">')
+      .replace(/\n/g, '<br>')
+      
+      // Wrap in paragraphs
+      .replace(/^(.)/g, '<p style="color: #374151; margin: 12px 0; line-height: 1.7; font-size: 16px;">$1')
+      .replace(/(.)$/g, '$1</p>')
   }
 }
 
