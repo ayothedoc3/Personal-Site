@@ -197,9 +197,9 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
                   Automation Readiness Assessment
                 </h3>
-                <div className="text-3xl font-bold text-lime-400 mb-2">€49 <span className="text-lg text-muted-foreground">self serve</span> or €199 <span className="text-lg text-muted-foreground">with consult</span></div>
+                <div className="text-2xl font-bold text-lime-400 mb-2">€49–199</div>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  Scorecard and roadmap in minutes. Redeemable against a build.
+                  Quick scorecard and roadmap, redeemable against a build.
                 </p>
                 <Link href="/audit">
                   <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
@@ -212,23 +212,10 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
                   Automation Systems
                 </h3>
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">Bronze</span>
-                    <span className="text-lime-400 font-bold">€2,500</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">1 system shipped in 2 weeks</p>
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">Silver</span>
-                    <span className="text-lime-400 font-bold">€5,000</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">2 to 3 systems, 30 day support</p>
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">Gold</span>
-                    <span className="text-lime-400 font-bold">€9,000</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">4 to 6 systems, success program</p>
-                </div>
+                <div className="text-2xl font-bold text-lime-400 mb-2">from €2,500</div>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Done-for-you workflows that cut manual work in weeks, not months.
+                </p>
                 <Link href="/services">
                   <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
                     See Packages
@@ -238,11 +225,11 @@ export default function Home() {
 
               <div className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10">
                 <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
-                  Managed Automation Care
+                  Managed Care Plans
                 </h3>
-                <div className="text-3xl font-bold text-lime-400 mb-2">€600 <span className="text-lg text-muted-foreground">to</span> €3,000 <span className="text-lg text-muted-foreground">per month</span></div>
+                <div className="text-2xl font-bold text-lime-400 mb-2">€600–3,000/mo</div>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  Monitoring, fixes, iteration, and reporting.
+                  Ongoing monitoring, fixes, and improvements.
                 </p>
                 <Link href="/services#care">
                   <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
@@ -253,11 +240,11 @@ export default function Home() {
 
               <div className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10">
                 <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
-                  Custom Builds and Micro SaaS
+                  Custom Builds
                 </h3>
-                <div className="text-3xl font-bold text-lime-400 mb-2">Custom</div>
+                <div className="text-2xl font-bold text-lime-400 mb-2">Custom pricing</div>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  Full stack apps and dashboards when you need more than a workflow.
+                  Full-stack apps and dashboards when you need more than a workflow.
                 </p>
                 <Link href="/contact">
                   <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
