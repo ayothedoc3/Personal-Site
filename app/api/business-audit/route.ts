@@ -100,9 +100,9 @@ function convertMarkdownToHtml(markdown: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, website, businessType, currentChallenges, timeSpentDaily } = await request.json()
+    const { name, email, website, businessType, currentChallenges, timeSpentDaily, optin_marketing } = await request.json()
 
-    console.log('Received audit request for:', { email, businessType, website })
+    console.log('Received audit request for:', { email, businessType, website, optin_marketing })
 
     // Validate required fields
     if (!name || !email || !website || !businessType || !currentChallenges || !timeSpentDaily) {
@@ -215,7 +215,8 @@ export async function POST(request: NextRequest) {
       website,
       businessType,
       currentChallenges,
-      timeSpentDaily
+      timeSpentDaily,
+      optin_marketing: optin_marketing || false
     })
 
     // Convert markdown report to clean HTML

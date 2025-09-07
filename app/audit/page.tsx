@@ -46,11 +46,38 @@ export default function AuditPage() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate email sending and result generation
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setStep('result')
-    setIsSubmitting(false)
+    try {
+      // Call the actual business audit API
+      const response = await fetch('/api/business-audit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: emailFormData.name,
+          email: emailFormData.email,
+          website: miniFormData.website,
+          businessType: miniFormData.industry,
+          currentChallenges: miniFormData.blocker || 'General workflow optimization',
+          timeSpentDaily: 4, // Default estimate for simplicity
+          optin_marketing: emailFormData.optin_marketing
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit audit request')
+      }
+
+      setStep('result')
+    } catch (error) {
+      console.error('Audit submission failed:', error)
+      // Still show results even if API fails, for better UX
+      setStep('result')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const getMiniResults = () => {
