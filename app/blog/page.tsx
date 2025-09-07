@@ -27,7 +27,7 @@ export default async function Blog() {
             {[
               { href: "/", label: "Home" },
               { href: "/services", label: "Services" },
-              { href: "/audit", label: "Business Audit" },
+              { href: "/audit", label: "Free Audit" },
               { href: "/about", label: "About" },
               { href: "/contact", label: "Contact" },
               { href: "/blog", label: "Blog", active: true },

@@ -6,9 +6,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Ayothedoc - Full Service Digital Agency | Web Development & AI Automation",
+  title: "Automation and AI systems for small business | Ayothedoc",
   description:
-    "Save 10+ hours weekly with custom web development and AI automation. Expert WordPress sites, Make.com workflows, and business process optimization. Free consultation available.",
+    "We design and ship automations that cut manual work and unlock growth within 30 days.",
   keywords:
     "web development, AI automation, WordPress, Make.com, N8N, business automation, process optimization, digital agency, custom websites, workflow automation",
   authors: [{ name: "Ayothedoc" }],
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Ayothedoc - Save 10+ Hours Weekly with AI Automation",
+    title: "Automation and AI systems for small business | Ayothedoc",
     description:
-      "Transform your business with custom web development and intelligent workflow automation. Join 150+ businesses already saving time and money.",
+      "We design and ship automations that cut manual work and unlock growth within 30 days.",
     url: "https://ayothedoc.com",
     siteName: "Ayothedoc",
     images: [
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ayothedoc - Save 10+ Hours Weekly with AI Automation",
-    description: "Transform your business with custom web development and intelligent workflow automation.",
+    title: "Automation and AI systems for small business | Ayothedoc",
+    description: "We design and ship automations that cut manual work and unlock growth within 30 days.",
     images: ["/og-image.jpg"],
     creator: "@ayothedoc",
   },
