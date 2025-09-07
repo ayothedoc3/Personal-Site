@@ -9,40 +9,32 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 import { Loader2 } from "lucide-react"
 
-interface MiniFormData {
+interface AuditFormData {
+  name: string
+  email: string
   website: string
   industry: string
   blocker?: string
-}
-
-interface EmailFormData {
-  name: string
-  email: string
   optin_marketing: boolean
 }
 
 export default function AuditPage() {
-  const [step, setStep] = useState<'form' | 'email' | 'result' | 'complete'>('form')
+  const [step, setStep] = useState<'form' | 'result' | 'complete'>('form')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [miniFormData, setMiniFormData] = useState<MiniFormData>({ website: '', industry: '', blocker: '' })
-  const [emailFormData, setEmailFormData] = useState<EmailFormData>({ name: '', email: '', optin_marketing: false })
+  const [formData, setFormData] = useState<AuditFormData>({ 
+    name: '', 
+    email: '', 
+    website: '', 
+    industry: '', 
+    blocker: '', 
+    optin_marketing: false 
+  })
 
   const openCalendly = () => {
     window.open('https://calendly.com/ayothedoc', '_blank')
   }
 
-  const handleMiniFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    // Simulate mini audit processing
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    setStep('email')
-    setIsSubmitting(false)
-  }
-
-  const handleEmailFormSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     
@@ -54,13 +46,13 @@ export default function AuditPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: emailFormData.name,
-          email: emailFormData.email,
-          website: miniFormData.website,
-          businessType: miniFormData.industry,
-          currentChallenges: miniFormData.blocker || 'General workflow optimization',
+          name: formData.name,
+          email: formData.email,
+          website: formData.website,
+          businessType: formData.industry,
+          currentChallenges: formData.blocker || 'General workflow optimization',
           timeSpentDaily: 4, // Default estimate for simplicity
-          optin_marketing: emailFormData.optin_marketing
+          optin_marketing: formData.optin_marketing
         }),
       })
 
@@ -81,7 +73,7 @@ export default function AuditPage() {
   }
 
   const getMiniResults = () => {
-    const industryLower = miniFormData.industry.toLowerCase()
+    const industryLower = formData.industry.toLowerCase()
     
     if (industryLower.includes('ecommerce') || industryLower.includes('e-commerce') || industryLower.includes('retail')) {
       return {
@@ -180,7 +172,7 @@ export default function AuditPage() {
                 Get your personalized business automation audit
               </h1>
               <p className="text-xl text-muted-foreground mb-6">
-                Instant snapshot on page. Full report by email in minutes.
+                Get your custom audit report delivered instantly to your inbox.
               </p>
               <div className="flex justify-center gap-6 text-sm text-lime-400">
                 <span className="flex items-center gap-2">
@@ -206,17 +198,40 @@ export default function AuditPage() {
 
             <Card className="max-w-2xl mx-auto">
               <CardHeader>
-                <CardTitle>Quick Business Details</CardTitle>
+                <CardTitle>Get Your Free Automation Audit</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleMiniFormSubmit} className="space-y-6">
+                <form onSubmit={handleFormSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Your name *</label>
+                      <Input
+                        required
+                        placeholder="John Doe"
+                        value={formData.name}
+                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Email address *</label>
+                      <Input
+                        type="email"
+                        required
+                        placeholder="john@company.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium mb-2">Your website URL *</label>
                     <Input
                       required
                       placeholder="https://yourwebsite.com"
-                      value={miniFormData.website}
-                      onChange={(e) => setMiniFormData(prev => ({ ...prev, website: e.target.value }))}
+                      value={formData.website}
+                      onChange={(e) => setFormData(prev => ({ ...prev, website: e.target.value }))}
                     />
                   </div>
                   
@@ -225,8 +240,8 @@ export default function AuditPage() {
                     <Input
                       required
                       placeholder="E commerce, Agency, SaaS, Coaching"
-                      value={miniFormData.industry}
-                      onChange={(e) => setMiniFormData(prev => ({ ...prev, industry: e.target.value }))}
+                      value={formData.industry}
+                      onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
                     />
                   </div>
 
@@ -234,23 +249,34 @@ export default function AuditPage() {
                     <label className="block text-sm font-medium mb-2">Biggest blocker right now</label>
                     <Input
                       placeholder="Lead follow up, manual data entry, scheduling"
-                      value={miniFormData.blocker}
-                      onChange={(e) => setMiniFormData(prev => ({ ...prev, blocker: e.target.value }))}
+                      value={formData.blocker}
+                      onChange={(e) => setFormData(prev => ({ ...prev, blocker: e.target.value }))}
                     />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="marketing"
+                      checked={formData.optin_marketing}
+                      onCheckedChange={(checked) => setFormData(prev => ({ ...prev, optin_marketing: !!checked }))}
+                    />
+                    <label htmlFor="marketing" className="text-sm text-muted-foreground">
+                      Also send me automation tips and case studies
+                    </label>
                   </div>
 
                   <Button
                     type="submit"
-                    disabled={isSubmitting || !miniFormData.website || !miniFormData.industry}
+                    disabled={isSubmitting || !formData.name || !formData.email || !formData.website || !formData.industry}
                     className="w-full bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 py-3 rounded-full font-semibold transition-all duration-500"
                   >
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Running Analysis...
+                        Generating Your Audit...
                       </>
                     ) : (
-                      "Run Free Audit"
+                      "Get My Free Automation Audit"
                     )}
                   </Button>
                 </form>
@@ -263,7 +289,7 @@ export default function AuditPage() {
           <div className="space-y-8">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold mb-4">Your automation audit results</h2>
-              <p className="text-muted-foreground">Based on your {miniFormData.industry} business</p>
+              <p className="text-muted-foreground">Based on your {formData.industry} business</p>
             </div>
 
             <div className="space-y-6">
@@ -294,7 +320,7 @@ export default function AuditPage() {
             </div>
 
             <div className="text-center">
-              <p className="text-muted-foreground mb-6">Your detailed PDF report with full roadmap is being sent to {emailFormData.email}</p>
+              <p className="text-muted-foreground mb-6">Your detailed PDF report with full roadmap is being sent to {formData.email}</p>
               <Button
                 onClick={() => setStep('complete')}
                 className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105"
@@ -305,80 +331,6 @@ export default function AuditPage() {
           </div>
         )}
 
-        {step === 'email' && (
-          <div className="space-y-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">Get your detailed automation audit</h2>
-              <p className="text-muted-foreground">Enter your details to unlock your personalized results and get the full PDF report.</p>
-            </div>
-
-            <Card className="max-w-2xl mx-auto">
-              <CardContent className="p-6">
-                <form onSubmit={handleEmailFormSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Name *</label>
-                      <Input
-                        required
-                        placeholder="Your name"
-                        value={emailFormData.name}
-                        onChange={(e) => setEmailFormData(prev => ({ ...prev, name: e.target.value }))}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Email *</label>
-                      <Input
-                        type="email"
-                        required
-                        placeholder="your@email.com"
-                        value={emailFormData.email}
-                        onChange={(e) => setEmailFormData(prev => ({ ...prev, email: e.target.value }))}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="bg-card/50 p-4 rounded-lg border border-border/50">
-                    <h3 className="font-semibold mb-2">What you'll get:</h3>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Top 5 automation opportunities for your {miniFormData.industry} business</li>
-                      <li>• Estimated {getMiniResults().hoursSaved} hours saved per month</li>
-                      <li>• Step-by-step implementation roadmap</li>
-                      <li>• ROI projections and cost savings</li>
-                      <li>• Industry-specific workflow examples</li>
-                    </ul>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="marketing"
-                      checked={emailFormData.optin_marketing}
-                      onCheckedChange={(checked) => setEmailFormData(prev => ({ ...prev, optin_marketing: !!checked }))}
-                    />
-                    <label htmlFor="marketing" className="text-sm text-muted-foreground">
-                      Also send automation tips and case studies
-                    </label>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting || !emailFormData.name || !emailFormData.email}
-                    className="w-full bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 py-3 rounded-full font-semibold transition-all duration-500"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Generating Your Results...
-                      </>
-                    ) : (
-                      "Get My Automation Audit Results"
-                    )}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        )}
 
         {step === 'complete' && (
           <div className="text-center space-y-8">
