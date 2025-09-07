@@ -22,7 +22,7 @@ interface EmailFormData {
 }
 
 export default function AuditPage() {
-  const [step, setStep] = useState<'form' | 'result' | 'email' | 'complete'>('form')
+  const [step, setStep] = useState<'form' | 'email' | 'result' | 'complete'>('form')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [miniFormData, setMiniFormData] = useState<MiniFormData>({ website: '', industry: '', blocker: '' })
   const [emailFormData, setEmailFormData] = useState<EmailFormData>({ name: '', email: '', optin_marketing: false })
@@ -36,9 +36,9 @@ export default function AuditPage() {
     setIsSubmitting(true)
     
     // Simulate mini audit processing
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 1500))
     
-    setStep('result')
+    setStep('email')
     setIsSubmitting(false)
   }
 
@@ -46,10 +46,10 @@ export default function AuditPage() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate email sending
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    // Simulate email sending and result generation
+    await new Promise(resolve => setTimeout(resolve, 2000))
     
-    setStep('complete')
+    setStep('result')
     setIsSubmitting(false)
   }
 
@@ -235,7 +235,8 @@ export default function AuditPage() {
         {step === 'result' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">Audit snapshot</h2>
+              <h2 className="text-3xl font-bold mb-4">Your automation audit results</h2>
+              <p className="text-muted-foreground">Based on your {miniFormData.industry} business</p>
             </div>
 
             <div className="space-y-6">
@@ -266,12 +267,12 @@ export default function AuditPage() {
             </div>
 
             <div className="text-center">
-              <p className="text-muted-foreground mb-6">Get the full report with 5 plus workflows, ROI table, and a 30 day plan.</p>
+              <p className="text-muted-foreground mb-6">Your detailed PDF report with full roadmap is being sent to {emailFormData.email}</p>
               <Button
-                onClick={() => setStep('email')}
+                onClick={() => setStep('complete')}
                 className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105"
               >
-                Get Full Report
+                Continue
               </Button>
             </div>
           </div>
@@ -280,8 +281,8 @@ export default function AuditPage() {
         {step === 'email' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">Email me the full report</h2>
-              <p className="text-muted-foreground">We will send your detailed PDF in minutes. Your data is secure.</p>
+              <h2 className="text-3xl font-bold mb-4">Get your detailed automation audit</h2>
+              <p className="text-muted-foreground">Enter your details to unlock your personalized results and get the full PDF report.</p>
             </div>
 
             <Card className="max-w-2xl mx-auto">
@@ -292,6 +293,7 @@ export default function AuditPage() {
                       <label className="block text-sm font-medium mb-2">Name *</label>
                       <Input
                         required
+                        placeholder="Your name"
                         value={emailFormData.name}
                         onChange={(e) => setEmailFormData(prev => ({ ...prev, name: e.target.value }))}
                       />
@@ -302,10 +304,22 @@ export default function AuditPage() {
                       <Input
                         type="email"
                         required
+                        placeholder="your@email.com"
                         value={emailFormData.email}
                         onChange={(e) => setEmailFormData(prev => ({ ...prev, email: e.target.value }))}
                       />
                     </div>
+                  </div>
+
+                  <div className="bg-card/50 p-4 rounded-lg border border-border/50">
+                    <h3 className="font-semibold mb-2">What you'll get:</h3>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Top 5 automation opportunities for your {miniFormData.industry} business</li>
+                      <li>• Estimated {getMiniResults().hoursSaved} hours saved per month</li>
+                      <li>• Step-by-step implementation roadmap</li>
+                      <li>• ROI projections and cost savings</li>
+                      <li>• Industry-specific workflow examples</li>
+                    </ul>
                   </div>
 
                   <div className="flex items-center space-x-2">
@@ -315,7 +329,7 @@ export default function AuditPage() {
                       onCheckedChange={(checked) => setEmailFormData(prev => ({ ...prev, optin_marketing: !!checked }))}
                     />
                     <label htmlFor="marketing" className="text-sm text-muted-foreground">
-                      Also send tips and case studies
+                      Also send automation tips and case studies
                     </label>
                   </div>
 
@@ -327,10 +341,10 @@ export default function AuditPage() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Sending Report...
+                        Generating Your Results...
                       </>
                     ) : (
-                      "Send my full audit"
+                      "Get My Automation Audit Results"
                     )}
                   </Button>
                 </form>
