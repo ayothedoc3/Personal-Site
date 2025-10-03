@@ -1,4 +1,3 @@
-import asyncio
 import csv
 import json
 import os
@@ -7,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
-import aiohttp
+from google import genai
 from jinja2 import Template
 from slugify import slugify
 
@@ -15,9 +14,9 @@ from slugify import slugify
 class ProgrammaticSEOGenerator:
     """Generate programmatic SEO landing pages and supporting assets."""
 
-    def __init__(self, api_key: Optional[str] = None, base_url: str = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent") -> None:
+    def __init__(self, api_key: Optional[str] = None) -> None:
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
-        self.base_url = base_url
+        self.client = genai.Client(api_key=self.api_key) if self.api_key else None
 
         self.root_dir = Path(__file__).resolve().parents[1]
         self.data_root = self.root_dir / "data" / "programmatic-seo"
@@ -108,8 +107,8 @@ class ProgrammaticSEOGenerator:
         self.template_path.write_text(template_content, encoding="utf-8")
         print("Template created at", self.template_path)
 
-    async def generate_content_with_ai(self, session: aiohttp.ClientSession, tool: str, use_case: str, industry: str) -> Dict[str, str]:
-        if not self.api_key:
+    def generate_content_with_ai(self, tool: str, use_case: str, industry: str) -> Dict[str, str]:
+        if not self.client:
             return self.get_fallback_content(tool, use_case, industry)
 
         prompt = f"""Create content for a programmatic SEO page about automating {use_case} for {industry} using {tool}.
@@ -123,34 +122,18 @@ results_content: 2-3 paragraph results and ROI section
 faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
 """
 
-        payload = {
-            "contents": [{
-                "parts": [{
-                    "text": f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}"
-                }]
-            }],
-            "generationConfig": {
-                "temperature": 0.7,
-                "maxOutputTokens": 2000,
-                "responseMimeType": "application/json"
-            }
-        }
-
         try:
-            async with session.post(
-                f"{self.base_url}?key={self.api_key}",
-                headers={"Content-Type": "application/json"},
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=60),
-            ) as response:
-                if response.status != 200:
-                    error_text = await response.text()
-                    print(f"Gemini API error {response.status}: {error_text[:200]}; using fallback content")
-                    return self.get_fallback_content(tool, use_case, industry)
+            response = self.client.models.generate_content(
+                model="gemini-2.0-flash-exp",
+                contents=f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}",
+                config=genai.types.GenerateContentConfig(
+                    temperature=0.7,
+                    max_output_tokens=2000,
+                    response_mime_type="application/json"
+                )
+            )
 
-                data = await response.json()
-                content_text = data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
-                return json.loads(content_text)
+            return json.loads(response.text)
         except Exception as exc:
             print(f"Error generating AI content: {exc}")
             return self.get_fallback_content(tool, use_case, industry)
@@ -214,7 +197,7 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
                 datasets[filename.split(".")[0]] = list(csv.DictReader(handle))
         return datasets
 
-    async def generate_all_pages(self, limit: Optional[int] = None) -> None:
+    def generate_all_pages(self, limit: Optional[int] = None) -> None:
         datasets = self.load_data_files()
 
         template: Optional[Template] = None
@@ -232,77 +215,75 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
 
         print(f"Generating {len(combos)} pages...")
 
-        async with aiohttp.ClientSession() as session:
-            for combo in combos:
-                tool = combo["tool"]
-                use_case = combo["use_case"]
-                industry = combo["industry"]
+        for combo in combos:
+            tool = combo["tool"]
+            use_case = combo["use_case"]
+            industry = combo["industry"]
 
-                tool_name = tool["name"]
-                use_case_name = use_case["name"]
-                industry_name = industry["name"]
+            tool_name = tool["name"]
+            use_case_name = use_case["name"]
+            industry_name = industry["name"]
 
-                try:
-                    content = await self.generate_content_with_ai(session, tool_name, use_case_name, industry_name)
+            try:
+                content = self.generate_content_with_ai(tool_name, use_case_name, industry_name)
 
-                    slug = "-".join(
-                        (slugify(tool_name), slugify(use_case_name), slugify(industry_name))
+                slug = "-".join(
+                    (slugify(tool_name), slugify(use_case_name), slugify(industry_name))
+                )
+                title = f"{tool_name} for {use_case_name.title()} in {industry_name.title()}"
+                meta_description = (
+                    f"Learn how {tool_name} automates {use_case_name} for {industry_name} teams with a complete workflow."
+                )
+                date_published = datetime.utcnow().isoformat()
+                read_time = self.estimate_read_time(content.values())
+                intro_plain = self.strip_html(content["intro_content"])
+                excerpt = intro_plain.split(". ")[0].strip()
+
+                page_payload: Dict[str, Any] = {
+                    "slug": slug,
+                    "title": title,
+                    "metaDescription": meta_description,
+                    "tool": tool_name,
+                    "useCase": use_case_name,
+                    "industry": industry_name,
+                    "datePublished": date_published,
+                    "readTime": read_time,
+                    "excerpt": excerpt,
+                    "sections": {
+                        "intro": content["intro_content"],
+                        "benefits": content["benefits_content"],
+                        "workflow": content["workflow_content"],
+                        "steps": content["steps_content"],
+                        "results": content["results_content"],
+                        "faq": content["faq_content"],
+                    },
+                    "source": {
+                        "tool": tool,
+                        "use_case": use_case,
+                        "industry": industry,
+                    },
+                }
+
+                json_path = self.output_dir / f"{slug}.json"
+                json_path.write_text(json.dumps(page_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+                if template is not None:
+                    html_content = template.render(
+                        title=title,
+                        meta_description=meta_description,
+                        slug=slug,
+                        tool=tool_name,
+                        use_case=use_case_name,
+                        industry=industry_name,
+                        date_published=date_published,
+                        **content,
                     )
-                    title = f"{tool_name} for {use_case_name.title()} in {industry_name.title()}"
-                    meta_description = (
-                        f"Learn how {tool_name} automates {use_case_name} for {industry_name} teams with a complete workflow."
-                    )
-                    date_published = datetime.utcnow().isoformat()
-                    read_time = self.estimate_read_time(content.values())
-                    intro_plain = self.strip_html(content["intro_content"])
-                    excerpt = intro_plain.split(". ")[0].strip()
+                    html_path = self.html_output_dir / f"{slug}.html"
+                    html_path.write_text(html_content, encoding="utf-8")
 
-                    page_payload: Dict[str, Any] = {
-                        "slug": slug,
-                        "title": title,
-                        "metaDescription": meta_description,
-                        "tool": tool_name,
-                        "useCase": use_case_name,
-                        "industry": industry_name,
-                        "datePublished": date_published,
-                        "readTime": read_time,
-                        "excerpt": excerpt,
-                        "sections": {
-                            "intro": content["intro_content"],
-                            "benefits": content["benefits_content"],
-                            "workflow": content["workflow_content"],
-                            "steps": content["steps_content"],
-                            "results": content["results_content"],
-                            "faq": content["faq_content"],
-                        },
-                        "source": {
-                            "tool": tool,
-                            "use_case": use_case,
-                            "industry": industry,
-                        },
-                    }
-
-                    json_path = self.output_dir / f"{slug}.json"
-                    json_path.write_text(json.dumps(page_payload, indent=2, ensure_ascii=False), encoding="utf-8")
-
-                    if template is not None:
-                        html_content = template.render(
-                            title=title,
-                            meta_description=meta_description,
-                            slug=slug,
-                            tool=tool_name,
-                            use_case=use_case_name,
-                            industry=industry_name,
-                            date_published=date_published,
-                            **content,
-                        )
-                        html_path = self.html_output_dir / f"{slug}.html"
-                        html_path.write_text(html_content, encoding="utf-8")
-
-                    print(f"Generated page for {slug}")
-                    await asyncio.sleep(0.25)
-                except Exception as exc:
-                    print(f"Failed to create page for {tool_name} / {use_case_name} / {industry_name}: {exc}")
+                print(f"Generated page for {slug}")
+            except Exception as exc:
+                print(f"Failed to create page for {tool_name} / {use_case_name} / {industry_name}: {exc}")
 
         self.generate_manifest()
         self.generate_sitemap()
@@ -366,12 +347,12 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
         print("Sitemap published at", sitemap_path)
 
 
-async def main(limit: Optional[int] = None) -> None:
+def main(limit: Optional[int] = None) -> None:
     generator = ProgrammaticSEOGenerator()
     generator.create_sample_data()
     generator.create_html_template()
-    await generator.generate_all_pages(limit=limit)
+    generator.generate_all_pages(limit=limit)
 
 
 if __name__ == "__main__":
-    asyncio.run(main(limit=10))
+    main(limit=10)
