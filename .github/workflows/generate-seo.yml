@@ -31,6 +31,11 @@ jobs:
       - name: Generate SEO content
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MODEL: gemini-2.5-flash
+          TEMPERATURE: "0.2"
+          MAX_OUTPUT_TOKENS: "4096"
+          RETRY_COUNT: "2"
+          AI_SECTIONED: "true"
         run: python scripts/programmatic_seo.py
 
       - name: Commit and push if changes
@@ -45,3 +50,4 @@ jobs:
           fi
           git commit -m "[bot] Auto-generate programmatic SEO content [skip ci]"
           git push
+

@@ -18,6 +18,13 @@ class ProgrammaticSEOGenerator:
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.client = genai.Client(api_key=self.api_key) if self.api_key else None
 
+        # Config knobs (env-overridable)
+        self.model = os.getenv("MODEL", "gemini-2.5-flash")
+        self.temperature = float(os.getenv("TEMPERATURE", "0.2"))
+        self.max_output_tokens = int(os.getenv("MAX_OUTPUT_TOKENS", "4096"))
+        self.retry_count = int(os.getenv("RETRY_COUNT", "2"))
+        self.ai_sectioned = os.getenv("AI_SECTIONED", "false").strip().lower() in {"1", "true", "yes", "y", "on"}
+
         self.root_dir = Path(__file__).resolve().parents[1]
         self.data_root = self.root_dir / "data" / "programmatic-seo"
         self.output_dir = self.data_root / "pages"
@@ -111,7 +118,6 @@ class ProgrammaticSEOGenerator:
         if not raw:
             return None
         text = raw.strip()
-        # Strip common Markdown fences
         if text.startswith("```json"):
             text = text[7:]
         elif text.startswith("```"):
@@ -119,13 +125,30 @@ class ProgrammaticSEOGenerator:
         if text.endswith("```"):
             text = text[:-3]
         text = text.strip()
-        # If extra prose slipped in, grab the first JSON-looking block
         m = re.search(r"\{[\s\S]*\}", text)
         return m.group(0).strip() if m else (text or None)
+
+    @staticmethod
+    def _strip_fences(raw: Optional[str]) -> str:
+        if not raw:
+            return ""
+        text = raw.strip()
+        if text.startswith("```html"):
+            text = text[7:]
+        elif text.startswith("```json"):
+            text = text[7:]
+        elif text.startswith("```"):
+            text = text[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+        return text.strip()
 
     def generate_content_with_ai(self, tool: str, use_case: str, industry: str) -> Dict[str, str]:
         if not self.client:
             return self.get_fallback_content(tool, use_case, industry)
+
+        if self.ai_sectioned:
+            return self._generate_content_with_ai_sectioned(tool, use_case, industry)
 
         prompt = f"""Create content for a programmatic SEO page about automating {use_case} for {industry} using {tool}.
 
@@ -141,85 +164,70 @@ Strictly follow these output rules:
 - Ensure valid JSON: double-quoted keys/strings, no trailing commas, and escape quotes inside strings.
 """
 
-        try:
-            # Build a response schema if supported (encourages strict JSON)
-            response_schema = None
+        required_keys = [
+            "intro_content",
+            "benefits_content",
+            "workflow_content",
+            "steps_content",
+            "results_content",
+            "faq_content",
+        ]
+
+        for attempt in range(self.retry_count + 1):
             try:
-                Schema = genai.types.Schema  # type: ignore[attr-defined]
-                Type = genai.types.Type      # type: ignore[attr-defined]
-                response_schema = Schema(
-                    type=Type.OBJECT,
-                    properties={
-                        "intro_content": Schema(type=Type.STRING),
-                        "benefits_content": Schema(type=Type.STRING),
-                        "workflow_content": Schema(type=Type.STRING),
-                        "steps_content": Schema(type=Type.STRING),
-                        "results_content": Schema(type=Type.STRING),
-                        "faq_content": Schema(type=Type.STRING),
-                    },
-                    required=[
-                        "intro_content",
-                        "benefits_content",
-                        "workflow_content",
-                        "steps_content",
-                        "results_content",
-                        "faq_content",
-                    ],
-                )
-            except Exception:
                 response_schema = None
+                try:
+                    Schema = genai.types.Schema  # type: ignore[attr-defined]
+                    Type = genai.types.Type      # type: ignore[attr-defined]
+                    response_schema = Schema(
+                        type=Type.OBJECT,
+                        properties={k: Schema(type=Type.STRING) for k in required_keys},
+                        required=required_keys,
+                    )
+                except Exception:
+                    response_schema = None
 
-            response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}",
-                config=genai.types.GenerateContentConfig(
-                    temperature=0.7,
-                    max_output_tokens=2000,
-                    response_mime_type="application/json",
-                    **({"response_schema": response_schema} if response_schema else {}),
-                ),
-            )
+                response = self.client.models.generate_content(
+                    model=self.model,
+                    contents=f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}",
+                    config=genai.types.GenerateContentConfig(
+                        temperature=self.temperature,
+                        max_output_tokens=self.max_output_tokens,
+                        response_mime_type="application/json",
+                        **({"response_schema": response_schema} if response_schema else {}),
+                    ),
+                )
 
-            # Extract JSON from response robustly
-            response_text = getattr(response, "text", None)
-            response_text = self._extract_json_text(response_text)
-            if not response_text:
-                raise ValueError("Empty response from model")
+                response_text = getattr(response, "text", None)
+                response_text = self._extract_json_text(response_text)
+                if not response_text:
+                    raise ValueError("Empty response from model")
 
-            content_data = json.loads(response_text)
+                content_data = json.loads(response_text)
 
-            # Validate and complete required keys; fill with fallback if missing/invalid
-            required_keys = [
-                "intro_content",
-                "benefits_content",
-                "workflow_content",
-                "steps_content",
-                "results_content",
-                "faq_content",
-            ]
-
-            missing_or_invalid = False
-            for key in required_keys:
-                if key not in content_data or not isinstance(content_data.get(key), str) or not content_data.get(key, "").strip():
-                    missing_or_invalid = True
-                    break
-
-            if missing_or_invalid:
-                fallback = self.get_fallback_content(tool, use_case, industry)
+                missing_or_invalid = False
                 for key in required_keys:
-                    val = content_data.get(key)
-                    if not isinstance(val, str) or not val.strip():
-                        content_data[key] = fallback[key]
+                    if key not in content_data or not isinstance(content_data.get(key), str) or not content_data.get(key, "").strip():
+                        missing_or_invalid = True
+                        break
 
-            # Coerce any non-string values to string to avoid downstream JSON issues
-            for key in required_keys:
-                if not isinstance(content_data.get(key), str):
-                    content_data[key] = str(content_data.get(key, ""))
+                if missing_or_invalid:
+                    fallback = self.get_fallback_content(tool, use_case, industry)
+                    for key in required_keys:
+                        val = content_data.get(key)
+                        if not isinstance(val, str) or not val.strip():
+                            content_data[key] = fallback[key]
 
-            return content_data
-        except Exception as exc:
-            print(f"Error generating AI content: {exc}")
-            return self.get_fallback_content(tool, use_case, industry)
+                for key in required_keys:
+                    if not isinstance(content_data.get(key), str):
+                        content_data[key] = str(content_data.get(key, ""))
+
+                return content_data
+            except Exception as exc:
+                if attempt < self.retry_count:
+                    continue
+                print(f"Error generating AI content: {exc}")
+                return self.get_fallback_content(tool, use_case, industry)
 
     @staticmethod
     def get_fallback_content(tool: str, use_case: str, industry: str) -> Dict[str, str]:
@@ -280,6 +288,66 @@ Strictly follow these output rules:
                 datasets[filename.split(".")[0]] = list(csv.DictReader(handle))
         return datasets
 
+    def _generate_content_with_ai_sectioned(self, tool: str, use_case: str, industry: str) -> Dict[str, str]:
+        keys_and_instructions = {
+            "intro_content": (
+                "Write a 2-3 paragraph introduction explaining the automation opportunity. "
+                "Use HTML paragraphs. No markdown, no JSON."
+            ),
+            "benefits_content": (
+                "Return HTML <ul> with 3-4 <li> benefits. Use concise, concrete phrasing. "
+                "HTML only, no markdown, no JSON."
+            ),
+            "workflow_content": (
+                "Provide a 2-3 sentence workflow overview as an HTML paragraph. "
+                "HTML only, no markdown, no JSON."
+            ),
+            "steps_content": (
+                "Return an HTML <ol> with 4-6 <li> implementation steps. "
+                "HTML only, no markdown, no JSON."
+            ),
+            "results_content": (
+                "Write a 2-3 paragraph results/ROI section as HTML paragraphs. "
+                "HTML only, no markdown, no JSON."
+            ),
+            "faq_content": (
+                "Return 3-4 FAQ entries as repeating blocks of <h4>Question</h4><p>Answer</p>. "
+                "HTML only, no markdown, no JSON."
+            ),
+        }
+
+        content: Dict[str, str] = {}
+        for key, instruction in keys_and_instructions.items():
+            section_prompt = (
+                f"You are a helpful assistant. Generate only the requested HTML snippet (no markdown, no JSON).\n\n"
+                f"Context: Automating {use_case} for {industry} using {tool}.\n"
+                f"Task: {instruction}"
+            )
+
+            text_value: str = ""
+            for attempt in range(self.retry_count + 1):
+                try:
+                    resp = self.client.models.generate_content(
+                        model=self.model,
+                        contents=section_prompt,
+                        config=genai.types.GenerateContentConfig(
+                            temperature=self.temperature,
+                            max_output_tokens=max(512, min(self.max_output_tokens, 2048)),
+                            response_mime_type="text/plain",
+                        ),
+                    )
+                    text_value = self._strip_fences(getattr(resp, "text", ""))
+                    if text_value and isinstance(text_value, str):
+                        break
+                except Exception:
+                    if attempt < self.retry_count:
+                        continue
+            if not text_value:
+                text_value = self.get_fallback_content(tool, use_case, industry)[key]
+            content[key] = text_value
+
+        return content
+
     def generate_all_pages(self, limit: Optional[int] = None) -> None:
         datasets = self.load_data_files()
 
@@ -319,8 +387,8 @@ Strictly follow these output rules:
                 )
                 date_published = datetime.utcnow().isoformat()
                 read_time = self.estimate_read_time(content.values())
-                intro_plain = self.strip_html(content["intro_content"])
-                excerpt = intro_plain.split(". ")[0].strip()
+                intro_plain = self.strip_html(content.get("intro_content", ""))
+                excerpt = intro_plain.split(". ")[0].strip() if intro_plain else ""
 
                 page_payload: Dict[str, Any] = {
                     "slug": slug,
@@ -333,12 +401,12 @@ Strictly follow these output rules:
                     "readTime": read_time,
                     "excerpt": excerpt,
                     "sections": {
-                        "intro": content["intro_content"],
-                        "benefits": content["benefits_content"],
-                        "workflow": content["workflow_content"],
-                        "steps": content["steps_content"],
-                        "results": content["results_content"],
-                        "faq": content["faq_content"],
+                        "intro": content.get("intro_content", ""),
+                        "benefits": content.get("benefits_content", ""),
+                        "workflow": content.get("workflow_content", ""),
+                        "steps": content.get("steps_content", ""),
+                        "results": content.get("results_content", ""),
+                        "faq": content.get("faq_content", ""),
                     },
                     "source": {
                         "tool": tool,
@@ -376,20 +444,18 @@ Strictly follow these output rules:
         pages: List[Dict[str, Any]] = []
         for json_file in sorted(self.output_dir.glob("*.json")):
             try:
-                # Try reading with UTF-8, fallback to latin-1 if needed
                 try:
                     content = json_file.read_text(encoding="utf-8")
                 except UnicodeDecodeError:
                     print(f"Encoding issue with {json_file.name}, trying latin-1")
                     content = json_file.read_text(encoding="latin-1")
-                    # Re-save with proper UTF-8 encoding
                     json_file.write_text(content, encoding="utf-8")
 
                 payload = json.loads(content)
                 pages.append(
                     {
-                        "slug": payload["slug"],
-                        "title": payload["title"],
+                        "slug": payload.get("slug", json_file.stem),
+                        "title": payload.get("title", ""),
                         "metaDescription": payload.get("metaDescription", ""),
                         "tool": payload.get("tool"),
                         "useCase": payload.get("useCase"),
@@ -439,3 +505,4 @@ def main(limit: Optional[int] = None) -> None:
 
 if __name__ == "__main__":
     main(limit=10)
+
