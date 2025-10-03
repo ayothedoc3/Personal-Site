@@ -9,8 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Add standalone output for Docker builds
-  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
+  // Add standalone output for Docker builds (only when DOCKER_BUILD is set)
+  output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
   
   // Performance optimizations
   experimental: {
