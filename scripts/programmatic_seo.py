@@ -148,7 +148,19 @@ class ProgrammaticSEOGenerator:
             return self.get_fallback_content(tool, use_case, industry)
 
         if self.ai_sectioned:
-            return self._generate_content_with_ai_sectioned(tool, use_case, industry)
+            # Try up to 2 times to get quality content
+            for quality_attempt in range(2):
+                content = self._generate_content_with_ai_sectioned(tool, use_case, industry)
+
+                # Check if content is too generic
+                if not self._is_content_too_generic(content, industry):
+                    return content
+
+                print(f"  ⚠️  Content too generic for {industry}, retrying... (attempt {quality_attempt + 1}/2)")
+
+            # If still generic after retries, warn but use it
+            print(f"  ⚠️  WARNING: Content for {industry} may be generic")
+            return content
 
         prompt = f"""Create content for a programmatic SEO page about automating {use_case} for {industry} using {tool}.
 
@@ -291,28 +303,39 @@ Strictly follow these output rules:
     def _generate_content_with_ai_sectioned(self, tool: str, use_case: str, industry: str) -> Dict[str, str]:
         keys_and_instructions = {
             "intro_content": (
-                "Write a 2-3 paragraph introduction explaining the automation opportunity. "
-                "Use HTML paragraphs. No markdown, no JSON."
+                f"Write a 2-3 paragraph introduction explaining how {industry} teams struggle with manual {use_case} "
+                f"and how automating this process with {tool} solves their specific pain points. "
+                f"Include industry-specific challenges, terminology, and workflows relevant to {industry}. "
+                "Use HTML <p> tags. No generic templates. No markdown, no JSON."
             ),
             "benefits_content": (
-                "Return HTML <ul> with 3-4 <li> benefits. Use concise, concrete phrasing. "
+                f"Return HTML <ul> with 4 <li> benefits specific to using {tool} for {use_case} in {industry}. "
+                f"Each benefit must include <strong>bold headers</strong> and concrete examples relevant to {industry}. "
+                "Avoid generic phrases like 'Eliminate low-value tasks' - be specific to the industry. "
                 "HTML only, no markdown, no JSON."
             ),
             "workflow_content": (
-                "Provide a 2-3 sentence workflow overview as an HTML paragraph. "
-                "HTML only, no markdown, no JSON."
+                f"Provide a detailed 3-4 sentence workflow overview explaining exactly how {tool} automates {use_case} "
+                f"for {industry} teams, including specific tools they typically use (e.g., CRMs, marketing platforms). "
+                "Use HTML <p> tags. Be specific, not generic. No markdown, no JSON."
             ),
             "steps_content": (
-                "Return an HTML <ol> with 4-6 <li> implementation steps. "
-                "HTML only, no markdown, no JSON."
+                f"Return an HTML <ol> with 5-6 detailed implementation steps showing how to set up {tool} for "
+                f"{use_case} in {industry}. Each step must include <strong>bold headers</strong> and specific actions "
+                f"relevant to {industry} workflows, tools, and processes. "
+                "Avoid generic steps. HTML only, no markdown, no JSON."
             ),
             "results_content": (
-                "Write a 2-3 paragraph results/ROI section as HTML paragraphs. "
-                "HTML only, no markdown, no JSON."
+                f"Write a 2 paragraph results/ROI section explaining the measurable impact of automating {use_case} "
+                f"with {tool} for {industry} teams. Include time savings, efficiency gains, and revenue impact "
+                f"specific to {industry} operations. Be concrete with metrics and outcomes. "
+                "Use HTML <p> tags. No markdown, no JSON."
             ),
             "faq_content": (
-                "Return 3-4 FAQ entries as repeating blocks of <h4>Question</h4><p>Answer</p>. "
-                "HTML only, no markdown, no JSON."
+                f"Return 3-4 FAQ entries as repeating blocks of <h4>Question</h4><p>Answer</p>. "
+                f"Questions must address specific concerns {industry} professionals have about using {tool} for {use_case}. "
+                f"Include at least one question about industry-specific compliance, security, or integration challenges. "
+                "Make answers detailed and helpful. HTML only, no markdown, no JSON."
             ),
         }
 
@@ -347,6 +370,31 @@ Strictly follow these output rules:
             content[key] = text_value
 
         return content
+
+    def _is_content_too_generic(self, content: Dict[str, str], industry: str) -> bool:
+        """Check if generated content is too generic/templated"""
+        # Check for generic phrases that indicate low-quality content
+        generic_phrases = [
+            "Automating .* gives .* teams a predictable way",
+            "This guide walks through the exact playbook",
+            "Eliminate low-value tasks inside your .* workflow",
+            "Most .* builds launch in 2-3 weeks",
+            "Teams typically reclaim 10-20 hours",
+        ]
+
+        combined_text = " ".join(content.values())
+
+        # If content has multiple generic phrases, it's probably templated
+        generic_count = sum(1 for phrase in generic_phrases if re.search(phrase, combined_text, re.IGNORECASE))
+        if generic_count >= 3:
+            return True
+
+        # Check if industry name appears in content (industry-specific content should mention it)
+        industry_mentions = combined_text.lower().count(industry.lower())
+        if industry_mentions < 3:  # Should mention industry at least 3 times
+            return True
+
+        return False
 
     def generate_all_pages(self, limit: Optional[int] = None) -> None:
         datasets = self.load_data_files()
