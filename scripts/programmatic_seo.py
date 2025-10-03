@@ -124,7 +124,7 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
 
         try:
             response = self.client.models.generate_content(
-                model="gemini-2.0-flash-exp",
+                model="gemini-2.5-flash",
                 contents=f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}",
                 config=genai.types.GenerateContentConfig(
                     temperature=0.7,
