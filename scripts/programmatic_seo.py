@@ -107,6 +107,22 @@ class ProgrammaticSEOGenerator:
         self.template_path.write_text(template_content, encoding="utf-8")
         print("Template created at", self.template_path)
 
+    def _extract_json_text(self, raw: Optional[str]) -> Optional[str]:
+        if not raw:
+            return None
+        text = raw.strip()
+        # Strip common Markdown fences
+        if text.startswith("```json"):
+            text = text[7:]
+        elif text.startswith("```"):
+            text = text[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+        text = text.strip()
+        # If extra prose slipped in, grab the first JSON-looking block
+        m = re.search(r"\{[\s\S]*\}", text)
+        return m.group(0).strip() if m else (text or None)
+
     def generate_content_with_ai(self, tool: str, use_case: str, industry: str) -> Dict[str, str]:
         if not self.client:
             return self.get_fallback_content(tool, use_case, industry)
@@ -123,37 +139,63 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
 """
 
         try:
+            # Build a response schema if supported (encourages strict JSON)
+            response_schema = None
+            try:
+                Schema = genai.types.Schema  # type: ignore[attr-defined]
+                Type = genai.types.Type      # type: ignore[attr-defined]
+                response_schema = Schema(
+                    type=Type.OBJECT,
+                    properties={
+                        "intro_content": Schema(type=Type.STRING),
+                        "benefits_content": Schema(type=Type.STRING),
+                        "workflow_content": Schema(type=Type.STRING),
+                        "steps_content": Schema(type=Type.STRING),
+                        "results_content": Schema(type=Type.STRING),
+                        "faq_content": Schema(type=Type.STRING),
+                    },
+                    required=[
+                        "intro_content",
+                        "benefits_content",
+                        "workflow_content",
+                        "steps_content",
+                        "results_content",
+                        "faq_content",
+                    ],
+                )
+            except Exception:
+                response_schema = None
+
             response = self.client.models.generate_content(
                 model="gemini-2.5-flash",
                 contents=f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}",
                 config=genai.types.GenerateContentConfig(
                     temperature=0.7,
                     max_output_tokens=2000,
-                    response_mime_type="application/json"
-                )
+                    response_mime_type="application/json",
+                    **({"response_schema": response_schema} if response_schema else {}),
+                ),
             )
 
-            # Extract JSON from response, handling possible markdown formatting
-            response_text = response.text.strip()
+            # Extract JSON from response robustly
+            response_text = getattr(response, "text", None)
+            response_text = self._extract_json_text(response_text)
+            if not response_text:
+                raise ValueError("Empty response from model")
 
-            # Remove markdown code fences if present
-            if response_text.startswith("```json"):
-                response_text = response_text[7:]
-            elif response_text.startswith("```"):
-                response_text = response_text[3:]
-
-            if response_text.endswith("```"):
-                response_text = response_text[:-3]
-
-            response_text = response_text.strip()
-
-            # Parse JSON
             content_data = json.loads(response_text)
 
             # Validate that all required keys are present
-            required_keys = ["intro_content", "benefits_content", "workflow_content", "steps_content", "results_content", "faq_content"]
+            required_keys = [
+                "intro_content",
+                "benefits_content",
+                "workflow_content",
+                "steps_content",
+                "results_content",
+                "faq_content",
+            ]
             if not all(key in content_data for key in required_keys):
-                print(f"Missing required keys in AI response, using fallback")
+                print("Missing required keys in AI response, using fallback")
                 return self.get_fallback_content(tool, use_case, industry)
 
             return content_data
