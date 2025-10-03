@@ -15,8 +15,8 @@ from slugify import slugify
 class ProgrammaticSEOGenerator:
     """Generate programmatic SEO landing pages and supporting assets."""
 
-    def __init__(self, api_key: Optional[str] = None, base_url: str = "https://api.anthropic.com/v1/messages") -> None:
-        self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY", "")
+    def __init__(self, api_key: Optional[str] = None, base_url: str = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent") -> None:
+        self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.base_url = base_url
 
         self.root_dir = Path(__file__).resolve().parents[1]
@@ -124,30 +124,33 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
 """
 
         payload = {
-            "model": "claude-3-5-sonnet-20241022",
-            "max_tokens": 2000,
-            "messages": [{"role": "user", "content": prompt}],
-            "system": "You are a helpful assistant that generates SEO content in JSON format."
+            "contents": [{
+                "parts": [{
+                    "text": f"You are a helpful assistant that generates SEO content in JSON format.\n\n{prompt}"
+                }]
+            }],
+            "generationConfig": {
+                "temperature": 0.7,
+                "maxOutputTokens": 2000,
+                "responseMimeType": "application/json"
+            }
         }
 
         try:
             async with session.post(
-                self.base_url,
-                headers={"Content-Type": "application/json", "x-api-key": self.api_key, "anthropic-version": "2023-06-01"},
+                f"{self.base_url}?key={self.api_key}",
+                headers={"Content-Type": "application/json"},
                 json=payload,
                 timeout=aiohttp.ClientTimeout(total=60),
             ) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    print(f"Anthropic API error {response.status}: {error_text[:200]}; using fallback content")
+                    print(f"Gemini API error {response.status}: {error_text[:200]}; using fallback content")
                     return self.get_fallback_content(tool, use_case, industry)
 
                 data = await response.json()
-                content_text = data.get("content", [{}])[0].get("text", "")
-                start_idx = content_text.find("{")
-                end_idx = content_text.rfind("}") + 1
-                json_blob = content_text[start_idx:end_idx]
-                return json.loads(json_blob)
+                content_text = data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+                return json.loads(content_text)
         except Exception as exc:
             print(f"Error generating AI content: {exc}")
             return self.get_fallback_content(tool, use_case, industry)
