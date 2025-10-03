@@ -12,6 +12,94 @@
       "datePublished": "2025-10-03T17:40:00.000Z"
     },
     {
+      "slug": "n8n-lead-generation-consulting",
+      "title": "n8n for Lead Generation in Consulting",
+      "metaDescription": "Learn how n8n automates lead generation for consulting teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "consulting",
+      "excerpt": "Automating lead generation for consulting businesses using n8n presents a powerful opportunity to streamline client acquisition and scale your practice",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:28:11.199944"
+    },
+    {
+      "slug": "n8n-lead-generation-e-commerce",
+      "title": "n8n for Lead Generation in E-Commerce",
+      "metaDescription": "Learn how n8n automates lead generation for e-commerce teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "e-commerce",
+      "excerpt": "Automating lead generation for e-commerce using n8n presents a powerful opportunity to streamline customer acquisition and nurture potential buyers through your sales funnel",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:27:28.352924"
+    },
+    {
+      "slug": "n8n-lead-generation-healthcare",
+      "title": "n8n for Lead Generation in Healthcare",
+      "metaDescription": "Learn how n8n automates lead generation for healthcare teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "healthcare",
+      "excerpt": "Healthcare lead generation is a critical but time-consuming process that involves identifying and nurturing potential patients, referral sources, and healthcare partners",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:27:56.506779"
+    },
+    {
+      "slug": "n8n-lead-generation-law-firms",
+      "title": "n8n for Lead Generation in Law Firms",
+      "metaDescription": "Learn how n8n automates lead generation for law firms teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "law firms",
+      "excerpt": "Law firms are constantly seeking ways to streamline their lead generation processes while maintaining high-quality client acquisition",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:27:41.187198"
+    },
+    {
+      "slug": "n8n-lead-generation-marketing-agencies",
+      "title": "n8n for Lead Generation in Marketing Agencies",
+      "metaDescription": "Learn how n8n automates lead generation for marketing agencies teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "marketing agencies",
+      "excerpt": "Automating lead generation is a game-changer for marketing agencies looking to scale their client acquisition while reducing manual effort",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:28:39.256731"
+    },
+    {
+      "slug": "n8n-lead-generation-real-estate",
+      "title": "n8n for Lead Generation in Real Estate",
+      "metaDescription": "Learn how n8n automates lead generation for real estate teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "real estate",
+      "excerpt": "Automating lead generation for real estate using n8n presents a powerful opportunity to streamline the process of capturing, qualifying, and nurturing potential property buyers and sellers",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:27:15.743307"
+    },
+    {
+      "slug": "n8n-lead-generation-restaurants",
+      "title": "n8n for Lead Generation in Restaurants",
+      "metaDescription": "Learn how n8n automates lead generation for restaurants teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "restaurants",
+      "excerpt": "Automating lead generation for restaurants using n8n presents a powerful opportunity to streamline customer acquisition and boost revenue",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:28:52.899361"
+    },
+    {
+      "slug": "n8n-lead-generation-saas-companies",
+      "title": "n8n for Lead Generation in Saas Companies",
+      "metaDescription": "Learn how n8n automates lead generation for SaaS companies teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "lead generation",
+      "industry": "SaaS companies",
+      "excerpt": "Automating lead generation is a critical priority for SaaS companies looking to scale their customer acquisition efforts efficiently",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:28:25.539875"
+    },
+    {
       "slug": "n8n-reporting-automation-saas-companies",
       "title": "n8n for Reporting Automation in SaaS Companies",
       "metaDescription": "Build automated reporting pipelines for SaaS companies with n8n, connecting product, billing, and CRM metrics into a single source of truth.",
@@ -21,6 +109,28 @@
       "excerpt": "n8n stitches together product, billing, and success data so SaaS teams can publish investor-ready reporting without spreadsheets.",
       "readTime": 5,
       "datePublished": "2025-10-03T17:41:00.000Z"
+    },
+    {
+      "slug": "n8n-social-media-posting-e-commerce",
+      "title": "n8n for Social Media Posting in E-Commerce",
+      "metaDescription": "Learn how n8n automates social media posting for e-commerce teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "social media posting",
+      "industry": "e-commerce",
+      "excerpt": "Automating social media posting is a critical efficiency upgrade for e-commerce businesses looking to maintain a consistent online presence without consuming countless manual hours",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:29:20.428943"
+    },
+    {
+      "slug": "n8n-social-media-posting-real-estate",
+      "title": "n8n for Social Media Posting in Real Estate",
+      "metaDescription": "Learn how n8n automates social media posting for real estate teams with a complete workflow.",
+      "tool": "n8n",
+      "useCase": "social media posting",
+      "industry": "real estate",
+      "excerpt": "Automating social media posting for real estate listings can dramatically improve efficiency and reach while maintaining a consistent online presence",
+      "readTime": 2,
+      "datePublished": "2025-10-03T17:29:06.477282"
     },
     {
       "slug": "zapier-customer-onboarding-consulting",
