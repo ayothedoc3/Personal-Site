@@ -133,7 +133,30 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
                 )
             )
 
-            return json.loads(response.text)
+            # Extract JSON from response, handling possible markdown formatting
+            response_text = response.text.strip()
+
+            # Remove markdown code fences if present
+            if response_text.startswith("```json"):
+                response_text = response_text[7:]
+            elif response_text.startswith("```"):
+                response_text = response_text[3:]
+
+            if response_text.endswith("```"):
+                response_text = response_text[:-3]
+
+            response_text = response_text.strip()
+
+            # Parse JSON
+            content_data = json.loads(response_text)
+
+            # Validate that all required keys are present
+            required_keys = ["intro_content", "benefits_content", "workflow_content", "steps_content", "results_content", "faq_content"]
+            if not all(key in content_data for key in required_keys):
+                print(f"Missing required keys in AI response, using fallback")
+                return self.get_fallback_content(tool, use_case, industry)
+
+            return content_data
         except Exception as exc:
             print(f"Error generating AI content: {exc}")
             return self.get_fallback_content(tool, use_case, industry)
