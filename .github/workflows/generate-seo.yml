@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Set up Python
@@ -34,16 +34,9 @@ jobs:
         run: python scripts/programmatic_seo.py
 
       - name: Commit and push if changes
-        env:
-          GH_PUSH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
         run: |
-          if [ -z "${GH_PUSH_TOKEN}" ]; then
-            echo "Missing GH_PUSH_TOKEN secret" >&2
-            exit 1
-          fi
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git remote set-url origin "https://x-access-token:${GH_PUSH_TOKEN}@github.com/${{ github.repository }}.git"
           git add data/programmatic-seo/
           git add public/automation/
           if git diff --quiet && git diff --staged --quiet; then
@@ -51,4 +44,4 @@ jobs:
             exit 0
           fi
           git commit -m "[bot] Auto-generate programmatic SEO content [skip ci]"
-          git push origin HEAD:${{ github.ref }}
+          git push
