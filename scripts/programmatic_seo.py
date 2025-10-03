@@ -15,7 +15,7 @@ from slugify import slugify
 class ProgrammaticSEOGenerator:
     """Generate programmatic SEO landing pages and supporting assets."""
 
-    def __init__(self, api_key: Optional[str] = None, base_url: str = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent") -> None:
+    def __init__(self, api_key: Optional[str] = None, base_url: str = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent") -> None:
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.base_url = base_url
 
