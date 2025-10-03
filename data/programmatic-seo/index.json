@@ -1,0 +1,37 @@
+{
+  "pages": [
+    {
+      "slug": "make-com-lead-generation-law-firms",
+      "title": "Make.com for Lead Generation in Law Firms",
+      "metaDescription": "Automate lead generation for law firms with Make.com by orchestrating intake, qualification, and follow-up pipelines.",
+      "tool": "Make.com",
+      "useCase": "lead generation",
+      "industry": "law firms",
+      "excerpt": "Automating lead generation gives law firms a reliable way to nurture every inquiry without piling tasks on paralegals.",
+      "readTime": 4,
+      "datePublished": "2025-10-03T17:40:00.000Z"
+    },
+    {
+      "slug": "n8n-reporting-automation-saas-companies",
+      "title": "n8n for Reporting Automation in SaaS Companies",
+      "metaDescription": "Build automated reporting pipelines for SaaS companies with n8n, connecting product, billing, and CRM metrics into a single source of truth.",
+      "tool": "n8n",
+      "useCase": "reporting automation",
+      "industry": "SaaS companies",
+      "excerpt": "n8n stitches together product, billing, and success data so SaaS teams can publish investor-ready reporting without spreadsheets.",
+      "readTime": 5,
+      "datePublished": "2025-10-03T17:41:00.000Z"
+    },
+    {
+      "slug": "zapier-customer-onboarding-consulting",
+      "title": "Zapier for Customer Onboarding in Consulting Firms",
+      "metaDescription": "Use Zapier to automate customer onboarding workflows for consulting firms, aligning proposals, project plans, and client communication.",
+      "tool": "Zapier",
+      "useCase": "customer onboarding",
+      "industry": "consulting",
+      "excerpt": "Zapier choreographs consulting onboarding so every client receives the same white-glove kickoff without PMs chasing tasks.",
+      "readTime": 4,
+      "datePublished": "2025-10-03T17:42:00.000Z"
+    }
+  ]
+}
