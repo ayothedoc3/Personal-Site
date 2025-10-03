@@ -127,17 +127,19 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
             "model": "claude-3-5-sonnet-20241022",
             "max_tokens": 2000,
             "messages": [{"role": "user", "content": prompt}],
+            "system": "You are a helpful assistant that generates SEO content in JSON format."
         }
 
         try:
             async with session.post(
                 self.base_url,
-                headers={"Content-Type": "application/json", "x-api-key": self.api_key},
+                headers={"Content-Type": "application/json", "x-api-key": self.api_key, "anthropic-version": "2023-06-01"},
                 json=payload,
                 timeout=aiohttp.ClientTimeout(total=60),
             ) as response:
                 if response.status != 200:
-                    print(f"Anthropic API error {response.status}; using fallback content")
+                    error_text = await response.text()
+                    print(f"Anthropic API error {response.status}: {error_text[:200]}; using fallback content")
                     return self.get_fallback_content(tool, use_case, industry)
 
                 data = await response.json()
@@ -278,7 +280,7 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
                     }
 
                     json_path = self.output_dir / f"{slug}.json"
-                    json_path.write_text(json.dumps(page_payload, indent=2), encoding="utf-8")
+                    json_path.write_text(json.dumps(page_payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
                     if template is not None:
                         html_content = template.render(
@@ -307,7 +309,16 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
         pages: List[Dict[str, Any]] = []
         for json_file in sorted(self.output_dir.glob("*.json")):
             try:
-                payload = json.loads(json_file.read_text(encoding="utf-8"))
+                # Try reading with UTF-8, fallback to latin-1 if needed
+                try:
+                    content = json_file.read_text(encoding="utf-8")
+                except UnicodeDecodeError:
+                    print(f"Encoding issue with {json_file.name}, trying latin-1")
+                    content = json_file.read_text(encoding="latin-1")
+                    # Re-save with proper UTF-8 encoding
+                    json_file.write_text(content, encoding="utf-8")
+
+                payload = json.loads(content)
                 pages.append(
                     {
                         "slug": payload["slug"],
@@ -321,10 +332,10 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
                         "datePublished": payload.get("datePublished"),
                     }
                 )
-            except json.JSONDecodeError as exc:
-                print(f"Skipping invalid JSON file {json_file.name}: {exc}")
+            except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                print(f"Skipping invalid file {json_file.name}: {exc}")
 
-        manifest_path.write_text(json.dumps({"pages": pages}, indent=2), encoding="utf-8")
+        manifest_path.write_text(json.dumps({"pages": pages}, indent=2, ensure_ascii=False), encoding="utf-8")
         print("Manifest written to", manifest_path)
 
     def generate_sitemap(self) -> None:
