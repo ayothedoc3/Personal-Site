@@ -129,13 +129,16 @@ class ProgrammaticSEOGenerator:
 
         prompt = f"""Create content for a programmatic SEO page about automating {use_case} for {industry} using {tool}.
 
-Return valid JSON with the following keys:
-intro_content: 2-3 paragraph introduction explaining the automation opportunity
-benefits_content: HTML <ul><li> list of 3-4 benefits
-workflow_content: 2-3 sentence workflow overview in HTML
-steps_content: HTML <ol><li> list of 4-6 implementation steps
-results_content: 2-3 paragraph results and ROI section
-faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
+Strictly follow these output rules:
+- Output exactly ONE JSON object with these keys (all values must be strings):
+  - intro_content: 2-3 paragraph introduction explaining the automation opportunity
+  - benefits_content: HTML <ul><li> list of 3-4 benefits
+  - workflow_content: 2-3 sentence workflow overview in HTML
+  - steps_content: HTML <ol><li> list of 4-6 implementation steps
+  - results_content: 2-3 paragraph results and ROI section
+  - faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
+- Do NOT include markdown code fences, backticks, or any extra prose before/after the JSON.
+- Ensure valid JSON: double-quoted keys/strings, no trailing commas, and escape quotes inside strings.
 """
 
         try:
@@ -185,7 +188,7 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
 
             content_data = json.loads(response_text)
 
-            # Validate that all required keys are present
+            # Validate and complete required keys; fill with fallback if missing/invalid
             required_keys = [
                 "intro_content",
                 "benefits_content",
@@ -194,9 +197,24 @@ faq_content: 3-4 FAQ entries using <h4> for questions and <p> for answers
                 "results_content",
                 "faq_content",
             ]
-            if not all(key in content_data for key in required_keys):
-                print("Missing required keys in AI response, using fallback")
-                return self.get_fallback_content(tool, use_case, industry)
+
+            missing_or_invalid = False
+            for key in required_keys:
+                if key not in content_data or not isinstance(content_data.get(key), str) or not content_data.get(key, "").strip():
+                    missing_or_invalid = True
+                    break
+
+            if missing_or_invalid:
+                fallback = self.get_fallback_content(tool, use_case, industry)
+                for key in required_keys:
+                    val = content_data.get(key)
+                    if not isinstance(val, str) or not val.strip():
+                        content_data[key] = fallback[key]
+
+            # Coerce any non-string values to string to avoid downstream JSON issues
+            for key in required_keys:
+                if not isinstance(content_data.get(key), str):
+                    content_data[key] = str(content_data.get(key, ""))
 
             return content_data
         except Exception as exc:
