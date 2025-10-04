@@ -11,39 +11,71 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 // Function to save user data for lead collection
 async function saveUserData(userData: any) {
   try {
+    // Prefer Airtable in production if configured
+    const baseId = process.env.AIRTABLE_BASE_ID
+    const apiKey = process.env.AIRTABLE_API_KEY
+    const tableName = process.env.AIRTABLE_TABLE_NAME || 'Audit Leads'
+    if (baseId && apiKey && tableName) {
+      try {
+        const airtableUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`
+        const fields: Record<string, any> = {
+          Name: userData.name,
+          Email: userData.email,
+          Website: userData.website,
+          'Business Type': userData.businessType,
+          'Current Challenges': userData.currentChallenges,
+          'Time Spent Daily': userData.timeSpentDaily,
+          'Opt-in Marketing': !!userData.optin_marketing,
+          Timestamp: new Date().toISOString(),
+          Source: 'Business Audit Form',
+        }
+        const resp = await fetch(airtableUrl, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ records: [{ fields }] }),
+        })
+        if (resp.ok) {
+          console.log('Lead saved to Airtable for:', userData.email)
+          return
+        }
+        const text = await resp.text()
+        console.error('Airtable insert failed:', resp.status, text)
+      } catch (err) {
+        console.error('Airtable error:', err)
+        // Fall back to file storage below
+      }
+    }
+
+    // Fallback: write to local file (works in dev environments only)
     const dataDir = path.join(process.cwd(), 'data')
     const leadsFile = path.join(dataDir, 'audit-leads.json')
-    
-    // Create data directory if it doesn't exist
+
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true })
     }
-    
-    // Read existing leads or create empty array
-    let leads = []
+
+    let leads: any[] = []
     if (fs.existsSync(leadsFile)) {
       const existingData = fs.readFileSync(leadsFile, 'utf8')
       leads = JSON.parse(existingData)
     }
-    
-    // Add new lead with timestamp
+
     const newLead = {
       ...userData,
       timestamp: new Date().toISOString(),
       id: Date.now() + Math.random().toString(36).substr(2, 9)
     }
-    
+
     leads.push(newLead)
-    
-    // Save back to file
     fs.writeFileSync(leadsFile, JSON.stringify(leads, null, 2))
-    console.log('User data saved successfully for:', userData.email)
+    console.log('User data saved to file for:', userData.email)
   } catch (error) {
     console.error('Error saving user data:', error)
-    // Don't fail the request if data saving fails
   }
 }
-
 // Function to convert markdown to HTML
 function convertMarkdownToHtml(markdown: string): string {
   try {
@@ -359,3 +391,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+
