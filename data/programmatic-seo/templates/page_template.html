@@ -32,12 +32,31 @@
     "author": { "@type": "Person", "name": "Ayothedoc" },
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ayothedoc.com/automation/{{ slug }}" }
   }
-  </script></head>
+  </script>  {% if faq_items and faq_items|length > 0 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for item in faq_items %}
+      {
+        "@type": "Question",
+        "name": "{{ item.q | e }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ item.a | e }}"
+        }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}</head>
 <body>
   <div class="container">
     <p style="margin-bottom: 24px;"><a href="https://ayothedoc.com" style="color: #2563eb; text-decoration: none;">? Ayothedoc</a></p>
     <article>
-      <header>
+      <div class="cta" style="margin-bottom:24px;"><h3>Get a free automation audit</h3><p>We will identify quick-wins and send a personalized audit to your inbox.</p><p><a href="https://ayothedoc.com/audit">Get your free audit ?</a></p></div><header>
         <h1>{{ title }}</h1>
         <div class="meta">
           <span>Tool: {{ tool }}</span>
@@ -85,5 +104,6 @@
   </div>
 </body>
 </html>
+
 
 

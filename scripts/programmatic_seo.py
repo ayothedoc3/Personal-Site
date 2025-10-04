@@ -425,6 +425,18 @@ Strictly follow these output rules:
 
             try:
                 content = self.generate_content_with_ai(tool_name, use_case_name, industry_name)
+                # Derive structured FAQ items from HTML for JSON-LD
+                try:
+                    faq_html = content.get("faq_content", "") or ""
+                    pairs = re.findall(r"<h4[^>]*>(.*?)</h4>\s*<p[^>]*>(.*?)</p>", faq_html, flags=re.S | re.I)
+                    faq_items = []
+                    for q, a in pairs:
+                        q_clean = self.strip_html(q)
+                        a_clean = self.strip_html(a)
+                        faq_items.append({"q": q_clean.strip(), "a": a_clean.strip()})
+                    content["faq_items"] = faq_items
+                except Exception:
+                    content["faq_items"] = []
 
                 slug = "-".join(
                     (slugify(tool_name), slugify(use_case_name), slugify(industry_name))
@@ -553,4 +565,5 @@ def main(limit: Optional[int] = None) -> None:
 
 if __name__ == "__main__":
     main(limit=10)
+
 
