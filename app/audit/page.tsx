@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,18 +21,14 @@ interface AuditFormData {
 export default function AuditPage() {
   const [step, setStep] = useState<'form' | 'result' | 'complete'>('form')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formData, setFormData] = useState<AuditFormData>({ 
-    name: '', 
-    email: '', 
-    website: '', 
-    industry: '', 
-    blocker: '', 
-    optin_marketing: false 
+  const [formData, setFormData] = useState<AuditFormData>({
+    name: '',
+    email: '',
+    website: '',
+    industry: '',
+    blocker: '',
+    optin_marketing: false
   })
-
-  const openCalendly = () => {
-    window.open('https://calendly.com/ayothedoc', '_blank')
-  }
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -120,49 +116,7 @@ export default function AuditPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
-      <header className="flex items-center justify-between px-6 py-4 lg:px-12 relative z-10" role="banner">
-        <div className="absolute inset-0 bg-background/20 backdrop-blur-xl border-b border-border/50"></div>
-
-        <Link href="/" className="flex items-center gap-2 group relative z-10">
-          <div className="w-8 h-8 bg-gradient-to-br from-lime-400 to-emerald-400 rounded-lg flex items-center justify-center transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-125 shadow-lg shadow-lime-400/25">
-            <svg className="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent group-hover:from-lime-400 group-hover:to-emerald-400 transition-all duration-500">
-            Ayothedoc
-          </span>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-8 relative z-10" role="navigation">
-          {[
-            { href: "/", text: "Home" },
-            { href: "/services", text: "Services" },
-            { href: "/audit", text: "Free Audit", active: true },
-            { href: "/about", text: "About" },
-            { href: "/contact", text: "Contact" },
-            { href: "/blog", text: "Blog" },
-          ].map((item) => (
-            <Link
-              key={item.text}
-              href={item.href}
-              className={`${item.active ? "text-foreground" : "text-muted-foreground"} hover:text-lime-400 transition-all duration-300 hover:scale-105 px-2 py-1`}
-            >
-              {item.text}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3 relative z-10">
-          <ThemeToggle />
-          <Button
-            onClick={openCalendly}
-            className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-medium transition-all duration-500 hover:scale-110"
-          >
-            Book a Call
-          </Button>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {step === 'form' && (

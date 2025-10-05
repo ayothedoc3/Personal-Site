@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { SiteHeader } from "@/components/site-header"
 import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 
@@ -9,18 +9,6 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
-  const openCalendly = () => {
-    window.open('https://calendly.com/ayothedoc', '_blank')
-  }
-
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     setMousePosition({
@@ -90,54 +78,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header
-        className={`flex items-center justify-between px-6 py-4 lg:px-12 relative z-10 transition-all duration-1000 ${isLoaded ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
-        role="banner"
-      >
-        <div className="absolute inset-0 bg-background/20 backdrop-blur-xl border-b border-border/50"></div>
-
-        <div className="flex items-center gap-2 group relative z-10">
-          <div className="w-8 h-8 bg-gradient-to-br from-lime-400 to-emerald-400 rounded-lg flex items-center justify-center transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-125 shadow-lg shadow-lime-400/25">
-            <svg className="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent group-hover:from-lime-400 group-hover:to-emerald-400 transition-all duration-500">
-            Ayothedoc
-          </span>
-        </div>
-
-        <nav className="hidden md:flex items-center gap-8 relative z-10" role="navigation">
-          {[
-            { href: "#main-content", text: "Home", onClick: () => scrollToSection('main-content') },
-            { href: "/services", text: "Services", onClick: undefined },
-            { href: "/audit", text: "Free Audit", onClick: undefined },
-            { href: "/about", text: "About", onClick: undefined },
-            { href: "/contact", text: "Contact", onClick: undefined },
-            { href: "/blog", text: "Blog", onClick: undefined },
-          ].map((item, index) => (
-            <a
-              key={item.text}
-              href={item.onClick ? "#" : item.href}
-              onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick(); } : undefined}
-              className="relative px-3 py-2 text-muted-foreground hover:text-foreground transition-all duration-500 hover:scale-110 group"
-            >
-              <span className="relative z-10">{item.text}</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 to-emerald-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4 relative z-10">
-          <ThemeToggle />
-          <Button
-            onClick={openCalendly}
-            className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-medium transition-all duration-500 hover:scale-110 shadow-lg hover:shadow-lime-400/50"
-          >
-            Get Started
-          </Button>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* Hero Section */}
       <main id="main-content" className="relative z-10">
