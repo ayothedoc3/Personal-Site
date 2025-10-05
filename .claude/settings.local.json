@@ -15,7 +15,18 @@
       "Bash(pnpm build:*)",
       "Bash(pnpm dev:*)",
       "Bash(curl:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git stash:*)",
+      "Bash(lsof:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(gh run list:*)",
+      "Bash(git pull:*)",
+      "Bash(echo $GEMINI_API_KEY)",
+      "Bash(python scripts/programmatic_seo.py:*)",
+      "Bash(pip install:*)",
+      "Bash(gh workflow run:*)",
+      "Bash(where gh)"
     ],
     "deny": []
   }
