@@ -30,7 +30,7 @@ async function saveUserData(userData: any) {
             await fetch(slackUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ text: New Audit Lead:  <> â€”  () })
+              body: JSON.stringify({ text: `New Audit Lead: ${userData.name} <${userData.email}> — ${userData.website} (${userData.businessType})` })
             })
           } catch (e) {
             console.error('Slack notification failed:', e)
@@ -49,7 +49,7 @@ async function saveUserData(userData: any) {
     const tableName = process.env.AIRTABLE_TABLE_NAME || 'Audit Leads'
     if (baseId && apiKey && tableName) {
       try {
-        const airtableUrl = https://api.airtable.com/v0//
+        const airtableUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`
         const fields: Record<string, any> = {
           Name: userData.name,
           Email: userData.email,
@@ -64,10 +64,10 @@ async function saveUserData(userData: any) {
         const resp = await fetch(airtableUrl, {
           method: 'POST',
           headers: {
-            Authorization: Bearer ,
+            Authorization: `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ records: [{ fields }] }),
+          body: JSON.stringify({ text: `New Audit Lead: ${userData.name} <${userData.email}> — ${userData.website} (${userData.businessType})` }),
         })
         if (resp.ok) {
           console.log('Lead saved to Airtable for:', userData.email)
