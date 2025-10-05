@@ -5,70 +5,51 @@ import { marked } from 'marked'
 import fs from 'fs'
 import path from 'path'
 
+import { insertAuditLead } from '@/lib/db'
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Function to save user data for lead collection
 async function saveUserData(userData: any) {
   try {
-    // Prefer Supabase if configured (server role key recommended)
-    const supabaseUrl = process.env.SUPABASE_URL
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
-    const supabaseTable = process.env.SUPABASE_LEADS_TABLE || 'audit_leads'
-    if (supabaseUrl && supabaseKey && supabaseTable) {
-      try {
-        const resp = await fetch(`${supabaseUrl}/rest/v1/${encodeURIComponent(supabaseTable)}`, {
-          method: 'POST',
-          headers: {
-            'apikey': supabaseKey,
-            'Authorization': `Bearer ${supabaseKey}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify([{ 
-            name: userData.name,
-            email: userData.email,
-            website: userData.website,
-            business_type: userData.businessType,
-            current_challenges: userData.currentChallenges,
-            time_spent_daily: userData.timeSpentDaily,
-            optin_marketing: !!userData.optin_marketing,
-            source: 'Business Audit Form'
-          }])
-        })
-        if (resp.ok) {
-          console.log('Lead saved to Supabase for:', userData.email)
-          // Optional Slack notification
-          const slackUrl = process.env.AUDIT_SLACK_WEBHOOK_URL
-          if (slackUrl) {
-            try {
-              await fetch(slackUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: `New Audit Lead: ${userData.name} <${userData.email}> — ${userData.website} (${userData.businessType})` })
-              })
-            } catch (e) {
-              console.error('Slack notification failed:', e)
-            }
+    // Prefer Postgres if configured (DATABASE_URL or POSTGRES_URL)
+    try {
+      const ok = await insertAuditLead({
+        name: userData.name,
+        email: userData.email,
+        website: userData.website,
+        businessType: userData.businessType,
+        currentChallenges: userData.currentChallenges,
+        timeSpentDaily: userData.timeSpentDaily,
+        optin_marketing: !!userData.optin_marketing,
+      })
+      if (ok) {
+        const slackUrl = process.env.AUDIT_SLACK_WEBHOOK_URL
+        if (slackUrl) {
+          try {
+            await fetch(slackUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: New Audit Lead:  <> â€”  () })
+            })
+          } catch (e) {
+            console.error('Slack notification failed:', e)
           }
-          return
-        } else {
-          const text = await resp.text()
-          console.error('Supabase insert failed:', resp.status, text)
         }
-      } catch (err) {
-        console.error('Supabase error:', err)
-        // continue to fallback paths
+        console.log('Lead saved to Postgres for:', userData.email)
+        return
       }
+    } catch (err) {
+      console.error('Postgres save error:', err)
     }
 
-    // Next preference: Airtable if configured
+    // Fallback: Airtable if configured
     const baseId = process.env.AIRTABLE_BASE_ID
     const apiKey = process.env.AIRTABLE_API_KEY
     const tableName = process.env.AIRTABLE_TABLE_NAME || 'Audit Leads'
     if (baseId && apiKey && tableName) {
       try {
-        const airtableUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`
+        const airtableUrl = https://api.airtable.com/v0//
         const fields: Record<string, any> = {
           Name: userData.name,
           Email: userData.email,
@@ -83,7 +64,7 @@ async function saveUserData(userData: any) {
         const resp = await fetch(airtableUrl, {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${apiKey}`,
+            Authorization: Bearer ,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ records: [{ fields }] }),
@@ -101,7 +82,7 @@ async function saveUserData(userData: any) {
       }
     }
 
-    // Fallback: local JSON file (dev only)
+    // Final fallback: local JSON file (dev only)
     const dataDir = path.join(process.cwd(), 'data')
     const leadsFile = path.join(dataDir, 'audit-leads.json')
     if (!fs.existsSync(dataDir)) {
@@ -119,8 +100,7 @@ async function saveUserData(userData: any) {
   } catch (error) {
     console.error('Error saving user data:', error)
   }
-}// Function to convert markdown to HTML
-function convertMarkdownToHtml(markdown: string): string {
+}function convertMarkdownToHtml(markdown: string): string {
   try {
     // Use marked to convert markdown to HTML
     let html = marked(markdown, {
