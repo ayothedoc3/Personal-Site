@@ -27,6 +27,12 @@ export default function Home() {
     document.body.classList.remove("keyboard-navigation")
   }, [])
 
+  const openCalendly = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      window.open('https://calendly.com/ayothedoc', '_blank', 'noopener,noreferrer')
+    }
+  }, [])
+
   useEffect(() => {
     setIsLoaded(true)
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -29,6 +29,12 @@ export default function AuditPage() {
     blocker: '',
     optin_marketing: false
   })
+
+  const openCalendly = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      window.open('https://calendly.com/ayothedoc', '_blank', 'noopener,noreferrer')
+    }
+  }, [])
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
