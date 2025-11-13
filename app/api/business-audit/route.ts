@@ -7,7 +7,7 @@ import path from 'path'
 
 import { insertAuditLead } from '@/lib/db'
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder')
 
 // Function to save user data for lead collection
 async function saveUserData(userData: any) {
