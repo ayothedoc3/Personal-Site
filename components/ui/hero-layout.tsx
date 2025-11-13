@@ -220,6 +220,7 @@ export const HeroLayout: React.FC<HeroLayoutProps> = ({
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="fixed inset-0 z-0 pointer-events-none"
+        style={{ opacity: 1 }} // Always visible as fallback
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-black/90"></div>
