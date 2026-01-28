@@ -29,8 +29,8 @@ The generator lives in `scripts/programmatic_seo.py`. It can:
 ### Running the generator
 
 ```bash
-# Optional: set your Anthropic key for AI-generated copy
-export ANTHROPIC_API_KEY=sk-ant-...
+# Optional: set your Gemini key for AI-generated copy
+export GEMINI_API_KEY=your_gemini_api_key_here
 
 # Generate 10 playbooks as a smoke test
 python scripts/programmatic_seo.py
@@ -51,13 +51,13 @@ The repository includes `.github/workflows/generate-seo.yml` that runs weekly:
 - Executes every Sunday at midnight UTC
 - Generates new content automatically
 - Commits and pushes changes to trigger deployment
-- **Setup**: Add `ANTHROPIC_API_KEY` to GitHub Secrets
+- **Setup**: Add `GEMINI_API_KEY` to GitHub Secrets
 
 ### Option 2: Coolify Cron Job
 Use the `Dockerfile.generator` which includes Python:
 1. Deploy with this Dockerfile
 2. In Coolify → Scheduled Tasks: `0 0 * * 0 cd /app && python3 scripts/programmatic_seo.py`
-3. Add `ANTHROPIC_API_KEY` environment variable
+3. Add `GEMINI_API_KEY` environment variable
 
 ### Option 3: API Endpoint
 Trigger generation via HTTP POST to `/api/generate-seo`:

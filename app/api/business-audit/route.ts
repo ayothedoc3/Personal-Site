@@ -30,7 +30,7 @@ async function saveUserData(userData: any) {
             await fetch(slackUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ text: `New Audit Lead: ${userData.name} <${userData.email}> â€” ${userData.website} (${userData.businessType})` })
+              body: JSON.stringify({ text: `New Audit Lead: ${userData.name} <${userData.email}> - ${userData.website} (${userData.businessType})` })
             })
           } catch (e) {
             console.error('Slack notification failed:', e)
@@ -67,7 +67,7 @@ async function saveUserData(userData: any) {
             Authorization: `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ text: `New Audit Lead: ${userData.name} <${userData.email}> â€” ${userData.website} (${userData.businessType})` }),
+          body: JSON.stringify({ records: [{ fields }] }),
         })
         if (resp.ok) {
           console.log('Lead saved to Airtable for:', userData.email)
@@ -140,8 +140,8 @@ async function saveUserData(userData: any) {
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #1f2937; font-weight: 600;">$1</strong>')
       
       // Convert bullet points
-      .replace(/^- (.*$)/gim, 'Ã¢â‚¬Â¢ $1<br>')
-      .replace(/^\* (.*$)/gim, 'Ã¢â‚¬Â¢ $1<br>')
+      .replace(/^- (.*$)/gim, '• $1<br>')
+      .replace(/^\* (.*$)/gim, '• $1<br>')
       
       // Convert line breaks
       .replace(/\n\n/g, '</p><p style="color: #374151; margin: 12px 0; line-height: 1.7; font-size: 16px;">')
@@ -318,13 +318,13 @@ export async function POST(request: NextRequest) {
           <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
             <!-- Header -->
             <div style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); color: white; padding: 40px 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 8px 32px rgba(79, 70, 229, 0.3);">
-              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">Ã°Å¸Å¡â‚¬ Your Business Automation Audit Report</h1>
+              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">🚀 Your Business Automation Audit Report</h1>
               <p style="margin: 15px 0 0 0; font-size: 18px; opacity: 0.9;">Personalized recommendations for ${businessType}</p>
             </div>
             
             <!-- Welcome Message -->
             <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-              <h2 style="color: #1f2937; margin-top: 0; font-size: 24px; margin-bottom: 15px;">Hi ${name}! Ã°Å¸â€˜â€¹</h2>
+              <h2 style="color: #1f2937; margin-top: 0; font-size: 24px; margin-bottom: 15px;">Hi ${name}! 👋</h2>
               <p style="color: #4b5563; line-height: 1.7; font-size: 16px; margin: 0;">
                 Thank you for requesting your personalized business automation audit! Our AI has analyzed your website (<strong>${website}</strong>) and business information to create a comprehensive automation roadmap specifically for your <strong>${businessType}</strong> business.
               </p>
@@ -339,12 +339,12 @@ export async function POST(request: NextRequest) {
             
             <!-- Call to Action -->
             <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 30px; border-radius: 15px; margin-bottom: 25px; text-align: center; border: 1px solid #bfdbfe;">
-              <h3 style="color: #1e40af; margin-top: 0; font-size: 22px; margin-bottom: 15px;">Ready to Transform Your Business? Ã°Å¸Å½Â¯</h3>
+              <h3 style="color: #1e40af; margin-top: 0; font-size: 22px; margin-bottom: 15px;">Ready to Transform Your Business? 🎯</h3>
               <p style="color: #374151; line-height: 1.7; margin-bottom: 20px; font-size: 16px;">
                 Questions about implementing these automations? Let's discuss how we can help you save those <strong>${timeSpentDaily} hours per day</strong> and transform your business operations into a growth engine.
               </p>
               <a href="https://calendly.com/ayothedoc" style="display: inline-block; background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); transition: all 0.3s ease;">
-                Ã°Å¸â€œâ€¦ Book Your FREE Strategy Call
+                📅 Book Your FREE Strategy Call
               </a>
             </div>
             
@@ -356,7 +356,7 @@ export async function POST(request: NextRequest) {
               </p>
               <hr style="border: none; height: 1px; background: #e5e7eb; margin: 20px 0;">
               <p style="margin: 15px 0 0 0; font-size: 13px; color: #9ca3af; line-height: 1.5;">
-                <strong>Ã°Å¸Â¤â€“ AI-Powered Analysis:</strong> This audit was generated using advanced AI analysis of your website and business model. Each recommendation is tailored to your specific challenges and industry.<br>
+                <strong>🤖 AI-Powered Analysis:</strong> This audit was generated using advanced AI analysis of your website and business model. Each recommendation is tailored to your specific challenges and industry.<br>
                 <strong>Ã°Å¸â€â€™ Privacy:</strong> Your information is secure and will only be used to provide you with relevant business automation insights.
               </p>
             </div>
