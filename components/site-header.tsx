@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
+import { trackEvent } from "@/lib/analytics"
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -62,7 +63,12 @@ export function SiteHeader() {
             asChild
             className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full shadow-lg hover:shadow-lime-400/25 transition-all duration-300 hover:scale-105"
           >
-            <Link href="https://calendly.com/ayothedoc" target="_blank" rel="noopener noreferrer">
+            <Link
+              href="https://calendly.com/ayothedoc"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent("cta_click", { cta: "header_book_consultation", destination: "calendly" })}
+            >
               Book a Consultation
             </Link>
           </Button>

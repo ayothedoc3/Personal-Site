@@ -14,6 +14,7 @@ import { Honeypot } from "@/components/ui/honeypot"
 import { Loader2, CheckCircle, AlertCircle, Phone, Shield } from "lucide-react"
 import { formRateLimiter } from "@/lib/rate-limiter"
 import { sanitizeInput, isValidEmail, isValidPhone, detectSpam, isBot, getClientFingerprint } from "@/lib/security-utils"
+import { trackEvent } from "@/lib/analytics"
 
 const contactSchema = z.object({
   firstName: z.string()
@@ -89,6 +90,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
     setSubmitStatus("idle")
+    trackEvent("lead_submit", { lead_type: "contact" })
 
     try {
       // Security checks
@@ -103,6 +105,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       // Bot detection
       if (isBot(formDataWithHoneypot)) {
         console.log('Bot detected, blocking submission')
+        trackEvent("lead_submit_blocked", { lead_type: "contact" })
         setSubmitStatus("blocked")
         setSubmitMessage("Submission blocked due to suspicious activity.")
         return
@@ -140,6 +143,11 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey)
 
+      trackEvent("lead_submit_success", {
+        lead_type: "contact",
+        service: sanitizedData.service,
+        newsletter: sanitizedData.newsletter,
+      })
       setSubmitStatus("success")
       setSubmitMessage("Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.")
       reset({ 
@@ -158,6 +166,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       onSuccess?.()
     } catch (error: any) {
       console.error("Email sending failed:", error)
+      trackEvent("lead_submit_error", { lead_type: "contact" })
       setSubmitStatus("error")
       if (error.message.includes('Too many attempts')) {
         setSubmitMessage(error.message)

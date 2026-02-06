@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 import { Loader2 } from "lucide-react"
+import { trackEvent } from "@/lib/analytics"
 
 interface AuditFormData {
   name: string
@@ -30,15 +31,17 @@ export default function AuditPage() {
     optin_marketing: false
   })
 
-  const openCalendly = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      window.open('https://calendly.com/ayothedoc', '_blank', 'noopener,noreferrer')
+  const openCalendly = useCallback((cta: string) => {
+    trackEvent("cta_click", { cta, destination: "calendly" })
+    if (typeof window !== "undefined") {
+      window.open("https://calendly.com/ayothedoc", "_blank", "noopener,noreferrer")
     }
   }, [])
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    trackEvent("lead_submit", { lead_type: "audit", industry: formData.industry || "unknown" })
     
     try {
       // Call the actual business audit API
@@ -61,12 +64,15 @@ export default function AuditPage() {
       const data = await response.json()
 
       if (!response.ok) {
+        trackEvent("lead_submit_error", { lead_type: "audit" })
         throw new Error(data.error || 'Failed to submit audit request')
       }
 
+      trackEvent("lead_submit_success", { lead_type: "audit" })
       setStep('result')
     } catch (error) {
       console.error('Audit submission failed:', error)
+      trackEvent("lead_submit_error", { lead_type: "audit" })
       // Still show results even if API fails, for better UX
       setStep('result')
     } finally {
@@ -282,7 +288,10 @@ export default function AuditPage() {
             <div className="text-center">
               <p className="text-muted-foreground mb-6">Your detailed PDF report with full roadmap is being sent to {formData.email}</p>
               <Button
-                onClick={() => setStep('complete')}
+                onClick={() => {
+                  trackEvent("audit_result_continue")
+                  setStep("complete")
+                }}
                 className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105"
               >
                 Continue
@@ -299,7 +308,7 @@ export default function AuditPage() {
             <p className="text-xl text-muted-foreground mb-8">It usually arrives in 2 to 5 minutes.</p>
             
             <Button
-              onClick={openCalendly}
+              onClick={() => openCalendly("audit_complete_book_readout")}
               className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105"
             >
               Book a 15 minute readout

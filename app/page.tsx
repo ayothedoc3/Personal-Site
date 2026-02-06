@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
+import { trackEvent } from "@/lib/analytics"
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -27,9 +28,10 @@ export default function Home() {
     document.body.classList.remove("keyboard-navigation")
   }, [])
 
-  const openCalendly = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      window.open('https://calendly.com/ayothedoc', '_blank', 'noopener,noreferrer')
+  const openCalendly = useCallback((cta: string) => {
+    trackEvent("cta_click", { cta, destination: "calendly" })
+    if (typeof window !== "undefined") {
+      window.open("https://calendly.com/ayothedoc", "_blank", "noopener,noreferrer")
     }
   }, [])
 
@@ -105,12 +107,15 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
                 <Link href="/audit">
-                  <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50">
+                  <Button
+                    onClick={() => trackEvent("cta_click", { cta: "home_hero_free_audit", destination: "/audit" })}
+                    className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
+                  >
                     Get Your Free Automation Score
                   </Button>
                 </Link>
                 <Button
-                  onClick={openCalendly}
+                  onClick={() => openCalendly("home_hero_book_call")}
                   variant="outline"
                   className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110"
                 >
@@ -282,12 +287,15 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Link href="/audit">
-                  <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50">
+                  <Button
+                    onClick={() => trackEvent("cta_click", { cta: "home_final_free_audit", destination: "/audit" })}
+                    className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
+                  >
                     Get Your Free Automation Score
                   </Button>
                 </Link>
                 <Button
-                  onClick={openCalendly}
+                  onClick={() => openCalendly("home_final_book_call")}
                   variant="outline"
                   className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110"
                 >

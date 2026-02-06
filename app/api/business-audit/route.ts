@@ -6,8 +6,22 @@ import fs from 'fs'
 import path from 'path'
 
 import { insertAuditLead } from '@/lib/db'
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
-const resend = new Resend(process.env.RESEND_API_KEY)
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
+function getGeminiClient(): GoogleGenerativeAI | null {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) return null
+  return new GoogleGenerativeAI(apiKey)
+}
+
+function getResendClient(): Resend | null {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) return null
+  if (apiKey.includes('placeholder') || apiKey.includes('your_resend_api_key_here')) return null
+  return new Resend(apiKey)
+}
 
 // Function to save user data for lead collection
 async function saveUserData(userData: any) {
@@ -100,7 +114,9 @@ async function saveUserData(userData: any) {
   } catch (error) {
     console.error('Error saving user data:', error)
   }
-}function convertMarkdownToHtml(markdown: string): string {
+}
+
+function convertMarkdownToHtml(markdown: string): string {
   try {
     // Use marked to convert markdown to HTML
     let html = marked(markdown, {
@@ -160,25 +176,54 @@ export async function POST(request: NextRequest) {
     console.log('Received audit request for:', { email, businessType, website, optin_marketing })
 
     // Validate required fields
-    if (!name || !email || !website || !businessType || !currentChallenges || !timeSpentDaily) {
+    if (!name || !email || !website || !businessType || !currentChallenges || typeof timeSpentDaily !== 'number') {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
       )
     }
 
-    // Check if required environment variables are set
-    if (!process.env.GEMINI_API_KEY) {
-      console.error('GEMINI_API_KEY is not configured')
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable. Please try again later.' },
-        { status: 503 }
-      )
+    // Save user data for lead collection (do this early so you don't lose leads on downstream failures)
+    await saveUserData({
+      name,
+      email,
+      website,
+      businessType,
+      currentChallenges,
+      timeSpentDaily,
+      optin_marketing: optin_marketing || false,
+    })
+
+    const genAI = getGeminiClient()
+    if (!genAI) {
+      console.error('GEMINI_API_KEY is not configured - returning success without AI report')
+      return NextResponse.json({
+        success: true,
+        message: 'Audit request received! Your detailed report will be emailed within 24 hours.',
+      })
     }
 
     // Fetch website content
     let websiteContent = ''
     try {
+      const parsed = new URL(website)
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        throw new Error('Unsupported URL protocol')
+      }
+      const host = parsed.hostname.toLowerCase()
+      if (
+        host === 'localhost' ||
+        host === '127.0.0.1' ||
+        host === '0.0.0.0' ||
+        host.startsWith('127.') ||
+        host.startsWith('10.') ||
+        host.startsWith('192.168.') ||
+        /^172\\.(1[6-9]|2\\d|3[0-1])\\./.test(host) ||
+        host === '::1'
+      ) {
+        throw new Error('Refusing to fetch private/localhost URLs')
+      }
+
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 10000)
       
@@ -263,34 +308,14 @@ export async function POST(request: NextRequest) {
     const auditReport = result.response.text()
     console.log('AI analysis generated successfully')
 
-    // Save user data for lead collection
-    await saveUserData({
-      name,
-      email,
-      website,
-      businessType,
-      currentChallenges,
-      timeSpentDaily,
-      optin_marketing: optin_marketing || false
-    })
-
     // Convert markdown report to clean HTML
     const auditReportHtml = convertMarkdownToHtml(auditReport)
-
-    // Send email with the report (using EmailJS or similar service)
-    const emailContent = {
-      to_name: name,
-      to_email: email,
-      subject: `Your Personalized Business Automation Audit Report - ${businessType}`,
-      message: auditReport,
-      website_analyzed: website,
-      business_type: businessType,
-    }
 
     // Send email using Resend (with fallback)
     console.log('Sending audit report via Resend...')
     
-    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY.includes('placeholder')) {
+    const resend = getResendClient()
+    if (!resend) {
       console.log('RESEND_API_KEY not configured properly - using fallback method')
       
       // Fallback: Log the report and notify admin
@@ -414,6 +439,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
 
 

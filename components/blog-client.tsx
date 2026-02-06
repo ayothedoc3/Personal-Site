@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import emailjs from "emailjs-com"
 import { BlogPost } from "@/lib/posts"
+import { trackEvent } from "@/lib/analytics"
 
 interface BlogClientProps {
   initialPosts: BlogPost[]
@@ -37,6 +38,7 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
 
     setIsSubscribing(true)
     setSubscribeMessage("")
+    trackEvent("lead_submit", { lead_type: "newsletter" })
 
     try {
       const templateParams = {
@@ -54,10 +56,12 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
       )
 
+      trackEvent("lead_submit_success", { lead_type: "newsletter" })
       setSubscribeMessage("🎉 Successfully subscribed! Thank you for joining our newsletter.")
       setEmail("")
     } catch (error) {
       console.error('Newsletter subscription failed:', error)
+      trackEvent("lead_submit_error", { lead_type: "newsletter" })
       setSubscribeMessage("❌ Subscription failed. Please try again later.")
     } finally {
       setIsSubscribing(false)

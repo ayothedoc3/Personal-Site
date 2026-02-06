@@ -17,19 +17,7 @@ export function getPgPool(): Pool | null {
   return pool
 }
 
-export async function insertAuditLead(data: {
-  name: string
-  email: string
-  website: string
-  businessType: string
-  currentChallenges: string
-  timeSpentDaily: number
-  optin_marketing?: boolean
-}): Promise<boolean> {
-  const p = getPgPool()
-  if (!p) return false
-
-  // Ensure table exists (no-op if already there)
+async function ensureAuditLeadsTable(p: Pool): Promise<void> {
   await p.query(`
     create table if not exists audit_leads (
       id bigserial primary key,
@@ -44,6 +32,21 @@ export async function insertAuditLead(data: {
       inserted_at timestamp with time zone default now()
     );
   `)
+}
+
+export async function insertAuditLead(data: {
+  name: string
+  email: string
+  website: string
+  businessType: string
+  currentChallenges: string
+  timeSpentDaily: number
+  optin_marketing?: boolean
+}): Promise<boolean> {
+  const p = getPgPool()
+  if (!p) return false
+
+  await ensureAuditLeadsTable(p)
 
   const res = await p.query(
     `insert into audit_leads
@@ -62,5 +65,56 @@ export async function insertAuditLead(data: {
     ],
   )
   return !!res.rows?.length
+}
+
+export type AuditLead = {
+  id: string
+  name: string
+  email: string
+  website: string
+  businessType: string
+  currentChallenges: string
+  timeSpentDaily: number
+  optin_marketing: boolean
+  timestamp: string
+  source: string | null
+}
+
+export async function listAuditLeads(limit: number = 1000): Promise<AuditLead[] | null> {
+  const p = getPgPool()
+  if (!p) return null
+
+  await ensureAuditLeadsTable(p)
+
+  const res = await p.query(
+    `select
+       id,
+       name,
+       email,
+       website,
+       business_type as "businessType",
+       coalesce(current_challenges, '') as "currentChallenges",
+       coalesce(time_spent_daily, 0) as "timeSpentDaily",
+       coalesce(optin_marketing, false) as "optin_marketing",
+       inserted_at as "timestamp",
+       source
+     from audit_leads
+     order by inserted_at desc
+     limit $1`,
+    [limit],
+  )
+
+  return res.rows.map((row: any) => ({
+    id: String(row.id),
+    name: String(row.name ?? ''),
+    email: String(row.email ?? ''),
+    website: String(row.website ?? ''),
+    businessType: String(row.businessType ?? ''),
+    currentChallenges: String(row.currentChallenges ?? ''),
+    timeSpentDaily: Number(row.timeSpentDaily ?? 0),
+    optin_marketing: Boolean(row.optin_marketing),
+    timestamp: row.timestamp ? new Date(row.timestamp).toISOString() : new Date().toISOString(),
+    source: row.source ?? null,
+  }))
 }
 
