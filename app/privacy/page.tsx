@@ -21,14 +21,9 @@ export default function PrivacyPage() {
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>
 
           <div className="space-y-8 text-muted-foreground leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_a]:text-lime-400 [&_a]:underline">
-            <p className="p-4 rounded-xl border border-border/60 bg-card/40 text-sm">
-              Template, not legal advice. Review and adapt with counsel — especially the GDPR sections, since you serve
-              the EU. Bracketed items need your details.
-            </p>
-
             <p>
-              This Privacy Policy explains how <strong>[Legal Business Name]</strong> ("Ayothedoc", "we") collects and
-              uses personal data when you use ayothedoc.com or our services. We are the data controller. Contact:{" "}
+              This Privacy Policy explains how <strong>Ayothedoc</strong> ("we") collects and uses personal data when
+              you use ayothedoc.com or our services. We are the data controller. Contact:{" "}
               <a href="mailto:contact@ayothedoc.com">contact@ayothedoc.com</a>.
             </p>
 

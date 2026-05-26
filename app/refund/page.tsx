@@ -21,11 +21,6 @@ export default function RefundPage() {
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>
 
           <div className="space-y-8 text-muted-foreground leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_a]:text-lime-400 [&_a]:underline">
-            <p className="p-4 rounded-xl border border-border/60 bg-card/40 text-sm">
-              Template, not legal advice. Adjust the windows and terms to match how you actually want to operate, and
-              review with counsel. Note EU consumer-law rules may apply for non-business customers.
-            </p>
-
             <h2>Monthly plans</h2>
             <ul>
               <li>Foundation, Operations, and Autonomous are billed monthly in advance.</li>
@@ -53,7 +48,7 @@ export default function RefundPage() {
             <p>
               Email <a href="mailto:contact@ayothedoc.com">contact@ayothedoc.com</a> from the address on your account.
               We&apos;ll confirm cancellation and process any eligible refund to your original payment method within
-              [X] business days.
+              5–10 business days.
             </p>
 
             <h2>Chargebacks</h2>

@@ -21,15 +21,10 @@ export default function TermsPage() {
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>
 
           <div className="space-y-8 text-muted-foreground leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_a]:text-lime-400 [&_a]:underline">
-            <p className="p-4 rounded-xl border border-border/60 bg-card/40 text-sm">
-              Plain-English summary, not legal advice. Please review and adapt these terms with qualified counsel
-              before relying on them. Bracketed items need your details.
-            </p>
-
             <p>
               These Terms of Service ("Terms") govern your access to and use of the website and services provided by
-              {" "}<strong>[Legal Business Name]</strong> ("Ayothedoc", "we", "us"), including our Managed AI Operations
-              services and any related products. By using our site or purchasing a plan, you agree to these Terms.
+              {" "}<strong>Ayothedoc</strong> ("we", "us"), including our Managed AI Operations services and any related
+              products. By using our site or purchasing a plan, you agree to these Terms.
             </p>
 
             <h2>1. Services</h2>
@@ -89,7 +84,7 @@ export default function TermsPage() {
             </p>
 
             <h2>9. Governing law</h2>
-            <p>These Terms are governed by the laws of <strong>[Lithuania / your jurisdiction]</strong>.</p>
+            <p>These Terms are governed by the laws of <strong>Lithuania</strong>.</p>
 
             <h2>10. Contact</h2>
             <p>
