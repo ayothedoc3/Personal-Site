@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
+import Link from "next/link"
 import { useState, useEffect } from "react"
 
 export default function Services() {
@@ -63,7 +64,7 @@ export default function Services() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-sm border border-primary/30 rounded-full text-primary text-sm font-semibold tracking-wider uppercase shadow-lg">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              OUR SERVICES
+              WHAT WE INSTALL
             </span>
           </div>
 
@@ -74,9 +75,9 @@ export default function Services() {
             style={{ animationDelay: "0.4s" }}
           >
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Expert Solutions
+              Everything your AI
             </span>{" "}
-            <span className="inline-block hover:scale-105 transition-transform duration-300">for Your Business</span>
+            <span className="inline-block hover:scale-105 transition-transform duration-300">runs on</span>
           </h1>
 
           <p
@@ -85,8 +86,8 @@ export default function Services() {
             id="services-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            From custom web development to intelligent automation, we provide comprehensive digital solutions that
-            streamline your operations and accelerate growth.
+            We install and run your company&apos;s AI Operating System. These are the building blocks we set up,
+            wire into your tools, and operate for you — so the repetitive work runs itself.
           </p>
         </div>
       </section>
@@ -104,15 +105,32 @@ export default function Services() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "Web Development",
+                title: "Context Engine",
                 description:
-                  "Custom WordPress websites built for conversions and easy management. Optimized for speed, user experience, and search engine visibility.",
+                  "We capture your business, voice, offers, and priorities so the system answers like your sharpest teammate — not a stranger.",
                 features: [
-                  "Custom WordPress Development",
-                  "Responsive Design",
-                  "SEO Optimization",
-                  "Performance Optimization",
-                  "E-commerce Solutions",
+                  "Business + offer knowledge base",
+                  "Your writing voice, captured",
+                  "Priorities and SOPs",
+                  "Decision history",
+                ],
+              },
+              {
+                icon: (
+                  <path
+                    fillRule="evenodd"
+                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                    clipRule="evenodd"
+                  />
+                ),
+                title: "Tool Connections",
+                description:
+                  "We wire the AIOS into the tools you already run on so it works from live data — never copy-paste.",
+                features: [
+                  "Email + calendar (Gmail/Outlook)",
+                  "CRM (HubSpot/Pipedrive/etc.)",
+                  "Billing (Stripe/QuickBooks)",
+                  "Docs + tasks (Notion/ClickUp)",
                 ],
               },
               {
@@ -123,15 +141,14 @@ export default function Services() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "AI Automations",
+                title: "Lead-to-Booked Engine",
                 description:
-                  "Eliminate repetitive tasks with Make.com and N8N automations. Save hours every week with intelligent workflows.",
+                  "Every new lead gets captured, routed, and followed up in under 60 seconds — then booked onto your calendar.",
                 features: [
-                  "Make.com Integrations",
-                  "N8N Workflow Automation",
-                  "Data Processing Automation",
-                  "Email Marketing Automation",
-                  "CRM Integration",
+                  "Form → CRM in real time",
+                  "Instant first follow-up",
+                  "Routing + lead scoring",
+                  "Calendar booking + reminders",
                 ],
               },
               {
@@ -142,34 +159,32 @@ export default function Services() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "Online Business Development",
+                title: "Client Reporting & Ops",
                 description:
-                  "Strategic guidance to optimize your online business operations and maximize revenue potential.",
+                  "Onboarding, status updates, and recurring reports generated and sent — so your team stops doing work about work.",
                 features: [
-                  "Business Strategy Consulting",
-                  "Revenue Optimization",
-                  "Digital Marketing Strategy",
-                  "Conversion Rate Optimization",
-                  "Growth Planning",
+                  "Onboarding sequences",
+                  "Delivery status updates",
+                  "Automated client reports",
+                  "Billing + kickoff triggers",
                 ],
               },
               {
                 icon: (
                   <path
                     fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
                     clipRule="evenodd"
                   />
                 ),
-                title: "Virtual Assistance",
+                title: "24/7 Cadence",
                 description:
-                  "Offload administrative tasks to free up your time for high-value activities that grow your business.",
+                  "The AIOS runs on a schedule while your laptop is closed — briefs land, follow-ups send, reports ship, unprompted.",
                 features: [
-                  "Administrative Support",
-                  "Email Management",
-                  "Calendar Scheduling",
-                  "Data Entry & Research",
-                  "Customer Support",
+                  "Scheduled daily/weekly runs",
+                  "Morning briefs + digests",
+                  "Background agents",
+                  "Runs without being asked",
                 ],
               },
               {
@@ -180,32 +195,14 @@ export default function Services() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "Process Optimization",
-                description: "Identify bottlenecks and implement systems that streamline your business operations.",
+                title: "Monitoring & Care",
+                description:
+                  "We run it, watch it, fix it, and ship new automations every week — measured against your kickoff baseline.",
                 features: [
-                  "Workflow Analysis",
-                  "Process Documentation",
-                  "System Integration",
-                  "Efficiency Improvements",
-                  "Performance Monitoring",
-                ],
-              },
-              {
-                icon: (
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  />
-                ),
-                title: "Technical Support",
-                description: "Ongoing maintenance and support to ensure your website and automations run smoothly.",
-                features: [
-                  "Website Maintenance",
-                  "Security Updates",
-                  "Performance Monitoring",
-                  "Backup Management",
-                  "24/7 Support",
+                  "Health checks + alerts",
+                  "Bug fixes + incident response",
+                  "One new automation weekly",
+                  "Quarterly KPI reviews",
                 ],
               },
             ].map((service, index) => (
@@ -246,9 +243,11 @@ export default function Services() {
                     ))}
                   </ul>
 
-                  <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground rounded-xl shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group-hover:shadow-xl">
-                    <span className="group-hover:scale-110 transition-transform duration-200">Learn More</span>
-                  </Button>
+                  <Link href="/offer">
+                    <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground rounded-xl shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group-hover:shadow-xl">
+                      <span className="group-hover:scale-110 transition-transform duration-200">See plans &amp; pricing</span>
+                    </Button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -265,18 +264,20 @@ export default function Services() {
           style={{ animationDelay: "1.4s" }}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to{" "}
+            Not sure where to{" "}
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Transform
-            </span>{" "}
-            Your Business?
+              start?
+            </span>
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-            Let's discuss how our services can help you achieve your goals and streamline your operations.
+            Take the free AI Readiness Audit. In 10 minutes you&apos;ll get a score and the three highest-leverage
+            automations for your business.
           </p>
-          <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-            <span className="group-hover:scale-110 transition-transform duration-200">Book a Free Consultation</span>
-          </Button>
+          <Link href="/audit">
+            <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
+              <span className="group-hover:scale-110 transition-transform duration-200">Get Your Free AI Readiness Audit</span>
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -291,7 +292,7 @@ export default function Services() {
             transform: translateY(0);
           }
         }
-        
+
         @keyframes gradient-x {
           0%, 100% {
             background-size: 200% 200%;
@@ -302,30 +303,30 @@ export default function Services() {
             background-position: right center;
           }
         }
-        
+
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           33% { transform: translateY(-10px) rotate(1deg); }
           66% { transform: translateY(5px) rotate(-1deg); }
         }
-        
+
         @keyframes bounce-slow {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
         }
-        
+
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out forwards;
         }
-        
+
         .animate-gradient-x {
           animation: gradient-x 3s ease infinite;
         }
-        
+
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
-        
+
         .animate-bounce-slow {
           animation: bounce-slow 4s ease-in-out infinite;
         }

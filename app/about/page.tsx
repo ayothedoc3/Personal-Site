@@ -73,9 +73,9 @@ export default function About() {
             id="about-title"
             style={{ animationDelay: "0.4s" }}
           >
-            Empowering Businesses Through{" "}
+            We run your business on{" "}
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Smart Technology
+              AI operations
             </span>
           </h1>
 
@@ -85,9 +85,9 @@ export default function About() {
             id="about-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            We're passionate about helping businesses leverage technology to work smarter, not harder. Our mission is to
-            eliminate inefficiencies and unlock your team's potential through intelligent automation and custom
-            solutions.
+            Ayothedoc installs and runs your company&apos;s AI Operating System — the layer that connects your tools
+            and handles the repetitive work — so your team stops being the bottleneck. Managed, measured, and built to
+            run while you don&apos;t.
           </p>
         </div>
       </section>
@@ -106,9 +106,9 @@ export default function About() {
                 Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Story</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
-                Founded with a vision to bridge the gap between complex technology and practical business solutions,
-                Ayothedoc emerged from the understanding that every business deserves access to powerful automation and
-                web development tools.
+                Ayothedoc started where most operators get stuck: drowning in repetitive work, with business knowledge
+                trapped in one person&apos;s head and tools that don&apos;t talk to each other. The fix wasn&apos;t
+                another app — it was an operating system that ties them together and does the work.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
                 We've witnessed firsthand how the right technology can transform operations, save countless hours, and
@@ -116,8 +116,8 @@ export default function About() {
                 understandable for businesses of all sizes.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed hover:text-foreground/80 transition-colors duration-300">
-                Today, we continue to evolve our services, staying at the forefront of web development and AI automation
-                to ensure our clients always have access to the most effective solutions available.
+                Today we install that system for growing businesses and run it for them — wiring in their tools,
+                shipping new automations every week, and keeping it all measured against a real baseline.
               </p>
             </div>
 
@@ -197,12 +197,12 @@ export default function About() {
               <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
                 Ayothedoc
               </h3>
-              <p className="text-primary text-lg mb-6 font-semibold">Founder & Lead Developer</p>
+              <p className="text-primary text-lg mb-6 font-semibold">Founder</p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 group-hover:text-foreground/80 transition-colors duration-300">
-                With years of experience in web development and business automation, Ayothedoc founded this agency with
-                a clear vision: to help businesses harness the power of technology without the complexity. Specializing
-                in WordPress development, AI automation, and process optimization, Ayothedoc brings both technical
-                expertise and business acumen to every project.
+                Ayothedoc founded the agency with one clear vision: give growing businesses an enterprise-grade AI
+                operations layer without the enterprise headcount. Specializing in AI Operating Systems, workflow
+                automation, and tool integration, Ayothedoc pairs hands-on technical depth with a sharp eye for where
+                automation actually moves the numbers.
               </p>
               <blockquote className="text-muted-foreground text-lg leading-relaxed italic border-l-4 border-primary/30 pl-6 group-hover:text-foreground/80 group-hover:border-primary/50 transition-all duration-300">
                 "I believe that technology should work for you, not against you. My goal is to create solutions that are

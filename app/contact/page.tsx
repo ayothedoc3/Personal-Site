@@ -94,8 +94,8 @@ export default function Contact() {
             id="contact-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Ready to transform your business with smart automation and custom web solutions? Book your free consultation
-            today and discover how we can save your business 10+ hours per week.
+            Ready to put AI to work in your business? Tell us where the repetitive work is, and we&apos;ll show you how
+            your AI Operating System recovers 40+ hours a month.
           </p>
         </div>
       </section>
@@ -130,8 +130,8 @@ export default function Contact() {
                   Get In Touch
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-8 hover:text-foreground/80 transition-colors duration-300">
-                  Ready to streamline your business operations and boost productivity? We're here to help you discover
-                  the perfect automation and web development solutions for your unique needs.
+                  Ready to stop being the bottleneck? Tell us about your business and we&apos;ll map the AI operations
+                  that take the busywork off your plate.
                 </p>
               </div>
 
@@ -180,10 +180,10 @@ export default function Contact() {
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "Proven track record of saving businesses 10+ hours per week",
-                      "Expert knowledge in WordPress, Make.com, and N8N",
-                      "Personalized solutions tailored to your business",
-                      "Ongoing support and optimization",
+                      "40+ hours a month recovered, or you don't pay",
+                      "Deep expertise in AI Operating Systems and workflow automation",
+                      "Built on your tools and trained on your business",
+                      "We run and improve it for you, every week",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -243,24 +243,24 @@ export default function Contact() {
           <div className="space-y-6">
             {[
               {
-                question: "How long does a typical project take?",
+                question: "How long until it's running?",
                 answer:
-                  "Project timelines vary depending on complexity, but most web development projects take 2-6 weeks, while automation setups typically take 1-3 weeks. We'll provide a detailed timeline during your consultation.",
+                  "Your AI Operating System is installed and live in 10 business days. We then measure recovered hours against your kickoff baseline over the following 30 days.",
               },
               {
-                question: "Do you provide ongoing support?",
+                question: "Do you run it for me, or just set it up?",
                 answer:
-                  "Yes! We offer comprehensive technical support packages to ensure your website and automations continue running smoothly. This includes updates, monitoring, and optimization.",
+                  "We run it. Beyond the install, our monthly plans cover monitoring, fixes, and shipping one new automation every week. You own everything we build.",
               },
               {
-                question: "What makes your automation solutions different?",
+                question: "Does this replace my team?",
                 answer:
-                  "We focus on practical, business-specific solutions using proven platforms like Make.com and N8N. Our approach prioritizes ease of use and measurable time savings over complex technical implementations.",
+                  "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery.",
               },
               {
-                question: "Can you work with my existing systems?",
+                question: "Can you work with my existing tools?",
                 answer:
-                  "We specialize in integrating with existing tools and platforms. During our consultation, we'll assess your current setup and recommend the best integration approach.",
+                  "Yes — that's the point. We wire the AIOS into the tools you already use (email, CRM, calendar, billing, docs) so it works from live data, not copy-paste.",
               },
             ].map((faq, index) => (
               <div
