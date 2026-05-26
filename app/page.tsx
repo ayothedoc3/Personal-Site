@@ -412,7 +412,7 @@ export default function Home() {
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold mb-4">Managed AI Operations for growing businesses</h3>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 text-center md:text-left">
+            <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
               <div>
                 <h4 className="font-bold mb-4">Offer</h4>
                 <ul className="space-y-2 text-muted-foreground">
@@ -424,8 +424,17 @@ export default function Home() {
               <div>
                 <h4 className="font-bold mb-4">Connect</h4>
                 <ul className="space-y-2 text-muted-foreground">
+                  <li><Link href="/about" className="hover:text-lime-400">About</Link></li>
                   <li><Link href="/contact" className="hover:text-lime-400">Contact</Link></li>
                   <li><Link href="/blog" className="hover:text-lime-400">Blog</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold mb-4">Legal</h4>
+                <ul className="space-y-2 text-muted-foreground">
+                  <li><Link href="/terms" className="hover:text-lime-400">Terms of Service</Link></li>
+                  <li><Link href="/privacy" className="hover:text-lime-400">Privacy Policy</Link></li>
+                  <li><Link href="/refund" className="hover:text-lime-400">Refund &amp; Cancellation</Link></li>
                 </ul>
               </div>
             </div>
