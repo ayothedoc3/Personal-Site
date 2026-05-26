@@ -20,13 +20,13 @@ This guide will help you complete the setup of your new file-based blog system w
 1. Go to GitHub Settings → Developer settings → OAuth Apps
 2. Create a new OAuth App with these settings:
    - **Application name**: Ayothedoc Blog CMS
-   - **Homepage URL**: `https://your-domain.vercel.app`
-   - **Authorization callback URL**: `https://your-domain.vercel.app/admin/auth.html`
+   - **Homepage URL**: `https://ayothedoc.com`
+   - **Authorization callback URL**: `https://ayothedoc.com/admin/auth.html`
 3. Copy the Client ID and Client Secret
 
 ### 2. Environment Variables
 
-Add these to your Vercel environment variables or `.env.local`:
+Add these to your Coolify environment variables (or `.env.local` for local dev):
 
 ```bash
 GITHUB_CLIENT_ID=your_github_client_id
@@ -37,7 +37,7 @@ GITHUB_CLIENT_SECRET=your_github_client_secret
 
 #### Update `public/admin/config.yml`:
 - Replace `ayothedoc/personal-site` with your GitHub repo
-- Replace `your-site-domain.vercel.app` with your actual domain
+- Replace the placeholder domain with `ayothedoc.com`
 
 #### Update `public/admin/auth.html`:
 - Replace `YOUR_GITHUB_CLIENT_ID` with your actual GitHub Client ID

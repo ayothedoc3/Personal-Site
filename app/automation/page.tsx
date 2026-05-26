@@ -21,12 +21,12 @@ export const metadata: Metadata = {
 }
 
 type AutomationIndexProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     tool?: string
     useCase?: string
     industry?: string
     q?: string
-  }
+  }>
 }
 
 function buildFilterHref(params: URLSearchParams, key: string, value: string | undefined) {
@@ -43,18 +43,19 @@ function buildFilterHref(params: URLSearchParams, key: string, value: string | u
 
 export default async function AutomationIndex({ searchParams }: AutomationIndexProps) {
   const [summaries, filters] = await Promise.all([getProgrammaticSummaries(), getProgrammaticFilters()])
+  const sp = (await searchParams) ?? {}
 
   const params = new URLSearchParams()
-  if (searchParams?.tool) params.set("tool", searchParams.tool)
-  if (searchParams?.useCase) params.set("useCase", searchParams.useCase)
-  if (searchParams?.industry) params.set("industry", searchParams.industry)
-  if (searchParams?.q) params.set("q", searchParams.q)
+  if (sp.tool) params.set("tool", sp.tool)
+  if (sp.useCase) params.set("useCase", sp.useCase)
+  if (sp.industry) params.set("industry", sp.industry)
+  if (sp.q) params.set("q", sp.q)
 
-  const query = searchParams?.q?.toLowerCase().trim()
+  const query = sp.q?.toLowerCase().trim()
   const filtered = summaries.filter((summary) => {
-    if (searchParams?.tool && summary.tool !== searchParams.tool) return false
-    if (searchParams?.useCase && summary.useCase !== searchParams.useCase) return false
-    if (searchParams?.industry && summary.industry !== searchParams.industry) return false
+    if (sp.tool && summary.tool !== sp.tool) return false
+    if (sp.useCase && summary.useCase !== sp.useCase) return false
+    if (sp.industry && summary.industry !== sp.industry) return false
     if (query) {
       const haystack = [summary.title, summary.metaDescription, summary.excerpt, summary.tool, summary.useCase, summary.industry]
         .filter(Boolean)
@@ -66,9 +67,9 @@ export default async function AutomationIndex({ searchParams }: AutomationIndexP
   })
 
   const activeFilters = {
-    tool: searchParams?.tool,
-    useCase: searchParams?.useCase,
-    industry: searchParams?.industry,
+    tool: sp.tool,
+    useCase: sp.useCase,
+    industry: sp.industry,
   }
 
   return (
@@ -96,7 +97,7 @@ export default async function AutomationIndex({ searchParams }: AutomationIndexP
                 type="search"
                 name="q"
                 placeholder="Search tools, use cases, industries, or benefits"
-                defaultValue={searchParams?.q ?? ""}
+                defaultValue={sp.q ?? ""}
                 className="bg-card/80 border-border/60 focus-visible:ring-lime-400"
               />
               {activeFilters.tool ? <input type="hidden" name="tool" value={activeFilters.tool} /> : null}

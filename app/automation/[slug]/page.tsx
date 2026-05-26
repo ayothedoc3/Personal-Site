@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button"
 import { getProgrammaticPageBySlug, getProgrammaticSummaries } from "@/lib/programmatic-seo"
 
 interface AutomationDetailProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -17,7 +17,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: AutomationDetailProps): Promise<Metadata> {
-  const page = await getProgrammaticPageBySlug(params.slug)
+  const { slug } = await params
+  const page = await getProgrammaticPageBySlug(slug)
 
   if (!page) {
     return {
@@ -53,7 +54,8 @@ function renderHtml(html: string) {
 }
 
 export default async function AutomationDetailPage({ params }: AutomationDetailProps) {
-  const page = await getProgrammaticPageBySlug(params.slug)
+  const { slug } = await params
+  const page = await getProgrammaticPageBySlug(slug)
 
   if (!page) {
     notFound()

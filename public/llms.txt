@@ -1,0 +1,28 @@
+# Ayothedoc
+
+> Managed AI Operations for growing businesses. We install your company's AI Operating System (AIOS) — wired into your tools and trained on your business — then run it for you. Live in 10 business days. Recover 40+ hours a month or you don't pay.
+
+## What we do
+- Install an AI Operating System: context about your business, connections to your tools, done-for-you automations, and a 24/7 cadence that runs while you don't.
+- Operate and expand it for you on a monthly plan.
+
+## Plans
+- Free AI Readiness Audit: 10-minute score + the three highest-leverage automations for your business.
+- AIOS Install Sprint: one-time, $7,500, live in 10 business days.
+- Foundation: $1,000/mo — system installed, you drive it.
+- Operations (most popular): $2,500/mo — we run it and ship one new automation weekly.
+- Autonomous: $5,000/mo — a 24/7 AI operations layer across the business.
+
+## Guarantee
+Recover 40+ hours a month against your kickoff baseline, or we keep working free until you do. You own everything we build.
+
+## Key pages
+- Home: https://ayothedoc.com/
+- Plans & Pricing: https://ayothedoc.com/offer
+- Free AI Readiness Audit: https://ayothedoc.com/audit
+- What we install: https://ayothedoc.com/services
+- Blog: https://ayothedoc.com/blog
+- Contact: https://ayothedoc.com/contact
+
+## Contact
+Book a 15-minute fit call: https://calendly.com/ayothedoc

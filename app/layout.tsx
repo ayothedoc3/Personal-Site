@@ -7,12 +7,15 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalyticsPageView } from "@/components/google-analytics"
 import "./globals.css"
 
+const SITE_TITLE = "Managed AI Operations for Growing Businesses | Ayothedoc"
+const SITE_DESCRIPTION =
+  "We install your company's AI Operating System — wired into your tools, trained on your business — then run it for you. Live in 10 days. Recover 40+ hours a month or you don't pay."
+
 export const metadata: Metadata = {
-  title: "Automation and AI systems for small business | Ayothedoc",
-  description:
-    "We design and ship automations that cut manual work and unlock growth within 30 days.",
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   keywords:
-    "web development, AI automation, WordPress, Make.com, N8N, business automation, process optimization, digital agency, custom websites, workflow automation",
+    "managed AI operations, AI operating system, AIOS, AI automation agency, done-for-you AI, business automation, workflow automation, AI for small business, n8n, AI consulting",
   authors: [{ name: "Ayothedoc" }],
   creator: "Ayothedoc",
   publisher: "Ayothedoc",
@@ -26,9 +29,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Automation and AI systems for small business | Ayothedoc",
-    description:
-      "We design and ship automations that cut manual work and unlock growth within 30 days.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     url: "https://ayothedoc.com",
     siteName: "Ayothedoc",
     images: [
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ayothedoc - Full Service Digital Agency",
+        alt: "Ayothedoc — Managed AI Operations",
       },
     ],
     locale: "en_US",
@@ -44,8 +46,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Automation and AI systems for small business | Ayothedoc",
-    description: "We design and ship automations that cut manual work and unlock growth within 30 days.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: ["/og-image.jpg"],
     creator: "@ayothedoc",
   },
@@ -60,10 +62,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
-    generator: 'Ayothedoc'
+  generator: "Ayothedoc",
 }
 
 export default function RootLayout({
@@ -108,20 +107,71 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "ProfessionalService",
               name: "Ayothedoc",
-              description: "Full Service Digital Agency specializing in web development and AI automation",
+              description:
+                "Managed AI Operations. We install and run your company's AI Operating System — wired into your tools, trained on your business — then operate it for you.",
               url: "https://ayothedoc.com",
               logo: "https://ayothedoc.com/logo.png",
+              image: "https://ayothedoc.com/og-image.jpg",
+              areaServed: "Worldwide",
+              serviceType: "Managed AI Operations",
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "customer service",
                 availableLanguage: "English",
               },
               sameAs: ["https://twitter.com/ayothedoc", "https://linkedin.com/company/ayothedoc"],
-              offers: {
-                "@type": "Offer",
-                description: "Free consultation for web development and automation services",
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "AI Operations Plans",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    name: "Foundation",
+                    description: "AI Operating System installed and connected; you operate it.",
+                    price: "1000",
+                    priceCurrency: "USD",
+                    priceSpecification: {
+                      "@type": "UnitPriceSpecification",
+                      price: "1000",
+                      priceCurrency: "USD",
+                      billingDuration: 1,
+                      billingIncrement: 1,
+                      unitCode: "MON",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    name: "Operations",
+                    description: "We actively run your AI operations and ship new automations weekly.",
+                    price: "2500",
+                    priceCurrency: "USD",
+                    priceSpecification: {
+                      "@type": "UnitPriceSpecification",
+                      price: "2500",
+                      priceCurrency: "USD",
+                      billingDuration: 1,
+                      billingIncrement: 1,
+                      unitCode: "MON",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    name: "Autonomous",
+                    description: "A 24/7 AI operations layer running across your whole business.",
+                    price: "5000",
+                    priceCurrency: "USD",
+                    priceSpecification: {
+                      "@type": "UnitPriceSpecification",
+                      price: "5000",
+                      priceCurrency: "USD",
+                      billingDuration: 1,
+                      billingIncrement: 1,
+                      unitCode: "MON",
+                    },
+                  },
+                ],
               },
             }),
           }}

@@ -5,9 +5,9 @@ import { SiteHeader } from "@/components/site-header"
 import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
+import { testimonials } from "@/data/testimonials"
 
 export default function Home() {
-  const [isLoaded, setIsLoaded] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
@@ -36,8 +36,6 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    setIsLoaded(true)
-
     window.addEventListener("mousemove", handleMouseMove)
     window.addEventListener("keydown", handleKeyDown)
     window.addEventListener("mousedown", handleMouseDown)
@@ -67,231 +65,333 @@ export default function Home() {
     }
   }, [handleMouseMove, handleKeyDown, handleMouseDown])
 
+  const reveal = (id: string) =>
+    `transition-all duration-1000 ${visibleSections.has(id) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground overflow-hidden relative transition-colors duration-500">
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div
           className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-lime-400/10 to-emerald-400/5 rounded-full blur-3xl animate-pulse transition-transform duration-1000 ease-out"
-          style={{
-            transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`,
-          }}
+          style={{ transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)` }}
         ></div>
         <div
           className="absolute top-1/2 -left-40 w-80 h-80 bg-gradient-to-tr from-lime-400/8 to-cyan-400/4 rounded-full blur-3xl animate-pulse delay-1000 transition-transform duration-1000 ease-out"
-          style={{
-            transform: `translate(${mousePosition.x * -0.015}px, ${mousePosition.y * 0.015}px)`,
-          }}
+          style={{ transform: `translate(${mousePosition.x * -0.015}px, ${mousePosition.y * 0.015}px)` }}
         ></div>
       </div>
 
       {/* Header */}
       <SiteHeader />
 
-      {/* Hero Section */}
       <main id="main-content" className="relative z-10">
-        <section className="min-h-[90vh] flex items-center justify-center px-6 lg:px-12">
-          <div className="text-center max-w-6xl mx-auto">
-            <div
-              className={`transition-all duration-1500 delay-300 ${visibleSections.has('main-content') || isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            >
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6">
-                <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
-                  Automation and AI systems that save 10 to 40 hours per month
-                </span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-                We design and ship automations that cut manual work and unlock growth within 30 days.
-              </p>
+        {/* Hero — visible by default (no JS dependency) for users and crawlers */}
+        <section className="min-h-[88vh] flex items-center justify-center px-6 lg:px-12 pt-16">
+          <div className="text-center max-w-5xl mx-auto">
+            <div className="inline-block bg-card/30 backdrop-blur-xl px-4 py-2 rounded-full border border-border mb-8">
+              <span className="text-lime-400 text-sm font-semibold tracking-wider uppercase">
+                Managed AI Operations
+              </span>
+            </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-                <Link href="/audit">
-                  <Button
-                    onClick={() => trackEvent("cta_click", { cta: "home_hero_free_audit", destination: "/audit" })}
-                    className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
-                  >
-                    Get Your Free Automation Score
-                  </Button>
-                </Link>
+            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+              An enterprise AI team.
+              <br />
+              <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+                Without the enterprise headcount.
+              </span>
+            </h1>
+
+            <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+              We install your company&apos;s AI Operating System — wired into your tools, trained on your
+              business — then run it for you. The repetitive work that eats your week gets handled.
+              Installed in 10 days. Recover 40+ hours a month, or you don&apos;t pay.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-14">
+              <Link href="/audit">
                 <Button
-                  onClick={() => openCalendly("home_hero_book_call")}
+                  onClick={() => trackEvent("cta_click", { cta: "home_hero_free_audit", destination: "/audit" })}
+                  className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
+                >
+                  Get Your Free AI Readiness Audit
+                </Button>
+              </Link>
+              <Link href="/offer">
+                <Button
+                  onClick={() => trackEvent("cta_click", { cta: "home_hero_pricing", destination: "/offer" })}
                   variant="outline"
                   className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110"
                 >
-                  Book a Call
+                  See Plans &amp; Pricing
                 </Button>
-              </div>
+              </Link>
+            </div>
 
-              <p className="text-muted-foreground mb-8">Works with your stack</p>
-              <div className="flex flex-wrap justify-center items-center gap-8 opacity-70">
-                <div className="text-xl font-semibold">Shopify</div>
-                <div className="text-xl font-semibold">WooCommerce</div>
-                <div className="text-xl font-semibold">Notion</div>
-                <div className="text-xl font-semibold">Google Workspace</div>
-                <div className="text-xl font-semibold">Zapier</div>
-                <div className="text-xl font-semibold">n8n</div>
-                <div className="text-xl font-semibold">Apify</div>
-              </div>
+            <p className="text-muted-foreground mb-6">Plugs into the tools you already run on</p>
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 opacity-70 text-lg font-semibold">
+              <span>Gmail</span>
+              <span>Slack</span>
+              <span>HubSpot</span>
+              <span>Notion</span>
+              <span>Google Workspace</span>
+              <span>Stripe</span>
+              <span>n8n</span>
+              <span>Claude</span>
             </div>
           </div>
         </section>
 
-        {/* Services Section */}
-        <section id="services" className="py-20 px-6 lg:px-12 relative" data-animate>
-          <div className="max-w-6xl mx-auto">
+        {/* Problem framing */}
+        <section id="problem" className="py-20 px-6 lg:px-12 relative" data-animate>
+          <div className={`max-w-4xl mx-auto text-center ${reveal("problem")}`}>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">You don&apos;t have a tools problem.</h2>
+            <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+              You have 17 tools already. What you&apos;re missing is the layer that connects them and
+              actually does the work — answering leads in seconds, onboarding clients, chasing follow-ups,
+              and writing the reports nobody has time for. Hiring an operations manager costs $70–90k a year.
+              A developer builds something, then disappears. Your business knowledge stays trapped in your head.
+            </p>
+            <p className="text-xl font-semibold">
+              An AI Operating System fixes that — and we build it, run it, and keep improving it for you.
+            </p>
+          </div>
+        </section>
+
+        {/* What we run for you — the Four Cs */}
+        <section id="pillars" className="py-20 px-6 lg:px-12 relative" data-animate>
+          <div className={`max-w-6xl mx-auto ${reveal("pillars")}`}>
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">What we deliver</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">What we run for you</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Every AI Operating System we install is built on four layers. We set them up, then operate
+                them so the system keeps working while you don&apos;t.
+              </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10">
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
-                  Automation Readiness Assessment
-                </h3>
-                <div className="text-2xl font-bold text-lime-400 mb-2">€49–199</div>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Quick scorecard and roadmap, redeemable against a build.
-                </p>
-                <Link href="/audit">
-                  <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
-                    Start Free Audit
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10">
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
-                  Automation Systems
-                </h3>
-                <div className="text-2xl font-bold text-lime-400 mb-2">from €2,500</div>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Done-for-you workflows that cut manual work in weeks, not months.
-                </p>
-                <Link href="/services">
-                  <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
-                    See Packages
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10">
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
-                  Managed Care Plans
-                </h3>
-                <div className="text-2xl font-bold text-lime-400 mb-2">€600–3,000/mo</div>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Ongoing monitoring, fixes, and improvements.
-                </p>
-                <Link href="/services#care">
-                  <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
-                    View Care Plans
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10">
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-lime-400 transition-colors duration-300">
-                  Custom Builds
-                </h3>
-                <div className="text-2xl font-bold text-lime-400 mb-2">Custom pricing</div>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Full-stack apps and dashboards when you need more than a workflow.
-                </p>
-                <Link href="/contact">
-                  <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full font-semibold transition-all duration-500 hover:scale-105">
-                    Talk to Us
-                  </Button>
-                </Link>
-              </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: "Context",
+                  body: "Your business, your voice, your priorities — captured so the system answers like your best teammate, not a stranger.",
+                },
+                {
+                  title: "Connections",
+                  body: "Wired into your inbox, CRM, calendar, docs, and billing so it works from live data, never copy-paste.",
+                },
+                {
+                  title: "Capabilities",
+                  body: "Done-for-you workflows that draft, route, summarize, and report — your SOPs turned into reliable automations.",
+                },
+                {
+                  title: "Cadence",
+                  body: "Runs on a schedule while your laptop is closed. Briefs land, follow-ups send, reports ship — unprompted.",
+                },
+              ].map((p) => (
+                <div
+                  key={p.title}
+                  className="group p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-lime-400/10"
+                >
+                  <h3 className="text-2xl font-bold mb-3 group-hover:text-lime-400 transition-colors duration-300">
+                    {p.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">{p.body}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Case Study Section */}
-        <section id="case-study" className="py-20 px-6 lg:px-12 relative" data-animate>
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block bg-card/30 backdrop-blur-xl px-4 py-2 rounded-full border border-border mb-6">
-              <span className="text-lime-400 text-sm font-semibold tracking-wider uppercase">Client result</span>
+        {/* Pricing — the core offer */}
+        <section id="pricing" className="py-20 px-6 lg:px-12 relative" data-animate>
+          <div className={`max-w-6xl mx-auto ${reveal("pricing")}`}>
+            <div className="text-center mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Choose the right level of AI operations</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Every engagement starts with a one-time install ($7,500, live in 10 business days). After
+                that, we run and expand your system on a monthly plan.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Order to ticketing automation cut manual time by 80 percent in 21 days</h2>
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
-                <div className="text-2xl font-bold text-lime-400 mb-2">25 hours</div>
-                <p className="text-muted-foreground">Saved per month across support</p>
+
+            <div className="grid md:grid-cols-3 gap-8 mt-12">
+              {/* Foundation */}
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 flex flex-col">
+                <h3 className="text-2xl font-bold mb-2">Foundation</h3>
+                <div className="text-3xl font-bold text-lime-400 mb-1">$1,000<span className="text-base text-muted-foreground font-normal">/mo</span></div>
+                <p className="text-sm text-muted-foreground mb-6">For owners who want the system in place and will drive it themselves.</p>
+                <ul className="space-y-3 text-muted-foreground mb-8 flex-1">
+                  <li>✓ AIOS installed + tools connected</li>
+                  <li>✓ Context + voice trained on your business</li>
+                  <li>✓ Up to 2 core automations live</li>
+                  <li>✓ Monthly health check + fixes</li>
+                </ul>
+                <Link href="/offer">
+                  <Button className="w-full bg-card border border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 rounded-full font-semibold transition-all duration-300">
+                    Start with Foundation
+                  </Button>
+                </Link>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
-                <div className="text-2xl font-bold text-lime-400 mb-2">90%</div>
-                <p className="text-muted-foreground">Reduced missed follow ups</p>
+
+              {/* Operations — Most Popular */}
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border-2 border-lime-400 flex flex-col relative scale-105 shadow-2xl shadow-lime-400/10">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-lime-400 text-gray-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
+                  Most Popular
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Operations</h3>
+                <div className="text-3xl font-bold text-lime-400 mb-1">$2,500<span className="text-base text-muted-foreground font-normal">/mo</span></div>
+                <p className="text-sm text-muted-foreground mb-6">We actively run your operations and ship new leverage every week.</p>
+                <ul className="space-y-3 text-muted-foreground mb-8 flex-1">
+                  <li>✓ Everything in Foundation</li>
+                  <li>✓ One new automation shipped weekly</li>
+                  <li>✓ Lead-to-follow-up engine (under 60s)</li>
+                  <li>✓ Automated client reporting</li>
+                  <li>✓ Priority support + monitoring</li>
+                </ul>
+                <Link href="/offer">
+                  <Button className="w-full bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 rounded-full font-semibold transition-all duration-300 hover:scale-105">
+                    Get Operations
+                  </Button>
+                </Link>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
-                <div className="text-2xl font-bold text-lime-400 mb-2">Weekly</div>
-                <p className="text-muted-foreground">Added report for ops</p>
+
+              {/* Autonomous */}
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 flex flex-col">
+                <h3 className="text-2xl font-bold mb-2">Autonomous</h3>
+                <div className="text-3xl font-bold text-lime-400 mb-1">$5,000<span className="text-base text-muted-foreground font-normal">/mo</span></div>
+                <p className="text-sm text-muted-foreground mb-6">A 24/7 AI operations layer running across your whole business.</p>
+                <ul className="space-y-3 text-muted-foreground mb-8 flex-1">
+                  <li>✓ Everything in Operations</li>
+                  <li>✓ Agents running 24/7 on a schedule</li>
+                  <li>✓ Multi-department coverage</li>
+                  <li>✓ Dedicated strategist + same-day response</li>
+                  <li>✓ Quarterly roadmap + KPI reviews</li>
+                </ul>
+                <Link href="/offer">
+                  <Button className="w-full bg-card border border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 rounded-full font-semibold transition-all duration-300">
+                    Talk about Autonomous
+                  </Button>
+                </Link>
               </div>
             </div>
+
+            <p className="text-center text-muted-foreground mt-10">
+              Not sure where to start?{" "}
+              <Link href="/audit" className="text-lime-400 font-semibold hover:underline">
+                Take the free AI Readiness Audit
+              </Link>{" "}
+              and we&apos;ll recommend the right level.
+            </p>
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section id="testimonials" className="py-20 px-6 lg:px-12 relative" data-animate>
-          <div className="max-w-6xl mx-auto">
+        {/* How it works */}
+        <section id="how" className="py-20 px-6 lg:px-12 relative" data-animate>
+          <div className={`max-w-5xl mx-auto ${reveal("how")}`}>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">From audit to autopilot in 30 days</h2>
+            </div>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+              {[
+                { step: "01", title: "Audit", time: "Free · 10 minutes", body: "Score your AI readiness and surface the three highest-leverage automations for your business." },
+                { step: "02", title: "Install", time: "10 business days", body: "We wire up your tools, train the system on your business, and ship your first working automations." },
+                { step: "03", title: "Operate", time: "Ongoing", body: "We run it, monitor it, and ship new leverage on your plan — measured against your kickoff baseline." },
+              ].map((s) => (
+                <div key={s.step} className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+                  <div className="text-lime-400 text-sm font-bold tracking-widest mb-2">STEP {s.step}</div>
+                  <h3 className="text-2xl font-bold mb-1">{s.title}</h3>
+                  <div className="text-sm text-muted-foreground mb-4">{s.time}</div>
+                  <p className="text-muted-foreground leading-relaxed">{s.body}</p>
                 </div>
-                <p className="text-muted-foreground mb-6 leading-relaxed">"The workflows turned manual processes into growth engines. We saw results in weeks."</p>
-                <div className="font-semibold">Emily Rodriguez, Founder, Digital Dynamics</div>
-              </div>
-
-              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 leading-relaxed">"Custom automations saved us more than 20 hours per week. Fast return on investment."</p>
-                <div className="font-semibold">Sarah Johnson, CEO, TechStart Solutions</div>
-              </div>
-
-              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-lime-400/50 transition-all duration-500 hover:scale-105">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-6 leading-relaxed">"We launched internal tools 60 percent faster and kept scaling."</p>
-                <div className="font-semibold">Michael Chen, Operations Director, GrowthLab</div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
+        {/* Why us / trust — honest signals, no fabricated testimonials */}
+        <section id="trust" className="py-20 px-6 lg:px-12 relative" data-animate>
+          <div className={`max-w-6xl mx-auto ${reveal("trust")}`}>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Why teams trust us to run it</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+                <h3 className="text-xl font-bold mb-3 text-lime-400">A baseline-backed guarantee</h3>
+                <p className="text-muted-foreground leading-relaxed">We capture your manual-hours baseline at kickoff and measure against it. Recover 40+ hours a month or we keep working free until you do.</p>
+              </div>
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+                <h3 className="text-xl font-bold mb-3 text-lime-400">You own everything</h3>
+                <p className="text-muted-foreground leading-relaxed">The system, the automations, the documentation — all yours. No black boxes, no lock-in. Cancel anytime and keep what we built.</p>
+              </div>
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+                <h3 className="text-xl font-bold mb-3 text-lime-400">Boring is beautiful</h3>
+                <p className="text-muted-foreground leading-relaxed">We use the least AI necessary and the simplest reliable workflow. Fewer moving parts, fewer failures, systems you can actually trust.</p>
+              </div>
+            </div>
 
+            {/* Real testimonials render here automatically once data/testimonials.ts has entries. */}
+            {testimonials.length > 0 ? (
+              <div className="grid md:grid-cols-3 gap-8 mt-12">
+                {testimonials.map((t) => (
+                  <div
+                    key={t.name}
+                    className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50"
+                  >
+                    {t.result ? <div className="text-lime-400 font-bold mb-3">{t.result}</div> : null}
+                    <p className="text-muted-foreground mb-6 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+                    <div className="font-semibold">
+                      {t.name}
+                      <span className="text-muted-foreground font-normal"> — {t.title}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </section>
 
-        {/* Final CTA Section */}
+        {/* FAQ */}
+        <section id="faq" className="py-20 px-6 lg:px-12 relative" data-animate>
+          <div className={`max-w-3xl mx-auto ${reveal("faq")}`}>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Common questions</h2>
+            </div>
+            <div className="space-y-4">
+              {[
+                { q: "Does this replace my team?", a: "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery." },
+                { q: "What happens if an automation breaks?", a: "We monitor every workflow and fix issues as part of your plan. You get alerts and a clear log of every run — no silent failures." },
+                { q: "Who owns the system?", a: "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system." },
+                { q: "How fast until I see ROI?", a: "First automations are live within 10 business days. We measure recovered hours against your kickoff baseline over the following 30 days." },
+                { q: "Do I need to be technical?", a: "Not at all. You bring the business context; we handle the build, the connections, and the running of it." },
+              ].map((item) => (
+                <details key={item.q} className="group p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex justify-between items-center">
+                    {item.q}
+                    <span className="text-lime-400 transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
+                  </summary>
+                  <p className="text-muted-foreground leading-relaxed mt-4">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
         <section className="py-20 px-6 lg:px-12 relative">
           <div className="max-w-4xl mx-auto text-center">
             <div className="p-12 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 backdrop-blur-sm">
-              <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                Ready to save 10 to 40 hours each month
-              </h2>
-              
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">See where AI can run your business</h2>
+              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Take the free AI Readiness Audit. Ten minutes, no credit card. You&apos;ll get a score and the
+                three automations worth building first.
+              </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Link href="/audit">
                   <Button
                     onClick={() => trackEvent("cta_click", { cta: "home_final_free_audit", destination: "/audit" })}
                     className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                   >
-                    Get Your Free Automation Score
+                    Get Your Free AI Readiness Audit
                   </Button>
                 </Link>
                 <Button
@@ -310,25 +410,22 @@ export default function Home() {
         <footer className="py-12 px-6 lg:px-12 border-t border-border/50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold mb-4">The Fastest Way to Build What's Next</h3>
+              <h3 className="text-2xl font-bold mb-4">Managed AI Operations for growing businesses</h3>
             </div>
-            
             <div className="grid md:grid-cols-2 gap-8 text-center md:text-left">
               <div>
-                <h4 className="font-bold mb-4">Services</h4>
+                <h4 className="font-bold mb-4">Offer</h4>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>AI Strategy</li>
-                  <li>Custom Development</li>
-                  <li>Data Analytics</li>
-                  <li>Process Automation</li>
+                  <li><Link href="/audit" className="hover:text-lime-400">Free AI Readiness Audit</Link></li>
+                  <li><Link href="/offer" className="hover:text-lime-400">Plans &amp; Pricing</Link></li>
+                  <li><Link href="/services" className="hover:text-lime-400">What we install</Link></li>
                 </ul>
               </div>
               <div>
                 <h4 className="font-bold mb-4">Connect</h4>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>Contact</li>
-                  <li>Skool Community</li>
-                  <li>1:1 Coaching</li>
+                  <li><Link href="/contact" className="hover:text-lime-400">Contact</Link></li>
+                  <li><Link href="/blog" className="hover:text-lime-400">Blog</Link></li>
                 </ul>
               </div>
             </div>
