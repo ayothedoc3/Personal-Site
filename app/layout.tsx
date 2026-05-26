@@ -1,4 +1,5 @@
 import type React from "react"
+import { Suspense } from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
 import { GeistSans } from "geist/font/sans"
@@ -187,7 +188,11 @@ html {
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="ayothedoc-ui-theme">
-          {gaMeasurementId ? <GoogleAnalyticsPageView measurementId={gaMeasurementId} /> : null}
+          {gaMeasurementId ? (
+            <Suspense fallback={null}>
+              <GoogleAnalyticsPageView measurementId={gaMeasurementId} />
+            </Suspense>
+          ) : null}
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-lime-400 focus:text-gray-900 focus:rounded-lg focus:font-semibold"
