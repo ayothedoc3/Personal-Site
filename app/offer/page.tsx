@@ -6,14 +6,14 @@ import { SiteHeader } from "@/components/site-header"
 import { CheckoutLink } from "@/components/checkout-link"
 
 export const metadata: Metadata = {
-  title: "Plans & Pricing — Managed AI Operations | Ayothedoc",
+  title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
   description:
     "Install your AI Operating System in 10 days, then run it on a monthly plan: Foundation $1,000, Operations $2,500, or Autonomous $5,000. Recover 40+ hours a month or you don't pay.",
   alternates: {
     canonical: "/offer",
   },
   openGraph: {
-    title: "Plans & Pricing — Managed AI Operations | Ayothedoc",
+    title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
     description:
       "Install your AI Operating System in 10 days, then run it on a monthly plan. Recover 40+ hours a month or you don't pay.",
     url: "https://ayothedoc.com/offer",
@@ -92,7 +92,7 @@ export default function OfferPage() {
               Install once. Then we run your AI operations.
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 max-w-3xl mx-auto leading-relaxed">
-              Every engagement starts with a one-time install — your AI Operating System wired into your tools
+              Every engagement starts with a one-time install, your AI Operating System wired into your tools
               and live in 10 business days. After that, we operate and expand it on a monthly plan.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
@@ -117,7 +117,7 @@ export default function OfferPage() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Step 1 · One-time</div>
-                <h2 className="text-2xl md:text-3xl font-bold mt-2">AIOS Install Sprint — $7,500</h2>
+                <h2 className="text-2xl md:text-3xl font-bold mt-2">AIOS Install Sprint: $7,500</h2>
                 <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
                   In 10 business days we wire up your tools, train the system on your business, and ship your
                   first working automations. You see recovered hours measured against your kickoff baseline.
@@ -202,7 +202,7 @@ export default function OfferPage() {
             <h2 className="text-3xl md:text-4xl font-bold">Works with your stack</h2>
             <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
               Gmail, Outlook, HubSpot, Pipedrive, ClickUp, Asana, Slack, Google Workspace, Stripe, QuickBooks,
-              Notion, Zapier, Make.com, n8n — bring what you already use.
+              Notion, Zapier, Make.com, n8n, bring what you already use.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/audit">

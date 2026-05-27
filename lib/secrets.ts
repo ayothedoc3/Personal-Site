@@ -6,8 +6,8 @@ import { getPgPool } from "@/lib/db"
  *
  * Provider API keys (Anthropic, OpenAI, OpenRouter, Gemini, Stripe …) are
  * encrypted at rest with AES-256-GCM and stored in Postgres. The master key
- * lives ONLY in the SECRETS_ENCRYPTION_KEY env var — never in the database or
- * the repo — so a database dump alone can never reveal a usable key.
+ * lives ONLY in the SECRETS_ENCRYPTION_KEY env var, never in the database or
+ * the repo, so a database dump alone can never reveal a usable key.
  *
  * Hard rules enforced here:
  *  - Plaintext keys are decrypted only server-side, on demand, for outbound
@@ -87,7 +87,7 @@ function decrypt(blob: string): string {
   return Buffer.concat([decipher.update(ct), decipher.final()]).toString("utf8")
 }
 
-// Masked preview for the UI — never the real key.
+// Masked preview for the UI, never the real key.
 function mask(plaintext: string): { hint: string; last4: string } {
   const k = plaintext.trim()
   const last4 = k.slice(-4)

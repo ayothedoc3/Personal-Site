@@ -87,7 +87,7 @@ export default function Services() {
             style={{ animationDelay: "0.6s" }}
           >
             We install and run your company&apos;s AI Operating System. These are the building blocks we set up,
-            wire into your tools, and operate for you — so the repetitive work runs itself.
+            wire into your tools, and operate for you, so the repetitive work runs itself.
           </p>
         </div>
       </section>
@@ -107,7 +107,7 @@ export default function Services() {
                 ),
                 title: "Context Engine",
                 description:
-                  "We capture your business, voice, offers, and priorities so the system answers like your sharpest teammate — not a stranger.",
+                  "We capture your business, voice, offers, and priorities so the system answers like your sharpest teammate, not a stranger.",
                 features: [
                   "Business + offer knowledge base",
                   "Your writing voice, captured",
@@ -125,7 +125,7 @@ export default function Services() {
                 ),
                 title: "Tool Connections",
                 description:
-                  "We wire the AIOS into the tools you already run on so it works from live data — never copy-paste.",
+                  "We wire the AIOS into the tools you already run on so it works from live data, never copy-paste.",
                 features: [
                   "Email + calendar (Gmail/Outlook)",
                   "CRM (HubSpot/Pipedrive/etc.)",
@@ -143,7 +143,7 @@ export default function Services() {
                 ),
                 title: "Lead-to-Booked Engine",
                 description:
-                  "Every new lead gets captured, routed, and followed up in under 60 seconds — then booked onto your calendar.",
+                  "Every new lead gets captured, routed, and followed up in under 60 seconds, then booked onto your calendar.",
                 features: [
                   "Form → CRM in real time",
                   "Instant first follow-up",
@@ -161,7 +161,7 @@ export default function Services() {
                 ),
                 title: "Client Reporting & Ops",
                 description:
-                  "Onboarding, status updates, and recurring reports generated and sent — so your team stops doing work about work.",
+                  "Onboarding, status updates, and recurring reports generated and sent, so your team stops doing work about work.",
                 features: [
                   "Onboarding sequences",
                   "Delivery status updates",
@@ -179,7 +179,7 @@ export default function Services() {
                 ),
                 title: "24/7 Cadence",
                 description:
-                  "The AIOS runs on a schedule while your laptop is closed — briefs land, follow-ups send, reports ship, unprompted.",
+                  "The AIOS runs on a schedule while your laptop is closed, briefs land, follow-ups send, reports ship, unprompted.",
                 features: [
                   "Scheduled daily/weekly runs",
                   "Morning briefs + digests",
@@ -197,7 +197,7 @@ export default function Services() {
                 ),
                 title: "Monitoring & Care",
                 description:
-                  "We run it, watch it, fix it, and ship new automations every week — measured against your kickoff baseline.",
+                  "We run it, watch it, fix it, and ship new automations every week, measured against your kickoff baseline.",
                 features: [
                   "Health checks + alerts",
                   "Bug fixes + incident response",
@@ -275,7 +275,7 @@ export default function Services() {
           </p>
           <Link href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-              <span className="group-hover:scale-110 transition-transform duration-200">Get Your Lead Engine — Free</span>
+              <span className="group-hover:scale-110 transition-transform duration-200">Get Your Lead Engine Free</span>
             </Button>
           </Link>
         </div>

@@ -85,8 +85,8 @@ export default function About() {
             id="about-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Ayothedoc installs and runs your company&apos;s AI Operating System — the layer that connects your tools
-            and handles the repetitive work — so your team stops being the bottleneck. Managed, measured, and built to
+            Ayothedoc installs and runs your company&apos;s AI Operating System, the layer that connects your tools
+            and handles the repetitive work, so your team stops being the bottleneck. Managed, measured, and built to
             run while you don&apos;t.
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function About() {
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
                 Ayothedoc started where most operators get stuck: drowning in repetitive work, with business knowledge
                 trapped in one person&apos;s head and tools that don&apos;t talk to each other. The fix wasn&apos;t
-                another app — it was an operating system that ties them together and does the work.
+                another app, it was an operating system that ties them together and does the work.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
                 We've witnessed firsthand how the right technology can transform operations, save countless hours, and
@@ -116,7 +116,7 @@ export default function About() {
                 understandable for businesses of all sizes.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed hover:text-foreground/80 transition-colors duration-300">
-                Today we install that system for growing businesses and run it for them — wiring in their tools,
+                Today we install that system for growing businesses and run it for them, wiring in their tools,
                 shipping new automations every week, and keeping it all measured against a real baseline.
               </p>
             </div>

@@ -27,7 +27,7 @@ function rateLimited(ip: string): boolean {
 
 async function captchaOk(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY
-  if (!secret) return true // not configured yet — honeypot + rate limit still apply
+  if (!secret) return true // not configured yet, honeypot + rate limit still apply
   if (!token) return false
   try {
     const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {

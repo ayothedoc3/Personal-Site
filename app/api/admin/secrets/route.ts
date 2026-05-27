@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 
 /**
  * Admin BYOK management. All routes require the admin bearer (LEADS_API_KEY).
- * Responses only ever contain masked metadata — the plaintext key is write-only
+ * Responses only ever contain masked metadata, the plaintext key is write-only
  * from the client's perspective and can never be read back through the API.
  */
 

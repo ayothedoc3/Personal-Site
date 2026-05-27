@@ -86,7 +86,7 @@ export default function Home() {
       <SiteHeader />
 
       <main id="main-content" className="relative z-10">
-        {/* Hero — visible by default (no JS dependency) for users and crawlers */}
+        {/* Hero, visible by default (no JS dependency) for users and crawlers */}
         <section className="min-h-[88vh] flex items-center justify-center px-6 lg:px-12 pt-16">
           <div className="text-center max-w-5xl mx-auto">
             <div className="inline-block bg-card/30 backdrop-blur-xl px-4 py-2 rounded-full border border-border mb-8">
@@ -105,7 +105,7 @@ export default function Home() {
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
               Most agencies lose deals to slow follow-up. We&apos;ll build you a system that replies to every new
-              lead in under 60 seconds — personalized, in your voice, with your booking link — and we&apos;ll build
+              lead in under 60 seconds, personalized, in your voice, with your booking link, and we&apos;ll build
               the first one <strong className="text-foreground">free</strong>. Then we run the rest of your operations.
             </p>
 
@@ -115,7 +115,7 @@ export default function Home() {
                   onClick={() => trackEvent("cta_click", { cta: "home_hero_free_engine", destination: "/contact" })}
                   className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                 >
-                  Get Your Lead Engine — Free
+                  Get Your Lead Engine Free
                 </Button>
               </Link>
               <Link href="/offer">
@@ -149,17 +149,17 @@ export default function Home() {
             <h2 className="text-3xl md:text-5xl font-bold mb-6">You don&apos;t have a tools problem.</h2>
             <p className="text-xl text-muted-foreground leading-relaxed mb-8">
               You have 17 tools already. What you&apos;re missing is the layer that connects them and
-              actually does the work — answering leads in seconds, onboarding clients, chasing follow-ups,
+              actually does the work, answering leads in seconds, onboarding clients, chasing follow-ups,
               and writing the reports nobody has time for. Hiring an operations manager costs $70–90k a year.
               A developer builds something, then disappears. Your business knowledge stays trapped in your head.
             </p>
             <p className="text-xl font-semibold">
-              An AI Operating System fixes that — and we build it, run it, and keep improving it for you.
+              An AI Operating System fixes that, and we build it, run it, and keep improving it for you.
             </p>
           </div>
         </section>
 
-        {/* What we run for you — the Four Cs */}
+        {/* What we run for you, the Four Cs */}
         <section id="pillars" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-6xl mx-auto ${reveal("pillars")}`}>
             <div className="text-center mb-16">
@@ -174,7 +174,7 @@ export default function Home() {
               {[
                 {
                   title: "Context",
-                  body: "Your business, your voice, your priorities — captured so the system answers like your best teammate, not a stranger.",
+                  body: "Your business, your voice, your priorities, captured so the system answers like your best teammate, not a stranger.",
                 },
                 {
                   title: "Connections",
@@ -182,11 +182,11 @@ export default function Home() {
                 },
                 {
                   title: "Capabilities",
-                  body: "Done-for-you workflows that draft, route, summarize, and report — your SOPs turned into reliable automations.",
+                  body: "Done-for-you workflows that draft, route, summarize, and report, your SOPs turned into reliable automations.",
                 },
                 {
                   title: "Cadence",
-                  body: "Runs on a schedule while your laptop is closed. Briefs land, follow-ups send, reports ship — unprompted.",
+                  body: "Runs on a schedule while your laptop is closed. Briefs land, follow-ups send, reports ship, unprompted.",
                 },
               ].map((p) => (
                 <div
@@ -203,7 +203,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing — the core offer */}
+        {/* Pricing, the core offer */}
         <section id="pricing" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-6xl mx-auto ${reveal("pricing")}`}>
             <div className="text-center mb-6">
@@ -233,7 +233,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Operations — Most Popular */}
+              {/* Operations, Most Popular */}
               <div className="p-8 rounded-2xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border-2 border-lime-400 flex flex-col relative scale-105 shadow-2xl shadow-lime-400/10">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-lime-400 text-gray-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
                   Most Popular
@@ -295,7 +295,7 @@ export default function Home() {
               {[
                 { step: "01", title: "Audit", time: "Free · 10 minutes", body: "Score your AI readiness and surface the three highest-leverage automations for your business." },
                 { step: "02", title: "Install", time: "10 business days", body: "We wire up your tools, train the system on your business, and ship your first working automations." },
-                { step: "03", title: "Operate", time: "Ongoing", body: "We run it, monitor it, and ship new leverage on your plan — measured against your kickoff baseline." },
+                { step: "03", title: "Operate", time: "Ongoing", body: "We run it, monitor it, and ship new leverage on your plan, measured against your kickoff baseline." },
               ].map((s) => (
                 <div key={s.step} className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                   <div className="text-lime-400 text-sm font-bold tracking-widest mb-2">STEP {s.step}</div>
@@ -308,7 +308,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why us / trust — honest signals, no fabricated testimonials */}
+        {/* Why us / trust, honest signals, no fabricated testimonials */}
         <section id="trust" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-6xl mx-auto ${reveal("trust")}`}>
             <div className="text-center mb-16">
@@ -321,7 +321,7 @@ export default function Home() {
               </div>
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                 <h3 className="text-xl font-bold mb-3 text-lime-400">You own everything</h3>
-                <p className="text-muted-foreground leading-relaxed">The system, the automations, the documentation — all yours. No black boxes, no lock-in. Cancel anytime and keep what we built.</p>
+                <p className="text-muted-foreground leading-relaxed">The system, the automations, the documentation, all yours. No black boxes, no lock-in. Cancel anytime and keep what we built.</p>
               </div>
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                 <h3 className="text-xl font-bold mb-3 text-lime-400">Boring is beautiful</h3>
@@ -341,7 +341,7 @@ export default function Home() {
                     <p className="text-muted-foreground mb-6 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
                     <div className="font-semibold">
                       {t.name}
-                      <span className="text-muted-foreground font-normal"> — {t.title}</span>
+                      <span className="text-muted-foreground font-normal">, {t.title}</span>
                     </div>
                   </div>
                 ))}
@@ -359,7 +359,7 @@ export default function Home() {
             <div className="space-y-4">
               {[
                 { q: "Does this replace my team?", a: "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery." },
-                { q: "What happens if an automation breaks?", a: "We monitor every workflow and fix issues as part of your plan. You get alerts and a clear log of every run — no silent failures." },
+                { q: "What happens if an automation breaks?", a: "We monitor every workflow and fix issues as part of your plan. You get alerts and a clear log of every run, no silent failures." },
                 { q: "Who owns the system?", a: "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system." },
                 { q: "How fast until I see ROI?", a: "First automations are live within 10 business days. We measure recovered hours against your kickoff baseline over the following 30 days." },
                 { q: "Do I need to be technical?", a: "Not at all. You bring the business context; we handle the build, the connections, and the running of it." },
@@ -382,7 +382,7 @@ export default function Home() {
             <div className="p-12 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 backdrop-blur-sm">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">Stop losing leads to slow follow-up</h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                We&apos;ll build your 60-Second Lead Engine free, on your real leads — no card, no risk. If it books
+                We&apos;ll build your 60-Second Lead Engine free, on your real leads, no card, no risk. If it books
                 calls you&apos;d have missed, we talk about running the rest of your operations.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -391,7 +391,7 @@ export default function Home() {
                     onClick={() => trackEvent("cta_click", { cta: "home_final_free_engine", destination: "/contact" })}
                     className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                   >
-                    Get Your Lead Engine — Free
+                    Get Your Lead Engine Free
                   </Button>
                 </Link>
                 <Button

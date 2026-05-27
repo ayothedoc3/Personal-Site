@@ -53,7 +53,7 @@ export default function RefundPage() {
 
             <h2>Chargebacks</h2>
             <p>
-              Please contact us before opening a payment dispute — most issues are resolved faster directly.
+              Please contact us before opening a payment dispute, most issues are resolved faster directly.
             </p>
           </div>
 

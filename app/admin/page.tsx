@@ -172,7 +172,7 @@ export default function AdminPage() {
       } else {
         setCampaignResult(
           `✅ Sent ${data.sent}/${data.total}${data.failed ? `, ${data.failed} failed` : ""}` +
-            (data.error ? ` — ${data.error}` : ""),
+            (data.error ? `, ${data.error}` : ""),
         )
       }
     } catch {
@@ -304,10 +304,10 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {[
                 { label: "Total leads", value: stats?.total ?? leads.length },
-                { label: "Last 7 days", value: stats?.last7d ?? "—" },
-                { label: "Opted-in", value: stats?.optedIn ?? "—" },
-                { label: "High intent (3h+/day)", value: stats?.highIntent ?? "—" },
-                { label: "Avg hrs/day reported", value: stats?.avgHoursPerDay ?? "—" },
+                { label: "Last 7 days", value: stats?.last7d ?? ", " },
+                { label: "Opted-in", value: stats?.optedIn ?? ", " },
+                { label: "High intent (3h+/day)", value: stats?.highIntent ?? ", " },
+                { label: "Avg hrs/day reported", value: stats?.avgHoursPerDay ?? ", " },
               ].map((m) => (
                 <Card key={m.label}>
                   <CardContent className="p-5">
@@ -367,7 +367,7 @@ export default function AdminPage() {
                     </div>
                     <div className="space-y-2 text-sm">
                       <div><span className="text-muted-foreground">Repetitive hours/day: </span><span className="font-bold text-red-500">{lead.timeSpentDaily}</span></div>
-                      <div className="text-muted-foreground bg-muted/40 p-3 rounded-lg">{lead.currentChallenges || "—"}</div>
+                      <div className="text-muted-foreground bg-muted/40 p-3 rounded-lg">{lead.currentChallenges || ", "}</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -448,8 +448,7 @@ export default function AdminPage() {
                   <p className="font-semibold">Keys are encrypted at rest (AES-256-GCM).</p>
                   <p className="text-muted-foreground mt-1">
                     Stored keys are encrypted with a master key that lives only in the server environment, never in the
-                    database. Keys are decrypted only server-side for outbound API calls and are never shown here in full
-                    — only a masked preview.
+                    database. Keys are decrypted only server-side for outbound API calls and are never shown here in full, only a masked preview.
                   </p>
                 </div>
               </div>

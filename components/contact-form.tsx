@@ -131,7 +131,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...sanitizedData,
-          website: honeypotValue, // honeypot — server silent-drops if filled
+          website: honeypotValue, // honeypot, server silent-drops if filled
           formStartTime,
           turnstileToken, // captcha token (verified server-side when configured)
         }),
@@ -317,7 +317,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         {/* Honeypot Field */}
         <Honeypot value={honeypotValue} onChange={setHoneypotValue} />
 
-        {/* Captcha (Cloudflare Turnstile) — renders only when NEXT_PUBLIC_TURNSTILE_SITE_KEY is set */}
+        {/* Captcha (Cloudflare Turnstile), renders only when NEXT_PUBLIC_TURNSTILE_SITE_KEY is set */}
         <Turnstile onToken={setTurnstileToken} />
 
         {/* Submit Button */}

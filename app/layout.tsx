@@ -10,7 +10,7 @@ import "./globals.css"
 
 const SITE_TITLE = "Managed AI Operations for Growing Businesses | Ayothedoc"
 const SITE_DESCRIPTION =
-  "We install your company's AI Operating System — wired into your tools, trained on your business — then run it for you. Live in 10 days. Recover 40+ hours a month or you don't pay."
+  "We install your company's AI Operating System, wired into your tools, trained on your business, then run it for you. Live in 10 days. Recover 40+ hours a month or you don't pay."
 
 export const metadata: Metadata = {
   title: SITE_TITLE,
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ayothedoc — Managed AI Operations",
+        alt: "Ayothedoc: Managed AI Operations",
       },
     ],
     locale: "en_US",
@@ -111,7 +111,7 @@ export default function RootLayout({
               "@type": "ProfessionalService",
               name: "Ayothedoc",
               description:
-                "Managed AI Operations. We install and run your company's AI Operating System — wired into your tools, trained on your business — then operate it for you.",
+                "Managed AI Operations. We install and run your company's AI Operating System, wired into your tools, trained on your business, then operate it for you.",
               url: "https://ayothedoc.com",
               logo: "https://ayothedoc.com/logo.png",
               image: "https://ayothedoc.com/og-image.jpg",

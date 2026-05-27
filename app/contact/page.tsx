@@ -260,7 +260,7 @@ export default function Contact() {
               {
                 question: "Can you work with my existing tools?",
                 answer:
-                  "Yes — that's the point. We wire the AIOS into the tools you already use (email, CRM, calendar, billing, docs) so it works from live data, not copy-paste.",
+                  "Yes, that's the point. We wire the AIOS into the tools you already use (email, CRM, calendar, billing, docs) so it works from live data, not copy-paste.",
               },
             ].map((faq, index) => (
               <div

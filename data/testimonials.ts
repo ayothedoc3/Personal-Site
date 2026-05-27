@@ -1,5 +1,5 @@
 export type Testimonial = {
-  /** Exact client quote — paste verbatim, do not fabricate. */
+  /** Exact client quote, paste verbatim, do not fabricate. */
   quote: string
   /** Person's name. */
   name: string
@@ -12,7 +12,7 @@ export type Testimonial = {
 /**
  * Real client testimonials only. Leave empty until you have genuine quotes.
  * The homepage testimonials section renders automatically once this array
- * has at least one entry — and stays hidden while it's empty.
+ * has at least one entry, and stays hidden while it's empty.
  *
  * Example entry (delete this comment and replace with real data):
  *   {

@@ -51,9 +51,9 @@ export default function PrivacyPage() {
 
             <h2>4. Third parties we share with</h2>
             <ul>
-              <li><strong>Stripe</strong> — payment processing</li>
-              <li><strong>Google Analytics</strong> — website analytics</li>
-              <li><strong>EmailJS / Resend</strong> — delivering contact-form and transactional emails</li>
+              <li><strong>Stripe</strong>: payment processing</li>
+              <li><strong>Google Analytics</strong>: website analytics</li>
+              <li><strong>EmailJS / Resend</strong>: delivering contact-form and transactional emails</li>
               <li>Hosting and infrastructure providers</li>
             </ul>
             <p>We do not sell your personal data.</p>
