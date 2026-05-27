@@ -6,12 +6,14 @@ import fs from 'fs'
 import path from 'path'
 
 import { insertAuditLead } from '@/lib/db'
+import { getProviderKey } from '@/lib/secrets'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-function getGeminiClient(): GoogleGenerativeAI | null {
-  const apiKey = process.env.GEMINI_API_KEY
+// Resolves the Gemini key from the BYOK store first, then GEMINI_API_KEY.
+async function getGeminiClient(): Promise<GoogleGenerativeAI | null> {
+  const apiKey = await getProviderKey('gemini')
   if (!apiKey) return null
   return new GoogleGenerativeAI(apiKey)
 }
@@ -194,9 +196,9 @@ export async function POST(request: NextRequest) {
       optin_marketing: optin_marketing || false,
     })
 
-    const genAI = getGeminiClient()
+    const genAI = await getGeminiClient()
     if (!genAI) {
-      console.error('GEMINI_API_KEY is not configured - returning success without AI report')
+      console.error('No Gemini key (store or GEMINI_API_KEY) - returning success without AI report')
       return NextResponse.json({
         success: true,
         message: 'Audit request received! Your detailed report will be emailed within 24 hours.',

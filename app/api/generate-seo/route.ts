@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { exec } from 'child_process'
 import { promisify } from 'util'
+import { getProviderKey } from '@/lib/secrets'
 
 const execAsync = promisify(exec)
 
@@ -17,11 +18,12 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const geminiKey = await getProviderKey('gemini')
     const { stdout, stderr } = await execAsync('python3 scripts/programmatic_seo.py', {
       cwd: process.cwd(),
       env: {
         ...process.env,
-        GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+        GEMINI_API_KEY: geminiKey || process.env.GEMINI_API_KEY || '',
       },
     })
 

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download, Mail, User, Globe, Calendar, BarChart3, Send, Zap, Inbox, ExternalLink, LogOut } from "lucide-react"
+import { Download, Mail, User, Globe, Calendar, BarChart3, Send, Zap, Inbox, ExternalLink, LogOut, KeyRound, Trash2, ShieldCheck, ShieldAlert } from "lucide-react"
 
 interface Lead {
   id: string
@@ -27,7 +27,28 @@ interface Stats {
   avgHoursPerDay: number
 }
 
-type Tab = "overview" | "leads" | "campaign" | "actions"
+interface SecretRow {
+  id: string
+  provider: string
+  label: string | null
+  hint: string
+  last4: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  lastUsedAt: string | null
+}
+
+const PROVIDER_OPTIONS: { value: string; label: string; placeholder: string }[] = [
+  { value: "anthropic", label: "Anthropic (Claude)", placeholder: "sk-ant-…" },
+  { value: "openai", label: "OpenAI", placeholder: "sk-…" },
+  { value: "openrouter", label: "OpenRouter", placeholder: "sk-or-…" },
+  { value: "gemini", label: "Google Gemini", placeholder: "AIza…" },
+  { value: "stripe", label: "Stripe", placeholder: "sk_live_… or rk_live_…" },
+]
+const providerLabel = (v: string) => PROVIDER_OPTIONS.find((p) => p.value === v)?.label ?? v
+
+type Tab = "overview" | "leads" | "campaign" | "settings" | "actions"
 
 export default function AdminPage() {
   const [apiKey, setApiKey] = useState("")
@@ -47,6 +68,28 @@ export default function AdminPage() {
   const [sending, setSending] = useState(false)
   const [campaignResult, setCampaignResult] = useState<string>("")
 
+  // API keys (BYOK) state
+  const [secrets, setSecrets] = useState<SecretRow[]>([])
+  const [secretsConfigured, setSecretsConfigured] = useState(true)
+  const [newProvider, setNewProvider] = useState("anthropic")
+  const [newLabel, setNewLabel] = useState("")
+  const [newValue, setNewValue] = useState("")
+  const [savingKey, setSavingKey] = useState(false)
+  const [keyMsg, setKeyMsg] = useState("")
+
+  const loadSecrets = useCallback(async (key: string) => {
+    try {
+      const res = await fetch("/api/admin/secrets", { headers: { Authorization: `Bearer ${key}` } })
+      if (res.ok) {
+        const d = await res.json()
+        setSecrets(d.secrets || [])
+        setSecretsConfigured(!!d.encryptionConfigured)
+      }
+    } catch {
+      /* non-fatal */
+    }
+  }, [])
+
   const loadAll = useCallback(async (key: string) => {
     setIsLoading(true)
     setError("")
@@ -65,6 +108,7 @@ export default function AdminPage() {
       if (statsRes.ok) setStats(await statsRes.json())
       setIsAuthenticated(true)
       localStorage.setItem("admin-api-key", key)
+      loadSecrets(key)
     } catch {
       setError("Failed to load data")
       setIsAuthenticated(false)
@@ -138,6 +182,44 @@ export default function AdminPage() {
     }
   }
 
+  const saveKey = async () => {
+    if (!newValue.trim()) return
+    setSavingKey(true)
+    setKeyMsg("")
+    try {
+      const res = await fetch("/api/admin/secrets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({ provider: newProvider, label: newLabel.trim() || undefined, value: newValue }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setKeyMsg(`❌ ${data.error || "Save failed"}`)
+      } else {
+        setKeyMsg(`✅ Saved ${providerLabel(data.secret.provider)} key (${data.secret.hint})`)
+        setNewValue("")
+        setNewLabel("")
+        loadSecrets(apiKey)
+      }
+    } catch {
+      setKeyMsg("❌ Network error")
+    } finally {
+      setSavingKey(false)
+    }
+  }
+
+  const deleteKey = async (id: string, label: string) => {
+    if (!confirm(`Delete this ${label} key? Anything relying on it will fall back to the server env var (if any). This cannot be undone.`)) return
+    const res = await fetch(`/api/admin/secrets?id=${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${apiKey}` },
+    })
+    if (res.ok) {
+      setKeyMsg("🗑️ Key deleted")
+      loadSecrets(apiKey)
+    }
+  }
+
   // ---------- Login ----------
   if (!isAuthenticated) {
     return (
@@ -177,6 +259,7 @@ export default function AdminPage() {
     { id: "overview", label: "Overview", icon: BarChart3 },
     { id: "leads", label: "Leads", icon: Inbox },
     { id: "campaign", label: "Email Campaign", icon: Send },
+    { id: "settings", label: "API Keys", icon: KeyRound },
     { id: "actions", label: "Quick Actions", icon: Zap },
   ]
 
@@ -352,6 +435,115 @@ export default function AdminPage() {
               </p>
             </CardContent>
           </Card>
+        )}
+
+        {/* API Keys (BYOK) */}
+        {tab === "settings" && (
+          <div className="space-y-6 max-w-3xl">
+            {/* Encryption status */}
+            {secretsConfigured ? (
+              <div className="flex items-start gap-3 rounded-lg border border-lime-400/30 bg-lime-400/5 p-4 text-sm">
+                <ShieldCheck className="w-5 h-5 text-lime-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold">Keys are encrypted at rest (AES-256-GCM).</p>
+                  <p className="text-muted-foreground mt-1">
+                    Stored keys are encrypted with a master key that lives only in the server environment, never in the
+                    database. Keys are decrypted only server-side for outbound API calls and are never shown here in full
+                    — only a masked preview.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-start gap-3 rounded-lg border border-red-500/30 bg-red-500/5 p-4 text-sm">
+                <ShieldAlert className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold">Encryption not configured.</p>
+                  <p className="text-muted-foreground mt-1">
+                    Set <code>SECRETS_ENCRYPTION_KEY</code> in the server environment before storing keys. Until then,
+                    features fall back to their individual env vars.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Add a key */}
+            <Card>
+              <CardHeader><CardTitle className="text-lg">Add an API key</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Provider</label>
+                    <select
+                      value={newProvider}
+                      onChange={(e) => setNewProvider(e.target.value)}
+                      className="w-full bg-card border border-border rounded-lg px-3 py-2"
+                    >
+                      {PROVIDER_OPTIONS.map((p) => (
+                        <option key={p.value} value={p.value}>{p.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Label (optional)</label>
+                    <Input value={newLabel} onChange={(e) => setNewLabel(e.target.value)} placeholder="e.g. Production, Billing account" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">API key</label>
+                  <Input
+                    type="password"
+                    autoComplete="off"
+                    value={newValue}
+                    onChange={(e) => setNewValue(e.target.value)}
+                    placeholder={PROVIDER_OPTIONS.find((p) => p.value === newProvider)?.placeholder}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Saving a new key for a provider replaces the previous one as the active key.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Button
+                    className="bg-lime-400 text-gray-900 hover:bg-lime-500"
+                    disabled={savingKey || !newValue.trim() || !secretsConfigured}
+                    onClick={saveKey}
+                  >
+                    {savingKey ? "Saving…" : "Save key"}
+                  </Button>
+                  {keyMsg && <span className="text-sm">{keyMsg}</span>}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Stored keys */}
+            <Card>
+              <CardHeader><CardTitle className="text-lg">Stored keys</CardTitle></CardHeader>
+              <CardContent className="space-y-3">
+                {secrets.filter((s) => s.isActive).length === 0 && (
+                  <p className="text-muted-foreground text-sm">No keys stored yet. Active providers fall back to server env vars.</p>
+                )}
+                {secrets
+                  .filter((s) => s.isActive)
+                  .map((s) => (
+                    <div key={s.id} className="flex items-center justify-between gap-4 border-b border-border/30 pb-3 text-sm">
+                      <div className="min-w-0">
+                        <div className="font-semibold">
+                          {providerLabel(s.provider)}
+                          {s.label && <span className="text-muted-foreground font-normal"> · {s.label}</span>}
+                        </div>
+                        <div className="text-muted-foreground mt-0.5">
+                          <code className="bg-muted/40 px-1.5 py-0.5 rounded">{s.hint}</code>
+                          <span className="ml-2">added {new Date(s.createdAt).toLocaleDateString()}</span>
+                          {s.lastUsedAt && <span className="ml-2">· last used {new Date(s.lastUsedAt).toLocaleDateString()}</span>}
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => deleteKey(s.id, providerLabel(s.provider))}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {/* Quick Actions */}
