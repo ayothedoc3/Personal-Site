@@ -282,16 +282,11 @@ export default function AuditPage() {
                     />
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="marketing"
-                      checked={formData.optin_marketing}
-                      onCheckedChange={(checked) => setFormData(prev => ({ ...prev, optin_marketing: !!checked }))}
-                    />
-                    <label htmlFor="marketing" className="text-sm text-muted-foreground">
-                      Also send me automation tips and case studies
-                    </label>
-                  </div>
+                  <Checkbox
+                    checked={formData.optin_marketing}
+                    onChange={(e) => setFormData(prev => ({ ...prev, optin_marketing: e.target.checked }))}
+                    label="Also send me automation tips and case studies"
+                  />
 
                   <Button
                     type="submit"
