@@ -270,12 +270,12 @@ export default function Services() {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-            Take the free AI Readiness Audit. In 10 minutes you&apos;ll get a score and the three highest-leverage
-            automations for your business.
+            We&apos;ll build your 60-Second Lead Engine free, on your real leads. If it books calls you&apos;d have
+            missed, we run the rest of your operations.
           </p>
-          <Link href="/audit">
+          <Link href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-              <span className="group-hover:scale-110 transition-transform duration-200">Get Your Free AI Readiness Audit</span>
+              <span className="group-hover:scale-110 transition-transform duration-200">Get Your Lead Engine — Free</span>
             </Button>
           </Link>
         </div>

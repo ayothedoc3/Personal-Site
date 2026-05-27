@@ -277,8 +277,8 @@ export default function Home() {
 
             <p className="text-center text-muted-foreground mt-10">
               Not sure where to start?{" "}
-              <Link href="/audit" className="text-lime-400 font-semibold hover:underline">
-                Take the free AI Readiness Audit
+              <Link href="/contact" className="text-lime-400 font-semibold hover:underline">
+                Get your Lead Engine built free
               </Link>{" "}
               and we&apos;ll recommend the right level.
             </p>
