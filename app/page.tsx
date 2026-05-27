@@ -91,7 +91,7 @@ export default function Home() {
           <div className="text-center max-w-5xl mx-auto">
             <div className="inline-block bg-card/30 backdrop-blur-xl px-4 py-2 rounded-full border border-border mb-8">
               <span className="text-lime-400 text-sm font-semibold tracking-wider uppercase">
-                Managed AI Operations
+                For agencies &amp; consultants
               </span>
             </div>
 
@@ -104,18 +104,18 @@ export default function Home() {
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-              We install your company&apos;s AI Operating System — wired into your tools, trained on your
-              business — then run it for you. The repetitive work that eats your week gets handled.
-              Installed in 10 days. Recover 40+ hours a month, or you don&apos;t pay.
+              Most agencies lose deals to slow follow-up. We&apos;ll build you a system that replies to every new
+              lead in under 60 seconds — personalized, in your voice, with your booking link — and we&apos;ll build
+              the first one <strong className="text-foreground">free</strong>. Then we run the rest of your operations.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-14">
-              <Link href="/audit">
+              <Link href="/contact">
                 <Button
-                  onClick={() => trackEvent("cta_click", { cta: "home_hero_free_audit", destination: "/audit" })}
+                  onClick={() => trackEvent("cta_click", { cta: "home_hero_free_engine", destination: "/contact" })}
                   className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                 >
-                  Get Your Free AI Readiness Audit
+                  Get Your Lead Engine — Free
                 </Button>
               </Link>
               <Link href="/offer">
@@ -380,18 +380,18 @@ export default function Home() {
         <section className="py-20 px-6 lg:px-12 relative">
           <div className="max-w-4xl mx-auto text-center">
             <div className="p-12 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 backdrop-blur-sm">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">See where AI can run your business</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Stop losing leads to slow follow-up</h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Take the free AI Readiness Audit. Ten minutes, no credit card. You&apos;ll get a score and the
-                three automations worth building first.
+                We&apos;ll build your 60-Second Lead Engine free, on your real leads — no card, no risk. If it books
+                calls you&apos;d have missed, we talk about running the rest of your operations.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <Link href="/audit">
+                <Link href="/contact">
                   <Button
-                    onClick={() => trackEvent("cta_click", { cta: "home_final_free_audit", destination: "/audit" })}
+                    onClick={() => trackEvent("cta_click", { cta: "home_final_free_engine", destination: "/contact" })}
                     className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                   >
-                    Get Your Free AI Readiness Audit
+                    Get Your Lead Engine — Free
                   </Button>
                 </Link>
                 <Button
