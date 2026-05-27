@@ -40,7 +40,7 @@ export async function insertAuditLead(data: {
   website: string
   businessType: string
   currentChallenges: string
-  timeSpentDaily: number
+  timeSpentDaily: number | null
   optin_marketing?: boolean
 }): Promise<boolean> {
   const p = getPgPool()

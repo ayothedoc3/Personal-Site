@@ -15,21 +15,48 @@ interface AuditFormData {
   email: string
   website: string
   industry: string
+  customIndustry?: string
   blocker?: string
+  hours?: string
   optin_marketing: boolean
 }
+
+interface AuditOpportunity {
+  label: string
+  layer?: string | null
+  value: string
+}
+
+interface AuditPreview {
+  readinessScore: number | null
+  headline?: string
+  opportunities: AuditOpportunity[]
+  hoursSavedPerMonth: string
+  exampleWorkflow: string
+}
+
+// Maps the hours dropdown to a representative number (or null when unspecified),
+// so we never fabricate an hours figure for the report.
+const HOURS_TO_NUMBER: Record<string, number> = { "1-2": 2, "3-5": 4, "6+": 7 }
 
 export default function AuditPage() {
   const [step, setStep] = useState<'form' | 'result' | 'complete'>('form')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [auditPreview, setAuditPreview] = useState<AuditPreview | null>(null)
   const [formData, setFormData] = useState<AuditFormData>({
     name: '',
     email: '',
     website: '',
     industry: '',
+    customIndustry: '',
     blocker: '',
+    hours: '',
     optin_marketing: false
   })
+
+  // Industry the prospect actually told us (free text when they pick "Other").
+  const effectiveIndustry =
+    formData.industry === 'Other' ? (formData.customIndustry?.trim() || 'Other') : formData.industry
 
   const openCalendly = useCallback((cta: string) => {
     trackEvent("cta_click", { cta, destination: "calendly" })
@@ -41,8 +68,8 @@ export default function AuditPage() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    trackEvent("lead_submit", { lead_type: "audit", industry: formData.industry || "unknown" })
-    
+    trackEvent("lead_submit", { lead_type: "audit", industry: effectiveIndustry || "unknown" })
+
     try {
       // Call the actual business audit API
       const response = await fetch('/api/business-audit', {
@@ -54,9 +81,9 @@ export default function AuditPage() {
           name: formData.name,
           email: formData.email,
           website: formData.website,
-          businessType: formData.industry,
+          businessType: effectiveIndustry,
           currentChallenges: formData.blocker || 'General workflow optimization',
-          timeSpentDaily: 4, // Default estimate for simplicity
+          timeSpentDaily: formData.hours ? HOURS_TO_NUMBER[formData.hours] ?? null : null,
           optin_marketing: formData.optin_marketing
         }),
       })
@@ -68,6 +95,7 @@ export default function AuditPage() {
         throw new Error(data.error || 'Failed to submit audit request')
       }
 
+      if (data.preview) setAuditPreview(data.preview as AuditPreview)
       trackEvent("lead_submit_success", { lead_type: "audit" })
       setStep('result')
     } catch (error) {
@@ -135,10 +163,10 @@ export default function AuditPage() {
           <div className="space-y-8">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-lime-400 via-emerald-400 to-lime-400 bg-clip-text text-transparent">
-                Get your personalized business automation audit
+                Get your AI Operating System readiness audit
               </h1>
               <p className="text-xl text-muted-foreground mb-6">
-                Get your custom audit report delivered instantly to your inbox.
+                A personalized read on where AI can run your operations, scored across the Four Cs and sent to your inbox.
               </p>
               <div className="flex justify-center gap-6 text-sm text-lime-400">
                 <span className="flex items-center gap-2">
@@ -164,7 +192,7 @@ export default function AuditPage() {
 
             <Card className="max-w-2xl mx-auto">
               <CardHeader>
-                <CardTitle>Get Your Free Automation Audit</CardTitle>
+                <CardTitle>Get your free AIOS readiness audit</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleFormSubmit} className="space-y-6">
@@ -214,6 +242,34 @@ export default function AuditPage() {
                       <option value="Agency">Agency</option>
                       <option value="SaaS">SaaS</option>
                       <option value="Coaching">Coaching</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  {formData.industry === 'Other' && (
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Tell us your industry *</label>
+                      <Input
+                        required
+                        placeholder="e.g. dental clinic, recruiting firm, real estate"
+                        value={formData.customIndustry}
+                        onChange={(e) => setFormData(prev => ({ ...prev, customIndustry: e.target.value }))}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">We read this and use it to analyze your business.</p>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Hours per day on manual or repetitive work</label>
+                    <select
+                      value={formData.hours}
+                      onChange={(e) => setFormData(prev => ({ ...prev, hours: e.target.value }))}
+                      className="w-full bg-card border border-border rounded-lg px-3 py-2 text-sm"
+                    >
+                      <option value="">Prefer not to say</option>
+                      <option value="1-2">1 to 2 hours</option>
+                      <option value="3-5">3 to 5 hours</option>
+                      <option value="6+">6 or more hours</option>
                     </select>
                   </div>
 
@@ -239,16 +295,23 @@ export default function AuditPage() {
 
                   <Button
                     type="submit"
-                    disabled={isSubmitting || !formData.name || !formData.email || !formData.website || !formData.industry}
+                    disabled={
+                      isSubmitting ||
+                      !formData.name ||
+                      !formData.email ||
+                      !formData.website ||
+                      !formData.industry ||
+                      (formData.industry === 'Other' && !formData.customIndustry?.trim())
+                    }
                     className="w-full bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 py-3 rounded-full font-semibold transition-all duration-500"
                   >
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Generating Your Audit...
+                        Generating your audit...
                       </>
                     ) : (
-                      "Get My Free Automation Audit"
+                      "Get my free audit"
                     )}
                   </Button>
                 </form>
@@ -260,39 +323,67 @@ export default function AuditPage() {
         {step === 'result' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">Your automation audit results</h2>
-              <p className="text-muted-foreground">Based on your {formData.industry} business</p>
+              <h2 className="text-3xl font-bold mb-4">Your AI readiness snapshot</h2>
+              <p className="text-muted-foreground">Based on your {effectiveIndustry} business</p>
             </div>
 
+            {typeof auditPreview?.readinessScore === 'number' && (
+              <Card>
+                <CardContent className="p-6 text-center">
+                  <div className="text-4xl font-bold text-lime-400 mb-1">
+                    {auditPreview.readinessScore}
+                    <span className="text-xl text-muted-foreground">/100</span>
+                  </div>
+                  <p className="text-muted-foreground">AI Operating System readiness</p>
+                  {auditPreview.headline && (
+                    <p className="mt-3 text-sm text-foreground/80 max-w-xl mx-auto">{auditPreview.headline}</p>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
             <div className="space-y-6">
-              {getMiniResults().opportunities.map((opportunity, index) => (
-                <Card key={index}>
-                  <CardContent className="p-6">
-                    <h3 className="font-semibold text-lime-400 mb-2">{opportunity.label}</h3>
-                    <p className="text-muted-foreground">{opportunity.value}</p>
-                  </CardContent>
-                </Card>
-              ))}
+              {(auditPreview?.opportunities?.length ? auditPreview.opportunities : getMiniResults().opportunities).map(
+                (opportunity: AuditOpportunity, index: number) => (
+                  <Card key={index}>
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <h3 className="font-semibold text-lime-400">{opportunity.label}</h3>
+                        {opportunity.layer && (
+                          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 border border-emerald-400/40 rounded-full px-2 py-0.5 whitespace-nowrap">
+                            {opportunity.layer}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-muted-foreground">{opportunity.value}</p>
+                    </CardContent>
+                  </Card>
+                ),
+              )}
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               <Card>
                 <CardContent className="p-6 text-center">
-                  <div className="text-3xl font-bold text-lime-400 mb-2">{getMiniResults().hoursSaved}</div>
+                  <div className="text-3xl font-bold text-lime-400 mb-2">
+                    {auditPreview?.hoursSavedPerMonth || getMiniResults().hoursSaved}
+                  </div>
                   <p className="text-muted-foreground">Estimated hours saved per month</p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
-                  <h3 className="font-semibold mb-2">Example workflow for your industry</h3>
-                  <p className="text-sm text-muted-foreground">{getMiniResults().exampleWorkflow}</p>
+                  <h3 className="font-semibold mb-2">First workflow we would install</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {auditPreview?.exampleWorkflow || getMiniResults().exampleWorkflow}
+                  </p>
                 </CardContent>
               </Card>
             </div>
 
             <div className="text-center">
-              <p className="text-muted-foreground mb-6">Your detailed PDF report with full roadmap is being sent to {formData.email}</p>
+              <p className="text-muted-foreground mb-6">Your full AIOS readiness report is on its way to {formData.email}</p>
               <Button
                 onClick={() => {
                   trackEvent("audit_result_continue")
@@ -308,17 +399,27 @@ export default function AuditPage() {
 
 
         {step === 'complete' && (
-          <div className="text-center space-y-8">
-            <div className="text-6xl mb-6">✓</div>
-            <h2 className="text-3xl font-bold mb-4">Your full audit is on the way</h2>
-            <p className="text-xl text-muted-foreground mb-8">It usually arrives in 2 to 5 minutes.</p>
-            
-            <Button
-              onClick={() => openCalendly("audit_complete_book_readout")}
-              className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105"
-            >
-              Book a 15 minute readout
-            </Button>
+          <div className="text-center space-y-6">
+            <div className="text-6xl mb-2">✓</div>
+            <h2 className="text-3xl font-bold mb-2">Your full audit is on the way</h2>
+            <p className="text-xl text-muted-foreground mb-2">It usually arrives in 2 to 5 minutes.</p>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Want to see it work before anything else? We will build your 60-Second Lead Engine free, on your real leads.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">
+              <Link href="/offer" onClick={() => trackEvent("cta_click", { cta: "audit_complete_lead_engine", destination: "offer" })}>
+                <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105">
+                  Get your Lead Engine free
+                </Button>
+              </Link>
+              <button
+                onClick={() => openCalendly("audit_complete_book_readout")}
+                className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+              >
+                Prefer to talk first? Book a 15-minute call
+              </button>
+            </div>
           </div>
         )}
       </main>
