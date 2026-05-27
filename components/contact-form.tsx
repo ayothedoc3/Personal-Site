@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Honeypot } from "@/components/ui/honeypot"
+import { Turnstile } from "@/components/turnstile"
 import { Loader2, CheckCircle, AlertCircle, Phone, Shield } from "lucide-react"
 import { formRateLimiter } from "@/lib/rate-limiter"
 import { sanitizeInput, isValidEmail, isValidPhone, detectSpam, isBot, getClientFingerprint } from "@/lib/security-utils"
@@ -57,6 +58,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error" | "blocked">("idle")
   const [submitMessage, setSubmitMessage] = useState("")
   const [honeypotValue, setHoneypotValue] = useState("")
+  const [turnstileToken, setTurnstileToken] = useState("")
   const [formStartTime] = useState(Date.now())
   const [clientId, setClientId] = useState('temp-id')
 
@@ -122,26 +124,22 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         message: sanitizeInput(data.message),
         newsletter: data.newsletter,
       }
-      // EmailJS configuration - You'll need to set these up in your EmailJS account
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "your_service_id"
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "your_template_id"
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "your_public_key"
-
-      const templateParams = {
-        to_name: "Ayothedoc Team",
-        from_name: `${sanitizedData.firstName} ${sanitizedData.lastName}`,
-        from_email: sanitizedData.email,
-        phone: sanitizedData.phone || "Not provided",
-        company: sanitizedData.company,
-        service: sanitizedData.service,
-        message: sanitizedData.message,
-        newsletter: sanitizedData.newsletter ? "Yes" : "No",
-        reply_to: sanitizedData.email,
-        client_id: clientId.slice(0, 8), // Include partial client ID for tracking
-        timestamp: new Date().toISOString(),
+      // Send through our server route, which holds the Lead Engine secret and
+      // forwards the lead (triggering the sub-60-second reply + operator alert).
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...sanitizedData,
+          website: honeypotValue, // honeypot — server silent-drops if filled
+          formStartTime,
+          turnstileToken, // captcha token (verified server-side when configured)
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({} as any))
+        throw new Error(err.error || "Something went wrong. Please try again, or email contact@ayothedoc.com.")
       }
-
-      await emailjs.send(serviceId, templateId, templateParams, publicKey)
 
       trackEvent("lead_submit_success", {
         lead_type: "contact",
@@ -318,6 +316,9 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
 
         {/* Honeypot Field */}
         <Honeypot value={honeypotValue} onChange={setHoneypotValue} />
+
+        {/* Captcha (Cloudflare Turnstile) — renders only when NEXT_PUBLIC_TURNSTILE_SITE_KEY is set */}
+        <Turnstile onToken={setTurnstileToken} />
 
         {/* Submit Button */}
         <Button
