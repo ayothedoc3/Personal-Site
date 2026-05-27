@@ -203,12 +203,18 @@ export default function AuditPage() {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">Business type or industry *</label>
-                    <Input
+                    <select
                       required
-                      placeholder="E commerce, Agency, SaaS, Coaching"
                       value={formData.industry}
                       onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
-                    />
+                      className="w-full bg-card border border-border rounded-lg px-3 py-2 text-sm"
+                    >
+                      <option value="" disabled>Select your business type…</option>
+                      <option value="E-commerce">E-commerce</option>
+                      <option value="Agency">Agency</option>
+                      <option value="SaaS">SaaS</option>
+                      <option value="Coaching">Coaching</option>
+                    </select>
                   </div>
 
                   <div>
