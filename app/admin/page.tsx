@@ -345,9 +345,10 @@ export default function AdminPage() {
               </div>
               {campaignResult && <p className="text-sm">{campaignResult}</p>}
               <p className="text-xs text-muted-foreground border-t border-border/40 pt-3">
-                Sender: <code>CAMPAIGN_FROM_EMAIL</code> via Resend. To send from contact@ayothedoc.com you must verify
-                ayothedoc.com in Resend first (add its DKIM record in Cloudflare) — otherwise use a verified sender. Run
-                a test send first; it tells you exactly what Resend accepts.
+                Personalize per recipient with{" "}
+                <code>{"{{name}}"}</code>, <code>{"{{firstName}}"}</code>, <code>{"{{businessType}}"}</code>,{" "}
+                <code>{"{{website}}"}</code>. Sender: <code>contact@ayothedoc.com</code> (Resend domain verified ✓).
+                Always run a test send first.
               </p>
             </CardContent>
           </Card>
