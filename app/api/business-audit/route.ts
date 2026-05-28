@@ -406,9 +406,6 @@ Produce the AIOS readiness audit for this prospect.`
               <a href="https://ayothedoc.com/offer" style="display: inline-block; background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);">
                 Get your Lead Engine free
               </a>
-              <p style="color: #6b7280; margin: 18px 0 0 0; font-size: 14px;">
-                Prefer to talk first? <a href="https://calendly.com/ayothedoc" style="color: #4f46e5; font-weight: 600;">Book a 15-minute call</a>.
-              </p>
             </div>
 
             <!-- Footer -->

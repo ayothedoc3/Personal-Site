@@ -394,13 +394,15 @@ export default function Home() {
                     Get Your Lead Engine Free
                   </Button>
                 </Link>
-                <Button
-                  onClick={() => openCalendly("home_final_book_call")}
-                  variant="outline"
-                  className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110"
-                >
-                  Book a Call
-                </Button>
+                <Link href="/audit">
+                  <Button
+                    onClick={() => trackEvent("cta_click", { cta: "home_final_audit", destination: "/audit" })}
+                    variant="outline"
+                    className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110"
+                  >
+                    Score my AI readiness
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

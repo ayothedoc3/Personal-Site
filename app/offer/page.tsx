@@ -102,12 +102,10 @@ export default function OfferPage() {
                 </span>
               </Link>
               <Link
-                href="https://calendly.com/ayothedoc"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/contact"
                 className="inline-flex items-center justify-center rounded-full px-10 py-4 text-lg font-bold border border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 transition-all duration-300 hover:scale-105"
               >
-                Book a 15-min fit call
+                Request the free Lead Engine build
               </Link>
             </div>
           </section>

@@ -402,18 +402,12 @@ export default function AuditPage() {
               Want to see it work before anything else? We will build your 60-Second Lead Engine free, on your real leads.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">
+            <div className="flex justify-center pt-2">
               <Link href="/offer" onClick={() => trackEvent("cta_click", { cta: "audit_complete_lead_engine", destination: "offer" })}>
                 <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105">
                   Get your Lead Engine free
                 </Button>
               </Link>
-              <button
-                onClick={() => openCalendly("audit_complete_book_readout")}
-                className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
-              >
-                Prefer to talk first? Book a 15-minute call
-              </button>
             </div>
           </div>
         )}
