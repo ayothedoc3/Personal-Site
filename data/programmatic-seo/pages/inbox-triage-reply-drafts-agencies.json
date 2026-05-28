@@ -1,0 +1,22 @@
+{
+  "slug": "inbox-triage-reply-drafts-agencies",
+  "title": "Inbox Triage and Reply Drafts for Agencies",
+  "metaDescription": "Your inbox triaged, drafts written for routine replies in your voice, and high-priority items surfaced. We install the workflow so the inbox stops eating mornings.",
+  "outcome": "Inbox Triage and Reply Drafts",
+  "fourC": "Capabilities",
+  "tier": "capability",
+  "industry": null,
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 4,
+  "excerpt": "The inbox eats the morning at most agencies because each message gets reprocessed from scratch. We install a triage layer that surfaces the few that need you and drafts the rest.",
+  "sections": {
+    "intro": "<p>The inbox eats the morning at most agencies because each message gets reprocessed from scratch. The owner reads, decides, drafts, sometimes punts, sometimes forgets. The high-stakes messages get the same processing as the renewals questions and the calendar reschedules.</p><p>We install a triage layer in front of the inbox that does two things: surfaces the few messages that actually need your judgment, and drafts replies in your voice for the routine ones so you only review and send.</p><p>This is a <strong>Capabilities</strong> layer of an AI Operating System.</p>",
+    "fourCFit": "<p>Inbox triage sits in <strong>Capabilities</strong>. It depends on:</p><ul><li><strong>Connections</strong>: your inbox, CRM, calendar, project tool.</li><li><strong>Context</strong>: your voice, your usual decisions on each common message type, your priorities.</li><li><strong>Cadence</strong>: optional morning digest that consolidates everything you need to act on, in one place.</li></ul><p>See it in context at the <a href='/automation/ai-operating-system-marketing-agencies'>AI Operating System for Marketing Agencies</a> pillar.</p>",
+    "whatDoneLooksLike": "<ul><li>Every new inbound email is classified: high-priority (needs you), drafted (system has a reply ready), or auto-handled (calendar shuffles, status updates).</li><li>Drafts appear in your inbox under each thread, in your voice, ready to review or edit.</li><li>High-priority messages are surfaced with one-line context (\"Client X is asking about a delayed deliverable; here is the relevant history\").</li><li>Optional 7am digest that consolidates the day's priorities and pending drafts in one place.</li></ul>",
+    "howWeInstall": "<ol><li><strong>Audit</strong>, free, about 10 minutes. <a href='/audit'>Run the audit</a>.</li><li><strong>Install</strong>, inside 10 business days. We connect your inbox, train the classifier on the message types you actually see, and capture your voice for drafts.</li><li><strong>Operate</strong>, ongoing. <a href='/offer'>See plans</a>.</li></ol>",
+    "expectedResults": "<ul><li>Hours per day on the inbox: from 2 to 3 hours down to 30 to 60 minutes.</li><li>High-priority messages caught: from \"sometimes I miss them under the noise\" to \"surfaced first, every time.\"</li><li>Reply time on routine messages: minutes, not hours.</li></ul><p>Standing guarantee on the wider AIOS engagement: recover 40 or more hours a month, or we keep working free until you do.</p>",
+    "faq": "<h4>What if I do not trust drafts written for me?</h4><p>You should not trust them on day 1. Reviewing every draft is the right starting posture. After a week or two of edits, the voice gets accurate enough that most drafts go out unedited.</p><h4>What about sensitive emails?</h4><p>Sensitive threads can be excluded by sender, by label, or by keyword. The system never drafts on threads you mark off-limits.</p><h4>Who owns the system?</h4><p>You do. Every prompt and connection lives in your accounts.</p>"
+  }
+}

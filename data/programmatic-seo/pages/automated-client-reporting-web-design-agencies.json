@@ -1,0 +1,22 @@
+{
+  "slug": "automated-client-reporting-web-design-agencies",
+  "title": "Automated Client Reporting for Web Design Agencies",
+  "metaDescription": "Monthly site care and retainer reports that draft themselves from live analytics, uptime, and project data. The PM reviews and sends. Done-for-you, not a template.",
+  "outcome": "Automated Client Reporting",
+  "fourC": "Cadence",
+  "tier": "capability",
+  "industry": "web design agencies",
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 4,
+  "excerpt": "Monthly retainer and site care reports usually take PM time on the first of every month. They do not have to. Analytics, uptime, and project data are live; the report should draft itself.",
+  "sections": {
+    "intro": "<p>If your agency runs site care or monthly retainers, you ship a report on the first of every month per client. Pageview numbers, uptime, security updates, performance wins, work shipped, hours used. Most agencies build that by hand in a Notion doc or PDF. It is not hard work, but it is half a day every month.</p><p>The data is live in analytics, uptime monitors, and the project tool. The report should draft itself, in your studio's voice, on the first. The PM reviews and sends.</p><p>This is the <strong>Cadence</strong> layer of an AI Operating System.</p>",
+    "fourCFit": "<p>Reporting is a <strong>Cadence</strong> capability: schedule-driven, no human prompt needed. It depends on:</p><ul><li><strong>Connections</strong>: analytics (GA4, Plausible, Fathom), uptime monitor, your project tool (ClickUp, Asana, Notion), and your time tracker.</li><li><strong>Context</strong>: your studio voice and the standard sections a retainer report has at your shop.</li><li><strong>Capabilities</strong>: the draft itself, formatted to your template.</li></ul><p>See it in context at <a href='/automation/ai-operating-system-web-design-agencies'>AI Operating System for Web Design Agencies</a>.</p>",
+    "whatDoneLooksLike": "<ul><li>Report drafts on the first of each month per retainer client, automatically.</li><li>Pulls live numbers: traffic, uptime, performance metrics, security updates applied, work shipped, hours used vs allocated.</li><li>Written in your studio voice, references last month's numbers, flags trends worth talking about.</li><li>Format matches your existing template (PDF, Notion, Google Doc, email body).</li><li>PM reviews, edits if needed, sends. Time per report drops from hours to under 15 minutes.</li></ul>",
+    "howWeInstall": "<p>Three phases:</p><ol><li><strong>Audit</strong>, free, about 10 minutes. <a href='/audit'>Run the audit</a>.</li><li><strong>Install</strong>, inside 10 business days. We connect your analytics, uptime, project tool, and time tracker, capture your studio voice from past reports, and ship the first draft.</li><li><strong>Operate</strong>, ongoing. We watch and extend it as part of your plan. <a href='/offer'>See plans</a>.</li></ol>",
+    "expectedResults": "<ul><li>Time per monthly report: from hours to under 15 minutes.</li><li>Coverage: 100 percent of retainer clients reported on the first, every month.</li><li>Consistency: every client gets the same depth, regardless of which PM owns the account.</li></ul><p>Standing guarantee on the wider AIOS engagement: recover 40 or more hours a month across the team, or we keep working free until you do.</p>",
+    "faq": "<h4>What about clients with different retainer tiers?</h4><p>Per-client tiers and sections are part of the setup. Each client gets the right depth for what they pay for, automatically.</p><h4>What if a data source breaks?</h4><p>We monitor every connection. If a source goes down, the draft flags it and pings the PM. No silent failures.</p><h4>Who owns the system?</h4><p>You do. Every prompt and connection lives in your accounts.</p>"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "lead-response-time-benchmarks-agencies",
+  "title": "Lead Response Time Benchmarks for Agencies",
+  "metaDescription": "How fast is fast? Lead response time benchmarks for agencies, what the data actually says, and how to hit a 60-second SLA without burning out a human.",
+  "outcome": "60-Second Lead Response",
+  "fourC": "Capabilities",
+  "tier": "wedge",
+  "industry": null,
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 5,
+  "excerpt": "Most agencies overestimate how fast they reply to new leads. Median is closer to a day than to an hour. Here is what \"fast\" actually means, and what an honest 60-second SLA looks like.",
+  "sections": {
+    "intro": "<p>Most agency owners overestimate how fast their team replies to new leads. If you actually pull the data (form submit timestamp vs first real reply), the median across small agencies is closer to a day than to an hour. Half of all leads wait longer than that. A meaningful fraction get no reply at all.</p><p>The cost is invisible. The lost leads do not show up in any pipeline report, because they never made it to the pipeline.</p><p>This page is a plain look at the benchmarks: what most agencies do, what the leaders do, and what is realistic to plan against if you decide to fix it.</p>",
+    "fourCFit": "<p>Lead response time is a <strong>Capability</strong> inside an AI Operating System. It is the first one we install for almost every agency because it is the most measurable, the most leveraged, and the easiest to compare against a clean baseline (median reply time before vs after).</p><p>It depends on <strong>Connections</strong> (form, inbox, calendar, CRM) and <strong>Context</strong> (your voice). The <strong>Cadence</strong> layer handles the follow-up loop after day 0.</p>",
+    "whatDoneLooksLike": "<p>Three useful tiers to think in:</p><ul><li><strong>Most agencies (typical)</strong>: median reply time several hours to a full business day. Coverage drops to near zero outside business hours. No standard follow-up sequence.</li><li><strong>Strong human-driven team</strong>: median reply time under 1 hour during business hours, 0 percent coverage outside business hours, ad-hoc follow-up.</li><li><strong>System-driven (what we install)</strong>: median reply time under 60 seconds, 24/7 coverage, every lead gets a personalized first reply and a 3-touch follow-up sequence on day 1, day 3, and day 6.</li></ul><p>The gap between tier 2 and tier 3 is not effort, it is mechanism. Tier 2 is a human moving fast. Tier 3 is a system carrying the SLA, with humans showing up for the call.</p>",
+    "howWeInstall": "<p>If you want to measure your own baseline first, pull the last 30 days of form submits and your first real reply timestamps. Median that. Most owners are surprised.</p><p>If you want to fix it directly:</p><ol><li><a href='/audit'>Run the free AI-readiness audit</a>. It tells you where the leverage is across the Four Cs.</li><li><a href='/offer'>Get your Lead Engine free</a>. We build it on your real leads, with your voice, into your real stack. First live reply usually goes out within a week.</li></ol>",
+    "expectedResults": "<p>The lift comes from two places, both real and both compounding:</p><ul><li><strong>Conversion lift on the leads you already get</strong>. A 60-second reply outperforms a same-day reply by a meaningful margin. The exact number varies by industry and source. The direction does not.</li><li><strong>Coverage of the leads you would have missed</strong>. Weekends, evenings, holidays. The system does not stop.</li></ul><p>The first effect is the obvious one. The second is bigger than most owners expect, because a lead that submits on Saturday morning and gets a reply Monday at 10am is functionally a lost lead.</p>",
+    "faq": "<h4>What if my volume is low?</h4><p>Speed matters more, not less, when volume is low. With few leads, you cannot afford to lose any to delay.</p><h4>Does the prospect care if the first reply is automated?</h4><p>They care that the reply is fast, accurate, in your voice, and leads cleanly to a booking. If those four are true, the automation is invisible.</p><h4>Can I just hire a human to do this?</h4><p>Yes, and many agencies do. The math is: a person on the inbox covers business hours, ~50 hours a week, with response time bounded by their attention. A system covers 168 hours a week, with response time bounded by network latency. Pick what fits, but be honest about what each actually delivers.</p>"
+  }
+}

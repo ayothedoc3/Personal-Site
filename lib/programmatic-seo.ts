@@ -2,28 +2,39 @@ import fs from "fs/promises"
 import path from "path"
 import { cache } from "react"
 
+export type FourC = "Context" | "Connections" | "Capabilities" | "Cadence"
+export type PageTier = "pillar" | "wedge" | "capability"
+
 export interface ProgrammaticSeoSections {
+  // Done-for-you structure. Every page renders these in order; the renderer
+  // wraps each in a section heading appropriate for done-for-you framing
+  // (no DIY "implementation steps").
   intro: string
-  benefits: string
-  workflow: string
-  steps: string
-  results: string
+  fourCFit: string
+  whatDoneLooksLike: string
+  howWeInstall: string
+  expectedResults: string
   faq: string
 }
 
 export interface ProgrammaticSeoSource {
-  tool?: Record<string, unknown>
-  use_case?: Record<string, unknown>
+  outcome?: Record<string, unknown>
   industry?: Record<string, unknown>
+  tool?: Record<string, unknown>
 }
 
 export interface ProgrammaticSeoPage {
   slug: string
   title: string
   metaDescription: string
-  tool: string
-  useCase: string
-  industry: string
+  outcome: string
+  fourC: FourC
+  tier: PageTier
+  industry?: string | null
+  // Optional "works with your stack" mention. Never primary anymore.
+  tool?: string | null
+  // Legacy field, retained as nullable so older content can still be read.
+  useCase?: string | null
   datePublished?: string
   readTime?: number
   excerpt?: string
@@ -35,9 +46,11 @@ export interface ProgrammaticSeoSummary {
   slug: string
   title: string
   metaDescription: string
-  tool: string
-  useCase: string
-  industry: string
+  outcome: string
+  fourC: FourC
+  tier: PageTier
+  industry?: string | null
+  tool?: string | null
   excerpt?: string
   readTime?: number
   datePublished?: string
@@ -128,25 +141,26 @@ export const getProgrammaticPages = cache(async (): Promise<ProgrammaticSeoPage[
 export const getProgrammaticFilters = cache(async () => {
   const summaries = await getProgrammaticSummaries()
 
-  const tools = new Set<string>()
-  const useCases = new Set<string>()
+  const outcomes = new Set<string>()
+  const fourCs = new Set<string>()
   const industries = new Set<string>()
+  const tiers = new Set<string>()
 
   for (const summary of summaries) {
-    if (summary.tool) {
-      tools.add(summary.tool)
-    }
-    if (summary.useCase) {
-      useCases.add(summary.useCase)
-    }
-    if (summary.industry) {
-      industries.add(summary.industry)
-    }
+    if (summary.outcome) outcomes.add(summary.outcome)
+    if (summary.fourC) fourCs.add(summary.fourC)
+    if (summary.industry) industries.add(summary.industry)
+    if (summary.tier) tiers.add(summary.tier)
   }
 
+  // Keep Four-C order canonical (matches the brand line on the site).
+  const FOUR_C_ORDER: FourC[] = ["Context", "Connections", "Capabilities", "Cadence"]
+  const fourCsSorted = FOUR_C_ORDER.filter((c) => fourCs.has(c))
+
   return {
-    tools: Array.from(tools).sort(),
-    useCases: Array.from(useCases).sort(),
+    outcomes: Array.from(outcomes).sort(),
+    fourCs: fourCsSorted,
     industries: Array.from(industries).sort(),
+    tiers: Array.from(tiers).sort(),
   }
 })

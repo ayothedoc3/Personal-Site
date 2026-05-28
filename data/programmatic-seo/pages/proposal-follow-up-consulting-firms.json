@@ -1,0 +1,22 @@
+{
+  "slug": "proposal-follow-up-consulting-firms",
+  "title": "Proposal and Quote Follow-Up for Consulting Firms",
+  "metaDescription": "Open proposals and SOWs followed up on day 3, 7, and 14, in your firm's voice, with no partner remembering. Lift close rate on deals already in your pipeline.",
+  "outcome": "Proposal and Quote Follow-Up",
+  "fourC": "Capabilities",
+  "tier": "capability",
+  "industry": "consulting firms",
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 4,
+  "excerpt": "Most firms lose proposals to silence, not to a no. The fix is mechanical: a partner-voiced follow-up sequence that runs without anyone remembering.",
+  "sections": {
+    "intro": "<p>Most firms lose proposals not to a clear no, but to silence. The partner sends the SOW, the prospect goes quiet, life happens, three weeks pass, and the deal is functionally dead. The deal did not close because nobody chased.</p><p>The fix is mechanical: a follow-up sequence runs on day 3, day 7, and day 14 after a proposal goes out, in your firm's voice, and stops the moment the prospect replies.</p><p>This is a <strong>Capabilities</strong> layer of an AI Operating System.</p>",
+    "fourCFit": "<p>Proposal follow-up sits in <strong>Capabilities</strong>, driven by:</p><ul><li><strong>Connections</strong>: your CRM, proposal or SOW tool, inbox.</li><li><strong>Context</strong>: your firm's voice, your standard follow-up structure, the deal context.</li><li><strong>Cadence</strong>: the day-3, day-7, day-14 schedule.</li></ul><p>See it in context at <a href='/automation/ai-operating-system-consulting-firms'>AI Operating System for Consulting Firms</a>.</p>",
+    "whatDoneLooksLike": "<ul><li>Proposal sent triggers a 3-touch sequence on day 3, day 7, day 14.</li><li>Each touch is in your firm's voice, references the specific engagement, includes a clear next step.</li><li>If the prospect replies on any channel, the sequence stops.</li><li>Partner gets pinged the moment a reply comes in.</li></ul>",
+    "howWeInstall": "<ol><li><strong>Audit</strong>, free, about 10 minutes. <a href='/audit'>Run the audit</a>.</li><li><strong>Install</strong>, inside 10 business days. We connect your CRM, proposal tool, and inbox; capture your firm voice; ship the sequence for a real open deal.</li><li><strong>Operate</strong>, ongoing. <a href='/offer'>See plans</a>.</li></ol>",
+    "expectedResults": "<ul><li>Follow-up coverage on open proposals: from inconsistent to 100 percent.</li><li>Reply rate on stalled deals: meaningful lift, with no extra partner time.</li><li>Partner hours: down, not up. The system handles the chase; partners show up when the prospect re-engages.</li></ul><p>Standing guarantee on the wider AIOS engagement: recover 40 or more hours a month, or we keep working free until you do.</p>",
+    "faq": "<h4>Will it sound like a partner?</h4><p>Yes, because it is trained on real past partner replies. You approve the sequence before it goes live.</p><h4>What if the prospect already replied elsewhere?</h4><p>The system reads recent inbox replies before each touch and pauses itself if the prospect has clearly converted, declined, or asked for time.</p><h4>Who owns the system?</h4><p>You do. Every prompt and connection lives in your accounts.</p>"
+  }
+}

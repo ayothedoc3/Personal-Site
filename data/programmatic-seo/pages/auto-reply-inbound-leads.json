@@ -1,0 +1,22 @@
+{
+  "slug": "auto-reply-inbound-leads",
+  "title": "How to Auto-Reply to Every Inbound Lead (Without Sounding Like a Bot)",
+  "metaDescription": "A clear spec for auto-replying to every inbound lead in under 60 seconds, in your voice, with your booking link. Build it yourself, or have us build it free.",
+  "outcome": "60-Second Lead Response",
+  "fourC": "Capabilities",
+  "tier": "wedge",
+  "industry": null,
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 5,
+  "excerpt": "Auto-replying to inbound leads is easy. Auto-replying in a way that does not sound like a bot, lands in 60 seconds, and gets the prospect onto your calendar takes a specific design.",
+  "sections": {
+    "intro": "<p>Auto-replying to inbound leads is easy. Auto-replying in a way that does not sound like a bot, lands in 60 seconds, and actually gets the prospect onto your calendar takes a specific design.</p><p>This page is the spec. If you want to build it yourself, the list below is what to build. If you would rather we build it for you, the offer at the bottom is free on your real leads.</p>",
+    "fourCFit": "<p>Inside an AI Operating System, auto-reply is a <strong>Capability</strong>. It is the highest-leverage one for almost every business that gets inbound, because it pays for itself in the first booked call.</p><p>It depends on:</p><ul><li><strong>Connections</strong>: the form, the inbox, the CRM, the calendar.</li><li><strong>Context</strong>: your voice, your offer, your standard next step.</li><li><strong>Cadence</strong>: the follow-up sequence on day 1, day 3, day 6 that runs when the prospect does not book on day 0.</li></ul>",
+    "whatDoneLooksLike": "<p>A correctly built auto-reply system, regardless of stack, hits every one of these:</p><ul><li><strong>Speed</strong>: first reply lands in under 60 seconds, always.</li><li><strong>Voice</strong>: written in your voice, trained on real past replies. Does not start with \"Thanks for reaching out!\" boilerplate.</li><li><strong>Personalization</strong>: uses the lead's name, company, and any field they filled out (service interest, budget, timing).</li><li><strong>Clear next step</strong>: contains a booking link tuned to your real calendar. One click, not a thread.</li><li><strong>Routing</strong>: pings the right human with the lead, the source, and the reply that went out. The human can take over at any point.</li><li><strong>CRM integrity</strong>: lead is created or updated as the same record. No duplicates.</li><li><strong>Cadence</strong>: if they do not book, a 3-touch sequence runs on day 1, day 3, day 6 in the same voice. The moment they reply, the sequence stops.</li><li><strong>Audit</strong>: every reply is logged. You can read what went out, when, and to whom.</li></ul>",
+    "howWeInstall": "<p>Two paths.</p><ol><li><strong>Build it yourself.</strong> The list above is the spec. Plan on a few weeks to wire the form, CRM, inbox, and calendar together, plus an iteration cycle to train the voice. Pick whatever stack you already use.</li><li><strong>Have us build it free.</strong> We install the 60-Second Lead Engine on your real leads, into your real stack, with your voice captured from past replies. No card, no commitment beyond letting us see it work. <a href='/offer'>Get the free build</a>.</li></ol><p>If you want a readiness check first, <a href='/audit'>run the free AI-readiness audit</a>. It tells you where the leverage is across the Four Cs.</p>",
+    "expectedResults": "<p>Two effects, both real and both compounding:</p><ul><li><strong>Conversion lift</strong> on the leads you already get. A 60-second reply outperforms a same-day reply by a meaningful margin.</li><li><strong>Coverage</strong> of the leads you would have missed (weekends, evenings, holidays). The system does not stop.</li></ul>",
+    "faq": "<h4>Will it sound like a bot?</h4><p>If you write the reply like a template, yes. If you train it on real past replies and personalize on the lead, no. The bar to clear is \"sounds like a fast human,\" not \"sounds like AI.\"</p><h4>What if the lead writes a complex question?</h4><p>The 60-second reply does what you would naturally do in 60 seconds: acknowledge, confirm a next step, offer the booking link. The complex answer waits for the call.</p><h4>Does this work with my CRM?</h4><p>Yes. The system writes to whatever CRM you already use (HubSpot, Pipedrive, Copper, a spreadsheet). It does not require you to switch tools.</p>"
+  }
+}

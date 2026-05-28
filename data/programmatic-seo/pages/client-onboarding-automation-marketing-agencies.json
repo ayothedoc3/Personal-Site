@@ -1,0 +1,22 @@
+{
+  "slug": "client-onboarding-automation-marketing-agencies",
+  "title": "Client Onboarding Automation for Marketing Agencies",
+  "metaDescription": "Every new client gets the same crisp kickoff: contract, intake, kickoff deck, comms cadence. We install the onboarding flow so the worst experience matches the best.",
+  "outcome": "Client Onboarding Automation",
+  "fourC": "Capabilities",
+  "tier": "capability",
+  "industry": "marketing agencies",
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 4,
+  "excerpt": "Onboarding is the part of the agency experience clients judge first. We install a flow that runs the same way every time, so the worst onboarding matches the best.",
+  "sections": {
+    "intro": "<p>Onboarding is the part of the agency experience clients judge first, and it is also the part most agencies are inconsistent on. The first three clients of the year get the founder. The next thirty get whoever has bandwidth. The fall-off is real, and it shows up later as churn complaints that look like delivery problems but are actually onboarding problems.</p><p>The fix is to make the onboarding flow run the same way every time, regardless of who is on the account. Contract signed triggers intake form. Intake triggers kickoff deck draft. Kickoff scheduled triggers comms cadence. Nothing depends on someone remembering.</p><p>This is a <strong>Capabilities</strong> layer of an AI Operating System.</p>",
+    "fourCFit": "<p>Onboarding sits in <strong>Capabilities</strong>. It depends on:</p><ul><li><strong>Connections</strong>: your CRM, contract tool, intake form, slide tool, calendar, project tool, email.</li><li><strong>Context</strong>: your standard onboarding sequence, your voice, your kickoff deck template.</li><li><strong>Cadence</strong>: the week-1, week-2, week-4 touchpoints that follow the kickoff.</li></ul><p>See it in context at <a href='/automation/ai-operating-system-marketing-agencies'>AI Operating System for Marketing Agencies</a>.</p>",
+    "whatDoneLooksLike": "<ul><li>Contract signed → intake form sent within 5 minutes, in your voice.</li><li>Intake submitted → kickoff deck drafts itself with the client's specifics filled in.</li><li>Kickoff scheduled → calendar invites, prep doc, and welcome email go out automatically.</li><li>Week-1, week-2, week-4 touchpoints land on schedule.</li><li>The account manager reviews each step. The system runs everything in between.</li></ul>",
+    "howWeInstall": "<ol><li><strong>Audit</strong>, free, about 10 minutes. <a href='/audit'>Run the audit</a>.</li><li><strong>Install</strong>, inside 10 business days. We connect your contract tool, intake form, slide tool, calendar, and email; capture your voice; ship the flow for a real client.</li><li><strong>Operate</strong>, ongoing. <a href='/offer'>See plans</a>.</li></ol>",
+    "expectedResults": "<ul><li>Hours per new client onboarding: from 4 to 8 hours of coordination to under 1.</li><li>Consistency: every client gets the same kickoff, regardless of who is on the account.</li><li>SLAs: hit, every time. No \"sorry, we got slammed.\"</li></ul><p>Standing guarantee on the wider AIOS engagement: recover 40 or more hours a month across the team, or we keep working free until you do.</p>",
+    "faq": "<h4>What if a client needs a custom intake?</h4><p>Per-service intake variants are part of the setup. The right intake fires based on what they signed for.</p><h4>Can the account manager override?</h4><p>Yes. Every step is reviewable and editable before it goes out. Most teams settle into reviewing the high-stakes touches (kickoff deck, week-1 email) and letting the rest run.</p><h4>Who owns the system?</h4><p>You do. Every prompt and connection lives in your accounts.</p>"
+  }
+}

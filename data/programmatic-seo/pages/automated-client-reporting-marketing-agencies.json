@@ -1,0 +1,22 @@
+{
+  "slug": "automated-client-reporting-marketing-agencies",
+  "title": "Automated Client Reporting for Marketing Agencies",
+  "metaDescription": "Monthly client reports that draft themselves from live ad spend, analytics, and CRM data. We install it, you review and send. Done-for-you, not a template.",
+  "outcome": "Automated Client Reporting",
+  "fourC": "Cadence",
+  "tier": "capability",
+  "industry": "marketing agencies",
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 4,
+  "excerpt": "Monthly client reports take half a Friday per client at most agencies. They do not have to. The data is already live; the report should build itself.",
+  "sections": {
+    "intro": "<p>Most marketing agencies spend half a Friday per client building the monthly report. Account managers pull from Google Ads, Meta Ads, GA4, HubSpot, the SEO platform, and the call tracker. They format. They write commentary. They send. Then they do it again next month, and the month after.</p><p>The data is already live. The report should build itself, with commentary that knows what last month said, in your agency's voice, on the first of every month. The account manager reviews and sends.</p><p>This is the <strong>Cadence</strong> layer of an AI Operating System. It is one of the highest-impact things we install after the Lead Engine.</p>",
+    "fourCFit": "<p>Reporting is a <strong>Cadence</strong> capability because it runs on a schedule without being asked. It depends on:</p><ul><li><strong>Connections</strong>: the ad platforms, analytics, CRM, and call tracker your team already pulls from.</li><li><strong>Context</strong>: your voice, your usual commentary structure, and the goals for each client (so the report knows what \"good\" looks like).</li><li><strong>Capabilities</strong>: the actual draft, formatted to your template.</li></ul><p>See it in context at <a href='/automation/ai-operating-system-marketing-agencies'>AI Operating System for Marketing Agencies</a>.</p>",
+    "whatDoneLooksLike": "<ul><li>Report drafts on the first of each month (or your reporting day), per client, automatically.</li><li>Numbers pull from live sources, not from a stale export.</li><li>Commentary is written in your agency's voice, references last month's numbers, and flags movements worth talking about.</li><li>Format matches your existing template (PDF, Notion doc, Google Doc, slide, whatever you ship today).</li><li>Account manager gets the draft, reviews, edits if needed, sends. Time per report drops from hours to minutes.</li></ul>",
+    "howWeInstall": "<p>Three phases, same as the rest of the AIOS:</p><ol><li><strong>Audit</strong>, free, about 10 minutes. We score readiness across the Four Cs and confirm reporting fit. <a href='/audit'>Run the audit</a>.</li><li><strong>Install</strong>, inside 10 business days for the reporting Capability. We connect your data sources, capture your commentary voice from past reports, and ship the first draft for a real client.</li><li><strong>Operate</strong>, ongoing. We watch it, fix it, and extend it (per-client thresholds, new data sources, new sections) as part of your monthly plan. <a href='/offer'>See plans</a>.</li></ol>",
+    "expectedResults": "<ul><li>Time per monthly report: from hours to under 15 minutes (review + send).</li><li>Coverage: 100 percent of clients reported on the same day, every month.</li><li>Consistency: every client gets the same format and commentary depth, no matter who the account manager is.</li></ul><p>Standing guarantee on the wider AIOS engagement: recover 40 or more hours a month across the team, or we keep working free until you do.</p>",
+    "faq": "<h4>What if a client wants something custom in their report?</h4><p>Per-client sections and thresholds are part of how the system is set up. The custom view is the default for that client, every month, without anyone remembering.</p><h4>What if the data source breaks?</h4><p>We monitor every data connection. If a source breaks, the system flags it in the draft and pings the account manager. No silent failures.</p><h4>Who owns the system?</h4><p>You do. Every prompt and connection lives in your accounts.</p>"
+  }
+}

@@ -22,6 +22,41 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
+  // Permanent redirects from the retired tool-led programmatic SEO slugs to their
+  // outcome-led replacements (or to the /automation index when there's no clean
+  // 1:1 mapping). See programmatic-seo-realignment-plan.md → Migration.
+  async redirects() {
+    return [
+      {
+        source: '/automation/n8n-lead-generation-marketing-agencies',
+        destination: '/automation/60-second-lead-response-marketing-agencies',
+        permanent: true,
+      },
+      {
+        source: '/automation/n8n-lead-generation-consulting',
+        destination: '/automation/60-second-lead-response-consulting-firms',
+        permanent: true,
+      },
+      {
+        source: '/automation/zapier-customer-onboarding-consulting',
+        destination: '/automation/client-onboarding-automation-consulting-firms',
+        permanent: true,
+      },
+      // Retired tool-led pages with no clean 1:1 mapping fall back to the
+      // /automation index so traffic still lands somewhere useful.
+      { source: '/automation/make-com-lead-generation-law-firms', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-lead-generation-law-firms', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-lead-generation-e-commerce', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-lead-generation-healthcare', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-lead-generation-real-estate', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-lead-generation-restaurants', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-lead-generation-saas-companies', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-reporting-automation-saas-companies', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-social-media-posting-e-commerce', destination: '/automation', permanent: true },
+      { source: '/automation/n8n-social-media-posting-real-estate', destination: '/automation', permanent: true },
+    ]
+  },
+
   // Security headers
   async headers() {
     return [

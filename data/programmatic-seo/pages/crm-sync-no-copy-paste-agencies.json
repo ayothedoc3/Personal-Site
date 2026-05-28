@@ -1,0 +1,22 @@
+{
+  "slug": "crm-sync-no-copy-paste-agencies",
+  "title": "CRM Sync Without Copy-Paste for Agencies",
+  "metaDescription": "Stop pasting between your form, your inbox, and your CRM. We wire your tools so the CRM is always live, never lagging behind real conversations.",
+  "outcome": "CRM Sync Without Copy-Paste",
+  "fourC": "Connections",
+  "tier": "capability",
+  "industry": null,
+  "tool": null,
+  "useCase": null,
+  "datePublished": "2026-05-28T12:00:00.000Z",
+  "readTime": 4,
+  "excerpt": "Most agency CRMs lag behind reality by days or weeks because nobody is paid to type forms and emails into HubSpot. The fix is to make typing unnecessary.",
+  "sections": {
+    "intro": "<p>Most agency CRMs lag behind reality by days or weeks. Nobody is paid to type new leads, replies, and deal stage changes into HubSpot or Pipedrive. So the CRM stops being trustworthy, reporting gets unreliable, and the team stops looking at it. The fix is not to discipline the team. The fix is to make typing unnecessary.</p><p>This is the <strong>Connections</strong> layer of an AI Operating System. It is the foundation everything else sits on.</p>",
+    "fourCFit": "<p>CRM sync is pure <strong>Connections</strong>. Without it, every other Capability has to either nag a human to update the CRM or operate on stale data. It depends on:</p><ul><li>Your form (Typeform, native, embedded).</li><li>Your inbox (Gmail, Outlook).</li><li>Your calendar.</li><li>Your CRM of record.</li><li>Any other source the team treats as truth (Slack DMs to the founder, etc).</li></ul><p>See it in context at <a href='/automation/ai-operating-system-marketing-agencies'>AI Operating System for Marketing Agencies</a>.</p>",
+    "whatDoneLooksLike": "<ul><li>New form submission becomes a CRM contact in seconds, deduped against existing records.</li><li>Inbound and outbound emails attach to the right contact and deal, automatically.</li><li>Calendar meetings link to the right deal.</li><li>Deal stage updates trigger from real signals (proposal opened, SOW signed, payment received), not from someone remembering to drag the card.</li><li>Reports built off the CRM finally match what is actually happening.</li></ul>",
+    "howWeInstall": "<ol><li><strong>Audit</strong>, free, about 10 minutes. We map your real data flow today and identify the breakpoints. <a href='/audit'>Run the audit</a>.</li><li><strong>Install</strong>, inside 10 business days. We wire the connections, dedupe the existing data, and ship the live sync.</li><li><strong>Operate</strong>, ongoing. We monitor the connections and fix them when an upstream tool changes its API. <a href='/offer'>See plans</a>.</li></ol>",
+    "expectedResults": "<ul><li>Time spent on CRM data entry: from hours per week to near zero.</li><li>CRM accuracy: from days-stale to live.</li><li>Reporting reliability: from \"the CRM says X but I think actually Y\" to \"the CRM is the source of truth.\"</li></ul><p>Standing guarantee on the wider AIOS engagement: recover 40 or more hours a month, or we keep working free until you do.</p>",
+    "faq": "<h4>Does this work with my CRM?</h4><p>Yes. We work with HubSpot, Pipedrive, Copper, Salesforce, Attio, and most others. If you are on a spreadsheet today, we work with that too.</p><h4>What about dedupe of existing messy data?</h4><p>Part of the install includes a one-time pass on existing records to merge duplicates and standardize fields. The sync starts clean.</p><h4>What if a connection breaks?</h4><p>We monitor every connection. If something breaks, you get an alert and we fix it.</p>"
+  }
+}
