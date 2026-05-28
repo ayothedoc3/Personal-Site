@@ -279,18 +279,6 @@ export default async function AutomationDetailPage({ params }: AutomationDetailP
                 <Link href={secondary.href}>{secondary.label}</Link>
               </Button>
             </div>
-            <p className="text-sm text-gray-700 mt-4">
-              Prefer to talk first?{" "}
-              <Link
-                href="https://calendly.com/ayothedoc"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-4 hover:text-gray-900"
-              >
-                Book a 15-minute call
-              </Link>
-              .
-            </p>
           </div>
         </article>
 
