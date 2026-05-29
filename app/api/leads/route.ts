@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
-import { listAuditLeads } from '@/lib/db'
+import { listAuditLeads, findAuditLeadsByEmail, deleteAuditLeadsByEmail } from '@/lib/db'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -187,5 +187,51 @@ export async function POST(request: NextRequest) {
       { error: 'Failed to export leads' },
       { status: 500 }
     )
+  }
+}
+
+// Delete audit leads by email. Preview-first by default: pass `confirm=1` to
+// actually delete. Gated by LEADS_API_KEY. Useful for one-off cleanups and
+// for GDPR-style "delete my data" requests.
+export async function DELETE(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader || authHeader !== `Bearer ${process.env.LEADS_API_KEY}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const email = (searchParams.get('email') || '').trim()
+    const confirm = searchParams.get('confirm') === '1'
+
+    if (!email) {
+      return NextResponse.json({ error: 'email query param is required' }, { status: 400 })
+    }
+
+    const matches = await findAuditLeadsByEmail(email)
+    if (matches === null) {
+      return NextResponse.json({ error: 'Postgres not configured' }, { status: 500 })
+    }
+
+    if (matches.length === 0) {
+      return NextResponse.json({ found: 0, deleted: 0, message: 'No matching leads' })
+    }
+
+    if (!confirm) {
+      return NextResponse.json({
+        found: matches.length,
+        preview: matches,
+        message: 'Preview only. Add &confirm=1 to delete.',
+      })
+    }
+
+    const deleted = await deleteAuditLeadsByEmail(email)
+    return NextResponse.json({
+      deleted: deleted?.length ?? 0,
+      rows: deleted ?? [],
+    })
+  } catch (error) {
+    console.error('Error deleting leads:', error)
+    return NextResponse.json({ error: 'Failed to delete leads' }, { status: 500 })
   }
 }

@@ -118,3 +118,50 @@ export async function listAuditLeads(limit: number = 1000): Promise<AuditLead[] 
   }))
 }
 
+type AuditLeadRow = {
+  id: string
+  name: string
+  email: string
+  website: string
+  businessType: string
+  insertedAt: string
+}
+
+function mapBasicRow(row: any): AuditLeadRow {
+  return {
+    id: String(row.id),
+    name: String(row.name ?? ''),
+    email: String(row.email ?? ''),
+    website: String(row.website ?? ''),
+    businessType: String(row.business_type ?? ''),
+    insertedAt: row.inserted_at ? new Date(row.inserted_at).toISOString() : new Date().toISOString(),
+  }
+}
+
+export async function findAuditLeadsByEmail(email: string): Promise<AuditLeadRow[] | null> {
+  const p = getPgPool()
+  if (!p) return null
+  await ensureAuditLeadsTable(p)
+  const res = await p.query(
+    `select id, name, email, website, business_type, inserted_at
+       from audit_leads
+      where email = $1
+      order by inserted_at desc`,
+    [email],
+  )
+  return res.rows.map(mapBasicRow)
+}
+
+export async function deleteAuditLeadsByEmail(email: string): Promise<AuditLeadRow[] | null> {
+  const p = getPgPool()
+  if (!p) return null
+  await ensureAuditLeadsTable(p)
+  const res = await p.query(
+    `delete from audit_leads
+      where email = $1
+      returning id, name, email, website, business_type, inserted_at`,
+    [email],
+  )
+  return res.rows.map(mapBasicRow)
+}
+
