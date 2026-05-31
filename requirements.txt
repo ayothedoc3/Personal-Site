@@ -1,3 +1,4 @@
+anthropic
 google-genai
 jinja2==3.1.2
 python-slugify==8.0.1
