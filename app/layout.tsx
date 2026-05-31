@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   keywords:
-    "managed AI operations, AI operating system, AIOS, AI automation agency, done-for-you AI, business automation, workflow automation, AI for small business, n8n, AI consulting",
+    "managed AI operations, AI operating system, AIOS, AI automation agency, done-for-you AI, business automation, workflow automation, AI for small business, lead response automation, AI consulting",
   authors: [{ name: "Ayothedoc" }],
   creator: "Ayothedoc",
   publisher: "Ayothedoc",
