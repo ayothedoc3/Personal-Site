@@ -200,7 +200,7 @@ export default function OfferPage() {
             <h2 className="text-3xl md:text-4xl font-bold">Works with your stack</h2>
             <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
               Gmail, Outlook, HubSpot, Pipedrive, ClickUp, Asana, Slack, Google Workspace, Stripe, QuickBooks,
-              Notion, Zapier, Make.com, n8n, bring what you already use.
+              Notion, and the rest of the tools you already run on.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/audit">

@@ -130,7 +130,6 @@ export default function Home() {
               <span>Notion</span>
               <span>Google Workspace</span>
               <span>Stripe</span>
-              <span>n8n</span>
               <span>Claude</span>
             </div>
           </div>
