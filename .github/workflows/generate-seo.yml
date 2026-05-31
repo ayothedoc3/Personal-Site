@@ -31,9 +31,10 @@ jobs:
       - name: Generate SEO content
         env:
           # Script was migrated from Gemini to Claude; it reads ANTHROPIC_API_KEY
-          # and AUDIT_CLAUDE_MODEL (default claude-opus-4-7).
+          # and AUDIT_CLAUDE_MODEL. Sonnet for bulk SEO: ~5x cheaper than Opus,
+          # far faster, negligible quality drop for templated pages.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          AUDIT_CLAUDE_MODEL: claude-opus-4-7
+          AUDIT_CLAUDE_MODEL: claude-sonnet-4-6
         run: python scripts/programmatic_seo.py
 
       - name: Commit and push if changes
