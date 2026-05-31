@@ -72,7 +72,7 @@ export default function Contact() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-sm border border-primary/30 rounded-full text-primary text-sm font-semibold tracking-wider uppercase shadow-lg">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              CONTACT US
+              FREE BUILD, NO CARD
             </span>
           </div>
 
@@ -83,9 +83,9 @@ export default function Contact() {
             style={{ animationDelay: "0.4s" }}
           >
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Don't Wait
+              Get your free
             </span>{" "}
-            <span className="inline-block hover:scale-105 transition-transform duration-300">- Let's Get Started</span>
+            <span className="inline-block hover:scale-105 transition-transform duration-300">60-Second Lead Engine</span>
           </h1>
 
           <p
@@ -94,8 +94,9 @@ export default function Contact() {
             id="contact-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Ready to put AI to work in your business? Tell us where the repetitive work is, and we&apos;ll show you how
-            your AI Operating System recovers 40+ hours a month.
+            Tell us about your business below. We&apos;ll build you a system that replies to every new lead in under 60
+            seconds, personalized, in your voice, with your booking link, on your real leads, free. If it books calls
+            you&apos;d have missed, we talk about running the rest of your operations.
           </p>
         </div>
       </section>
@@ -113,7 +114,7 @@ export default function Contact() {
               <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-emerald-400/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
                 <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
-                  Send Us a Message
+                  Request your free Lead Engine
                 </h2>
                 <ContactForm onSuccess={handleFormSuccess} />
               </div>
@@ -127,11 +128,11 @@ export default function Contact() {
                 style={{ animationDelay: "1.0s" }}
               >
                 <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Get In Touch
+                  How the free build works
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-8 hover:text-foreground/80 transition-colors duration-300">
-                  Ready to stop being the bottleneck? Tell us about your business and we&apos;ll map the AI operations
-                  that take the busywork off your plate.
+                  No card, no call required, no risk. We build your Lead Engine on your real leads so you can watch it
+                  work. Most builds are live within a few days.
                 </p>
               </div>
 
@@ -144,15 +145,15 @@ export default function Contact() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Free Consultation Includes:
+                    Your free Lead Engine includes:
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "Comprehensive business process analysis",
-                      "Custom automation recommendations",
-                      "Time and cost savings projection",
-                      "Implementation roadmap and timeline",
-                      "No-obligation project proposal",
+                      "Replies to every new lead in under 60 seconds",
+                      "Personalized and written in your voice",
+                      "Your booking link built into every reply",
+                      "Instant alert to you on every new lead",
+                      "Built on your real leads, no card required",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -198,19 +199,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div
-                className="text-center opacity-0 animate-fade-in-up"
-                data-animate
-                id="book-now-button"
-                style={{ animationDelay: "1.6s" }}
-              >
-                <Button 
-                  onClick={() => window.open('https://calendly.com/ayothedoc', '_blank')}
-                  className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-lime-400/25 transition-all duration-300 hover:scale-110 group"
-                >
-                  <span className="group-hover:scale-110 transition-transform duration-200">I'm Ready - Book Now</span>
-                </Button>
-              </div>
             </div>
           </div>
         </div>

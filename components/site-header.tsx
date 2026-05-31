@@ -11,13 +11,9 @@ export function SiteHeader() {
 
   const navItems = [
     { href: "/", label: "Home" },
-    { href: "/services", label: "Services" },
-    { href: "/offer", label: "Offer" },
-    { href: "/audit", label: "Free Audit" },
-    { href: "/automation", label: "Automation Library" },
-    { href: "/about", label: "About" },
+    { href: "/services", label: "How it works" },
+    { href: "/offer", label: "Pricing" },
     { href: "/contact", label: "Contact" },
-    { href: "/blog", label: "Blog" },
   ]
 
   const isActive = (href: string) => {
@@ -65,12 +61,10 @@ export function SiteHeader() {
             className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-6 py-2 rounded-full shadow-lg hover:shadow-lime-400/25 transition-all duration-300 hover:scale-105"
           >
             <Link
-              href="https://calendly.com/ayothedoc"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent("cta_click", { cta: "header_book_consultation", destination: "calendly" })}
+              href="/contact"
+              onClick={() => trackEvent("cta_click", { cta: "header_free_lead_engine", destination: "/contact" })}
             >
-              Book a Consultation
+              Get Your Lead Engine Free
             </Link>
           </Button>
         </div>

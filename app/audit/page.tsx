@@ -58,12 +58,6 @@ export default function AuditPage() {
   const effectiveIndustry =
     formData.industry === 'Other' ? (formData.customIndustry?.trim() || 'Other') : formData.industry
 
-  const openCalendly = useCallback((cta: string) => {
-    trackEvent("cta_click", { cta, destination: "calendly" })
-    if (typeof window !== "undefined") {
-      window.open("https://calendly.com/ayothedoc", "_blank", "noopener,noreferrer")
-    }
-  }, [])
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

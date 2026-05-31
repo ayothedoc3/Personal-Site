@@ -28,13 +28,6 @@ export default function Home() {
     document.body.classList.remove("keyboard-navigation")
   }, [])
 
-  const openCalendly = useCallback((cta: string) => {
-    trackEvent("cta_click", { cta, destination: "calendly" })
-    if (typeof window !== "undefined") {
-      window.open("https://calendly.com/ayothedoc", "_blank", "noopener,noreferrer")
-    }
-  }, [])
-
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove)
     window.addEventListener("keydown", handleKeyDown)
@@ -428,6 +421,7 @@ export default function Home() {
                 <ul className="space-y-2 text-muted-foreground">
                   <li><Link href="/about" className="hover:text-lime-400">About</Link></li>
                   <li><Link href="/contact" className="hover:text-lime-400">Contact</Link></li>
+                  <li><Link href="/automation" className="hover:text-lime-400">Automation Library</Link></li>
                   <li><Link href="/blog" className="hover:text-lime-400">Blog</Link></li>
                 </ul>
               </div>

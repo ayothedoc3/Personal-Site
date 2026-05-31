@@ -64,7 +64,7 @@ export default function Services() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-sm border border-primary/30 rounded-full text-primary text-sm font-semibold tracking-wider uppercase shadow-lg">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              WHAT WE INSTALL
+              HOW IT WORKS
             </span>
           </div>
 
@@ -75,9 +75,9 @@ export default function Services() {
             style={{ animationDelay: "0.4s" }}
           >
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Everything your AI
+              How we run
             </span>{" "}
-            <span className="inline-block hover:scale-105 transition-transform duration-300">runs on</span>
+            <span className="inline-block hover:scale-105 transition-transform duration-300">your operations</span>
           </h1>
 
           <p
@@ -86,8 +86,8 @@ export default function Services() {
             id="services-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            We install and run your company&apos;s AI Operating System. These are the building blocks we set up,
-            wire into your tools, and operate for you, so the repetitive work runs itself.
+            We install your company&apos;s AI Operating System, then run it for you. These are the building blocks we
+            set up, wire into your tools, and operate, so the repetitive work runs itself.
           </p>
         </div>
       </section>
