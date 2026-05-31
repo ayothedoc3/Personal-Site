@@ -15,6 +15,10 @@ function fmtDate(iso: string | null): string {
   }
 }
 
+function coverUrl(title: string, category: string): string {
+  return `/blog/cover?title=${encodeURIComponent(title)}&category=${encodeURIComponent(category)}`
+}
+
 export default async function Blog() {
   const records = await listPublishedPosts()
   const blogPosts = records.map((r) => ({
@@ -25,7 +29,7 @@ export default async function Blog() {
     date: fmtDate(r.publishedAt || r.createdAt),
     category: r.category,
     readTime: r.readTime,
-    image: r.coverImage,
+    image: r.coverImage || coverUrl(r.title, r.category),
     published: r.published,
     author: r.author,
     tags: r.tags,

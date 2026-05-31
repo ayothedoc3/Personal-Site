@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const { slug } = await params
   const post = await getPostBySlug(slug)
   if (!post) return { title: "Post Not Found - Ayothedoc" }
+  const cover =
+    post.coverImage ||
+    `/blog/cover?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`
   return {
     title: `${post.title} - Ayothedoc Blog`,
     description: post.excerpt,
@@ -34,13 +37,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : [],
+      type: "article",
+      images: [{ url: cover, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : [],
+      images: [cover],
     },
   }
 }
