@@ -1,45 +1,46 @@
-import { getPostBySlug, getAllPosts } from '@/lib/posts'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { Button } from '@/components/ui/button'
-import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
+import { marked } from "marked"
+import { notFound } from "next/navigation"
+import { Metadata } from "next"
+import Link from "next/link"
+
+import { SiteHeader } from "@/components/site-header"
+import { Button } from "@/components/ui/button"
+import { getPostBySlug } from "@/lib/blog-store"
+
+// Posts are DB-backed and managed from admin, so render on demand.
+export const dynamic = "force-dynamic"
 
 interface BlogPostPageProps {
-  params: Promise<{
-    slug: string
-  }>
+  params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  const posts = await getAllPosts()
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
+function fmtDate(iso: string | null): string {
+  if (!iso) return ""
+  try {
+    return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+  } catch {
+    return ""
+  }
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug)
-  
-  if (!post) {
-    return {
-      title: 'Post Not Found - Ayothedoc',
-    }
-  }
-
+  if (!post) return { title: "Post Not Found - Ayothedoc" }
   return {
-    title: `${post.meta.title} - Ayothedoc Blog`,
-    description: post.meta.excerpt,
+    title: `${post.title} - Ayothedoc Blog`,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
-      title: post.meta.title,
-      description: post.meta.excerpt,
-      images: post.meta.image ? [post.meta.image] : [],
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : [],
     },
     twitter: {
-      card: 'summary_large_image',
-      title: post.meta.title,
-      description: post.meta.excerpt,
-      images: post.meta.image ? [post.meta.image] : [],
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : [],
     },
   }
 }
@@ -47,91 +48,51 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
+  if (!post) notFound()
 
-  if (!post) {
-    notFound()
-  }
+  const html = await marked.parse(post.content || "", { gfm: true, breaks: false })
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/50">
-        <div className="flex items-center justify-between px-6 py-4 lg:px-12">
-          <div className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-primary/25 transition-all duration-300 group-hover:scale-110">
-              <svg className="w-5 h-5 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <a href="/" className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
-              Ayothedoc
-            </a>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-8">
-            {[
-              { href: "/", label: "Home" },
-              { href: "/services", label: "Services" },
-              { href: "/audit", label: "Free Audit" },
-              { href: "/about", label: "About" },
-              { href: "/contact", label: "Contact" },
-              { href: "/blog", label: "Blog" },
-            ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="relative px-3 py-2 text-muted-foreground hover:text-foreground transition-all duration-300 group"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 w-0 group-hover:w-full" />
-              </a>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-6 py-2 rounded-full shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105">
-              Book a Consultation
-            </Button>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="relative">
-        {/* Hero Section */}
         <section className="relative px-6 py-20 lg:px-12 bg-gradient-to-b from-background to-muted/20">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <a href="/blog" className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors duration-300">
+              <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors duration-300">
                 ← Back to Blog
-              </a>
+              </Link>
             </div>
-            
+
             <div className="mb-8">
-              <div className="flex items-center gap-4 mb-6">
-                <span className="bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                  {post.meta.category}
-                </span>
-                <span className="text-muted-foreground text-sm">{post.meta.date}</span>
-                <span className="text-muted-foreground text-sm">{post.meta.readTime}</span>
+              <div className="flex items-center gap-4 mb-6 flex-wrap">
+                {post.category && (
+                  <span className="bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+                    {post.category}
+                  </span>
+                )}
+                <span className="text-muted-foreground text-sm">{fmtDate(post.publishedAt || post.createdAt)}</span>
+                {post.readTime && <span className="text-muted-foreground text-sm">{post.readTime}</span>}
               </div>
-              
+
               <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
                 <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                  {post.meta.title}
+                  {post.title}
                 </span>
               </h1>
-              
-              <p className="text-muted-foreground text-lg md:text-xl mb-8 leading-relaxed">
-                {post.meta.excerpt}
-              </p>
-              
+
+              {post.excerpt && (
+                <p className="text-muted-foreground text-lg md:text-xl mb-8 leading-relaxed">{post.excerpt}</p>
+              )}
+
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <span>By {post.meta.author}</span>
-                {post.meta.tags.length > 0 && (
+                <span>By {post.author}</span>
+                {post.tags.length > 0 && (
                   <div className="flex items-center gap-2">
                     <span>•</span>
-                    <div className="flex gap-2">
-                      {post.meta.tags.map((tag) => (
+                    <div className="flex gap-2 flex-wrap">
+                      {post.tags.map((tag) => (
                         <span key={tag} className="bg-muted px-2 py-1 rounded text-xs">
                           #{tag}
                         </span>
@@ -142,61 +103,51 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </div>
 
-            {post.meta.image && (
+            {post.coverImage && (
               <div className="aspect-video overflow-hidden rounded-2xl mb-12 shadow-2xl">
-                <img
-                  src={post.meta.image}
-                  alt={post.meta.title}
-                  className="w-full h-full object-cover"
-                />
+                <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover" />
               </div>
             )}
           </div>
         </section>
 
-        {/* Article Content */}
-        <section className="relative px-6 py-20 lg:px-12">
-          <div className="max-w-4xl mx-auto">
-            <article 
+        <section className="relative px-6 py-16 lg:px-12">
+          <div className="max-w-3xl mx-auto">
+            <article
               className="prose prose-lg max-w-none
-                prose-headings:bg-gradient-to-r prose-headings:from-primary prose-headings:to-accent prose-headings:bg-clip-text prose-headings:text-transparent
-                prose-p:text-foreground prose-p:leading-relaxed
-                prose-a:text-primary hover:prose-a:text-accent prose-a:transition-colors prose-a:duration-300
+                prose-headings:text-foreground prose-headings:font-bold
+                prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
+                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                prose-p:text-foreground/90 prose-p:leading-relaxed
+                prose-a:text-lime-500 hover:prose-a:text-lime-400 prose-a:font-medium
                 prose-strong:text-foreground
-                prose-code:bg-muted prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-foreground
-                prose-pre:bg-muted prose-pre:border prose-pre:border-border
-                prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:p-4 prose-blockquote:rounded-r
-                prose-ul:text-foreground prose-ol:text-foreground
-                prose-li:text-foreground prose-li:marker:text-primary
+                prose-ul:text-foreground/90 prose-ol:text-foreground/90
+                prose-li:marker:text-lime-400 prose-li:my-1
+                prose-blockquote:border-l-lime-400 prose-blockquote:bg-muted/40 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r prose-blockquote:not-italic
                 dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: post.html }}
+              dangerouslySetInnerHTML={{ __html: html }}
             />
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section className="relative px-6 py-20 lg:px-12">
-          <div className="max-w-4xl mx-auto text-center backdrop-blur-xl bg-card/30 border border-border/50 rounded-3xl p-12 shadow-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to{" "}
-              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                Transform
-              </span>{" "}
-              Your Business?
-            </h2>
-            <p className="text-muted-foreground text-lg mb-8">
-              Get a free consultation and discover how our automation solutions can save you time and increase efficiency.
+        {/* CTA: drive to the free Lead Engine, the primary site action */}
+        <section className="relative px-6 py-16 lg:px-12">
+          <div className="max-w-3xl mx-auto text-center bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 rounded-3xl p-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Stop losing leads to slow follow-up</h2>
+            <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+              We will build your 60-Second Lead Engine free, on your real leads. No card, no risk.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105">
-                Book Free Consultation
-              </Button>
-              <Button 
-                variant="outline" 
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
-              >
-                <a href="/blog">Read More Articles</a>
-              </Button>
+              <Link href="/contact">
+                <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
+                  Get Your Lead Engine Free
+                </Button>
+              </Link>
+              <Link href="/blog">
+                <Button variant="outline" className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
+                  Read more articles
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

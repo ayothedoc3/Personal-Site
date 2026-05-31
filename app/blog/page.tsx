@@ -1,10 +1,37 @@
 import { SiteHeader } from "@/components/site-header"
 import BlogClient from "@/components/blog-client"
-import { getPublishedPosts, getCategories } from "@/lib/posts"
+import { listPublishedPosts } from "@/lib/blog-store"
+
+// Posts come from the database (managed in admin), so render dynamically and
+// reflect publish/edit changes immediately without a redeploy.
+export const dynamic = "force-dynamic"
+
+function fmtDate(iso: string | null): string {
+  if (!iso) return ""
+  try {
+    return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+  } catch {
+    return ""
+  }
+}
 
 export default async function Blog() {
-  const blogPosts = await getPublishedPosts()
-  const categories = await getCategories()
+  const records = await listPublishedPosts()
+  const blogPosts = records.map((r) => ({
+    id: Number(r.id),
+    slug: r.slug,
+    title: r.title,
+    excerpt: r.excerpt,
+    date: fmtDate(r.publishedAt || r.createdAt),
+    category: r.category,
+    readTime: r.readTime,
+    image: r.coverImage,
+    published: r.published,
+    author: r.author,
+    tags: r.tags,
+    content: "",
+  }))
+  const categories = Array.from(new Set(records.map((r) => r.category).filter(Boolean)))
 
 
   return (
@@ -43,8 +70,8 @@ export default async function Blog() {
             id="blog-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Stay updated with the latest trends in web development, automation strategies, and business optimization
-            techniques. Learn from our experience and discover actionable insights for your business.
+            Practical thinking on AI operations for agencies and consultants: faster lead response, less busywork, and
+            systems that run the repetitive work for you.
           </p>
         </div>
       </section>

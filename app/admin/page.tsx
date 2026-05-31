@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download, Mail, User, Globe, Calendar, BarChart3, Send, Zap, Inbox, ExternalLink, LogOut, KeyRound, Trash2, ShieldCheck, ShieldAlert } from "lucide-react"
+import { Download, Mail, User, Globe, Calendar, BarChart3, Send, Zap, Inbox, ExternalLink, LogOut, KeyRound, Trash2, ShieldCheck, ShieldAlert, FileText, Plus, Pencil } from "lucide-react"
 
 interface Lead {
   id: string
@@ -48,7 +48,36 @@ const PROVIDER_OPTIONS: { value: string; label: string; placeholder: string }[] 
 ]
 const providerLabel = (v: string) => PROVIDER_OPTIONS.find((p) => p.value === v)?.label ?? v
 
-type Tab = "overview" | "leads" | "campaign" | "settings" | "actions"
+type Tab = "overview" | "leads" | "campaign" | "blog" | "settings" | "actions"
+
+interface BlogPost {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  content: string
+  category: string
+  tags: string[]
+  coverImage: string
+  author: string
+  readTime: string
+  published: boolean
+  createdAt: string
+  updatedAt: string
+  publishedAt: string | null
+}
+
+const emptyDraft = {
+  id: "",
+  title: "",
+  slug: "",
+  excerpt: "",
+  content: "",
+  category: "",
+  tags: "",
+  coverImage: "",
+  published: false,
+}
 
 export default function AdminPage() {
   const [apiKey, setApiKey] = useState("")
@@ -76,6 +105,109 @@ export default function AdminPage() {
   const [newValue, setNewValue] = useState("")
   const [savingKey, setSavingKey] = useState(false)
   const [keyMsg, setKeyMsg] = useState("")
+
+  // Blog CMS state
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [draft, setDraft] = useState({ ...emptyDraft })
+  const [editing, setEditing] = useState(false)
+  const [savingPost, setSavingPost] = useState(false)
+  const [postMsg, setPostMsg] = useState("")
+
+  const loadPosts = useCallback(async (key: string) => {
+    try {
+      const res = await fetch("/api/admin/blog", { headers: { Authorization: `Bearer ${key}` } })
+      if (res.ok) {
+        const d = await res.json()
+        setPosts(d.posts || [])
+      }
+    } catch {
+      /* non-fatal */
+    }
+  }, [])
+
+  const editPost = (p: BlogPost) => {
+    setDraft({
+      id: p.id,
+      title: p.title,
+      slug: p.slug,
+      excerpt: p.excerpt,
+      content: p.content,
+      category: p.category,
+      tags: (p.tags || []).join(", "),
+      coverImage: p.coverImage,
+      published: p.published,
+    })
+    setEditing(true)
+    setPostMsg("")
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  const newPost = () => {
+    setDraft({ ...emptyDraft })
+    setEditing(true)
+    setPostMsg("")
+  }
+
+  const savePost = async () => {
+    if (!draft.title.trim()) {
+      setPostMsg("❌ Title is required")
+      return
+    }
+    setSavingPost(true)
+    setPostMsg("")
+    try {
+      const isUpdate = !!draft.id
+      const url = isUpdate ? `/api/admin/blog?id=${encodeURIComponent(draft.id)}` : "/api/admin/blog"
+      const res = await fetch(url, {
+        method: isUpdate ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          title: draft.title,
+          slug: draft.slug || draft.title,
+          excerpt: draft.excerpt,
+          content: draft.content,
+          category: draft.category,
+          tags: draft.tags,
+          coverImage: draft.coverImage,
+          published: draft.published,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setPostMsg(`❌ ${data.error || "Save failed"}`)
+      } else {
+        setPostMsg(`✅ Saved "${data.post.title}" (${data.post.published ? "published" : "draft"})`)
+        setEditing(false)
+        setDraft({ ...emptyDraft })
+        loadPosts(apiKey)
+      }
+    } catch {
+      setPostMsg("❌ Network error")
+    } finally {
+      setSavingPost(false)
+    }
+  }
+
+  const togglePublish = async (p: BlogPost) => {
+    const res = await fetch(`/api/admin/blog?id=${encodeURIComponent(p.id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({ published: !p.published }),
+    })
+    if (res.ok) loadPosts(apiKey)
+  }
+
+  const deletePost = async (p: BlogPost) => {
+    if (!confirm(`Delete "${p.title}"? This cannot be undone.`)) return
+    const res = await fetch(`/api/admin/blog?id=${encodeURIComponent(p.id)}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${apiKey}` },
+    })
+    if (res.ok) {
+      setPostMsg("🗑️ Post deleted")
+      loadPosts(apiKey)
+    }
+  }
 
   const loadSecrets = useCallback(async (key: string) => {
     try {
@@ -109,6 +241,7 @@ export default function AdminPage() {
       setIsAuthenticated(true)
       localStorage.setItem("admin-api-key", key)
       loadSecrets(key)
+      loadPosts(key)
     } catch {
       setError("Failed to load data")
       setIsAuthenticated(false)
@@ -259,6 +392,7 @@ export default function AdminPage() {
     { id: "overview", label: "Overview", icon: BarChart3 },
     { id: "leads", label: "Leads", icon: Inbox },
     { id: "campaign", label: "Email Campaign", icon: Send },
+    { id: "blog", label: "Blog", icon: FileText },
     { id: "settings", label: "API Keys", icon: KeyRound },
     { id: "actions", label: "Quick Actions", icon: Zap },
   ]
@@ -435,6 +569,108 @@ export default function AdminPage() {
               </p>
             </CardContent>
           </Card>
+        )}
+
+        {/* Blog CMS */}
+        {tab === "blog" && (
+          <div className="space-y-6">
+            {editing ? (
+              <Card className="max-w-3xl">
+                <CardHeader>
+                  <CardTitle className="text-lg">{draft.id ? "Edit post" : "New post"}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Title</label>
+                    <Input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder="Why agencies lose deals to slow lead response" />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Slug (optional)</label>
+                      <Input value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} placeholder="auto from title if blank" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Category</label>
+                      <Input value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })} placeholder="Lead Generation" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Excerpt</label>
+                    <Input value={draft.excerpt} onChange={(e) => setDraft({ ...draft, excerpt: e.target.value })} placeholder="One-line summary shown on the blog index" />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Tags (comma-separated)</label>
+                      <Input value={draft.tags} onChange={(e) => setDraft({ ...draft, tags: e.target.value })} placeholder="lead response, agencies" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Cover image URL (optional)</label>
+                      <Input value={draft.coverImage} onChange={(e) => setDraft({ ...draft, coverImage: e.target.value })} placeholder="/blog-cover.png" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Body (Markdown)</label>
+                    <textarea
+                      value={draft.content}
+                      onChange={(e) => setDraft({ ...draft, content: e.target.value })}
+                      rows={18}
+                      placeholder={"## Section heading\n\nWrite in Markdown. Use ## for headings, - for bullets, **bold**, and [links](https://...)."}
+                      className="w-full bg-card border border-border rounded-lg px-3 py-2 font-mono text-sm"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">Read time is estimated automatically from the body.</p>
+                  </div>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={draft.published} onChange={(e) => setDraft({ ...draft, published: e.target.checked })} />
+                    Published (visible on the live blog)
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <Button className="bg-lime-400 text-gray-900 hover:bg-lime-500" disabled={savingPost || !draft.title.trim()} onClick={savePost}>
+                      {savingPost ? "Saving…" : draft.id ? "Save changes" : "Create post"}
+                    </Button>
+                    <Button variant="outline" onClick={() => { setEditing(false); setDraft({ ...emptyDraft }) }}>Cancel</Button>
+                    {postMsg && <span className="text-sm">{postMsg}</span>}
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-muted-foreground">{posts.length} post(s) · {posts.filter((p) => p.published).length} published</p>
+                  <Button className="bg-lime-400 text-gray-900 hover:bg-lime-500" onClick={newPost}>
+                    <Plus className="w-4 h-4 mr-1" /> New post
+                  </Button>
+                </div>
+                {postMsg && <p className="text-sm">{postMsg}</p>}
+                <div className="grid gap-3">
+                  {posts.length === 0 && <p className="text-muted-foreground text-sm">No posts yet. Click New post to write one.</p>}
+                  {posts.map((p) => (
+                    <Card key={p.id}>
+                      <CardContent className="p-4 flex items-center justify-between gap-4">
+                        <div className="min-w-0">
+                          <div className="font-semibold truncate">
+                            {p.title}
+                            <span className={`ml-2 text-xs font-normal px-2 py-0.5 rounded-full ${p.published ? "bg-lime-400/20 text-lime-500" : "bg-muted text-muted-foreground"}`}>
+                              {p.published ? "published" : "draft"}
+                            </span>
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-1 truncate">
+                            /blog/{p.slug}{p.category ? ` · ${p.category}` : ""} · {p.readTime}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Button variant="outline" size="sm" onClick={() => togglePublish(p)}>
+                            {p.published ? "Unpublish" : "Publish"}
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => editPost(p)}><Pencil className="w-4 h-4" /></Button>
+                          <Button variant="outline" size="sm" onClick={() => deletePost(p)}><Trash2 className="w-4 h-4" /></Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         )}
 
         {/* API Keys (BYOK) */}
