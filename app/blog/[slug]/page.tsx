@@ -128,6 +128,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 prose-ul:text-foreground/90 prose-ol:text-foreground/90
                 prose-li:marker:text-lime-400 prose-li:my-1
                 prose-blockquote:border-l-lime-400 prose-blockquote:bg-muted/40 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r prose-blockquote:not-italic
+                [&_figure]:my-10
+                [&_svg]:block [&_svg]:w-full [&_svg]:h-auto [&_svg]:max-w-full
+                [&_figcaption]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-3
+                [&_table]:w-full [&_table]:text-sm [&_th]:text-left [&_th]:font-semibold [&_th]:py-2 [&_td]:py-2 [&_td]:border-t [&_td]:border-border/40 [&_tr]:align-top
                 dark:prose-invert"
               dangerouslySetInnerHTML={{ __html: html }}
             />
