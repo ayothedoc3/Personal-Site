@@ -38,7 +38,7 @@ export default function Services() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground relative overflow-x-clip">
       <div className="fixed inset-0 pointer-events-none">
         <div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur-3xl animate-float"

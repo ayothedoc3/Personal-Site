@@ -39,7 +39,7 @@ export default async function Blog() {
 
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground relative overflow-x-clip">
       <SiteHeader />
 
       <section className="relative px-6 py-20 lg:px-12">
