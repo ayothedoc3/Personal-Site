@@ -118,21 +118,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <section className="relative px-6 py-16 lg:px-12">
           <div className="max-w-3xl mx-auto">
             <article
-              className="prose prose-lg max-w-none
-                prose-headings:text-foreground prose-headings:font-bold
-                prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                prose-p:text-foreground/90 prose-p:leading-relaxed
-                prose-a:text-lime-500 hover:prose-a:text-lime-400 prose-a:font-medium
-                prose-strong:text-foreground
-                prose-ul:text-foreground/90 prose-ol:text-foreground/90
-                prose-li:marker:text-lime-400 prose-li:my-1
-                prose-blockquote:border-l-lime-400 prose-blockquote:bg-muted/40 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r prose-blockquote:not-italic
+              className="text-[1.0625rem] leading-7 text-foreground/90
+                [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-12 [&_h2]:mb-4
+                [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_h3]:mt-8 [&_h3]:mb-3
+                [&_p]:my-5 [&_p]:leading-7
+                [&_ul]:my-5 [&_ul]:pl-6 [&_ul]:list-disc [&_ol]:my-5 [&_ol]:pl-6 [&_ol]:list-decimal
+                [&_li]:my-2 [&_li]:pl-1 [&_li::marker]:text-lime-400
+                [&_a]:text-lime-500 [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-lime-400
+                [&_strong]:text-foreground [&_strong]:font-semibold
+                [&_blockquote]:border-l-4 [&_blockquote]:border-lime-400 [&_blockquote]:bg-muted/40 [&_blockquote]:px-4 [&_blockquote]:py-2 [&_blockquote]:rounded-r [&_blockquote]:my-6
+                [&_hr]:my-10 [&_hr]:border-border/50
                 [&_figure]:my-10
                 [&_svg]:block [&_svg]:w-full [&_svg]:h-auto [&_svg]:max-w-full
                 [&_figcaption]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-3
-                [&_table]:w-full [&_table]:text-sm [&_th]:text-left [&_th]:font-semibold [&_th]:py-2 [&_td]:py-2 [&_td]:border-t [&_td]:border-border/40 [&_tr]:align-top
-                dark:prose-invert"
+                [&_table]:w-full [&_table]:my-6 [&_table]:text-sm [&_th]:text-left [&_th]:font-semibold [&_th]:py-2 [&_th]:px-3 [&_td]:py-2 [&_td]:px-3 [&_td]:border-t [&_td]:border-border/40 [&_tr]:align-top"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           </div>
