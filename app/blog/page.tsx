@@ -1,6 +1,15 @@
+import type { Metadata } from "next"
+
 import { SiteHeader } from "@/components/site-header"
 import BlogClient from "@/components/blog-client"
 import { listPublishedPosts } from "@/lib/blog-store"
+
+export const metadata: Metadata = {
+  title: "Blog | AI Operations for Agencies | Ayothedoc",
+  description:
+    "Practical thinking on AI operations for agencies and consultants: faster lead response, less busywork, and systems that run the repetitive work for you.",
+  alternates: { canonical: "/blog" },
+}
 
 // Posts come from the database (managed in admin), so render dynamically and
 // reflect publish/edit changes immediately without a redeploy.

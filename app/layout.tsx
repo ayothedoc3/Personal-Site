@@ -26,9 +26,10 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL("https://ayothedoc.com"),
-  alternates: {
-    canonical: "/",
-  },
+  // No site-wide canonical here: a layout-level canonical is inherited by every
+  // child page, which made them all canonicalize to the homepage and get
+  // dropped from the index. Each page sets its own canonical (see per-route
+  // metadata / layouts); pages without one self-canonicalize to their URL.
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
