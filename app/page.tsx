@@ -111,16 +111,20 @@ export default function Home() {
                   Get Your Lead Engine Free
                 </Button>
               </Link>
-              <Link href="/offer">
+              <Link href="/demo">
                 <Button
-                  onClick={() => trackEvent("cta_click", { cta: "home_hero_pricing", destination: "/offer" })}
+                  onClick={() => trackEvent("cta_click", { cta: "home_hero_demo", destination: "/demo" })}
                   variant="outline"
                   className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110"
                 >
-                  See Plans &amp; Pricing
+                  Watch it reply, live
                 </Button>
               </Link>
             </div>
+
+            <p className="text-sm text-muted-foreground -mt-8 mb-14">
+              Backed by a real guarantee: recover 40+ hours a month on a plan, or we keep working free until you do.
+            </p>
 
             <p className="text-muted-foreground mb-6">Plugs into the tools you already run on</p>
             <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 opacity-70 text-lg font-semibold">
@@ -272,7 +276,11 @@ export default function Home() {
               <Link href="/contact" className="text-lime-400 font-semibold hover:underline">
                 Get your Lead Engine built free
               </Link>{" "}
-              and we&apos;ll recommend the right level.
+              and we&apos;ll recommend the right level. Not ready for a full plan?{" "}
+              <Link href="/offer" className="text-lime-400 font-semibold hover:underline">
+                Lead Engine Care
+              </Link>{" "}
+              keeps your free build running from $249/mo, no install fee.
             </p>
           </div>
         </section>

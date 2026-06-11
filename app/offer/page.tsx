@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 export default function OfferPage() {
   // Stripe Payment Links (set in env). Empty values fall back to /contact via CheckoutLink.
   const installHref = process.env.NEXT_PUBLIC_STRIPE_SPRINT_LINK // one-time install ($7,500)
+  const careHref = process.env.NEXT_PUBLIC_STRIPE_CARE_LINK // Lead Engine Care ($249/mo)
   const foundationHref = process.env.NEXT_PUBLIC_STRIPE_FOUNDATION_LINK
   const operationsHref = process.env.NEXT_PUBLIC_STRIPE_OPERATIONS_LINK
   const autonomousHref = process.env.NEXT_PUBLIC_STRIPE_AUTONOMOUS_LINK
@@ -107,6 +108,29 @@ export default function OfferPage() {
               >
                 Request the free Lead Engine build
               </Link>
+            </div>
+          </section>
+
+          {/* Start small: the bridge between the free build and the full install */}
+          <section className="mt-16 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Start small · No install fee</div>
+                <h2 className="text-2xl md:text-3xl font-bold mt-2">Lead Engine Care: $249/mo</h2>
+                <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
+                  Love your free Lead Engine but not ready for the full system? We keep it running for you: hosting,
+                  monitoring, and monthly tuning so the replies stay sharp as your offers change. Cancel anytime, and
+                  upgrade to a full plan whenever you&apos;re ready.
+                </p>
+              </div>
+              <div className="shrink-0">
+                <CheckoutLink
+                  href={careHref}
+                  label="Keep my engine running"
+                  cta="offer_lead_engine_care"
+                  className="bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 hover:from-lime-500 hover:to-emerald-500 rounded-full px-10"
+                />
+              </div>
             </div>
           </section>
 
