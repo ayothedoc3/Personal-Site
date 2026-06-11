@@ -1,9 +1,3 @@
 slug,name,four_c,tier,intent,funnel_stage
 60-second-lead-response,60-Second Lead Response,Capabilities,wedge,"speed to lead, instant lead follow-up",wedge
-automated-client-reporting,Automated Client Reporting,Cadence,capability,"client reports, recurring reporting",mid
-client-onboarding-automation,Client Onboarding Automation,Capabilities,capability,"onboarding sequence, new client setup",mid
-proposal-follow-up,Proposal and Quote Follow-Up,Capabilities,capability,"proposal follow up, quote chasing",mid
-crm-sync-no-copy-paste,CRM Sync Without Copy-Paste,Connections,capability,"crm sync, live data, no manual entry",mid
-inbox-triage-reply-drafts,Inbox Triage and Reply Drafts,Capabilities,capability,"email triage, reply drafting",mid
-daily-brief-cadence,Daily Brief and Digest,Cadence,capability,"morning brief, daily digest",top
 ai-operating-system,AI Operating System,Context,pillar,"ai operating system, ai for agencies",pillar
