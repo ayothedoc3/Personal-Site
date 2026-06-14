@@ -85,9 +85,9 @@ export default function About() {
             id="about-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Ayothedoc installs and runs your company&apos;s AI Operating System, the layer that connects your tools
-            and handles the repetitive work, so your team stops being the bottleneck. Managed, measured, and built to
-            run while you don&apos;t.
+            Ayothedoc builds and runs AI operations for small agencies and consultants. The same person who designs
+            your system is the one who runs it, no account managers, no handoffs to someone junior. Owner-led,
+            measured against a real baseline, and built to run while you are in client work.
           </p>
         </div>
       </section>
@@ -106,18 +106,19 @@ export default function About() {
                 Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Story</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
-                Ayothedoc started where most operators get stuck: drowning in repetitive work, with business knowledge
-                trapped in one person&apos;s head and tools that don&apos;t talk to each other. The fix wasn&apos;t
-                another app, it was an operating system that ties them together and does the work.
+                Small agencies all hit the same wall: the owner becomes the bottleneck. Leads go cold while you are in
+                a client call. Reports get written at 11pm. Follow-ups happen when someone remembers. The work that
+                wins clients keeps losing to the work that keeps the lights on.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
-                We've witnessed firsthand how the right technology can transform operations, save countless hours, and
-                drive significant growth. That's why we're committed to making these solutions accessible and
-                understandable for businesses of all sizes.
+                Ayothedoc exists to take that operational layer off your plate. Not another tool to learn, an operating
+                system we build around how you already work, connect to the tools you already use, and run for you. It
+                starts with one thing that pays for itself fast: a Lead Engine that replies to every inbound lead in
+                under 60 seconds, in your voice.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed hover:text-foreground/80 transition-colors duration-300">
-                Today we install that system for growing businesses and run it for them, wiring in their tools,
-                shipping new automations every week, and keeping it all measured against a real baseline.
+                From there it grows into the full system: onboarding, reporting, follow-ups, all running on a schedule,
+                all measured against the hours you used to spend doing them by hand.
               </p>
             </div>
 
@@ -130,18 +131,18 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
                 <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Our Mission
+                  How we work
                 </h3>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
-                  To empower businesses with intelligent technology solutions that eliminate repetitive tasks,
-                  streamline operations, and create more time for what matters most - growing your business and serving
-                  your customers.
+                  We build on the Four Cs: Context (the system knows your business and voice), Connections (it works
+                  inside your existing tools), Capabilities (the workflows that do the work), and Cadence (it runs on a
+                  schedule, unprompted).
                 </p>
                 <div className="space-y-4">
                   {[
-                    "Simplify complex business processes",
-                    "Deliver measurable time and cost savings",
-                    "Provide ongoing support and optimization",
+                    "Prove value free before you pay anything",
+                    "Custom-built around your business, never off-the-shelf templates",
+                    "You own everything: cancel anytime and keep the system",
                   ].map((item, index) => (
                     <div
                       key={item}
@@ -195,18 +196,18 @@ export default function About() {
                 </div>
               </div>
               <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
-                Ayothedoc
+                Ayo
               </h3>
-              <p className="text-primary text-lg mb-6 font-semibold">Founder</p>
+              <p className="text-primary text-lg mb-6 font-semibold">Founder, Ayothedoc</p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 group-hover:text-foreground/80 transition-colors duration-300">
-                Ayothedoc founded the agency with one clear vision: give growing businesses an enterprise-grade AI
-                operations layer without the enterprise headcount. Specializing in AI Operating Systems, workflow
-                automation, and tool integration, Ayothedoc pairs hands-on technical depth with a sharp eye for where
-                automation actually moves the numbers.
+                I build and run these systems myself. When you work with Ayothedoc you work directly with the person
+                doing the build, not an account manager who hands it to someone junior. I design the workflows, wire
+                them into your tools, and stay on them as your business changes.
               </p>
               <blockquote className="text-muted-foreground text-lg leading-relaxed italic border-l-4 border-primary/30 pl-6 group-hover:text-foreground/80 group-hover:border-primary/50 transition-all duration-300">
-                "I believe that technology should work for you, not against you. My goal is to create solutions that are
-                not only powerful but also intuitive and sustainable for long-term success."
+                "I use the least AI necessary and the simplest workflow that reliably works. Fewer moving parts, fewer
+                failures, a system you can actually trust. And if it does not recover the hours we agreed on, I keep
+                working until it does."
               </blockquote>
             </div>
           </div>
@@ -248,9 +249,9 @@ export default function About() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "Quality First",
+                title: "Least AI necessary",
                 description:
-                  "We never compromise on quality. Every solution is thoroughly tested and optimized to ensure it meets the highest standards.",
+                  "No hype, no AI for the sake of it. We use the simplest workflow that reliably works, because fewer moving parts means fewer failures and a system you can trust.",
               },
               {
                 icon: (
@@ -260,9 +261,9 @@ export default function About() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "Client-Centric",
+                title: "You own everything",
                 description:
-                  "Your success is our success. We take the time to understand your unique needs and tailor solutions accordingly.",
+                  "The system, the automations, the documentation, all yours. No black boxes, no lock-in. Cancel anytime and keep what we built.",
               },
               {
                 icon: (
@@ -272,9 +273,9 @@ export default function About() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "Innovation",
+                title: "Measured, not vibes",
                 description:
-                  "We stay ahead of the curve, continuously learning and implementing the latest technologies to benefit our clients.",
+                  "We capture your manual-hours baseline at kickoff and measure against it. The promise is concrete: recover 40+ hours a month or we keep working free until you do.",
               },
             ].map((value, index) => (
               <div
@@ -313,18 +314,20 @@ export default function About() {
           style={{ animationDelay: "2.6s" }}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to{" "}
+            See it work on{" "}
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Work Together
+              your real leads
             </span>
-            ?
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Let's discuss how we can help transform your business with smart technology solutions.
+            We build your 60-Second Lead Engine free, no card, no risk. If it books calls you would have missed, we
+            talk about running the rest of your operations.
           </p>
-          <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-            <span className="group-hover:scale-110 transition-transform duration-200">Get Started Today</span>
-          </Button>
+          <a href="/contact">
+            <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
+              <span className="group-hover:scale-110 transition-transform duration-200">Get your free Lead Engine</span>
+            </Button>
+          </a>
         </div>
       </section>
 

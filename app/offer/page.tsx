@@ -8,14 +8,14 @@ import { CheckoutLink } from "@/components/checkout-link"
 export const metadata: Metadata = {
   title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
   description:
-    "Install your AI Operating System in 10 days, then run it on a monthly plan: Foundation $1,000, Operations $2,500, or Autonomous $5,000. Recover 40+ hours a month or you don't pay.",
+    "Install your AI Operating System in 10 days, then run it on a monthly plan: Foundation $1,000, Operations $2,500, or Autonomous $5,000. Recover 40+ hours a month or we keep working free until you do.",
   alternates: {
     canonical: "/offer",
   },
   openGraph: {
     title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
     description:
-      "Install your AI Operating System in 10 days, then run it on a monthly plan. Recover 40+ hours a month or you don't pay.",
+      "Install your AI Operating System in 10 days, then run it on a monthly plan. Recover 40+ hours a month or we keep working free until you do.",
     url: "https://ayothedoc.com/offer",
   },
 }
@@ -87,27 +87,52 @@ export default function OfferPage() {
           {/* Hero */}
           <section className="text-center">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-lime-400/20 to-emerald-400/20 border border-lime-400/40 text-sm font-semibold tracking-wider text-lime-400 uppercase shadow-lg">
-              Plans &amp; Pricing
+              For agencies &amp; consultants
             </span>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6">
-              Install once. Then we run your AI operations.
+              Start free. Pay only once it works.
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 max-w-3xl mx-auto leading-relaxed">
-              Every engagement starts with a one-time install, your AI Operating System wired into your tools
-              and live in 10 business days. After that, we operate and expand it on a monthly plan.
+              We build your 60-Second Lead Engine free as a pilot. If it books calls you would have missed, we
+              install and run the rest of your AI operations. You never pay before you have seen it work.
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/audit">
+            <div className="mt-10 flex justify-center">
+              <Link href="/contact">
                 <span className="inline-flex items-center justify-center bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 rounded-full px-10 py-4 text-lg font-bold shadow-2xl hover:shadow-lime-400/25 transition-all duration-300 hover:scale-105 cursor-pointer">
-                  Start with the Free Audit
+                  Get your free Lead Engine
                 </span>
               </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-full px-10 py-4 text-lg font-bold border border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 transition-all duration-300 hover:scale-105"
-              >
-                Request the free Lead Engine build
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Prefer to see it first?{" "}
+              <Link href="/demo" className="text-lime-400 font-medium hover:underline">
+                Watch it reply live
               </Link>
+            </p>
+          </section>
+
+          {/* The path: makes the free-to-paid sequence explicit */}
+          <section className="mt-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold">How it goes, step by step</h2>
+              <p className="text-muted-foreground mt-2">No surprises. Each step is a clear decision, and you only move up when you want to.</p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-4">
+              {[
+                { n: "1", h: "Free pilot", s: "Your 60-Second Lead Engine, on one lead source, trained on your real replies. Live within 7 days. No card.", tag: "Free" },
+                { n: "2", h: "Keep it running", s: "Optional. We host, monitor, and tune the engine as your offers change.", tag: "$249/mo" },
+                { n: "3", h: "Full AIOS install", s: "One-time. We wire your whole stack and ship your first automations in 10 business days.", tag: "$7,500" },
+                { n: "4", h: "Managed operations", s: "We run and expand the system on a monthly plan. Choose how much we run for you.", tag: "$1k–$5k/mo" },
+              ].map((step) => (
+                <div key={step.n} className="p-6 rounded-2xl bg-gradient-to-br from-card/70 to-card/20 border border-border/40 flex flex-col">
+                  <div className="flex items-center justify-between">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-lime-400 to-emerald-400 text-gray-900 font-bold flex items-center justify-center text-sm">{step.n}</div>
+                    <span className="text-xs font-semibold text-lime-400">{step.tag}</span>
+                  </div>
+                  <h3 className="font-bold mt-4">{step.h}</h3>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{step.s}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -211,12 +236,27 @@ export default function OfferPage() {
           </section>
 
           {/* Guarantee */}
-          <section className="mt-16 text-center p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
-            <h2 className="text-3xl md:text-4xl font-bold">The 40-hour guarantee</h2>
-            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto leading-relaxed">
-              We capture your manual-hours baseline at kickoff and measure against it. If your AI Operating
-              System doesn&apos;t recover 40+ hours a month, we keep working free until it does.
-            </p>
+          <section className="mt-16 p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-bold">The 40-hour guarantee</h2>
+              <p className="text-muted-foreground mt-4 leading-relaxed">
+                On the paid AIOS install and plans, here is exactly what we promise and how it is measured.
+              </p>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-3 max-w-4xl mx-auto text-sm">
+              <div className="p-5 rounded-2xl bg-card/50 border border-border/40">
+                <div className="font-semibold text-lime-400">What counts</div>
+                <p className="text-muted-foreground mt-2 leading-relaxed">The hours you and your team spend on the workflows we automate: lead replies, follow-ups, scheduling, reporting, onboarding. We agree the list at kickoff.</p>
+              </div>
+              <div className="p-5 rounded-2xl bg-card/50 border border-border/40">
+                <div className="font-semibold text-lime-400">When it is measured</div>
+                <p className="text-muted-foreground mt-2 leading-relaxed">We capture your baseline at kickoff, then measure recovered hours over the first 30 days after your system goes live.</p>
+              </div>
+              <div className="p-5 rounded-2xl bg-card/50 border border-border/40">
+                <div className="font-semibold text-lime-400">If we miss it</div>
+                <p className="text-muted-foreground mt-2 leading-relaxed">If you have not recovered at least 40 hours that month, we keep building and tuning at no extra charge until you do.</p>
+              </div>
+            </div>
           </section>
 
           {/* Works with your stack */}
@@ -226,10 +266,10 @@ export default function OfferPage() {
               Gmail, Outlook, HubSpot, Pipedrive, ClickUp, Asana, Slack, Google Workspace, Stripe, QuickBooks,
               Notion, and the rest of the tools you already run on.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/audit">
+            <div className="mt-8 flex justify-center">
+              <Link href="/contact">
                 <span className="inline-flex items-center justify-center bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 hover:from-lime-500 hover:to-emerald-500 rounded-full px-10 py-4 font-bold cursor-pointer transition-all duration-300 hover:scale-105">
-                  Get Your Free AI Readiness Audit
+                  Get your free Lead Engine
                 </span>
               </Link>
             </div>

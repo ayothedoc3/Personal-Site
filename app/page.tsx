@@ -203,10 +203,11 @@ export default function Home() {
         <section id="pricing" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-6xl mx-auto ${reveal("pricing")}`}>
             <div className="text-center mb-6">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Choose the right level of AI operations</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">It starts free. This is where it can go.</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Every engagement starts with a one-time install ($7,500, live in 10 business days). After
-                that, we run and expand your system on a monthly plan.
+                First we build your Lead Engine free, as a pilot. If it works, the full AIOS install is a one-time
+                $7,500 (live in 10 business days), then we run and expand your system from $1,000/mo.{" "}
+                <Link href="/offer" className="text-lime-400 font-medium hover:underline">See the full path.</Link>
               </p>
             </div>
 

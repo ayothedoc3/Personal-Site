@@ -181,9 +181,9 @@ export default function Contact() {
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "40+ hours a month recovered, or you don't pay",
-                      "Deep expertise in AI Operating Systems and workflow automation",
-                      "Built on your tools and trained on your business",
+                      "Start free: we build your Lead Engine before you pay anything",
+                      "On paid plans: recover 40+ hours a month or we keep working free until you do",
+                      "Built on your tools and trained on your real replies",
                       "We run and improve it for you, every week",
                     ].map((item, index) => (
                       <li

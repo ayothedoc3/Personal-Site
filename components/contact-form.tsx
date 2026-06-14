@@ -277,13 +277,11 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             error={errors.service?.message}
             {...register("service")}
           >
-            <option value="">Select a service</option>
-            <option value="web-development">Web Development</option>
-            <option value="ai-automation">AI Automation</option>
-            <option value="business-development">Online Business Development</option>
-            <option value="virtual-assistance">Virtual Assistance</option>
-            <option value="process-optimization">Process Optimization</option>
-            <option value="technical-support">Technical Support</option>
+            <option value="">What are you after?</option>
+            <option value="free-lead-engine">Free 60-Second Lead Engine</option>
+            <option value="aios-install">AIOS Install</option>
+            <option value="managed-ai-operations">Managed AI Operations</option>
+            <option value="not-sure">Not sure yet</option>
           </Select>
         </div>
 

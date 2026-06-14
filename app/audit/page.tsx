@@ -232,11 +232,10 @@ export default function AuditPage() {
                       className="w-full bg-card border border-border rounded-lg px-3 py-2 text-sm"
                     >
                       <option value="" disabled>Select your business type…</option>
-                      <option value="E-commerce">E-commerce</option>
-                      <option value="Agency">Agency</option>
-                      <option value="SaaS">SaaS</option>
-                      <option value="Coaching">Coaching</option>
-                      <option value="Other">Other</option>
+                      <option value="Marketing agency">Marketing agency</option>
+                      <option value="Web or design agency">Web or design agency</option>
+                      <option value="Consulting firm">Consulting firm</option>
+                      <option value="Other agency or service business">Other agency or service business</option>
                     </select>
                   </div>
 
