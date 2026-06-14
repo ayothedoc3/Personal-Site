@@ -284,8 +284,7 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
             </span>
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Get the latest automation tips, web development insights, and business optimization strategies delivered to
-            your inbox.
+            Practical thinking on AI operations, lead response, and agency systems, delivered to your inbox.
           </p>
           <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input

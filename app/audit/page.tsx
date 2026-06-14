@@ -233,9 +233,10 @@ export default function AuditPage() {
                     >
                       <option value="" disabled>Select your business type…</option>
                       <option value="Marketing agency">Marketing agency</option>
-                      <option value="Web or design agency">Web or design agency</option>
                       <option value="Consulting firm">Consulting firm</option>
-                      <option value="Other agency or service business">Other agency or service business</option>
+                      <option value="Web or design agency">Web or design agency</option>
+                      <option value="B2B service business">B2B service business</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
 
@@ -278,7 +279,7 @@ export default function AuditPage() {
                   <Checkbox
                     checked={formData.optin_marketing}
                     onChange={(e) => setFormData(prev => ({ ...prev, optin_marketing: e.target.checked }))}
-                    label="Also send me automation tips and case studies"
+                    label="Also send me AI operations tips for agencies"
                   />
 
                   <Button

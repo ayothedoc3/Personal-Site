@@ -235,7 +235,7 @@ export default function About() {
               id="values-subtitle"
               style={{ animationDelay: "1.8s" }}
             >
-              These core principles guide everything we do and ensure we deliver exceptional value to every client.
+              Three principles run through every system we build and every client we work with.
             </p>
           </div>
 

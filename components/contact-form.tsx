@@ -279,8 +279,9 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           >
             <option value="">What are you after?</option>
             <option value="free-lead-engine">Free 60-Second Lead Engine</option>
-            <option value="aios-install">AIOS Install</option>
+            <option value="aios-install-sprint">AIOS Install Sprint</option>
             <option value="managed-ai-operations">Managed AI Operations</option>
+            <option value="lead-engine-care">Lead Engine Care</option>
             <option value="not-sure">Not sure yet</option>
           </Select>
         </div>
