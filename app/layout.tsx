@@ -10,7 +10,7 @@ import "./globals.css"
 
 const SITE_TITLE = "Managed AI Operations for Growing Businesses | Ayothedoc"
 const SITE_DESCRIPTION =
-  "We install your company's AI Operating System, wired into your tools, trained on your business, then run it for you. Live in 10 days. Recover 40+ hours a month or you don't pay."
+  "We install your company's AI Operating System, wired into your tools, trained on your business, then run it for you. Live in 10 days. Recover 40+ hours a month or we keep working free until you do."
 
 export const metadata: Metadata = {
   title: SITE_TITLE,
