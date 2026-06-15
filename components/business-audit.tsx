@@ -67,7 +67,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
       }
 
       setSubmitStatus("success")
-      setSubmitMessage("🎉 Your personalized automation audit is being generated! Check your email in 2-3 minutes for your custom report.")
+      setSubmitMessage("Your AIOS readiness audit is being generated. Check your email in 2-3 minutes for your custom report.")
       reset()
     } catch (error) {
       console.error('Audit submission failed:', error)
@@ -83,13 +83,13 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
       <div className="text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-400/10 to-pink-400/10 border border-purple-400/20 rounded-full text-purple-400 text-sm font-medium mb-4">
           <Sparkles className="w-4 h-4" />
-          AI-Powered Business Audit
+          AIOS Readiness Audit
         </div>
         <h2 className="text-3xl font-bold mb-2">
-          Get Your Personalized Automation Report
+          Get Your AIOS Readiness Report
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Our AI analyzes your website and business to identify specific automation opportunities tailored to your industry
+          We analyze your agency or consulting firm to find the best first workflows for your AI Operating System.
         </p>
       </div>
 
@@ -101,7 +101,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
               <h3 className="font-semibold">Website Analysis</h3>
             </div>
             <p className="text-sm text-muted-foreground">
-              AI scans your site to understand your business model and identify automation gaps
+              We scan your site to understand your offer, lead flow, and operational gaps.
             </p>
           </CardContent>
         </Card>
@@ -113,7 +113,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
               <h3 className="font-semibold">Custom Recommendations</h3>
             </div>
             <p className="text-sm text-muted-foreground">
-              Receive specific automation ideas based on your industry and current challenges
+              Receive specific AIOS recommendations based on your services, lead flow, and current bottlenecks.
             </p>
           </CardContent>
         </Card>
@@ -125,7 +125,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
               <h3 className="font-semibold">ROI Projections</h3>
             </div>
             <p className="text-sm text-muted-foreground">
-              Get estimated time and cost savings for each recommended automation
+              Get estimated recovered hours for each recommended workflow.
             </p>
           </CardContent>
         </Card>
@@ -135,7 +135,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Zap className="w-5 h-5 text-yellow-400" />
-            Get Your Free Audit Report
+            Get Your Free AIOS Readiness Audit
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -182,10 +182,10 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Business Type/Industry *
+                Business Type *
               </label>
               <Input
-                placeholder="e.g., E-commerce, Consulting, SaaS, Coaching"
+                placeholder="e.g., marketing agency, consulting firm, web/design agency"
                 error={errors.businessType?.message}
                 {...register("businessType")}
               />
@@ -193,7 +193,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Hours Spent on Repetitive Tasks Daily *
+                Hours Spent on Manual Agency Ops Daily *
               </label>
               <Input
                 type="number"
@@ -207,11 +207,11 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Current Business Challenges *
+                Current Operational Bottlenecks *
               </label>
               <Textarea
                 rows={4}
-                placeholder="e.g., Managing customer inquiries, manual data entry, social media posting, lead follow-up, scheduling..."
+                placeholder="e.g., lead follow-up, client onboarding, reporting, scheduling, proposal follow-up..."
                 error={errors.currentChallenges?.message}
                 {...register("currentChallenges")}
               />
@@ -230,7 +230,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
               ) : (
                 <>
                   <Mail className="w-5 h-5 mr-2" />
-                  Send My Free Audit Report
+                  Send My AIOS Readiness Audit
                 </>
               )}
             </Button>
@@ -249,7 +249,7 @@ export function BusinessAudit({ className }: BusinessAuditProps) {
 
             <div className="text-center">
               <p className="text-xs text-muted-foreground">
-                🤖 Powered by AI • 📧 Report delivered via email • 🔒 Your data is secure
+                Report delivered via email • Your data is secure
               </p>
             </div>
           </form>

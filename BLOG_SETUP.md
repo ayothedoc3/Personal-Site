@@ -111,7 +111,7 @@ Each blog post should have this frontmatter structure:
 title: "Your Post Title"
 excerpt: "Brief description of the post"
 date: "2024-03-15"
-category: "Automation" # or Web Development, Case Study, etc.
+category: "AI Operations" # or Lead Response, Agency Systems, Case Study, etc.
 readTime: "5 min read"
 image: "/path-to-image.png"
 slug: "your-post-slug"

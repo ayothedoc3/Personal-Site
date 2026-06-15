@@ -57,12 +57,12 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
       )
 
       trackEvent("lead_submit_success", { lead_type: "newsletter" })
-      setSubscribeMessage("🎉 Successfully subscribed! Thank you for joining our newsletter.")
+      setSubscribeMessage("Successfully subscribed. Thank you for joining the newsletter.")
       setEmail("")
     } catch (error) {
       console.error('Newsletter subscription failed:', error)
       trackEvent("lead_submit_error", { lead_type: "newsletter" })
-      setSubscribeMessage("❌ Subscription failed. Please try again later.")
+      setSubscribeMessage("Subscription failed. Please try again later.")
     } finally {
       setIsSubscribing(false)
       setTimeout(() => setSubscribeMessage(""), 5000)
@@ -307,9 +307,9 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
           </form>
           {subscribeMessage && (
             <p className={`text-sm mt-4 font-medium ${
-              subscribeMessage.includes("🎉") 
+              subscribeMessage.includes("Successfully") 
                 ? "text-green-400" 
-                : subscribeMessage.includes("❌") 
+                : subscribeMessage.includes("failed") 
                 ? "text-red-400" 
                 : "text-yellow-400"
             }`}>

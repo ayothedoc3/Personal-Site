@@ -27,7 +27,7 @@ All blog posts are managed in: `lib/blog-data.ts`
   title: "Your Post Title",
   excerpt: "Brief description that appears in the blog listing",
   date: "March 20, 2024", // Use format: "Month DD, YYYY"
-  category: "Automation", // Choose: Automation, Web Development, Case Study, Business Optimization
+  category: "AI Operations", // Choose: AI Operations, Lead Response, Agency Systems, Case Study, Tutorials
   readTime: "5 min read",
   image: "/your-blog-image.png", // Add image to public folder
   slug: "your-post-title-slug", // URL-friendly version

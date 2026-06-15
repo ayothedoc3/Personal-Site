@@ -309,7 +309,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             id="newsletter"
             checked={newsletterValue}
             onChange={(e) => setValue("newsletter", e.target.checked)}
-            label="Yes, I'd like to receive updates about your services and automation tips"
+            label="Yes, send me AI operations, lead response, and agency systems notes"
           />
         </div>
 

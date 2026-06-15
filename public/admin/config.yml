@@ -28,7 +28,7 @@ collections:
       - { name: date, label: "Date", widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
       - { name: excerpt, label: "Excerpt", widget: text }
       - { name: image, label: "Featured Image", widget: image }
-      - { name: category, label: "Category", widget: select, options: ["Automation", "Web Development", "Case Study", "Tutorials"] }
+      - { name: category, label: "Category", widget: select, options: ["AI Operations", "Lead Response", "Agency Systems", "Case Study", "Tutorials"] }
       - { name: readTime, label: "Read Time", widget: string, default: "5 min read" }
       - { name: tags, label: "Tags", widget: list }
       - { name: author, label: "Author", widget: string, default: "Ayothedoc Team" }

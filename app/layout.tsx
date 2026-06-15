@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalyticsPageView } from "@/components/google-analytics"
 import "./globals.css"
 
-const SITE_TITLE = "Managed AI Operations for Growing Businesses | Ayothedoc"
+const SITE_TITLE = "Managed AI Operations for Agencies & Consultants | Ayothedoc"
 const SITE_DESCRIPTION =
   "We install your company's AI Operating System, wired into your tools, trained on your business, then run it for you. Live in 10 days. Recover 40+ hours a month or we keep working free until you do."
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   keywords:
-    "managed AI operations, AI operating system, AIOS, AI automation agency, done-for-you AI, business automation, workflow automation, AI for small business, lead response automation, AI consulting",
+    "managed AI operations, AI operating system, AIOS, AI automation agency, done-for-you AI, agency automation, workflow automation, AI for agencies, lead response automation, AI consulting",
   authors: [{ name: "Ayothedoc" }],
   creator: "Ayothedoc",
   publisher: "Ayothedoc",
@@ -161,7 +161,7 @@ export default function RootLayout({
                   {
                     "@type": "Offer",
                     name: "Autonomous",
-                    description: "A 24/7 AI operations layer running across your whole business.",
+                    description: "A 24/7 AI operations layer running across your agency or consulting firm.",
                     price: "5000",
                     priceCurrency: "USD",
                     priceSpecification: {

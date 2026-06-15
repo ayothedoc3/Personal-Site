@@ -256,7 +256,7 @@ export default function Home() {
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 flex flex-col">
                 <h3 className="text-2xl font-bold mb-2">Autonomous</h3>
                 <div className="text-3xl font-bold text-lime-400 mb-1">$5,000<span className="text-base text-muted-foreground font-normal">/mo</span></div>
-                <p className="text-sm text-muted-foreground mb-6">A 24/7 AI operations layer running across your whole business.</p>
+                <p className="text-sm text-muted-foreground mb-6">A 24/7 AI operations layer running across your agency or consulting firm.</p>
                 <ul className="space-y-3 text-muted-foreground mb-8 flex-1">
                   <li>✓ Everything in Operations</li>
                   <li>✓ Agents running 24/7 on a schedule</li>
@@ -294,7 +294,7 @@ export default function Home() {
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { step: "01", title: "Audit", time: "Free · 10 minutes", body: "Score your AI readiness and surface the three highest-leverage automations for your business." },
+                { step: "01", title: "Audit", time: "Free · 10 minutes", body: "Score your AI readiness and surface the three highest-leverage automations for your agency or consulting firm." },
                 { step: "02", title: "Install", time: "10 business days", body: "We wire up your tools, train the system on your business, and ship your first working automations." },
                 { step: "03", title: "Operate", time: "Ongoing", body: "We run it, monitor it, and ship new leverage on your plan, measured against your kickoff baseline." },
               ].map((s) => (
@@ -433,7 +433,7 @@ export default function Home() {
         <footer className="py-12 px-6 lg:px-12 border-t border-border/50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold mb-4">Managed AI Operations for growing businesses</h3>
+              <h3 className="text-2xl font-bold mb-4">Managed AI Operations for agencies and consultants</h3>
             </div>
             <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
               <div>

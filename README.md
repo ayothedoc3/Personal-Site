@@ -105,15 +105,15 @@ See `SETUP.md` for detailed instructions.
 
 ## About Ayothedoc
 
-**Ayothedoc** is a full-service digital agency specializing in:
-- 🌐 Custom Web Development
-- 🤖 AI Automation Solutions  
-- 📈 Business Process Optimization
-- 👥 Virtual Assistance Services
-- ⚡ Technical Support & Maintenance
+**Ayothedoc** is a managed AI operations studio for agencies and consultants, specializing in:
+- ⚙️ AI Operating System installs
+- 🤖 Agency workflow automation
+- 📈 Client operations optimization
+- 📈 60-second lead response systems
+- 🔧 Managed AI Operations
 
 **Contact**: [ayothedoc.com](https://ayothedoc.com)
 
 ---
 
-*Built with ❤️ by Ayothedoc - Transforming businesses through smart automation and custom web solutions.*
+*Built with ❤️ by Ayothedoc - Managed AI operations for agencies and consultants.*

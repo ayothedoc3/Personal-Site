@@ -105,45 +105,35 @@ export default function AuditPage() {
   const getMiniResults = () => {
     const industryLower = formData.industry.toLowerCase()
     
-    if (industryLower.includes('ecommerce') || industryLower.includes('e-commerce') || industryLower.includes('retail')) {
+    if (industryLower.includes('web') || industryLower.includes('design')) {
       return {
         opportunities: [
-          { label: "Order processing automation", value: "Streamline order-to-fulfillment workflow, reducing manual entry by 75%" },
-          { label: "Customer service chatbot", value: "Handle 60% of common inquiries automatically with instant responses" },
-          { label: "Inventory management alerts", value: "Automated restock notifications and low-inventory warnings" }
+          { label: "60-second lead response", value: "Reply to every project enquiry while interest is hot, with your booking link and studio voice." },
+          { label: "Project intake automation", value: "Turn qualified enquiries into scoped intake packets before the first call." },
+          { label: "Client handoff checklist", value: "Create kickoff tasks, folder structure, and stakeholder reminders without manual setup." }
         ],
-        hoursSaved: "15-25",
-        exampleWorkflow: "Order confirmation email with tracking automatically triggers inventory update and customer service notification"
+        hoursSaved: "12-20",
+        exampleWorkflow: "New website enquiry triggers a personalized reply, CRM update, booking link, and internal project-fit alert."
       }
     } else if (industryLower.includes('agency') || industryLower.includes('marketing') || industryLower.includes('consulting')) {
       return {
         opportunities: [
-          { label: "Client onboarding automation", value: "Streamline contract-to-kickoff process, saving 8 hours per new client" },
-          { label: "Reporting dashboard creation", value: "Automated weekly/monthly client reports from multiple data sources" },
-          { label: "Lead qualification system", value: "Score and route leads automatically based on preset criteria" }
+          { label: "60-second lead response", value: "Answer inbound leads in under 60 seconds, in your voice, with the next step already included." },
+          { label: "Client onboarding automation", value: "Move signed clients into kickoff, docs, tasks, and reminders without owner follow-up." },
+          { label: "Reporting workflow", value: "Pull recurring client updates from your tools and prepare review-ready summaries." }
         ],
         hoursSaved: "12-20",
-        exampleWorkflow: "New lead form submission triggers qualification scoring, CRM entry, and personalized follow-up sequence"
-      }
-    } else if (industryLower.includes('saas') || industryLower.includes('software')) {
-      return {
-        opportunities: [
-          { label: "User onboarding automation", value: "Personalized welcome sequences based on user signup data and behavior" },
-          { label: "Support ticket routing", value: "Intelligent categorization and assignment of customer support requests" },
-          { label: "Product usage analytics", value: "Automated reports on feature adoption and user engagement patterns" }
-        ],
-        hoursSaved: "18-30",
-        exampleWorkflow: "New user signup triggers personalized onboarding email series and creates usage tracking dashboard"
+        exampleWorkflow: "New lead form submission triggers a personalized reply, CRM entry, booking link, and follow-up sequence."
       }
     } else {
       return {
         opportunities: [
-          { label: "Email workflow automation", value: "Set up triggered email sequences for common business processes" },
-          { label: "Data entry elimination", value: "Connect your tools to sync data automatically between platforms" },
-          { label: "Scheduling optimization", value: "Automated calendar management and meeting coordination" }
+          { label: "60-second lead response", value: "Capture every inbound enquiry quickly before it goes cold." },
+          { label: "Client intake workflow", value: "Collect the right context, update your CRM, and prep the next human step." },
+          { label: "Scheduling and follow-up", value: "Automate booking links, reminders, and no-reply follow-up in your voice." }
         ],
         hoursSaved: "10-18",
-        exampleWorkflow: "Contact form submissions automatically create CRM entries and trigger follow-up task assignments"
+        exampleWorkflow: "Contact form submissions create CRM entries, send a personalized reply, and alert the right person."
       }
     }
   }
@@ -245,7 +235,7 @@ export default function AuditPage() {
                       <label className="block text-sm font-medium mb-2">Tell us your industry *</label>
                       <Input
                         required
-                        placeholder="e.g. dental clinic, recruiting firm, real estate"
+                        placeholder="e.g. recruiting firm, legal consultancy, fractional CFO practice"
                         value={formData.customIndustry}
                         onChange={(e) => setFormData(prev => ({ ...prev, customIndustry: e.target.value }))}
                       />
@@ -270,7 +260,7 @@ export default function AuditPage() {
                   <div>
                     <label className="block text-sm font-medium mb-2">Biggest blocker right now</label>
                     <Input
-                      placeholder="Lead follow up, manual data entry, scheduling"
+                      placeholder="Lead follow-up, client onboarding, reporting, scheduling"
                       value={formData.blocker}
                       onChange={(e) => setFormData(prev => ({ ...prev, blocker: e.target.value }))}
                     />
