@@ -33,6 +33,26 @@ export default function DemoPage() {
             </p>
           </section>
 
+          {/* Rendered walkthrough video */}
+          <section className="max-w-4xl mx-auto mb-16">
+            <div className="rounded-3xl overflow-hidden border border-border/50 shadow-2xl bg-card/40">
+              <video
+                className="w-full h-auto"
+                controls
+                playsInline
+                preload="metadata"
+                poster="/lead-engine-demo-poster.jpg"
+              >
+                <source src="/lead-engine-demo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <p className="text-center text-sm text-muted-foreground mt-3">
+              The full loop, start to finish: a lead comes in, gets a personalized reply, and you get alerted. Prefer to
+              try it yourself? Use the live version below.
+            </p>
+          </section>
+
           {/* The interactive demo */}
           <DemoClient />
 
