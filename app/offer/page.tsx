@@ -103,7 +103,10 @@ export default function OfferPage() {
                 </span>
               </Link>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
+            <p className="mt-4 text-sm font-medium text-lime-400/90">
+              We take a limited number of free builds each month, so each one gets done properly.
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
               Prefer to see it first?{" "}
               <Link href="/demo" className="text-lime-400 font-medium hover:underline">
                 Watch it reply live
@@ -119,7 +122,7 @@ export default function OfferPage() {
             </div>
             <div className="grid gap-4 md:grid-cols-4">
               {[
-                { n: "1", h: "Free pilot", s: "Your 60-Second Lead Engine, on one lead source, trained on your real replies. Live within 7 days. No card.", tag: "Free" },
+                { n: "1", h: "Free pilot", s: "Your 60-Second Lead Engine, on one lead source, trained on your real replies. Live within 7 days. No card. Limited slots each month.", tag: "Free" },
                 { n: "2", h: "Keep it running", s: "Optional. We host, monitor, and tune the engine as your offers change.", tag: "$249/mo" },
                 { n: "3", h: "Full AIOS install", s: "One-time. We wire your whole stack and ship your first automations in 10 business days.", tag: "$7,500" },
                 { n: "4", h: "Managed operations", s: "We run and expand the system on a monthly plan. Choose how much we run for you.", tag: "$1k–$5k/mo" },
@@ -233,6 +236,44 @@ export default function OfferPage() {
             <p className="text-center text-muted-foreground mt-8">
               Month-to-month. You own everything we build. Cancel anytime and keep the system.
             </p>
+          </section>
+
+          {/* Top tier: invite-only */}
+          <section className="mt-12 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-foreground/[0.06] to-transparent border border-lime-400/30">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Top tier · By application</div>
+                <h2 className="text-2xl md:text-3xl font-bold mt-2">AIOS Partner</h2>
+                <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
+                  For agencies that want their operations run end to end. We own your AI Operating System across
+                  every department, ship against a weekly roadmap, and you get a direct line to me. Capped at a
+                  handful of partners so each one gets real attention.
+                </p>
+                <ul className="mt-5 grid sm:grid-cols-2 gap-2.5 text-sm text-muted-foreground max-w-2xl">
+                  {[
+                    "Everything in Autonomous",
+                    "We run your operations end to end, across departments",
+                    "Direct line to the founder, embedded in your team",
+                    "Weekly roadmap + same-day response",
+                    "Quarterly strategy + KPI ownership",
+                    "Capped partner roster",
+                  ].map((f) => (
+                    <li key={f} className="flex items-start gap-3">
+                      <span className="mt-1 w-2 h-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="shrink-0 text-center md:pt-1">
+                <div className="text-sm text-muted-foreground mb-3">Invite-only</div>
+                <Link href="/contact">
+                  <span className="inline-flex items-center justify-center border border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 rounded-full px-10 py-3 font-semibold cursor-pointer transition-all duration-300">
+                    Apply for a partner slot
+                  </span>
+                </Link>
+              </div>
+            </div>
           </section>
 
           {/* Guarantee */}
