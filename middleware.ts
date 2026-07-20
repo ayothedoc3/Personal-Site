@@ -4,16 +4,20 @@ import {
   pathMatchesPrefix,
   AIOS_ONLY_PREFIXES,
   HEALTHCARE_ONLY_PREFIXES,
+  sites,
 } from "@/lib/site-config"
 
 // Host-based routing. One app, two sites:
-//  - aios.ayothedoc.com serves the AIOS routes; healthcare-only routes 404 here.
-//  - ayothedoc.com (apex/www/previews) serves healthcare; AIOS-only routes 404 here.
-// A blocked request is rewritten to /blocked, which renders the styled 404.
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
+//  - aios.ayothedoc.com serves AIOS; healthcare-only routes 404 here.
+//  - ayothedoc.com (apex/www) serves healthcare; relocated AIOS routes 301 to
+//    the AIOS host (preserving existing indexed URLs and backlinks).
+// On non-production hosts (localhost, preview URLs) nothing is gated so both
+// route sets can be tested.
+const PROD_APEX = new Set(["ayothedoc.com", "www.ayothedoc.com"])
 
-  // Never gate backend, static, or the 404 gate itself.
+export function middleware(req: NextRequest) {
+  const { pathname, search } = req.nextUrl
+
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
@@ -23,13 +27,16 @@ export function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
-  const site = siteFromHost(req.headers.get("host"))
-  const blocked =
-    site === "healthcare"
-      ? pathMatchesPrefix(pathname, AIOS_ONLY_PREFIXES)
-      : pathMatchesPrefix(pathname, HEALTHCARE_ONLY_PREFIXES)
+  const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase()
+  const site = siteFromHost(host)
 
-  if (blocked) {
+  // Apex (production) requests to relocated AIOS routes -> 301 to the AIOS host.
+  if (site === "healthcare" && PROD_APEX.has(host) && pathMatchesPrefix(pathname, AIOS_ONLY_PREFIXES)) {
+    return NextResponse.redirect(new URL(`${pathname}${search}`, sites.aios.url), 301)
+  }
+
+  // AIOS host requests to healthcare-only routes -> 404.
+  if (site === "aios" && pathMatchesPrefix(pathname, HEALTHCARE_ONLY_PREFIXES)) {
     const url = req.nextUrl.clone()
     url.pathname = "/blocked"
     return NextResponse.rewrite(url)

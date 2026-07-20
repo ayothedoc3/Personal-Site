@@ -1,16 +1,14 @@
 import { MetadataRoute } from "next"
+import { headers } from "next/headers"
+import { siteFromHost, sites } from "@/lib/site-config"
 
-export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://ayothedoc.com"
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const h = await headers()
+  const base = sites[siteFromHost(h.get("host"))].url
 
   return {
     rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/admin", "/api/"],
-      },
-      // Explicitly welcome AI crawlers so the site appears in AI search answers.
+      { userAgent: "*", allow: "/", disallow: ["/admin", "/api/", "/blocked"] },
       {
         userAgent: [
           "GPTBot",
@@ -25,10 +23,10 @@ export default function robots(): MetadataRoute.Robots {
           "CCBot",
         ],
         allow: "/",
-        disallow: ["/admin", "/api/"],
+        disallow: ["/admin", "/api/", "/blocked"],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
   }
 }

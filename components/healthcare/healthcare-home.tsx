@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react"
 import { HealthcareHeader } from "./healthcare-header"
 import { HealthcareFooter } from "./healthcare-footer"
 import { audiences, methodSteps, pillars, primaryCta, secondaryCta } from "@/lib/healthcare-content"
+import { verifiedCaseStudies } from "@/lib/case-studies"
 
 const problems = [
   "Poor workflow fit",
@@ -24,27 +25,6 @@ const differentiators = [
   "Cross-functional delivery",
 ]
 
-// Accurately labelled work. Status labels denote project type, not deployment.
-// Every entry is flagged in CONTENT_VERIFICATION_REQUIRED.md for the owner to
-// confirm before this is made public.
-const selectedWork = [
-  {
-    name: "ExerScript",
-    status: "Healthcare AI Hackathon Pilot",
-    blurb: "A pilot exploring AI-supported exercise prescription within a clinical workflow.",
-  },
-  {
-    name: "FHIR-enabled workflow prototype",
-    status: "Independent Prototype",
-    blurb: "A prototype demonstrating FHIR-based data exchange between healthcare systems.",
-  },
-  {
-    name: "Medical-device usability study",
-    status: "Implementation Study",
-    blurb: "A structured usability and human-factors assessment of a medical device in context.",
-  },
-]
-
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <div className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-400">
@@ -54,6 +34,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 }
 
 export function HealthcareHome() {
+  const work = verifiedCaseStudies()
   return (
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
@@ -215,33 +196,39 @@ export function HealthcareHome() {
         </div>
       </section>
 
-      {/* Selected work */}
-      <section className="border-b border-border bg-muted/30">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <Eyebrow>Selected work</Eyebrow>
-              <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
-                Accurately labelled, from pilots to implementation studies
-              </h2>
-            </div>
-            <Link href="/case-studies" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">
-              View case studies
-            </Link>
-          </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {selectedWork.map((w) => (
-              <div key={w.name} className="rounded-xl border border-border bg-card p-6">
-                <span className="inline-flex rounded-full border border-teal-600/40 bg-teal-600/10 px-3 py-1 text-xs font-medium text-teal-700 dark:text-teal-400">
-                  {w.status}
-                </span>
-                <h3 className="mt-4 font-medium text-foreground">{w.name}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{w.blurb}</p>
+      {/* Selected work (only verified case studies are shown) */}
+      {work.length > 0 ? (
+        <section className="border-b border-border bg-muted/30">
+          <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <Eyebrow>Selected work</Eyebrow>
+                <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  Accurately labelled, from pilots to implementation studies
+                </h2>
               </div>
-            ))}
+              <Link href="/case-studies" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">
+                View case studies
+              </Link>
+            </div>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {work.slice(0, 3).map((w) => (
+                <Link
+                  key={w.slug}
+                  href={`/case-studies/${w.slug}`}
+                  className="rounded-xl border border-border bg-card p-6 hover:border-teal-500/60 transition-colors"
+                >
+                  <span className="inline-flex rounded-full border border-teal-600/40 bg-teal-600/10 px-3 py-1 text-xs font-medium text-teal-700 dark:text-teal-400">
+                    {w.status}
+                  </span>
+                  <h3 className="mt-4 font-medium text-foreground">{w.name}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{w.summary}</p>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* Closing CTA */}
       <section>
