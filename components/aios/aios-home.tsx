@@ -462,6 +462,12 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+            <div className="mt-10 border-t border-border/50 pt-6 text-center text-sm text-muted-foreground">
+              AIOS is an AI operations and automation service by Ayothedoc.{" "}
+              <a href="https://ayothedoc.com/about" className="underline hover:text-lime-400">
+                About Ayothedoc
+              </a>
+            </div>
           </div>
         </footer>
       </main>
