@@ -67,7 +67,7 @@ export function HealthcareFooter() {
               title="Professional"
               links={[
                 { href: "/ayo", label: "Founder Profile" },
-                { href: "https://www.linkedin.com/in/ayokunle-ademola-john", label: "LinkedIn" },
+                { href: "https://www.linkedin.com/in/ayothedoc", label: "LinkedIn" },
               ]}
             />
             <Col title="Legal" links={legal} />

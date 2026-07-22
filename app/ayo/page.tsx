@@ -41,7 +41,7 @@ const person = {
   name: "Ayokunle Ademola-John",
   jobTitle: "Healthcare Technology Product & Implementation Professional",
   url: `${sites.healthcare.url}/ayo`,
-  sameAs: ["https://www.linkedin.com/in/ayokunle-ademola-john"],
+  sameAs: ["https://www.linkedin.com/in/ayothedoc"],
 }
 
 export default function PortfolioPage() {
@@ -155,7 +155,7 @@ export default function PortfolioPage() {
               hello@ayothedoc.com
             </a>{" "}
             or connect on{" "}
-            <a href="https://www.linkedin.com/in/ayokunle-ademola-john" className="text-teal-700 dark:text-teal-400 hover:underline">
+            <a href="https://www.linkedin.com/in/ayothedoc" className="text-teal-700 dark:text-teal-400 hover:underline">
               LinkedIn
             </a>
             .
