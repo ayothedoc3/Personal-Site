@@ -1,102 +1,114 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
+import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
+import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
+import { getSiteKey } from "@/lib/site.server"
+import { sites } from "@/lib/site-config"
 
-export const metadata: Metadata = {
-  title: "Terms of Service | Ayothedoc",
-  description: "The terms governing use of Ayothedoc's Managed AI Operations services and website.",
-  alternates: { canonical: "/terms" },
-  robots: { index: true, follow: true },
+export async function generateMetadata(): Promise<Metadata> {
+  const key = await getSiteKey()
+  return {
+    title: "Terms of Use | Ayothedoc",
+    description:
+      key === "aios"
+        ? "The terms governing use of AIOS by Ayothedoc's AI operations services and website."
+        : "The terms governing use of Ayothedoc's healthcare technology consulting services and website.",
+    alternates: { canonical: `${sites[key].url}/terms` },
+  }
 }
 
 const UPDATED = "May 27, 2026"
+const prose =
+  "space-y-6 text-muted-foreground leading-relaxed [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_h2]:mt-8 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1.5 [&_a]:text-teal-700 dark:[&_a]:text-teal-400 [&_a]:underline"
 
-export default function TermsPage() {
+function AiosTerms() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
-      <SiteHeader />
+    <div className={prose}>
+      <p>
+        These Terms govern your access to and use of the website and services provided by <strong>AIOS by Ayothedoc</strong>,
+        including our AI operations services. By using our site or purchasing a plan, you agree to these Terms.
+      </p>
+      <h2>1. Services</h2>
+      <p>We install and operate an AI Operating System and related automation, as described on our <Link href="/offer">Plans &amp; Pricing</Link> page. Scope is confirmed at kickoff.</p>
+      <h2>2. Plans, billing, and renewals</h2>
+      <ul>
+        <li>One-time services (e.g. the install sprint) are billed upfront.</li>
+        <li>Monthly plans are subscriptions billed in advance via Stripe and renew until cancelled. See our <Link href="/refund">Refund &amp; Cancellation Policy</Link>.</li>
+        <li>Prices exclude applicable taxes.</li>
+      </ul>
+      <h2>3. Ownership</h2>
+      <p>You own the automations, configurations and documentation we build within your accounts. We retain our pre-existing tools, templates and methodologies.</p>
+      <h2>4. Limitation of liability</h2>
+      <p>To the maximum extent permitted by law, our total liability is limited to the fees paid in the three months preceding the claim. We are not liable for indirect or consequential damages.</p>
+      <h2>5. Governing law</h2>
+      <p>These Terms are governed by the laws of <strong>Lithuania</strong>.</p>
+      <h2>6. Contact</h2>
+      <p>Email <a href="mailto:aios@ayothedoc.com">aios@ayothedoc.com</a>.</p>
+    </div>
+  )
+}
+
+function HealthcareTerms() {
+  return (
+    <div className={prose}>
+      <p>
+        These Terms of Use govern your access to and use of the website and services provided by <strong>Ayothedoc</strong>,
+        a healthcare technology implementation and clinical innovation practice. By using this site, you agree to these Terms.
+      </p>
+      <h2>1. Services</h2>
+      <p>
+        We provide healthcare technology product, workflow and implementation consulting. Specific deliverables and scope
+        are agreed in a written statement of work before an engagement begins.
+      </p>
+      <h2>2. Not medical or regulatory services</h2>
+      <p>
+        Ayothedoc does not provide personal medical diagnosis, treatment or emergency services, and does not provide
+        regulatory, legal, certified engineering, installation or maintenance services. See our{" "}
+        <Link href="/medical-disclaimer">Medical Disclaimer</Link>.
+      </p>
+      <h2>3. Ownership</h2>
+      <p>
+        You own the deliverables we produce for you within your own accounts. We retain ownership of our pre-existing
+        methods, templates and materials.
+      </p>
+      <h2>4. Your responsibilities</h2>
+      <ul>
+        <li>Provide timely access to the information and stakeholders needed to deliver the work.</li>
+        <li>Maintain your own third-party accounts and their fees.</li>
+        <li>Use the services lawfully.</li>
+      </ul>
+      <h2>5. Limitation of liability</h2>
+      <p>
+        To the maximum extent permitted by law, our total liability arising from the services is limited to the fees
+        paid for the relevant engagement. We are not liable for indirect, incidental or consequential damages.
+      </p>
+      <h2>6. Governing law</h2>
+      <p>These Terms are governed by the applicable law stated in the engagement agreement.</p>
+      <h2>7. Contact</h2>
+      <p>Email <a href="mailto:hello@ayothedoc.com">hello@ayothedoc.com</a> with any questions about these Terms.</p>
+    </div>
+  )
+}
+
+export default async function TermsPage() {
+  const key = await getSiteKey()
+  const isAios = key === "aios"
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      {isAios ? <SiteHeader /> : <HealthcareHeader />}
       <main className="relative px-6 py-16 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">Terms of Service</h1>
+          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">Terms of Use</h1>
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>
-
-          <div className="space-y-8 text-muted-foreground leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_a]:text-lime-400 [&_a]:underline">
-            <p>
-              These Terms of Service ("Terms") govern your access to and use of the website and services provided by
-              {" "}<strong>Ayothedoc</strong> ("we", "us"), including our Managed AI Operations services and any related
-              products. By using our site or purchasing a plan, you agree to these Terms.
-            </p>
-
-            <h2>1. Services</h2>
-            <p>
-              We install and operate an "AI Operating System" for your business and provide related automation,
-              setup, and ongoing management services as described on our <Link href="/offer">Plans &amp; Pricing</Link>{" "}
-              page. Specific deliverables and scope are confirmed at kickoff.
-            </p>
-
-            <h2>2. Plans, billing, and renewals</h2>
-            <ul>
-              <li>One-time services (e.g. the install sprint) are billed upfront.</li>
-              <li>Monthly plans (Foundation, Operations, Autonomous) are subscriptions billed in advance each month via Stripe.</li>
-              <li>Subscriptions renew automatically until cancelled. You can cancel anytime; see our <Link href="/refund">Refund &amp; Cancellation Policy</Link>.</li>
-              <li>Prices are in USD unless stated otherwise and exclude applicable taxes (e.g. VAT), which may be added.</li>
-            </ul>
-
-            <h2>3. The 40-hour guarantee</h2>
-            <p>
-              Where offered, our guarantee is measured against a manual-hours baseline captured at kickoff and verified
-              over the 30 days following install, on the agreed workflow scope. If the agreed reduction isn&apos;t met,
-              we continue working at no additional cost until it is. The guarantee does not entitle you to a cash refund
-              unless expressly stated.
-            </p>
-
-            <h2>4. Ownership</h2>
-            <p>
-              You own the automations, configurations, and documentation we build for you within your own accounts.
-              We retain ownership of our pre-existing tools, templates, and methodologies. Some capabilities may be
-              delivered using our own products under a license that ends if your engagement ends.
-            </p>
-
-            <h2>5. Your responsibilities</h2>
-            <ul>
-              <li>Provide timely access to the tools, data, and information needed to deliver the service.</li>
-              <li>Maintain your own third-party accounts (e.g. CRM, email, Stripe) and their fees.</li>
-              <li>Use the services lawfully and not to send spam or violate third-party terms.</li>
-            </ul>
-
-            <h2>6. Third-party services</h2>
-            <p>
-              Our services connect to third-party platforms (e.g. Stripe, Google, email providers). Your use of those
-              platforms is governed by their terms, and we&apos;re not responsible for their availability or actions.
-            </p>
-
-            <h2>7. Limitation of liability</h2>
-            <p>
-              To the maximum extent permitted by law, our total liability arising from the services is limited to the
-              fees you paid in the three (3) months preceding the claim. We are not liable for indirect, incidental, or
-              consequential damages.
-            </p>
-
-            <h2>8. Termination</h2>
-            <p>
-              Either party may terminate a monthly plan with notice as described in the Refund &amp; Cancellation
-              Policy. We may suspend service for non-payment or misuse.
-            </p>
-
-            <h2>9. Governing law</h2>
-            <p>These Terms are governed by the laws of <strong>Lithuania</strong>.</p>
-
-            <h2>10. Contact</h2>
-            <p>
-              Questions about these Terms? Email <a href="mailto:contact@ayothedoc.com">contact@ayothedoc.com</a>.
-            </p>
-          </div>
-
+          {isAios ? <AiosTerms /> : <HealthcareTerms />}
           <div className="mt-12">
-            <Link href="/" className="text-lime-400 font-semibold hover:underline">← Back to home</Link>
+            <Link href="/" className="text-teal-700 dark:text-teal-400 font-medium hover:underline">&larr; Back to home</Link>
           </div>
         </div>
       </main>
+      {isAios ? null : <HealthcareFooter />}
     </div>
   )
 }

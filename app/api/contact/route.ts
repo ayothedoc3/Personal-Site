@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { Resend } from "resend"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -44,12 +45,6 @@ async function captchaOk(token: string, ip: string): Promise<boolean> {
 }
 
 export async function POST(req: NextRequest) {
-  const url = process.env.LEAD_ENGINE_URL
-  const secret = process.env.LEAD_ENGINE_SECRET
-  if (!url || !secret) {
-    return NextResponse.json({ error: "Lead Engine is not configured" }, { status: 500 })
-  }
-
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
   if (rateLimited(ip)) {
     return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 })
@@ -86,6 +81,42 @@ export async function POST(req: NextRequest) {
 
   const service = String(body.service || "").trim()
   const fullMessage = service ? `${message}\n\n[Interested in: ${service}]` : message
+
+  // Healthcare enquiries (root site) email the inbox directly via Resend, with
+  // NO auto-reply. The Lead Engine path below is AIOS-only.
+  if (String(body.source || "") === "healthcare-contact") {
+    const apiKey = process.env.RESEND_API_KEY
+    const to = process.env.HEALTHCARE_ENQUIRY_EMAIL || "ayothedoc3@gmail.com"
+    const from = process.env.AUDIT_FROM_EMAIL || "Ayothedoc <onboarding@resend.dev>"
+    if (!apiKey || apiKey.includes("your_resend_api_key_here")) {
+      return NextResponse.json({ error: "Email is not configured" }, { status: 500 })
+    }
+    try {
+      const resend = new Resend(apiKey)
+      const { error } = await resend.emails.send({
+        from,
+        to: [to],
+        replyTo: email,
+        subject: `New healthcare enquiry: ${firstName || email}${service ? ` (${service})` : ""}`,
+        text: `From: ${firstName} <${email}>\nCompany: ${String(body.company || "").trim() || "-"}\nProject type: ${service || "-"}\n\n${fullMessage}`,
+      })
+      if (error) {
+        console.error("Resend healthcare enquiry failed:", error)
+        return NextResponse.json({ error: "Could not send your enquiry right now." }, { status: 502 })
+      }
+      return NextResponse.json({ ok: true })
+    } catch (e) {
+      console.error("Resend unreachable:", e)
+      return NextResponse.json({ error: "Could not send your enquiry right now." }, { status: 502 })
+    }
+  }
+
+  // AIOS path: forward to the Lead Engine (sub-60s reply + operator alert).
+  const url = process.env.LEAD_ENGINE_URL
+  const secret = process.env.LEAD_ENGINE_SECRET
+  if (!url || !secret) {
+    return NextResponse.json({ error: "Lead Engine is not configured" }, { status: 500 })
+  }
 
   try {
     const r = await fetch(url, {
