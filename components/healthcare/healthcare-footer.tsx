@@ -78,11 +78,9 @@ export function HealthcareFooter() {
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Ayothedoc. Healthcare technology product and implementation services.
           </p>
-          <a
-            href="https://aios.ayothedoc.com"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Looking for business automation services? Visit AIOS.
+          <a href="https://aios.ayothedoc.com" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+            Looking for business automation?{" "}
+            <span className="font-medium text-teal-700 dark:text-teal-400">Visit AIOS &rarr;</span>
           </a>
         </div>
       </div>

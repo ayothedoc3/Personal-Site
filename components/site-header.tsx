@@ -72,6 +72,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <a
+            href="https://ayothedoc.com"
+            className="hidden md:inline text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Ayothedoc Healthcare
+          </a>
           <ThemeToggle />
           <Button
             asChild
