@@ -66,6 +66,7 @@ export const HEALTHCARE_ONLY_PREFIXES = [
   "/insights",
   "/ayo",
   "/medical-disclaimer",
+  "/tools",
 ]
 
 export function pathMatchesPrefix(pathname: string, prefixes: string[]): boolean {

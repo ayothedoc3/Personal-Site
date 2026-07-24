@@ -14,6 +14,7 @@ export interface SolutionDetail {
   responsibleUse?: string
   boundaries?: string
   aiosNote?: boolean
+  demo?: { href: string; label: string; blurb: string }
   ctaLabel: string
 }
 
@@ -172,6 +173,11 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     responsibleUse:
       "High-risk healthcare decisions require appropriate human oversight, governance and validation. We do not design or market autonomous diagnosis or treatment.",
     aiosNote: true,
+    demo: {
+      href: "/tools/de-identify",
+      label: "Try the on-device de-identification demo",
+      blurb: "See protected health information removed from a clinical note entirely in your browser, nothing uploaded.",
+    },
     ctaLabel: "Assess an AI or Automation Use Case",
   },
 }

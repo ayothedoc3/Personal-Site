@@ -55,6 +55,20 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
               {d.positioning}
             </p>
           ) : null}
+          {d.demo ? (
+            <Link
+              href={d.demo.href}
+              className="group mt-6 flex max-w-3xl items-center justify-between gap-4 rounded-xl border border-teal-600/40 bg-card px-5 py-4 hover:border-teal-500 transition-colors"
+            >
+              <span>
+                <span className="block text-sm font-medium text-foreground">{d.demo.label}</span>
+                <span className="mt-1 block text-sm text-muted-foreground leading-relaxed">{d.demo.blurb}</span>
+              </span>
+              <span className="text-teal-700 dark:text-teal-400 group-hover:translate-x-0.5 transition-transform" aria-hidden>
+                &rarr;
+              </span>
+            </Link>
+          ) : null}
         </div>
       </section>
 
