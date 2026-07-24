@@ -25,6 +25,7 @@ export function DeidentifyClient() {
   const [method, setMethod] = useState<DeidMethod>("mask")
   const [copied, setCopied] = useState(false)
   const [modelStatus, setModelStatus] = useState<ModelStatus>("loading")
+  const [loadError, setLoadError] = useState("")
   const [mlEntities, setMlEntities] = useState<Entity[]>([])
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pipeRef = useRef<any>(null)
@@ -43,8 +44,11 @@ export function DeidentifyClient() {
         if (cancelled) return
         pipeRef.current = pipe
         setModelStatus("ready")
-      } catch {
-        if (!cancelled) setModelStatus("unavailable")
+      } catch (e) {
+        if (!cancelled) {
+          setLoadError(String((e as Error)?.message || e).slice(0, 240))
+          setModelStatus("unavailable")
+        }
       }
     })()
     return () => {
@@ -114,6 +118,11 @@ export function DeidentifyClient() {
           <Cpu className={`h-3.5 w-3.5 ${modelStatus === "ready" ? "text-teal-600" : ""}`} aria-hidden />
           {modelText}
         </span>
+        {loadError ? (
+          <span data-testid="model-error" className="text-xs text-muted-foreground/70">
+            {loadError}
+          </span>
+        ) : null}
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
