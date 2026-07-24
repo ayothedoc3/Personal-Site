@@ -1,8 +1,16 @@
 "use client"
 
-import { useMemo, useState } from "react"
-import { Copy, RotateCcw, ShieldCheck, Check } from "lucide-react"
-import { detectEntities, deidentify, SAMPLE_NOTE, type DeidMethod, type PhiLabel } from "@/lib/deidentify"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { Copy, RotateCcw, ShieldCheck, Check, Cpu } from "lucide-react"
+import {
+  detectEntities,
+  deidentify,
+  resolveOverlaps,
+  SAMPLE_NOTE,
+  type DeidMethod,
+  type Entity,
+  type PhiLabel,
+} from "@/lib/deidentify"
 
 const methods: { key: DeidMethod; label: string; hint: string }[] = [
   { key: "mask", label: "Mask", hint: "Replace each identifier with its type" },
@@ -10,12 +18,70 @@ const methods: { key: DeidMethod; label: string; hint: string }[] = [
   { key: "hash", label: "Hash", hint: "Consistent pseudonymous token" },
 ]
 
+type ModelStatus = "loading" | "ready" | "unavailable"
+
 export function DeidentifyClient() {
   const [text, setText] = useState(SAMPLE_NOTE)
   const [method, setMethod] = useState<DeidMethod>("mask")
   const [copied, setCopied] = useState(false)
+  const [modelStatus, setModelStatus] = useState<ModelStatus>("loading")
+  const [mlEntities, setMlEntities] = useState<Entity[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pipeRef = useRef<any>(null)
 
-  const entities = useMemo(() => detectEntities(text), [text])
+  // Load a named-entity model into the browser. If it cannot load (offline,
+  // blocked, unsupported device), we silently fall back to pattern detection,
+  // so the tool always works and nothing ever leaves the device.
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const t: any = await import("@huggingface/transformers")
+        t.env.allowLocalModels = false
+        const pipe = await t.pipeline("token-classification", "Xenova/bert-base-NER", { dtype: "q8" })
+        if (cancelled) return
+        pipeRef.current = pipe
+        setModelStatus("ready")
+      } catch {
+        if (!cancelled) setModelStatus("unavailable")
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  // Run the model on the text (debounced) once it is ready. Maps person -> NAME
+  // and location -> ADDRESS; structured identifiers stay with the pattern layer.
+  useEffect(() => {
+    if (modelStatus !== "ready" || !pipeRef.current) {
+      setMlEntities([])
+      return
+    }
+    let cancelled = false
+    const id = setTimeout(async () => {
+      try {
+        const raw: Array<{ entity_group: string; start: number; end: number; score: number }> =
+          await pipeRef.current(text, { aggregation_strategy: "simple" })
+        if (cancelled) return
+        const map: Record<string, PhiLabel> = { PER: "NAME", LOC: "ADDRESS" }
+        const mapped: Entity[] = raw
+          .filter((r) => map[r.entity_group] && typeof r.start === "number" && typeof r.end === "number" && r.score > 0.5)
+          .map((r) => ({ start: r.start, end: r.end, label: map[r.entity_group], text: text.slice(r.start, r.end) }))
+        setMlEntities(mapped)
+      } catch {
+        if (!cancelled) setMlEntities([])
+      }
+    }, 500)
+    return () => {
+      cancelled = true
+      clearTimeout(id)
+    }
+  }, [text, modelStatus])
+
+  const ruleEntities = useMemo(() => detectEntities(text), [text])
+  const entities = useMemo(() => resolveOverlaps([...ruleEntities, ...mlEntities]), [ruleEntities, mlEntities])
   const output = useMemo(() => deidentify(text, method, entities), [text, method, entities])
 
   const counts = useMemo(() => {
@@ -34,11 +100,20 @@ export function DeidentifyClient() {
     }
   }
 
+  const modelText =
+    modelStatus === "loading" ? "Loading AI model…" : modelStatus === "ready" ? "AI model active" : "Pattern detection"
+
   return (
     <div>
-      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-600/40 bg-teal-600/[0.08] px-4 py-2 text-sm text-teal-700 dark:text-teal-400">
-        <ShieldCheck className="h-4 w-4" aria-hidden />
-        Runs entirely in your browser. Nothing is uploaded.
+      <div className="mb-6 flex flex-wrap items-center gap-3">
+        <span className="inline-flex items-center gap-2 rounded-full border border-teal-600/40 bg-teal-600/[0.08] px-4 py-2 text-sm text-teal-700 dark:text-teal-400">
+          <ShieldCheck className="h-4 w-4" aria-hidden />
+          Runs entirely in your browser. Nothing is uploaded.
+        </span>
+        <span className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-2 text-xs text-muted-foreground">
+          <Cpu className={`h-3.5 w-3.5 ${modelStatus === "ready" ? "text-teal-600" : ""}`} aria-hidden />
+          {modelText}
+        </span>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">

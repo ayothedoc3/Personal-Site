@@ -54,9 +54,10 @@ export default function DeidentifyPage() {
               <Eyebrow>How this demo works</Eyebrow>
               <h2 className="mt-4 text-2xl font-semibold tracking-tight">Processing stays on the device</h2>
               <p className="mt-4 text-muted-foreground leading-relaxed">
-                This page loads a lightweight detector into your browser and runs it locally on the text you paste.
-                There is no API call and no server round-trip, which is the whole point: sensitive clinical text
-                should not have to leave the device to be de-identified. It is a simple demonstration of the approach.
+                This page loads a named-entity model into your browser, with a pattern layer for structured
+                identifiers like SSNs and phone numbers, and runs it locally on the text you paste. There is no API
+                call and no server round-trip: sensitive clinical text should not have to leave the device to be
+                de-identified. If the model cannot load, it falls back to pattern detection so the tool still works.
               </p>
             </div>
             <div>

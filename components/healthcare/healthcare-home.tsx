@@ -141,6 +141,32 @@ export function HealthcareHome() {
         </div>
       </section>
 
+      {/* On-device tool teaser */}
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-6 py-14 lg:px-8">
+          <Link
+            href="/tools/de-identify"
+            className="group flex flex-col gap-4 rounded-2xl border border-teal-600/40 bg-card p-7 sm:flex-row sm:items-center sm:justify-between hover:border-teal-500 transition-colors"
+          >
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-400">
+                Try it
+              </div>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight text-foreground">
+                On-device clinical de-identification demo
+              </h2>
+              <p className="mt-2 max-w-xl text-sm text-muted-foreground leading-relaxed">
+                Paste a clinical note and watch protected health information get removed, entirely in your browser.
+                Nothing is uploaded.
+              </p>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-medium text-white group-hover:bg-teal-700 transition-colors">
+              Open the demo <ArrowRight className="h-4 w-4" aria-hidden />
+            </span>
+          </Link>
+        </div>
+      </section>
+
       {/* Differentiation */}
       <section className="border-b border-border bg-muted/30">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">

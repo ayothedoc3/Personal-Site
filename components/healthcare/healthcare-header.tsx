@@ -10,6 +10,7 @@ const navItems = [
   { href: "/who-we-help", label: "Who We Help" },
   { href: "/case-studies", label: "Case Studies" },
   { href: "/method", label: "Method" },
+  { href: "/tools/de-identify", label: "Tools" },
   { href: "/insights", label: "Insights" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },

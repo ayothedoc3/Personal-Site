@@ -70,11 +70,18 @@ export function detectEntities(text: string): Entity[] {
   pushMatches(text, nameLabelRe, "NAME", 1, found)
   pushMatches(text, nameTitleRe, "NAME", 1, found)
   pushMatches(text, addressRe, "ADDRESS", 0, found)
+  return resolveOverlaps(found)
+}
 
-  // Resolve overlaps: prefer the longer span; on ties, earlier start.
-  found.sort((a, b) => a.start - b.start || b.end - b.start - (a.end - a.start))
+// Merge a set of entities, dropping overlaps (prefer the longer span, then
+// earlier start). Used to combine rule-based + model-based detections.
+export function resolveOverlaps(entities: Entity[]): Entity[] {
+  const sorted = [...entities].sort(
+    (a, b) => a.start - b.start || b.end - b.start - (a.end - a.start)
+  )
   const resolved: Entity[] = []
-  for (const e of found) {
+  for (const e of sorted) {
+    if (e.end <= e.start) continue
     if (resolved.some((r) => e.start < r.end && e.end > r.start)) continue
     resolved.push(e)
   }

@@ -22,6 +22,17 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
+  // Transformers.js (browser ML for the de-identify tool) pulls in
+  // onnxruntime-web; keep the node-only onnxruntime and sharp out of the bundle.
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      sharp$: false,
+      'onnxruntime-node$': false,
+    }
+    return config
+  },
+
   // Permanent redirects from the retired tool-led programmatic SEO slugs to their
   // outcome-led replacements (or to the /automation index when there's no clean
   // 1:1 mapping). See programmatic-seo-realignment-plan.md → Migration.
@@ -77,7 +88,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://api.emailjs.com https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://api.emailjs.com https://www.google-analytics.com https://region1.google-analytics.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://api.emailjs.com https://www.googletagmanager.com https://challenges.cloudflare.com https://cdn.jsdelivr.net; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://api.emailjs.com https://www.google-analytics.com https://region1.google-analytics.com https://huggingface.co https://*.huggingface.co https://cdn.jsdelivr.net;",
           },
         ],
       },
