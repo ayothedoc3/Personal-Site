@@ -66,13 +66,19 @@ export function DeidentifyClient() {
     let cancelled = false
     const id = setTimeout(async () => {
       try {
-        const raw: Array<{ entity_group: string; start: number; end: number; score: number }> =
-          await pipeRef.current(text, { aggregation_strategy: "simple" })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const raw: any[] = await pipeRef.current(text, { aggregation_strategy: "simple" })
         if (cancelled) return
         const map: Record<string, PhiLabel> = { PER: "NAME", LOC: "ADDRESS" }
-        const mapped: Entity[] = raw
-          .filter((r) => map[r.entity_group] && typeof r.start === "number" && typeof r.end === "number" && r.score > 0.5)
-          .map((r) => ({ start: r.start, end: r.end, label: map[r.entity_group], text: text.slice(r.start, r.end) }))
+        const mapped: Entity[] = []
+        for (const r of raw ?? []) {
+          // Handle both aggregated (entity_group: "PER") and raw (entity: "B-PER") output.
+          const group = r.entity_group ?? (r.entity ? String(r.entity).replace(/^[BI]-/, "") : "")
+          const label = map[group]
+          if (!label || typeof r.start !== "number" || typeof r.end !== "number") continue
+          if ((r.score ?? 1) < 0.5) continue
+          mapped.push({ start: r.start, end: r.end, label, text: text.slice(r.start, r.end) })
+        }
         setMlEntities(mapped)
       } catch {
         if (!cancelled) setMlEntities([])
