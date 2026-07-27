@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import { Copy, RotateCcw, ShieldCheck, Check, Cpu } from "lucide-react"
+import { Copy, RotateCcw, ShieldCheck, Check, Cpu, Loader2 } from "lucide-react"
 import {
   detectEntities,
   deidentify,
@@ -18,46 +18,45 @@ const methods: { key: DeidMethod; label: string; hint: string }[] = [
   { key: "hash", label: "Hash", hint: "Consistent pseudonymous token" },
 ]
 
-type ModelStatus = "loading" | "ready" | "unavailable"
+type ModelStatus = "idle" | "loading" | "ready" | "unavailable"
 
 export function DeidentifyClient() {
   const [text, setText] = useState(SAMPLE_NOTE)
   const [method, setMethod] = useState<DeidMethod>("mask")
   const [copied, setCopied] = useState(false)
-  const [modelStatus, setModelStatus] = useState<ModelStatus>("loading")
+  const [modelStatus, setModelStatus] = useState<ModelStatus>("idle")
   const [loadError, setLoadError] = useState("")
   const [mlEntities, setMlEntities] = useState<Entity[]>([])
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pipeRef = useRef<any>(null)
+  const mounted = useRef(true)
+  useEffect(() => () => { mounted.current = false }, [])
 
-  // Load a named-entity model into the browser. If it cannot load (offline,
-  // blocked, unsupported device), we silently fall back to pattern detection,
-  // so the tool always works and nothing ever leaves the device.
-  useEffect(() => {
-    let cancelled = false
+  // On demand: download and initialise a named-entity model in the browser.
+  // Optional, the pattern layer works without it and nothing ever leaves the device.
+  const loadModel = () => {
+    if (modelStatus === "loading" || modelStatus === "ready") return
+    setModelStatus("loading")
+    setLoadError("")
     ;(async () => {
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const t: any = await import("@huggingface/transformers")
         t.env.allowLocalModels = false
         const pipe = await t.pipeline("token-classification", "Xenova/bert-base-NER", { dtype: "q8" })
-        if (cancelled) return
+        if (!mounted.current) return
         pipeRef.current = pipe
         setModelStatus("ready")
       } catch (e) {
-        if (!cancelled) {
-          setLoadError(String((e as Error)?.message || e).slice(0, 240))
-          setModelStatus("unavailable")
-        }
+        if (!mounted.current) return
+        setLoadError(String((e as Error)?.message || e).slice(0, 240))
+        setModelStatus("unavailable")
       }
     })()
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  }
 
-  // Run the model on the text (debounced) once it is ready. Maps person -> NAME
-  // and location -> ADDRESS; structured identifiers stay with the pattern layer.
+  // Run the model on the text (debounced) once it is ready. Person -> NAME,
+  // location -> ADDRESS; structured identifiers stay with the pattern layer.
   useEffect(() => {
     if (modelStatus !== "ready" || !pipeRef.current) {
       setMlEntities([])
@@ -72,7 +71,6 @@ export function DeidentifyClient() {
         const map: Record<string, PhiLabel> = { PER: "NAME", LOC: "ADDRESS" }
         const mapped: Entity[] = []
         for (const r of raw ?? []) {
-          // Handle both aggregated (entity_group: "PER") and raw (entity: "B-PER") output.
           const group = r.entity_group ?? (r.entity ? String(r.entity).replace(/^[BI]-/, "") : "")
           const label = map[group]
           if (!label || typeof r.start !== "number" || typeof r.end !== "number") continue
@@ -110,9 +108,6 @@ export function DeidentifyClient() {
     }
   }
 
-  const modelText =
-    modelStatus === "loading" ? "Loading AI model…" : modelStatus === "ready" ? "AI model active" : "Pattern detection"
-
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -120,15 +115,37 @@ export function DeidentifyClient() {
           <ShieldCheck className="h-4 w-4" aria-hidden />
           Runs entirely in your browser. Nothing is uploaded.
         </span>
-        <span className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-2 text-xs text-muted-foreground">
-          <Cpu className={`h-3.5 w-3.5 ${modelStatus === "ready" ? "text-teal-600" : ""}`} aria-hidden />
-          {modelText}
-        </span>
-        {loadError ? (
-          <span data-testid="model-error" className="text-xs text-muted-foreground/70">
-            {loadError}
+
+        {modelStatus === "idle" ? (
+          <button
+            type="button"
+            onClick={loadModel}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+          >
+            <Cpu className="h-4 w-4" aria-hidden /> Enable AI name detection
+          </button>
+        ) : modelStatus === "loading" ? (
+          <span className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Loading AI model…
           </span>
+        ) : modelStatus === "ready" ? (
+          <span className="inline-flex items-center gap-2 rounded-full border border-teal-600/40 bg-teal-600/[0.08] px-4 py-2 text-sm text-teal-700 dark:text-teal-400">
+            <Cpu className="h-4 w-4" aria-hidden /> AI name detection active
+          </span>
+        ) : (
+          <button
+            type="button"
+            onClick={loadModel}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground hover:bg-muted transition-colors"
+          >
+            <Cpu className="h-4 w-4" aria-hidden /> AI model unavailable, retry
+          </button>
+        )}
+
+        {modelStatus === "idle" ? (
+          <span className="text-xs text-muted-foreground">Optional, downloads a one-time model and runs locally.</span>
         ) : null}
+        {loadError ? <span data-testid="model-error" className="sr-only">{loadError}</span> : null}
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
