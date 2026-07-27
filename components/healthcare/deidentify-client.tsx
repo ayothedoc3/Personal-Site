@@ -20,6 +20,47 @@ const methods: { key: DeidMethod; label: string; hint: string }[] = [
 
 type ModelStatus = "idle" | "loading" | "ready" | "unavailable"
 
+// transformers.js token-classification returns per-token tags with no character
+// offsets, so group tokens into whole entities and locate them in the text.
+function mergeTokenEntities(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  raw: any[],
+  text: string
+): Entity[] {
+  const map: Record<string, PhiLabel> = { PER: "NAME", LOC: "ADDRESS" }
+  const groups: { type: string; tokens: string[] }[] = []
+  let cur: { type: string; tokens: string[] } | null = null
+  for (const r of raw) {
+    if ((r.score ?? 1) < 0.5) {
+      cur = null
+      continue
+    }
+    const tag: string = r.entity || ""
+    const type = tag.slice(2)
+    const isSub = String(r.word).startsWith("##")
+    if (cur && (isSub || (tag[0] === "I" && cur.type === type))) {
+      cur.tokens.push(r.word)
+    } else {
+      cur = { type, tokens: [r.word] }
+      groups.push(cur)
+    }
+  }
+  const out: Entity[] = []
+  let cursor = 0
+  for (const g of groups) {
+    const label = map[g.type]
+    if (!label) continue
+    let word = ""
+    for (const tk of g.tokens) word += String(tk).startsWith("##") ? String(tk).slice(2) : (word ? " " : "") + tk
+    let idx = text.indexOf(word, cursor)
+    if (idx === -1) idx = text.indexOf(word)
+    if (idx === -1) continue
+    out.push({ start: idx, end: idx + word.length, label, text: word })
+    cursor = idx + word.length
+  }
+  return out
+}
+
 export function DeidentifyClient() {
   const [text, setText] = useState(SAMPLE_NOTE)
   const [method, setMethod] = useState<DeidMethod>("mask")
@@ -66,18 +107,9 @@ export function DeidentifyClient() {
     const id = setTimeout(async () => {
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const raw: any[] = await pipeRef.current(text, { aggregation_strategy: "simple" })
+        const raw: any[] = await pipeRef.current(text)
         if (cancelled) return
-        const map: Record<string, PhiLabel> = { PER: "NAME", LOC: "ADDRESS" }
-        const mapped: Entity[] = []
-        for (const r of raw ?? []) {
-          const group = r.entity_group ?? (r.entity ? String(r.entity).replace(/^[BI]-/, "") : "")
-          const label = map[group]
-          if (!label || typeof r.start !== "number" || typeof r.end !== "number") continue
-          if ((r.score ?? 1) < 0.5) continue
-          mapped.push({ start: r.start, end: r.end, label, text: text.slice(r.start, r.end) })
-        }
-        setMlEntities(mapped)
+        setMlEntities(mergeTokenEntities(raw ?? [], text))
       } catch {
         if (!cancelled) setMlEntities([])
       }
