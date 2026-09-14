@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <title>Connected healthcare systems illustration</title>
+  <defs>
+    <linearGradient id="background" x1="76" y1="36" x2="1120" y2="644" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0FDFA"/>
+      <stop offset="1" stop-color="#DBEAFE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" rx="48" fill="url(#background)"/>
+  <circle cx="156" cy="112" r="92" fill="#BAE6FD" fill-opacity="0.6"/>
+  <circle cx="1068" cy="576" r="138" fill="#99F6E4" fill-opacity="0.45"/>
+  <path d="M346 224 522 298M854 224 678 298M346 451l176-74M854 451l-176-74" stroke="#14B8A6" stroke-width="16" stroke-linecap="round"/>
+  <path d="m484 269 38 29-47 9M716 269l-38 29 47 9M484 407l38-30-47-8M716 407l-38-30 47-8" stroke="#0F766E" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <g>
+    <rect x="106" y="136" width="260" height="176" rx="28" fill="#FFFFFF"/>
+    <path d="M170 194h132M170 230h94M170 266h116" stroke="#7DD3FC" stroke-width="15" stroke-linecap="round"/>
+    <rect x="834" y="136" width="260" height="176" rx="28" fill="#FFFFFF"/>
+    <circle cx="918" cy="224" r="36" fill="#CCFBF1"/>
+    <path d="M977 195h55M977 224h70M977 253h46" stroke="#5EEAD4" stroke-width="13" stroke-linecap="round"/>
+    <rect x="106" y="363" width="260" height="176" rx="28" fill="#FFFFFF"/>
+    <path d="M164 482v-72h144v72" stroke="#38BDF8" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M194 482v-34h84v34" stroke="#0F766E" stroke-width="14"/>
+    <rect x="834" y="363" width="260" height="176" rx="28" fill="#FFFFFF"/>
+    <path d="M888 455h50l22-42 34 83 24-41h29" stroke="#14B8A6" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="600" cy="337" r="120" fill="#0F766E"/>
+    <path d="M574 258h52v53h53v52h-53v53h-52v-53h-53v-52h53v-53Z" fill="#FFFFFF"/>
+  </g>
+</svg>
