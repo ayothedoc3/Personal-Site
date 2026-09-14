@@ -24,7 +24,7 @@ export default async function PrivacyPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {isAios ? <SiteHeader /> : <HealthcareHeader />}
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">Privacy Policy</h1>
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>

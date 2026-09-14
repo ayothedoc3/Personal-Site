@@ -59,7 +59,7 @@ export default function PortfolioPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700 dark:text-teal-400">
           Professional profile
         </p>

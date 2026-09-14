@@ -39,7 +39,7 @@ export const insights: Insight[] = [
     excerpt:
       "Before a device or robotic programme enters a hospital, readiness is about workflow, people and operations, not just the technology.",
     image: {
-      src: "/insights/hospital-readiness-assessment.svg",
+      src: "/insights/hospital-readiness-assessment.png",
       alt: "Illustration of a hospital, implementation checklist and connected clinical workflow",
       width: 1200,
       height: 675,
@@ -59,7 +59,7 @@ export const insights: Insight[] = [
     excerpt:
       "FHIR gives healthcare systems a common way to exchange information, but interoperability is as much about workflow and permissions as the format.",
     image: {
-      src: "/insights/fhir-healthcare-systems.svg",
+      src: "/insights/fhir-healthcare-systems.png",
       alt: "Illustration of connected healthcare systems exchanging clinical information",
       width: 1200,
       height: 675,
@@ -79,7 +79,7 @@ export const insights: Insight[] = [
     excerpt:
       "Devices are often assessed for function but not for how they fit real user workflows. Small usability issues drive adoption more than headline features.",
     image: {
-      src: "/insights/human-factors-medical-device.svg",
+      src: "/insights/human-factors-medical-device.png",
       alt: "Illustration of a clinician evaluating a medical device interface and workflow",
       width: 1200,
       height: 675,

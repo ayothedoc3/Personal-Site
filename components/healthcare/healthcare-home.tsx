@@ -39,6 +39,8 @@ export function HealthcareHome() {
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
 
+      <main id="main-content" tabIndex={-1}>
+
       {/* Hero */}
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-28">
@@ -275,6 +277,8 @@ export function HealthcareHome() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <HealthcareFooter />
     </div>

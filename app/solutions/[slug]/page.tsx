@@ -5,7 +5,7 @@ import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CheckList, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { solutionDetails, solutionSlugs } from "@/lib/solutions"
-import { sites } from "@/lib/site-config"
+import { sites, siteSocialImages } from "@/lib/site-config"
 
 export function generateStaticParams() {
   return solutionSlugs.map((slug) => ({ slug }))
@@ -27,6 +27,7 @@ export async function generateMetadata({
       title: d.metaTitle,
       description: d.metaDescription,
       url: `${sites.healthcare.url}/solutions/${slug}`,
+      images: [siteSocialImages.healthcare],
     },
   }
 }
@@ -39,6 +40,8 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
   return (
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
+
+      <main id="main-content" tabIndex={-1}>
 
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
@@ -160,6 +163,8 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
           &larr; All solutions
         </Link>
       </div>
+
+      </main>
 
       <HealthcareFooter />
     </div>

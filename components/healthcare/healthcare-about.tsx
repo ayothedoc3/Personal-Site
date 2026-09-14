@@ -24,6 +24,8 @@ export function HealthcareAbout() {
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
 
+      <main id="main-content" tabIndex={-1}>
+
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
@@ -114,6 +116,9 @@ export function HealthcareAbout() {
       </section>
 
       <CTASection heading="Want to talk through a project?" label="Discuss a Healthcare Technology Project" />
+
+      </main>
+
       <HealthcareFooter />
     </div>
   )

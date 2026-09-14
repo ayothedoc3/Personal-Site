@@ -7,7 +7,7 @@ import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CheckList, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { audienceDetails, audienceSlugs } from "@/lib/audiences-detail"
 import { solutionDetails } from "@/lib/solutions"
-import { sites } from "@/lib/site-config"
+import { sites, siteSocialImages } from "@/lib/site-config"
 
 export function generateStaticParams() {
   return audienceSlugs.map((slug) => ({ slug }))
@@ -21,7 +21,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: d.metaTitle,
     description: d.metaDescription,
     alternates: { canonical: `${sites.healthcare.url}/who-we-help/${slug}` },
-    openGraph: { title: d.metaTitle, description: d.metaDescription, url: `${sites.healthcare.url}/who-we-help/${slug}` },
+    openGraph: {
+      title: d.metaTitle,
+      description: d.metaDescription,
+      url: `${sites.healthcare.url}/who-we-help/${slug}`,
+      images: [siteSocialImages.healthcare],
+    },
   }
 }
 
@@ -33,6 +38,8 @@ export default async function AudiencePage({ params }: { params: Promise<{ slug:
   return (
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
+
+      <main id="main-content" tabIndex={-1}>
 
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
@@ -103,6 +110,9 @@ export default async function AudiencePage({ params }: { params: Promise<{ slug:
       </section>
 
       <CTASection heading="Let's talk about your situation" label={d.ctaLabel} />
+
+      </main>
+
       <HealthcareFooter />
     </div>
   )

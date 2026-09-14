@@ -18,7 +18,6 @@ export function Honeypot({ value, onChange }: HoneypotProps) {
         height: 0,
         width: 0,
         overflow: "hidden",
-        tabIndex: -1,
         pointerEvents: "none",
       }}
       aria-hidden="true"

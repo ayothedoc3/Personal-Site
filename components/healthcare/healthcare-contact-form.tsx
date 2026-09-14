@@ -101,7 +101,11 @@ export function HealthcareContactForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-teal-600/40 bg-teal-600/[0.06] p-8 text-center">
+      <div
+        role="status"
+        aria-live="polite"
+        className="rounded-2xl border border-teal-600/40 bg-teal-600/[0.06] p-8 text-center"
+      >
         <h2 className="text-lg font-semibold text-foreground">Thank you, your enquiry has been sent</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
           We will review it and respond to discuss your healthcare technology project.
@@ -111,26 +115,26 @@ export function HealthcareContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} onChange={onFirstInteract} className="space-y-5" noValidate>
+    <form onSubmit={onSubmit} onChange={onFirstInteract} className="space-y-5" aria-busy={status === "loading"}>
       {/* Honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelCls}>Name *</label>
-          <input id="name" name="name" required className={fieldCls} placeholder="Your name" />
+          <input id="name" name="name" required autoComplete="name" className={fieldCls} placeholder="Your name" />
         </div>
         <div>
           <label htmlFor="email" className={labelCls}>Work email *</label>
-          <input id="email" name="email" type="email" required className={fieldCls} placeholder="you@organisation.com" />
+          <input id="email" name="email" type="email" required autoComplete="email" className={fieldCls} placeholder="you@organisation.com" />
         </div>
         <div>
           <label htmlFor="organisation" className={labelCls}>Organisation</label>
-          <input id="organisation" name="organisation" className={fieldCls} placeholder="Organisation name" />
+          <input id="organisation" name="organisation" autoComplete="organization" className={fieldCls} placeholder="Organisation name" />
         </div>
         <div>
           <label htmlFor="country" className={labelCls}>Country</label>
-          <input id="country" name="country" className={fieldCls} placeholder="Country" />
+          <input id="country" name="country" autoComplete="country-name" className={fieldCls} placeholder="Country" />
         </div>
         <div>
           <label htmlFor="orgType" className={labelCls}>Organisation type</label>
@@ -180,6 +184,10 @@ export function HealthcareContactForm() {
       </div>
 
       <Turnstile onToken={setToken} />
+
+      <p role="status" aria-live="polite" className="sr-only">
+        {status === "loading" ? "Sending your project enquiry." : ""}
+      </p>
 
       {status === "error" ? (
         <p role="alert" className="text-sm text-red-600 dark:text-red-400">{errorMsg}</p>

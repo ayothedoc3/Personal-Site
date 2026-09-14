@@ -16,14 +16,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticPaths = ["", "/services", "/offer", "/lead-engine", "/demo", "/audit", "/automation", "/blog", "/about", "/contact", "/privacy", "/terms", "/refund"]
     const staticPages: MetadataRoute.Sitemap = staticPaths.map((p) => ({
       url: `${base}${p}`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: p === "" ? 1 : 0.7,
     }))
     const programmatic = await getProgrammaticSummaries()
     const automationPages: MetadataRoute.Sitemap = programmatic.map((page) => ({
       url: `${base}/automation/${page.slug}`,
-      lastModified: page.datePublished ? new Date(page.datePublished) : new Date(),
+      ...(page.datePublished ? { lastModified: new Date(page.datePublished) } : {}),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }))
@@ -49,13 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
   const pages: MetadataRoute.Sitemap = staticPaths.map((p) => ({
     url: `${base}${p}`,
-    lastModified: new Date(),
     changeFrequency: p === "" ? "weekly" : "monthly",
     priority: p === "" ? 1 : 0.8,
   }))
-  const solutions = solutionSlugs.map((s) => ({ url: `${base}/solutions/${s}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 }))
-  const audiences = audienceSlugs.map((s) => ({ url: `${base}/who-we-help/${s}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 }))
+  const solutions = solutionSlugs.map((s) => ({ url: `${base}/solutions/${s}`, changeFrequency: "monthly" as const, priority: 0.8 }))
+  const audiences = audienceSlugs.map((s) => ({ url: `${base}/who-we-help/${s}`, changeFrequency: "monthly" as const, priority: 0.8 }))
   const insightPages = insights.map((i) => ({ url: `${base}/insights/${i.slug}`, lastModified: new Date(i.date), changeFrequency: "monthly" as const, priority: 0.6 }))
-  const cases = verifiedCaseStudies().map((c) => ({ url: `${base}/case-studies/${c.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 }))
+  const cases = verifiedCaseStudies().map((c) => ({ url: `${base}/case-studies/${c.slug}`, changeFrequency: "monthly" as const, priority: 0.6 }))
   return [...pages, ...solutions, ...audiences, ...insightPages, ...cases]
 }

@@ -78,7 +78,7 @@ export default function Home() {
       {/* Header */}
       <SiteHeader />
 
-      <main id="main-content" className="relative z-10">
+      <main id="main-content" tabIndex={-1} className="relative z-10">
         {/* Hero, visible by default (no JS dependency) for users and crawlers */}
         <section className="min-h-[88vh] flex items-center justify-center px-6 lg:px-12 pt-16">
           <div className="text-center max-w-5xl mx-auto">

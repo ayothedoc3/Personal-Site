@@ -21,6 +21,8 @@ export default function InsightsIndex() {
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
 
+      <main id="main-content" tabIndex={-1}>
+
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Insights" }]} />
@@ -61,6 +63,9 @@ export default function InsightsIndex() {
       </section>
 
       <CTASection heading="Have a healthcare technology challenge?" label="Discuss a Project" />
+
+      </main>
+
       <HealthcareFooter />
     </div>
   )

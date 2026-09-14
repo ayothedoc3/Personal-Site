@@ -15,6 +15,9 @@ export default function MedicalDisclaimerPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
+
+      <main id="main-content" tabIndex={-1}>
+
       <section>
         <div className="mx-auto max-w-3xl px-6 py-16 lg:px-8 lg:py-20">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Medical Disclaimer" }]} />
@@ -33,6 +36,9 @@ export default function MedicalDisclaimerPage() {
           </div>
         </div>
       </section>
+
+      </main>
+
       <HealthcareFooter />
     </div>
   )
