@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalyticsPageView } from "@/components/google-analytics"
 import { getSiteKey } from "@/lib/site.server"
 import { sites, type SiteKey } from "@/lib/site-config"
+import { organizationJsonLd } from "@/lib/structured-data"
 import "./globals.css"
 
 const META = {
@@ -64,22 +65,20 @@ function structuredData(key: SiteKey) {
   if (key === "aios") {
     return {
       "@context": "https://schema.org",
+      ...organizationJsonLd(sites.aios),
       "@type": "ProfessionalService",
-      name: "AIOS by Ayothedoc",
       description:
         "AI operations and automation for agencies, consultants and service businesses. We install and run an AI Operating System wired into your tools.",
-      url: sites.aios.url,
       areaServed: "Worldwide",
       serviceType: "Managed AI Operations",
     }
   }
   return {
     "@context": "https://schema.org",
+    ...organizationJsonLd(sites.healthcare),
     "@type": "ProfessionalService",
-    name: "Ayothedoc",
     description:
       "Healthcare technology implementation and clinical innovation consultancy. We help healthtech, medical-device and healthcare organisations implement and scale technology in real clinical environments.",
-    url: sites.healthcare.url,
     areaServed: "Worldwide",
     serviceType: "Healthcare Technology Implementation",
     knowsAbout: [

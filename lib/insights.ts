@@ -21,6 +21,12 @@ export interface Insight {
   category: InsightCategory
   date: string
   excerpt: string
+  image: {
+    src: string
+    alt: string
+    width: number
+    height: number
+  }
   body: string[]
 }
 
@@ -32,6 +38,12 @@ export const insights: Insight[] = [
     date: "2026-06-01",
     excerpt:
       "Before a device or robotic programme enters a hospital, readiness is about workflow, people and operations, not just the technology.",
+    image: {
+      src: "/insights/hospital-readiness-assessment.svg",
+      alt: "Illustration of a hospital, implementation checklist and connected clinical workflow",
+      width: 1200,
+      height: 675,
+    },
     body: [
       "A hospital-readiness assessment answers a practical question: if this technology arrived next month, would the site actually be able to use it well? The answer rarely depends on the device alone.",
       "In practice, readiness covers the clinical workflow the technology has to fit into, the staff who will use it, the space and operational constraints, the integrations it depends on, and the way success will be measured. Each of these can quietly stop an otherwise good product from being adopted.",
@@ -46,6 +58,12 @@ export const insights: Insight[] = [
     date: "2026-06-08",
     excerpt:
       "FHIR gives healthcare systems a common way to exchange information, but interoperability is as much about workflow and permissions as the format.",
+    image: {
+      src: "/insights/fhir-healthcare-systems.svg",
+      alt: "Illustration of connected healthcare systems exchanging clinical information",
+      width: 1200,
+      height: 675,
+    },
     body: [
       "FHIR is a standard for exchanging healthcare information. It defines common resources, a patient, an observation, a referral, so that different systems can describe the same things in the same way.",
       "That shared vocabulary matters because the alternative is bespoke, brittle integrations between every pair of systems. A common format reduces that cost and makes data flows easier to reason about.",
@@ -60,6 +78,12 @@ export const insights: Insight[] = [
     date: "2026-06-15",
     excerpt:
       "Devices are often assessed for function but not for how they fit real user workflows. Small usability issues drive adoption more than headline features.",
+    image: {
+      src: "/insights/human-factors-medical-device.svg",
+      alt: "Illustration of a clinician evaluating a medical device interface and workflow",
+      width: 1200,
+      height: 675,
+    },
     body: [
       "When a device underperforms in a real setting, the cause is often not the core technology. It is the small friction points: an extra step, an unclear prompt, a workflow that does not match how staff actually work.",
       "Human-factors assessment looks at the device against real tasks, in the environment it will be used in, with the people who will use it. It captures where errors are likely and where the design fights the workflow.",

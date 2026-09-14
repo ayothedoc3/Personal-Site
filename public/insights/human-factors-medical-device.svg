@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <title>Medical device human factors illustration</title>
+  <defs>
+    <linearGradient id="background" x1="96" y1="54" x2="1090" y2="624" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECFEFF"/>
+      <stop offset="1" stop-color="#D1FAE5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" rx="48" fill="url(#background)"/>
+  <circle cx="1036" cy="132" r="126" fill="#A7F3D0" fill-opacity="0.48"/>
+  <circle cx="170" cy="574" r="140" fill="#A5F3FC" fill-opacity="0.5"/>
+  <g>
+    <rect x="602" y="112" width="408" height="458" rx="38" fill="#FFFFFF"/>
+    <rect x="662" y="174" width="288" height="236" rx="20" fill="#F0FDFA" stroke="#0F766E" stroke-width="10"/>
+    <path d="M708 302h62l24-55 40 112 31-57h40" stroke="#14B8A6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="714" cy="480" r="28" fill="#CCFBF1" stroke="#0F766E" stroke-width="8"/>
+    <circle cx="806" cy="480" r="28" fill="#CCFBF1" stroke="#0F766E" stroke-width="8"/>
+    <rect x="862" y="452" width="88" height="56" rx="18" fill="#0F766E"/>
+  </g>
+  <g>
+    <circle cx="342" cy="206" r="76" fill="#FDE68A"/>
+    <path d="M244 470c0-112 43-190 98-190s98 78 98 190v91H244v-91Z" fill="#FFFFFF"/>
+    <path d="M286 312c17 30 36 45 56 45s39-15 56-45" stroke="#0F766E" stroke-width="12" stroke-linecap="round"/>
+    <path d="M342 357v119M282 430h120" stroke="#5EEAD4" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <path d="M444 280c62 0 87 42 138 42M444 464c62 0 87-42 138-42" stroke="#0F766E" stroke-width="12" stroke-linecap="round" stroke-dasharray="3 25"/>
+  <circle cx="514" cy="322" r="16" fill="#14B8A6"/>
+  <circle cx="514" cy="422" r="16" fill="#14B8A6"/>
+</svg>
