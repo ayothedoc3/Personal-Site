@@ -7,7 +7,7 @@ import { GeistMono } from "geist/font/mono"
 import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalyticsPageView } from "@/components/google-analytics"
 import { getSiteKey } from "@/lib/site.server"
-import { sites, type SiteKey } from "@/lib/site-config"
+import { sites, siteSocialImages, type SiteKey } from "@/lib/site-config"
 import { organizationJsonLd } from "@/lib/structured-data"
 import "./globals.css"
 
@@ -15,10 +15,11 @@ const META = {
   healthcare: {
     title: "Healthcare Technology Implementation & Clinical Innovation | Ayothedoc",
     description:
-      "Ayothedoc helps healthtech companies, medical-device businesses and healthcare organisations design, implement and scale technology that fits real clinical and operational workflows.",
+      "Ayothedoc helps healthtech, medical-device and healthcare organisations design, implement and scale technology for real clinical and operational workflows.",
     keywords:
       "healthcare technology implementation, medtech implementation, medical device implementation, healthcare robotics, digital health implementation, clinical workflow consulting, healthcare interoperability, FHIR implementation, healthcare AI implementation, African healthtech implementation",
     url: sites.healthcare.url,
+    socialImage: siteSocialImages.healthcare,
   },
   aios: {
     title: "Managed AI Operations for Agencies & Consultants | AIOS by Ayothedoc",
@@ -27,6 +28,7 @@ const META = {
     keywords:
       "managed AI operations, AI operating system, AIOS, agency automation, workflow automation, lead response automation, client onboarding automation, CRM workflow automation",
     url: sites.aios.url,
+    socialImage: siteSocialImages.aios,
   },
 } as const
 
@@ -47,11 +49,11 @@ export async function generateMetadata(): Promise<Metadata> {
       description: m.description,
       url: m.url,
       siteName: sites[key].name,
-      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: sites[key].name }],
+      images: [m.socialImage],
       locale: "en_GB",
       type: "website",
     },
-    twitter: { card: "summary_large_image", title: m.title, description: m.description, images: ["/og-image.jpg"] },
+    twitter: { card: "summary_large_image", title: m.title, description: m.description, images: [m.socialImage.url] },
     robots: {
       index: true,
       follow: true,

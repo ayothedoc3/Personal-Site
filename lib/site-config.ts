@@ -34,6 +34,24 @@ export const sites: Record<SiteKey, SiteInfo> = {
   },
 }
 
+// Kept alongside the hostname configuration so page-level metadata can reuse
+// the same social card without accidentally dropping the image when overriding
+// Open Graph fields.
+export const siteSocialImages = {
+  healthcare: {
+    url: "/social/ayothedoc-healthcare.png",
+    width: 1200,
+    height: 630,
+    alt: "Ayothedoc — healthcare technology implementation and clinical innovation",
+  },
+  aios: {
+    url: "/social/aios.png",
+    width: 1200,
+    height: 630,
+    alt: "AIOS by Ayothedoc — managed AI operations",
+  },
+} as const satisfies Record<SiteKey, { url: string; width: number; height: number; alt: string }>
+
 // Resolve which site a hostname belongs to. Anything on the `aios.` host is the
 // AIOS site; everything else (apex, www, previews, localhost) is healthcare.
 export function siteFromHost(host?: string | null): SiteKey {

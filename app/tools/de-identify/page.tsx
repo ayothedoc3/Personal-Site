@@ -3,7 +3,7 @@ import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { DeidentifyClient } from "@/components/healthcare/deidentify-client"
-import { sites } from "@/lib/site-config"
+import { sites, siteSocialImages } from "@/lib/site-config"
 
 export const metadata: Metadata = {
   title: "On-Device Clinical De-identification Demo | Ayothedoc",
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     title: "On-Device Clinical De-identification Demo | Ayothedoc",
     description: "Remove PHI from clinical text entirely in your browser. Nothing uploaded.",
     url: `${sites.healthcare.url}/tools/de-identify`,
+    images: [siteSocialImages.healthcare],
   },
 }
 
@@ -30,9 +31,11 @@ export default function DeidentifyPage() {
     <div className="min-h-screen bg-background text-foreground">
       <HealthcareHeader />
 
+      <main id="main-content" tabIndex={-1}>
+
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-14 lg:px-8 lg:py-16">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools" }, { label: "De-identify" }]} />
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "De-identify" }]} />
           <PageHero
             eyebrow="On-device demo"
             title="De-identify clinical text, on your device"
@@ -80,6 +83,9 @@ export default function DeidentifyPage() {
         heading="Need on-device de-identification in your product or hospital?"
         label="Discuss an On-Device De-identification Project"
       />
+
+      </main>
+
       <HealthcareFooter />
     </div>
   )

@@ -74,6 +74,8 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <HealthcareHeader />
 
+      <main id="main-content" tabIndex={-1}>
+
       <article className="border-b border-border">
         <div className="mx-auto max-w-3xl px-6 py-16 lg:px-8 lg:py-20">
           <Breadcrumbs
@@ -106,6 +108,9 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
           &larr; All insights
         </Link>
       </div>
+
+      </main>
+
       <HealthcareFooter />
     </div>
   )

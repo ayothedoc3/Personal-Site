@@ -131,8 +131,6 @@ function convertMarkdownToHtml(markdown: string): string {
   try {
     // Use marked to convert markdown to HTML
     let html = marked(markdown, {
-      headerIds: false,
-      mangle: false,
       breaks: true
     }) as string
 

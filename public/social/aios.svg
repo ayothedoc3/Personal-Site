@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="65" y1="40" x2="1145" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#152016"/>
+      <stop offset=".55" stop-color="#09100C"/>
+      <stop offset="1" stop-color="#061315"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#A3E635"/>
+      <stop offset=".52" stop-color="#34D399"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#84CC16" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#84CC16" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1030" cy="116" r="390" fill="url(#glow)"/>
+
+  <g transform="translate(76 68)">
+    <rect width="66" height="66" rx="16" fill="url(#accent)"/>
+    <path d="M33 14 50 52h-9l-3-8H28l-3 8h-9l17-38Zm0 13-3 10h6l-3-10Z" fill="#07110A"/>
+    <text x="84" y="43" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="30" font-weight="700">AIOS by Ayothedoc</text>
+  </g>
+
+  <text x="76" y="233" fill="#A3E635" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4">MANAGED AI OPERATIONS</text>
+  <text x="76" y="288" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="52" font-weight="700">An enterprise AI team.</text>
+  <text x="76" y="350" fill="url(#accent)" font-family="DejaVu Sans, Arial, sans-serif" font-size="52" font-weight="700">Without the enterprise</text>
+  <text x="76" y="412" fill="url(#accent)" font-family="DejaVu Sans, Arial, sans-serif" font-size="52" font-weight="700">headcount.</text>
+  <text x="76" y="466" fill="#AAB7AF" font-family="DejaVu Sans, Arial, sans-serif" font-size="24">Installed, operated and improved for your business.</text>
+
+  <g transform="translate(910 202)" opacity=".7">
+    <path d="M78 58h76M48 126h136M78 194h76" stroke="url(#accent)" stroke-opacity=".55" stroke-width="3"/>
+    <circle cx="54" cy="58" r="28" fill="#101D14" stroke="#A3E635" stroke-width="3"/>
+    <circle cx="178" cy="58" r="28" fill="#101D14" stroke="#34D399" stroke-width="3"/>
+    <circle cx="54" cy="194" r="28" fill="#101D14" stroke="#34D399" stroke-width="3"/>
+    <circle cx="178" cy="194" r="28" fill="#101D14" stroke="#22D3EE" stroke-width="3"/>
+    <rect x="88" y="92" width="56" height="56" rx="16" fill="url(#accent)"/>
+    <path d="M104 120h24M116 108v24" stroke="#07110A" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <line x1="76" y1="548" x2="1124" y2="548" stroke="#A3E635" stroke-opacity=".2"/>
+  <text x="76" y="584" fill="#C5D0C8" font-family="DejaVu Sans, Arial, sans-serif" font-size="20">aios.ayothedoc.com</text>
+</svg>

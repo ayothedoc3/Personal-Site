@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Healthcare Technology Implementation & Clinical Innovation | Ayothedoc",
     description:
-      "Ayothedoc helps healthtech companies, medical-device businesses and healthcare organisations design, implement and scale technology that fits real clinical and operational workflows.",
+      "Ayothedoc helps healthtech, medical-device and healthcare organisations design, implement and scale technology for real clinical and operational workflows.",
     alternates: { canonical: `${sites.healthcare.url}/` },
   }
 }

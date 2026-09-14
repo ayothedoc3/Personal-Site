@@ -167,9 +167,10 @@ export async function updatePost(id: string, input: Partial<BlogPostInput>): Pro
 
   const slug = input.slug !== undefined ? slugify(input.slug) : existing.slug
   const content = input.content !== undefined ? input.content : existing.content
+  const providedReadTime = input.readTime?.trim()
   const readTime =
-    input.readTime !== undefined && input.readTime.trim()
-      ? input.readTime.trim()
+    providedReadTime
+      ? providedReadTime
       : input.content !== undefined
         ? estimateReadTime(content)
         : existing.readTime
