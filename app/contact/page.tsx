@@ -9,16 +9,16 @@ export async function generateMetadata() {
     return buildMetadata({
       site: "aios",
       path: "/contact",
-      title: "Contact AIOS by Ayothedoc",
-      description: "Discuss AI operations and automation for your agency, consultancy or service business.",
+      title: "Request a Free Lead Engine | AIOS",
+      description: "Request a free, scoped lead-response workflow for your agency or consulting firm. No card required; scope and success criteria are agreed first.",
     })
   }
   return buildMetadata({
     site: "healthcare",
     path: "/contact",
-    title: "Contact | Discuss a Healthcare Technology Project | Ayothedoc",
+    title: "Discuss a Healthcare AI Project | Ayothedoc",
     description:
-      "Discuss a healthcare technology product, pilot or implementation with Ayothedoc. We do not provide personal medical diagnosis, treatment or emergency services.",
+      "Tell Ayothedoc about a healthcare AI workflow, product, prototype or readiness question. Start with a focused project discussion.",
   })
 }
 

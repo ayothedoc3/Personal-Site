@@ -9,17 +9,17 @@ export async function generateMetadata() {
     return buildMetadata({
       site: "aios",
       path: "/about",
-      title: "About AIOS by Ayothedoc",
+      title: "About AIOS | Managed AI Operations",
       description:
-        "AIOS by Ayothedoc builds and runs AI operations systems for agencies, consultants and service businesses.",
+        "Meet the owner-led practice that builds, monitors and improves AI operations workflows for agencies, consultants and service businesses.",
     })
   }
   return buildMetadata({
     site: "healthcare",
     path: "/about",
-    title: "About Ayothedoc | Healthcare Technology Implementation",
+    title: "About Ayothedoc | Healthcare AI Delivery",
     description:
-      "Ayothedoc is a healthcare technology implementation and clinical innovation practice, founded by physician-trained Ayokunle Ademola-John.",
+      "Ayothedoc is a healthcare AI design and implementation practice led by technical project manager and agentic AI practitioner Ayokunle Ademola-John.",
   })
 }
 

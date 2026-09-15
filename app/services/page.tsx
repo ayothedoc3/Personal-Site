@@ -144,7 +144,7 @@ export default function Services() {
                 ),
                 title: "Lead-to-Booked Engine",
                 description:
-                  "Every new lead gets captured, routed, and followed up in under 60 seconds, then booked onto your calendar.",
+                  "Eligible enquiries are captured, routed and measured against the agreed response target, with a clear booking or human-handoff path.",
                 features: [
                   "Form → CRM in real time",
                   "Instant first follow-up",
@@ -178,14 +178,14 @@ export default function Services() {
                     clipRule="evenodd"
                   />
                 ),
-                title: "24/7 Cadence",
+                title: "Scheduled Cadence",
                 description:
-                  "The AIOS runs on a schedule while your laptop is closed, briefs land, follow-ups send, reports ship, unprompted.",
+                  "The AIOS runs on agreed schedules and triggers, so briefs, follow-ups, and reports can move without a manual prompt.",
                 features: [
                   "Scheduled daily/weekly runs",
                   "Morning briefs + digests",
-                  "Background agents",
-                  "Runs without being asked",
+                  "Event-driven agents",
+                  "Runs from agreed triggers",
                 ],
               },
               {
@@ -271,8 +271,8 @@ export default function Services() {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-            We&apos;ll build your 60-Second Lead Engine free, on your real leads. If it books calls you&apos;d have
-            missed, we run the rest of your operations.
+            We&apos;ll build a scoped 60-Second Lead Engine free on one agreed lead source. If the pilot meets its agreed
+            success criteria, you can choose whether to expand into managed AI operations.
           </p>
           <Link href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">

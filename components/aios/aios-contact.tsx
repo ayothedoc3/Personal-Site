@@ -12,7 +12,7 @@ const CONTACT_FAQS: FaqEntry[] = [
   {
     question: "How long until it is running?",
     answer:
-      "The standard AI Operating System install target is 10 business days. We then measure recovered hours against the kickoff baseline over the following 30 days.",
+      "The standard AI Operating System install target is 10 business days after the required access and context are available. Scope and timing are confirmed before work starts.",
   },
   {
     question: "Do you run it for me, or just set it up?",
@@ -27,7 +27,7 @@ const CONTACT_FAQS: FaqEntry[] = [
   {
     question: "Can you work with my existing tools?",
     answer:
-      "Yes. We connect the AIOS to the tools you already use, such as email, CRM, calendar, billing, and documents, so it can work from live data without copy-paste.",
+      "Usually. We first confirm that the required integrations, permissions and source-of-truth rules are available for your email, CRM, calendar, billing and document tools.",
   },
 ]
 
@@ -123,9 +123,9 @@ export default function Contact() {
             id="contact-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Tell us about your business below. We&apos;ll build you a system that replies to every new lead in under 60
-            seconds, personalized, in your voice, with your booking link, on your real leads, free. If it books calls
-            you&apos;d have missed, we talk about running the rest of your operations.
+            Tell us where leads arrive and what happens now. We&apos;ll scope a free first workflow designed to reply to
+            eligible leads against a 60-second target, using approved context and your booking rules. If the pilot
+            meets the success criteria we agree, you can choose whether to expand.
           </p>
         </div>
       </section>
@@ -160,8 +160,8 @@ export default function Contact() {
                   How the free build works
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-8 hover:text-foreground/80 transition-colors duration-300">
-                  No card, no call required, no risk. We build your Lead Engine on your real leads so you can watch it
-                  work. Most builds are live within a few days.
+                  No card and no sales call are required to request the build. We confirm the lead source,
+                  integrations, reply rules, human handoff and timeline before enabling the workflow on real leads.
                 </p>
               </div>
 
@@ -178,11 +178,11 @@ export default function Contact() {
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "Replies to every new lead in under 60 seconds",
-                      "Personalized and written in your voice",
-                      "Your booking link built into every reply",
-                      "Instant alert to you on every new lead",
-                      "Built on your real leads, no card required",
+                      "Eligible leads measured against a 60-second reply target",
+                      "Approved business context and voice examples",
+                      "Your current booking and routing rules",
+                      "Human alerts, handoff and visible failure handling",
+                      "One agreed lead source, with no card required",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -211,9 +211,9 @@ export default function Contact() {
                   <ul className="space-y-3 text-muted-foreground">
                     {[
                       "Start free: we build your Lead Engine before you pay anything",
-                      "On paid plans: recover 40+ hours a month or we keep working free until you do",
-                      "Built on your tools and trained on your real replies",
-                      "We run and improve it for you, every week",
+                      "Paid work is measured against a baseline agreed at kickoff",
+                      "Built around your tools and approved reply examples",
+                      "Managed plans include monitoring, fixes and agreed improvements",
                     ].map((item, index) => (
                       <li
                         key={item}

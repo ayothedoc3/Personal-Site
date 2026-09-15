@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo"
 export const metadata = buildMetadata({
   site: "aios",
   path: "/blog",
-  title: "Blog | AI Operations for Agencies | Ayothedoc",
+  title: "AI Operations Blog for Agencies | AIOS",
   description:
     "Practical thinking on AI operations for agencies and consultants: faster lead response, less busywork, and systems that run the repetitive work for you.",
 })

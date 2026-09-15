@@ -12,7 +12,7 @@ import {
 export const metadata = buildMetadata({
   site: "aios",
   path: "/automation",
-  title: "AIOS Playbooks Library | Ayothedoc",
+  title: "AI Automation Playbooks for Agencies | AIOS",
   description:
     "Browse what we install and run as your AI Operating System. Pages are organized by the Four Cs (Context, Connections, Capabilities, Cadence) and by industry.",
 })

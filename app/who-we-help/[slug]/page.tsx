@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowRight } from "lucide-react"
@@ -7,27 +6,22 @@ import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CheckList, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { audienceDetails, audienceSlugs } from "@/lib/audiences-detail"
 import { solutionDetails } from "@/lib/solutions"
-import { sites, siteSocialImages } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
 export function generateStaticParams() {
   return audienceSlugs.map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const d = audienceDetails[slug]
   if (!d) return {}
-  return {
+  return buildMetadata({
+    site: "healthcare",
+    path: `/who-we-help/${slug}`,
     title: d.metaTitle,
     description: d.metaDescription,
-    alternates: { canonical: `${sites.healthcare.url}/who-we-help/${slug}` },
-    openGraph: {
-      title: d.metaTitle,
-      description: d.metaDescription,
-      url: `${sites.healthcare.url}/who-we-help/${slug}`,
-      images: [siteSocialImages.healthcare],
-    },
-  }
+  })
 }
 
 export default async function AudiencePage({ params }: { params: Promise<{ slug: string }> }) {

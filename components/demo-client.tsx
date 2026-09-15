@@ -88,10 +88,35 @@ export function DemoClient() {
         </div>
         <div className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
-            <Input placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} />
-            <Input placeholder="Company (optional)" value={company} onChange={(e) => setCompany(e.target.value)} maxLength={120} />
+            <div>
+              <label htmlFor="demo-name" className="sr-only">Your name</label>
+              <Input
+                id="demo-name"
+                name="name"
+                autoComplete="name"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                maxLength={80}
+              />
+            </div>
+            <div>
+              <label htmlFor="demo-company" className="sr-only">Company</label>
+              <Input
+                id="demo-company"
+                name="organization"
+                autoComplete="organization"
+                placeholder="Company (optional)"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                maxLength={120}
+              />
+            </div>
           </div>
+          <label htmlFor="demo-message" className="sr-only">Lead enquiry</label>
           <textarea
+            id="demo-message"
+            name="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows={6}
@@ -107,7 +132,7 @@ export function DemoClient() {
           >
             {phase === "working" ? "Engine is reading your message..." : "Send it to the engine"}
           </Button>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p role="alert" className="text-red-500 text-sm">{error}</p>}
           <p className="text-xs text-muted-foreground">
             Sandboxed demo: nothing is emailed, nothing is stored. The live engine does this on real leads and also
             pings the owner instantly.
@@ -116,7 +141,7 @@ export function DemoClient() {
       </div>
 
       {/* The engine's side */}
-      <div className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl min-h-[320px]">
+      <div aria-live="polite" className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl min-h-[320px]">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold">The reply the lead would get</h2>
           {phase === "working" && (
@@ -130,8 +155,8 @@ export function DemoClient() {
         {phase === "idle" && (
           <p className="text-muted-foreground text-sm leading-relaxed">
             Submit an enquiry and watch the engine draft the reply a real lead would receive: personalized, in the
-            owner&apos;s voice, with a booking link. On the live system this lands in the lead&apos;s inbox in under 60
-            seconds.
+            owner&apos;s voice, with a booking link. A live workflow is configured and measured against the service target
+            agreed for eligible enquiries.
           </p>
         )}
 
@@ -157,7 +182,7 @@ export function DemoClient() {
             />
             <div className="pt-2 text-center">
               <p className="text-sm text-muted-foreground mb-3">
-                Now imagine this answering your real leads, every time, day and night.
+                Now imagine this handling eligible enquiries while keeping exceptions and human takeovers visible.
               </p>
               <Link href="/contact">
                 <Button

@@ -2,14 +2,14 @@ import Link from "next/link"
 import { Plus } from "lucide-react"
 
 const solutions = [
-  { href: "/solutions/medtech-robotics-implementation", label: "MedTech and Robotics Implementation" },
-  { href: "/solutions/digital-health-connected-systems", label: "Digital Health and Connected Systems" },
-  { href: "/solutions/clinical-product-implementation", label: "Clinical Product and Implementation Consulting" },
-  { href: "/solutions/ai-intelligent-automation", label: "AI and Intelligent Automation" },
+  { href: "/solutions/healthcare-ai-consulting", label: "AI Readiness and Strategy" },
+  { href: "/solutions/ai-intelligent-automation", label: "AI Workflow Automation" },
+  { href: "/solutions/healthcare-ai-product-development", label: "AI Product and Prototype Delivery" },
+  { href: "/solutions/healthcare-ai-governance", label: "AI Safety and Governance" },
 ]
 const whoWeHelp = [
   { href: "/who-we-help/healthtech-startups", label: "Healthtech Startups" },
-  { href: "/who-we-help/medtech-robotics-companies", label: "Medical-Device and Robotics Companies" },
+  { href: "/who-we-help/medtech-robotics-companies", label: "MedTech and Digital Health Teams" },
   { href: "/who-we-help/healthcare-organisations", label: "Healthcare Organisations" },
   { href: "/who-we-help/africa-market-entry", label: "African Market Entry" },
 ]
@@ -56,7 +56,7 @@ export function HealthcareFooter() {
               <span className="text-lg font-semibold tracking-tight text-foreground">Ayothedoc</span>
             </div>
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-              Healthcare Technology Implementation &amp; Clinical Innovation
+              Healthcare AI Design &amp; Implementation
             </p>
           </div>
           <Col title="Solutions" links={solutions} />
@@ -76,10 +76,10 @@ export function HealthcareFooter() {
 
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Ayothedoc. Healthcare technology product and implementation services.
+            &copy; {new Date().getFullYear()} Ayothedoc. Healthcare AI design and implementation services.
           </p>
           <a href="https://aios.ayothedoc.com" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-            Looking for business automation?{" "}
+            Looking for AI operations outside healthcare?{" "}
             <span className="font-medium text-teal-700 dark:text-teal-400">Visit AIOS &rarr;</span>
           </a>
         </div>

@@ -163,7 +163,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="max-w-3xl mx-auto text-center bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 rounded-3xl p-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Stop losing leads to slow follow-up</h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-              We will build your 60-Second Lead Engine free, on your real leads. No card, no risk.
+              We will build a scoped 60-Second Lead Engine free on one agreed lead source. No card is required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">

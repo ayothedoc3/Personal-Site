@@ -4,9 +4,10 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, Plus } from "lucide-react"
+import { trackEvent } from "@/lib/analytics"
 
 const navItems = [
-  { href: "/solutions", label: "Solutions" },
+  { href: "/solutions", label: "Healthcare AI Services" },
   { href: "/who-we-help", label: "Who We Help" },
   { href: "/case-studies", label: "Case Studies" },
   { href: "/method", label: "Method" },
@@ -51,9 +52,10 @@ export function HealthcareHeader() {
         <div className="hidden lg:block">
           <Link
             href="/contact"
+            onClick={() => trackEvent("cta_click", { site: "healthcare", cta: "header_project", destination: "/contact" })}
             className="inline-flex items-center rounded-full bg-teal-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
           >
-            Discuss a Project
+            Discuss an AI Project
           </Link>
         </div>
 
@@ -89,10 +91,13 @@ export function HealthcareHeader() {
             ))}
             <Link
               href="/contact"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false)
+                trackEvent("cta_click", { site: "healthcare", cta: "mobile_header_project", destination: "/contact" })
+              }}
               className="mt-2 inline-flex items-center justify-center rounded-full bg-teal-600 px-5 py-2.5 text-sm font-medium text-white"
             >
-              Discuss a Project
+              Discuss an AI Project
             </Link>
           </nav>
         </div>

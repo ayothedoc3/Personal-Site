@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: AutomationDetailProps): Promi
   return buildMetadata({
     site: "aios",
     path: `/automation/${page.slug}`,
-    title: `${page.title} | Ayothedoc`,
+    title: `${page.title} | AIOS`,
     description: page.metaDescription,
     type: "article",
   })
@@ -253,7 +253,7 @@ export default async function AutomationDetailPage({ params }: AutomationDetailP
             </h2>
             <p className="text-lg mb-6 max-w-2xl">
               {page.tier === "wedge"
-                ? "We will build your 60-Second Lead Engine free, on your real leads. If it books calls you would have missed, we run the rest of your operations."
+                ? "We will build a scoped 60-Second Lead Engine free on one agreed lead source. If the pilot meets its success criteria, you choose whether to expand."
                 : "Score your AI readiness across the Four Cs in about 10 minutes. We send the audit and the three highest-leverage automations for your business."}
             </p>
             <div className="flex flex-wrap items-center gap-4">

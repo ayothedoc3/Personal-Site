@@ -10,7 +10,7 @@ export const metadata = buildMetadata({
   path: "/lead-engine",
   title: "Your free 60-Second Lead Engine | Ayothedoc",
   description:
-    "We build you a system that replies to every new lead in under 60 seconds, personalized, in your voice, with your booking link. The first one is free, on your real leads.",
+    "Request a free first lead-response workflow designed around a 60-second service target, approved business context, booking rules and human handoff.",
   robots: { index: false, follow: false },
 })
 
@@ -23,12 +23,12 @@ const STEPS = [
   {
     n: "02",
     title: "We build it, free",
-    body: "We wire a system that replies to every new lead in under 60 seconds and pings you instantly. No card, no call required.",
+    body: "We wire one agreed lead source, approved reply context, booking rules, alerts and human handoff. No card or sales call is required to request it.",
   },
   {
     n: "03",
     title: "You watch it work",
-    body: "It runs on your real leads. If it books calls you would have missed, we talk about running the rest of your operations.",
+    body: "After testing, it can run on eligible real leads. If it meets the success criteria we agree, you choose whether to expand.",
   },
 ]
 
@@ -48,13 +48,12 @@ export default function LeadEnginePage() {
               Leads going cold while you&apos;re in meetings?
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 leading-relaxed">
-              Most agencies lose deals not on price but on speed. A lead fills out your form, and by the time someone
-              replies hours later they have booked with whoever answered first.
+              A lead can arrive while your team is in meetings or client delivery. A clear first-response workflow
+              removes avoidable delay and keeps the next step visible.
             </p>
             <p className="text-lg md:text-xl mt-4 font-semibold">
-              We build you a system that replies to every new lead in under 60 seconds, personalized, in your voice,
-              with your booking link. We build the first one <span className="text-lime-400">free</span>, on your real
-              leads.
+              We build a workflow designed to reply to eligible leads against a 60-second service target, using
+              approved context and your booking rules. The first scoped build is <span className="text-lime-400">free</span>.
             </p>
           </section>
 
@@ -78,11 +77,11 @@ export default function LeadEnginePage() {
               <h2 className="text-3xl md:text-4xl font-bold">What you get, free</h2>
               <ul className="mt-6 space-y-4 text-muted-foreground">
                 {[
-                  "Replies to every new lead in under 60 seconds",
-                  "Personalized and written in your voice",
-                  "Your booking link built into every reply",
-                  "An instant alert to you on every new lead",
-                  "Built and run on your real leads, no card required",
+                  "Eligible enquiries measured against a 60-second target",
+                  "Approved business context and voice examples",
+                  "Current booking and routing rules",
+                  "Human alerts, handoff and visible failures",
+                  "One agreed lead source, no card required",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <span className="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shrink-0" />
@@ -91,8 +90,8 @@ export default function LeadEnginePage() {
                 ))}
               </ul>
               <p className="mt-8 text-sm text-muted-foreground border-t border-border/40 pt-6 leading-relaxed">
-                No strings. If the Lead Engine books calls you would have missed, we talk about running the rest of your
-                operations. If it does not, you keep what we built and we part as friends.
+                We agree the pilot scope and success criteria before live use. After the pilot, you can keep the focused
+                workflow or discuss managed AI operations. There is no obligation to expand.
               </p>
             </div>
 

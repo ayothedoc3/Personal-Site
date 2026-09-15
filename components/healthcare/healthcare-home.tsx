@@ -2,27 +2,29 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { HealthcareHeader } from "./healthcare-header"
 import { HealthcareFooter } from "./healthcare-footer"
-import { audiences, methodSteps, pillars, primaryCta, secondaryCta } from "@/lib/healthcare-content"
+import { audiences, healthcareFaqs, methodSteps, pillars, primaryCta } from "@/lib/healthcare-content"
 import { verifiedCaseStudies } from "@/lib/case-studies"
+import { faqPageJsonLd } from "@/lib/structured-data"
+import { TrackedLink } from "@/components/tracked-link"
 
 const problems = [
-  "Poor workflow fit",
-  "Unclear requirements",
-  "Insufficient user involvement",
-  "Weak implementation planning",
-  "Fragmented integrations",
-  "Inadequate training",
-  "Low adoption",
-  "Unmanaged safety and operational risks",
+  "AI ideas with no use-case priority",
+  "Workflows and owners left undefined",
+  "Data and integrations not ready",
+  "Human review added too late",
+  "Demos mistaken for production systems",
+  "Evaluation criteria missing",
+  "Failure paths not designed",
+  "No monitoring or adoption plan",
 ]
 
 const differentiators = [
-  "Medical training",
-  "Public-health perspective",
-  "Product development",
-  "Technical implementation",
-  "Workflow analysis",
-  "Cross-functional delivery",
+  "Healthcare workflow context",
+  "Public-health systems thinking",
+  "Agentic AI delivery",
+  "Product and technical project leadership",
+  "Human-oversight design",
+  "Rapid, testable prototyping",
 ]
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -37,6 +39,10 @@ export function HealthcareHome() {
   const work = verifiedCaseStudies()
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(healthcareFaqs)) }}
+      />
       <HealthcareHeader />
 
       <main id="main-content" tabIndex={-1}>
@@ -45,28 +51,23 @@ export function HealthcareHome() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-28">
           <div className="max-w-3xl">
-            <Eyebrow>Healthcare Technology Implementation &amp; Clinical Innovation</Eyebrow>
+            <Eyebrow>Healthcare AI Design &amp; Implementation</Eyebrow>
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl text-balance">
-              Healthcare technology that works in the real world
+              Practical AI systems for real healthcare workflows
             </h1>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              Ayothedoc helps healthtech companies, medical-device businesses and healthcare organisations design,
-              introduce, integrate and scale technology that fits real clinical and operational environments.
+              Ayothedoc helps healthtech teams and healthcare organisations choose, design, prototype and implement
+              focused AI workflows with human oversight, privacy and clear acceptance criteria.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link
+            <div className="mt-9">
+              <TrackedLink
                 href={primaryCta.href}
+                eventParams={{ site: "healthcare", cta: "home_hero_project", destination: primaryCta.href }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-6 py-3.5 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
               >
                 {primaryCta.label}
                 <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href={secondaryCta.href}
-                className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3.5 text-sm font-medium text-foreground hover:bg-muted transition-colors"
-              >
-                {secondaryCta.label}
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>
@@ -76,7 +77,7 @@ export function HealthcareHome() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-            Built for organisations introducing technology into healthcare
+            Built for teams putting AI into healthcare products and operations
           </h2>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {audiences.map((a) => (
@@ -102,11 +103,11 @@ export function HealthcareHome() {
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
           <div className="max-w-3xl">
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Healthcare technology fails when implementation is treated as an afterthought
+              Healthcare AI fails when the workflow is treated as an afterthought
             </h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              Good technology can still fail in a healthcare setting. The common causes are rarely the technology
-              itself.
+              A capable model is not a complete system. Useful healthcare AI also needs the right problem, data path,
+              integrations, review points, failure handling and evidence.
             </p>
           </div>
           <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -123,7 +124,7 @@ export function HealthcareHome() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
           <Eyebrow>Solutions</Eyebrow>
-          <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">Four ways we work</h2>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">Four healthcare AI services</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {pillars.map((p) => (
               <Link
@@ -158,8 +159,8 @@ export function HealthcareHome() {
                 On-device clinical de-identification demo
               </h2>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground leading-relaxed">
-                Paste a clinical note and watch protected health information get removed, entirely in your browser.
-                Nothing is uploaded.
+                Paste clinical text and review common identifiers masked entirely in your browser. The pasted text is
+                not uploaded.
               </p>
             </div>
             <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-medium text-white group-hover:bg-teal-700 transition-colors">
@@ -175,11 +176,12 @@ export function HealthcareHome() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                Clinical understanding combined with practical technology delivery
+                Healthcare context combined with hands-on AI delivery
               </h2>
               <p className="mt-4 text-muted-foreground leading-relaxed">
-                We combine medical understanding, public-health insight, product delivery and technical
-                implementation to help healthcare technology move from concept to practical adoption.
+                Ayothedoc connects healthcare workflow understanding, public-health thinking, agentic AI and technical
+                project delivery. The goal is not an AI slide deck. It is a system or plan your team can inspect, test
+                and move forward responsibly.
               </p>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
@@ -201,7 +203,7 @@ export function HealthcareHome() {
             <div>
               <Eyebrow>Method</Eyebrow>
               <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
-                From healthcare need to practical implementation
+                From healthcare need to evaluated AI workflow
               </h2>
             </div>
             <Link href="/method" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">
@@ -232,7 +234,7 @@ export function HealthcareHome() {
               <div>
                 <Eyebrow>Selected work</Eyebrow>
                 <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
-                  Accurately labelled, from pilots to implementation studies
+                  Real prototypes and public demonstrations
                 </h2>
               </div>
               <Link href="/case-studies" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">
@@ -258,21 +260,40 @@ export function HealthcareHome() {
         </section>
       ) : null}
 
+      {/* FAQ */}
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-4xl px-6 py-20 lg:px-8">
+          <Eyebrow>Frequently asked questions</Eyebrow>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
+            What a healthcare AI engagement involves
+          </h2>
+          <div className="mt-10 space-y-4">
+            {healthcareFaqs.map((item) => (
+              <details key={item.question} className="rounded-xl border border-border bg-card p-6">
+                <summary className="cursor-pointer font-medium text-foreground">{item.question}</summary>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Closing CTA */}
       <section>
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
           <div className="rounded-2xl border border-border bg-card px-8 py-14 text-center">
             <h2 className="mx-auto max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl">
-              Planning a healthcare technology product, pilot or implementation?
+              Have a healthcare AI problem worth testing?
             </h2>
             <div className="mt-8">
-              <Link
+              <TrackedLink
                 href="/contact"
+                eventParams={{ site: "healthcare", cta: "home_final_project", destination: "/contact" }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-7 py-3.5 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
               >
-                Discuss Your Project
+                Discuss a Healthcare AI Project
                 <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>

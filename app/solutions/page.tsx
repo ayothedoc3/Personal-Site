@@ -1,27 +1,27 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { pillars } from "@/lib/healthcare-content"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Healthcare Technology Solutions | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/solutions",
+  title: "Healthcare AI Consulting Services | Ayothedoc",
   description:
-    "Four service pillars: MedTech and robotics implementation, digital health and connected systems, clinical product consulting, and healthcare AI.",
-  alternates: { canonical: `${sites.healthcare.url}/solutions` },
-}
+    "Healthcare AI readiness, workflow automation, product prototyping, safety and governance for healthtech teams and healthcare organisations.",
+})
 
 const engagementFormats = [
-  "Readiness assessment",
-  "Product discovery engagement",
+  "AI readiness assessment",
+  "Use-case and workflow discovery",
+  "Prototype design and build",
+  "Evaluation and red-team scenarios",
   "Pilot planning",
-  "Implementation programme",
-  "Workflow and integration design",
-  "Managed implementation support",
-  "Adoption and performance review",
+  "Integration and implementation support",
+  "Monitoring and improvement review",
 ]
 
 export default function SolutionsIndex() {
@@ -35,9 +35,9 @@ export default function SolutionsIndex() {
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Solutions" }]} />
           <PageHero
-            eyebrow="Solutions"
-            title="Healthcare technology, implemented"
-            intro="We work across four pillars, from introducing medical devices and robotics to connecting systems, shaping clinical products, and applying AI where it earns its place."
+            eyebrow="Healthcare AI services"
+            title="From AI opportunity to a testable healthcare workflow"
+            intro="Choose the right use case, design the workflow and controls, build what needs testing, and prepare the evidence required for a responsible pilot."
           />
         </div>
       </section>
@@ -73,10 +73,10 @@ export default function SolutionsIndex() {
       <section className="border-b border-border bg-muted/30">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
           <Eyebrow>How engagements work</Eyebrow>
-          <h2 className="mt-4 text-2xl font-semibold tracking-tight">Typical engagement formats</h2>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight">Start at the point that matches your evidence</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Most work starts with an assessment or discovery engagement, then moves into planning and implementation
-            scoped to your product, site and stage.
+            Work can begin with a readiness decision, a focused prototype or an implementation problem. Scope is tied
+            to the workflow question your team needs to answer next.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             {engagementFormats.map((f) => (
@@ -88,7 +88,7 @@ export default function SolutionsIndex() {
         </div>
       </section>
 
-      <CTASection heading="Not sure which pillar fits?" label="Discuss a Healthcare Technology Project" />
+      <CTASection heading="Not sure where to start?" label="Discuss a Healthcare AI Project" />
 
       </main>
 

@@ -60,30 +60,32 @@ ICP_INDUSTRIES = {"marketing agencies", "consulting firms", "web design agencies
 
 SYSTEM_PROMPT = """You are the AI Operating System (AIOS) architect for Ayothedoc.
 
-Ayothedoc installs and runs a done-for-you AI Operating System for small businesses, agencies, and consulting firms. It is built on four layers, the Four Cs:
+AIOS by Ayothedoc installs and runs managed AI operations for agencies and consulting firms. It is built on four layers, the Four Cs:
 - Context: the system knows the business, its offers, voice, and priorities.
 - Connections: it plugs into the tools the business already runs on (email, calendar, CRM, billing, docs) and works from live data.
 - Capabilities: done-for-you workflows that draft, route, summarize, follow up, and report.
 - Cadence: it runs on a schedule without being asked, so work happens while the owner is away.
 
-The wedge offer is the free 60-Second Lead Engine: every new lead is answered in under 60 seconds, in the owner's voice, with their booking link.
+The wedge offer is a free, scoped Lead Engine on one agreed lead source. It is designed around a 60-second service target for eligible enquiries, approved business context, current booking rules and a human handoff.
 
-You are writing one page in the AIOS playbooks library on ayothedoc.com. Each page is a single combination of (outcome, Four-C layer, tier, industry).
+You are writing one page in the AIOS playbooks library on aios.ayothedoc.com. Each page is a single combination of (outcome, Four-C layer, tier, industry).
 
 Voice rules (strict):
 - Never use em dashes or en dashes. Use commas, periods, or the word "to" for ranges.
 - Plain, direct, and honest. No hype. Never use "fully automated", "revolutionary", "game-changing", "cutting-edge", "unlock", "transform your business", or exclamation-heavy copy.
 - Brand stance: least AI necessary, the simplest reliable workflow, boring is beautiful, and the owner always owns the system.
 - Tool-agnostic. Talk about outcomes and which Four-C layer this sits in. You may refer to generic categories (CRM, inbox, calendar) but never prescribe a specific tool brand. Do not say "use Zapier, Make, or n8n".
+- Never invent clients, testimonials, metrics, conversion claims, industry averages, research findings or outcomes. Do not use "every", "always", "highest-leverage" or "pays for itself" as an unqualified performance claim.
+- Present workflows as capabilities that can be scoped and tested. Define eligibility, human handoff, failure handling and measurement instead of promising a commercial result.
 
 Content rules:
 - The page is written for the prospect, not about them. Second person.
 - Sections (every page has all six):
   1. intro: the problem in their industry (or generally if no industry) plus what the AIOS does. Wrap in <p> tags.
   2. fourCFit: how this fits in the wider AIOS, name the Four-C layer explicitly, link to other layers if useful. Use <ul><li> for the layer list.
-  3. whatDoneLooksLike: the artifact and SLA, specific and concrete. Use <ul><li>.
-  4. howWeInstall: the 3-phase install: Audit (free, about 10 minutes), Install (10 business days), Operate (ongoing, one new automation per week). Include links: <a href='/audit'>Run the audit</a>, <a href='/offer'>See plans</a>. Use <ol><li>.
-  5. expectedResults: real ranges grounded in the inputs, plus the standing guarantee (recover 40 or more hours a month or we keep working free until you do). Use <ul><li>.
+  3. whatDoneLooksLike: the scoped artifact, service target, eligibility rules, human handoff and failure handling. Use <ul><li>.
+  4. howWeInstall: Audit, Install and Operate. The standard install target begins only after required access and context are available, and actual scope and timing are agreed first. Include links: <a href='/audit'>Run the audit</a>, <a href='/offer'>See plans</a>. Use <ol><li>.
+  5. expectedResults: a measurement plan against the prospect's own baseline. Include quality checks, failures, exceptions and human takeovers. Do not invent a time-saving, revenue or conversion range. If relevant, refer readers to the published work-guarantee terms without changing or expanding them. Use <ul><li>.
   6. faq: exactly 3 questions and answers. Use <h4>question</h4><p>answer</p> per pair.
 
 Other:
@@ -178,6 +180,20 @@ def quality_ok(payload: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
     ))
     if total_chars < 2500:
         return False, f"too thin ({total_chars} chars across sections)"
+    title = str(payload.get("title", ""))
+    description = str(payload.get("metaDescription", ""))
+    excerpt = str(payload.get("excerpt", ""))
+    if len(title + " | AIOS") > 60:
+        return False, f"title too long ({len(title + ' | AIOS')} chars with suffix)"
+    if not 120 <= len(description) <= 160:
+        return False, f"meta description length is {len(description)}, expected 120 to 160"
+    if not 120 <= len(excerpt) <= 200:
+        return False, f"excerpt length is {len(excerpt)}, expected 120 to 200"
+    expected = str(sections.get("expectedResults", "")).lower()
+    if "baseline" not in expected:
+        return False, "expectedResults does not define baseline measurement"
+    if re.search(r"\b\d+(?:\.\d+)?\s*%", expected) or re.search(r"\$\s*\d", expected):
+        return False, "expectedResults contains an unsupported percentage or dollar claim"
     return True, None
 
 

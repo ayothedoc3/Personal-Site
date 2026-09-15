@@ -1,11 +1,10 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CheckList, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { solutionDetails, solutionSlugs } from "@/lib/solutions"
-import { sites, siteSocialImages } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
 export function generateStaticParams() {
   return solutionSlugs.map((slug) => ({ slug }))
@@ -15,21 +14,16 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>
-}): Promise<Metadata> {
+}) {
   const { slug } = await params
   const d = solutionDetails[slug]
   if (!d) return {}
-  return {
+  return buildMetadata({
+    site: "healthcare",
+    path: `/solutions/${slug}`,
     title: d.metaTitle,
     description: d.metaDescription,
-    alternates: { canonical: `${sites.healthcare.url}/solutions/${slug}` },
-    openGraph: {
-      title: d.metaTitle,
-      description: d.metaDescription,
-      url: `${sites.healthcare.url}/solutions/${slug}`,
-      images: [siteSocialImages.healthcare],
-    },
-  }
+  })
 }
 
 export default async function SolutionPage({ params }: { params: Promise<{ slug: string }> }) {

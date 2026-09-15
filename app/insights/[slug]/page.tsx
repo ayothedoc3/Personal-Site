@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -8,36 +7,27 @@ import { Breadcrumbs, CTASection } from "@/components/healthcare/ui"
 import { insights, insightBySlug } from "@/lib/insights"
 import { sites } from "@/lib/site-config"
 import { organizationJsonLd } from "@/lib/structured-data"
+import { buildMetadata } from "@/lib/seo"
 
 export function generateStaticParams() {
   return insights.map((i) => ({ slug: i.slug }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const a = insightBySlug(slug)
   if (!a) return {}
   const articleUrl = `${sites.healthcare.url}/insights/${a.slug}`
   const imageUrl = `${sites.healthcare.url}${a.image.src}`
 
-  return {
-    title: `${a.title} | Ayothedoc Insights`,
+  return buildMetadata({
+    site: "healthcare",
+    path: `/insights/${a.slug}`,
+    title: `${a.title} | Ayothedoc`,
     description: a.excerpt,
-    alternates: { canonical: articleUrl },
-    openGraph: {
-      title: a.title,
-      description: a.excerpt,
-      type: "article",
-      url: articleUrl,
-      images: [{ url: imageUrl, width: a.image.width, height: a.image.height, alt: a.image.alt }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: a.title,
-      description: a.excerpt,
-      images: [imageUrl],
-    },
-  }
+    type: "article",
+    image: { url: imageUrl, width: a.image.width, height: a.image.height, alt: a.image.alt },
+  })
 }
 
 export default async function InsightPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -102,7 +92,7 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
         </div>
       </article>
 
-      <CTASection heading="Working on something like this?" label="Discuss a Project" />
+      <CTASection heading="Working on a related healthcare AI problem?" label="Discuss a Healthcare AI Project" />
       <div className="mx-auto max-w-3xl px-6 pb-16 lg:px-8">
         <Link href="/insights" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">
           &larr; All insights

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, Check } from "lucide-react"
 import { sites } from "@/lib/site-config"
+import { TrackedLink } from "@/components/tracked-link"
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -98,13 +99,14 @@ export function CTASection({
         <div className="rounded-2xl border border-border bg-card px-8 py-12 text-center">
           <h2 className="mx-auto max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl">{heading}</h2>
           <div className="mt-8">
-            <Link
+            <TrackedLink
               href={href}
+              eventParams={{ site: "healthcare", cta: label, destination: href }}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-7 py-3.5 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
             >
               {label}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </div>
