@@ -1,119 +1,73 @@
-# Ayothedoc - Digital Agency Website
+# Ayothedoc and AIOS
 
-*Professional web development and AI automation services*
+One Next.js application serving two focused properties by hostname:
 
-[![Built by Ayothedoc](https://img.shields.io/badge/Built%20by-Ayothedoc-lime?style=for-the-badge)](https://ayothedoc.com)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+- [ayothedoc.com](https://ayothedoc.com): healthcare AI consulting, workflow design, prototyping, implementation and governance.
+- [aios.ayothedoc.com](https://aios.ayothedoc.com): managed AI operations for agencies and consultants.
 
-## Overview
+## Architecture
 
-A modern, responsive website for Ayothedoc - a full-service digital agency specializing in web development and AI automation. Built with Next.js 15, TypeScript, and TailwindCSS with beautiful animations and a comprehensive contact system.
+- Next.js 15 App Router, React 19 and TypeScript.
+- Tailwind CSS and Radix-based UI components.
+- Host selection in `lib/site-config.ts` and `lib/site.server.ts`.
+- Route migrations and wrong-host gating in `middleware.ts`.
+- Host-specific metadata, structured data, sitemaps and robots output.
+- PostgreSQL-backed AIOS blog and lead storage.
+- Resend for email, optional Cloudflare Turnstile and a separate Lead Engine handoff.
 
-### Features
-- 🌟 Modern, responsive design with dark/light theme support
-- 📧 Advanced contact form with EmailJS integration
-- 🎨 Interactive animations and smooth scrolling
-- 📱 Mobile-first responsive design
-- ⚡ Fast loading with Next.js 15 optimizations
-- 🔍 SEO optimized with structured data
-- ♿ Accessible with ARIA labels and keyboard navigation
+Shared pages such as `/about`, `/contact`, `/privacy` and `/terms` render the correct variant for the requested hostname. Healthcare-only pages return 404 on AIOS. Legacy root-domain AIOS URLs redirect permanently to their direct AIOS equivalents.
 
-## Technology Stack
+## Local development
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: TailwindCSS v4 with custom themes
-- **UI Components**: shadcn/ui with Radix UI primitives
-- **Forms**: React Hook Form with Zod validation
-- **Email**: EmailJS for contact form submissions
-- **Icons**: Lucide React
-- **Fonts**: Geist Sans & Mono
-
-## Quick Start
-
-### Prerequisites
-- Node.js 18+ 
-- npm or pnpm
-
-### Installation
+Requirements: Node.js 20 or newer and npm.
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd Personal-Site
-
-# Install dependencies
 npm install
-
-# Set up environment variables
-cp .env.local.example .env.local
-# Edit .env.local with your EmailJS credentials
-
-# Start development server
 npm run dev
 ```
 
-### Build Commands
+The default localhost view is the healthcare property. To test host dispatch against a production build:
 
 ```bash
-# Development
-npm run dev
-
-# Build for production
 npm run build
-
-# Start production server
 npm run start
-
-# Lint code
-npm run lint
+curl -H "Host: ayothedoc.com" http://127.0.0.1:3000/
+curl -H "Host: aios.ayothedoc.com" http://127.0.0.1:3000/
 ```
 
-## Deployment with Coolify
+## Verification
 
-This project is configured for deployment with [Coolify](https://coolify.io/):
+```bash
+npm run typecheck
+npm run build
+python -m py_compile scripts/programmatic_seo.py
+python scripts/programmatic_seo.py --dry-run --limit 3
+```
 
-### Setup Steps:
+## Environment
 
-1. **Connect Repository**: Link your GitHub repository in Coolify
-2. **Environment Variables**: Add your EmailJS credentials:
-   - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
-   - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
-   - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
-3. **Build Settings**: Coolify will auto-detect Next.js and use:
-   - Build Command: `npm run build`
-   - Start Command: `npm run start`
-   - Port: `3000`
+See `.env.example` for the current variable list. Important production integrations include:
 
-### Coolify Configuration
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- `RESEND_API_KEY`, `AUDIT_FROM_EMAIL`, `HEALTHCARE_ENQUIRY_EMAIL`
+- `LEAD_ENGINE_URL`, `LEAD_ENGINE_SECRET`
+- `ANTHROPIC_API_KEY`
+- `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+- PostgreSQL connection variables
+- Stripe plan links
 
-No additional configuration needed! The project includes:
-- ✅ Standard Next.js build process
-- ✅ Static asset optimization
-- ✅ Environment variable support
-- ✅ Production-ready builds
+Never commit real secrets.
 
-## Contact Form Setup
+## Deployment
 
-1. Create an [EmailJS](https://emailjs.com) account
-2. Set up your email service and template
-3. Copy credentials to `.env.local`
-4. Update Calendly URL in the code
+Coolify watches `main`. Both production hostnames must be attached to the same application because routing is hostname-aware. See `DOMAIN_AND_SUBDOMAIN_SETUP.md` for DNS, SSL and Turnstile checks.
 
-See `SETUP.md` for detailed instructions.
+## Current audit and plans
 
-## About Ayothedoc
+- `docs/SITE_AUDIT_2026-09-15.md`
+- `docs/CONTENT_OFFER_AND_KEYWORD_PLAN.md`
+- `docs/GROWTH_BACKLOG.md`
+- `CONTENT_VERIFICATION_REQUIRED.md`
+- `PROGRAMMATIC_SEO.md`
 
-**Ayothedoc** is a managed AI operations studio for agencies and consultants, specializing in:
-- ⚙️ AI Operating System installs
-- 🤖 Agency workflow automation
-- 📈 Client operations optimization
-- 📈 60-second lead response systems
-- 🔧 Managed AI Operations
-
-**Contact**: [ayothedoc.com](https://ayothedoc.com)
-
----
-
-*Built with ❤️ by Ayothedoc - Managed AI operations for agencies and consultants.*
+The medical disclaimer and legal-policy bodies require professional review. Do not change them as ordinary marketing copy.

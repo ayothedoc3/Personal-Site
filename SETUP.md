@@ -1,5 +1,7 @@
 # EmailJS Setup Guide
 
+> Legacy setup record. Current contact flows use server-side Resend or the AIOS Lead Engine. Use `README.md`, `.env.local.example` and `AI-AUDIT-SETUP.md` for current configuration.
+
 ## 1. Create EmailJS Account
 
 1. Go to [EmailJS.com](https://www.emailjs.com/)

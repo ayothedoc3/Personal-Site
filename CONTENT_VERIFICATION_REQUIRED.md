@@ -1,57 +1,61 @@
-# Content Verification Required
+# Content and offer verification register
 
-Everything below is on the `healthcare-repositioning` branch and NOT deployed.
-Confirm or correct each item before merging to production. Nothing here is
-presented publicly until you do.
+Updated: 2026-09-15
 
-## Founder credentials (app/about + /ayo)
-Stated on the site, confirm each is accurate and how you want it worded:
-- [ ] "Physician-trained" and "Doctor of Medicine (MD) degree"
-- [ ] "Postgraduate public-health training"
-- [ ] LinkedIn URL used: `https://www.linkedin.com/in/ayokunle-ademola-john` (confirm exact handle)
-- NOT claimed anywhere (kept out on purpose): active medical licensure, US licensure, board certification, hospital privileges, clinical services, regulatory authority. Keep it that way.
+The repositioning copy uses only the ground truth supplied by Ayo. This register identifies what is already grounded and what still requires owner, evidence or professional review.
 
-## Case studies (lib/case-studies.ts) — all `verified: false`
-None are shown publicly until you set `verified: true`. Each needs you to confirm
-it exists and replace the generic descriptions with real detail. Metrics are
-"Not measured" by default; add real metrics only where you have evidence.
-- [ ] ExerScript, Healthcare AI Hackathon Pilot, confirm it exists + real details
-- [ ] FHIR-enabled workflow prototype, confirm + real details
-- [ ] Medical-device usability study, confirm + real details
-- [ ] Add any other real, accurately labelled projects
-Until `verified: true`, the homepage "Selected work" section is hidden and the
-Case Studies index shows an honest "being prepared" state.
+## Grounded founder facts now used
 
-## Insights (lib/insights.ts)
-Three original educational explainer articles were written (no fabricated
-claims, clients or metrics). Review for accuracy/voice; edit or add freely.
-- [ ] Hospital-readiness assessment explainer
-- [ ] FHIR / interoperability explainer
-- [ ] Human factors / device adoption explainer
+- Technical Project Manager and agentic AI practitioner.
+- Built ExerScript, CyberTaxx, Business Brain and Scam Shield.
+- Contributed to Elev8 Matrix's EMOS/Labyrinth OS.
+- Current stack centres on Claude Code and the Claude API.
+- MD, Caucasus International University, 2018.
+- MPH, Lithuanian Sports University, completed June 2026.
+- Presented at PyCon Estonia 2025 on demystifying AI and machine learning for real-world use.
+- Based in Vilnius, Lithuania.
 
-## African market entry (who-we-help/africa-market-entry)
-Page explicitly states we do NOT claim regulatory representation, legal advice,
-guaranteed procurement, government access, distributor networks or market
-approval. Confirm you are comfortable with the wording; do not add any such
-claim without evidence.
+The site does not describe Ayo as physician-turned-anything, does not open with a medicine-to-tech narrative and does not imply active clinical licensure, hospital privileges or regulatory authority.
 
-## Contact + mailboxes
-- [ ] `hello@ayothedoc.com` (healthcare form receiving) exists and is monitored
-- [ ] `aios@ayothedoc.com` (AIOS terms/contact) exists and is monitored
-If either does not exist, tell me and I will point to a working address until it does.
+## Public project proof
 
-## CV download
-- The `/ayo` page currently offers "Discuss a Professional Opportunity" (mailto),
-  not a "Download CV" button, because no CV file exists in the repo.
-- [ ] To enable a real CV download, provide the PDF and I will add the button.
+`lib/case-studies.ts` publishes only these supplied projects:
 
-## Legal pages
-- Privacy and Terms were made host-aware, but the text is boilerplate and marked
-  for professional legal review. Governing law for the healthcare entity is left
-  to the engagement agreement (AIOS keeps Lithuania).
-- [ ] Have Privacy, Terms and the Medical Disclaimer reviewed by a qualified
-  professional for your jurisdiction(s) before relying on them.
+| Project | Current label | Metrics |
+|---|---|---|
+| ExerScript | Prototype / technical proof | Not measured |
+| On-device clinical de-identification | Public browser demonstration | Not measured |
+| Scam Shield | Non-healthcare safety prototype | Not measured |
 
-## Visual assets
-- [ ] `/og-image.jpg` is currently the shared OG image. Consider a healthcare-
-  specific OG image for the root site.
+Do not add a client name, deployment claim, testimonial, screenshot or performance number until the underlying evidence and publication permission are available. Requested proof inputs are listed in `docs/GROWTH_BACKLOG.md`.
+
+CyberTaxx, Business Brain and EMOS/Labyrinth OS are not presented as healthcare client outcomes. They may be added later only with an accurate role, status and permission statement.
+
+## Owner confirmation required
+
+- [ ] Confirm all public plan names and prices are current.
+- [ ] Confirm the scope behind weekly automation delivery, priority support and same-day response.
+- [ ] Confirm the 10-business-day install target, access prerequisites and exceptions.
+- [ ] Confirm the work-guarantee wording matches the actual engagement agreement.
+- [ ] Confirm `hello@ayothedoc.com` and `aios@ayothedoc.com` exist and are monitored.
+- [ ] Confirm `HEALTHCARE_ENQUIRY_EMAIL` and `AUDIT_FROM_EMAIL` point to monitored, verified production addresses.
+- [ ] Confirm the LinkedIn profile URL and any future CV download before promoting them.
+- [ ] Confirm the list of supported integrations before describing any tool as production-ready.
+
+## Legal and clinical boundaries
+
+The healthcare service copy states that Ayothedoc does not provide clinical care, legal advice, regulatory representation, guaranteed procurement, government access, distributor networks or market approvals.
+
+The bodies of Privacy, Terms, Refund and Medical Disclaimer were not rewritten during the 2026-09-15 audit. Only page metadata was corrected where needed.
+
+- [ ] Have all legal and medical-disclaimer body copy reviewed by a qualified professional for the relevant jurisdictions.
+- [ ] Reconcile the guarantee language on marketing pages with the reviewed Refund policy and engagement agreement.
+- [ ] Review any healthcare AI claim before publication for privacy, safety, clinical and regulatory implications.
+
+## Operational verification
+
+- [ ] Send an authorised test through the healthcare form and confirm receipt.
+- [ ] Send an authorised test through the AIOS pilot form and confirm the Lead Engine handoff.
+- [ ] Send an authorised audit to an owned website and inbox and confirm storage, generation and email delivery.
+- [ ] Verify GA4 events and mark `generate_lead` as a key event.
+- [ ] Submit both current sitemaps and remove the obsolete `sitemap_index.xml` submission in Search Console.
