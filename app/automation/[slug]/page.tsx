@@ -12,6 +12,8 @@ import {
   type ProgrammaticSeoSummary,
 } from "@/lib/programmatic-seo"
 import { buildMetadata } from "@/lib/seo"
+import { sites } from "@/lib/site-config"
+import { organizationJsonLd } from "@/lib/structured-data"
 
 interface AutomationDetailProps {
   params: Promise<{
@@ -104,12 +106,8 @@ function parseFaq(html: string): Array<{ question: string; answer: string }> {
 }
 
 function buildJsonLd(page: ProgrammaticSeoPage): Array<Record<string, unknown>> {
-  const url = `https://ayothedoc.com/automation/${page.slug}`
-  const provider = {
-    "@type": "Organization",
-    name: "Ayothedoc",
-    url: "https://ayothedoc.com",
-  }
+  const url = `${sites.aios.url}/automation/${page.slug}`
+  const provider = organizationJsonLd(sites.aios)
 
   // Service schema replaces HowTo: this is done-for-you, not a DIY tutorial.
   const service: Record<string, unknown> = {

@@ -7,6 +7,8 @@ import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { getPostBySlug } from "@/lib/blog-store"
 import { buildMetadata } from "@/lib/seo"
+import { sites } from "@/lib/site-config"
+import { organizationJsonLd } from "@/lib/structured-data"
 
 // Posts are DB-backed and managed from admin, so render on demand.
 export const dynamic = "force-dynamic"
@@ -47,9 +49,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) notFound()
 
   const html = await marked.parse(post.content || "", { gfm: true, breaks: false })
+  const pageUrl = `${sites.aios.url}/blog/${post.slug}`
+  const cover =
+    post.coverImage ||
+    `/blog/cover?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`
+  const imageUrl = new URL(cover, `${sites.aios.url}/`).toString()
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: [imageUrl],
+    datePublished: post.publishedAt || post.createdAt,
+    dateModified: post.updatedAt,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: organizationJsonLd(sites.aios),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <SiteHeader />
 
       <main id="main-content" tabIndex={-1} className="relative">

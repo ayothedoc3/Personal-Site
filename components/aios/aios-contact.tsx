@@ -6,6 +6,30 @@ import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import { ContactForm } from "@/components/contact-form"
 import { useState, useEffect } from "react"
+import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
+
+const CONTACT_FAQS: FaqEntry[] = [
+  {
+    question: "How long until it is running?",
+    answer:
+      "The standard AI Operating System install target is 10 business days. We then measure recovered hours against the kickoff baseline over the following 30 days.",
+  },
+  {
+    question: "Do you run it for me, or just set it up?",
+    answer:
+      "We run it. Beyond the install, monthly plans cover monitoring, fixes, and new automation work. You own everything we build.",
+  },
+  {
+    question: "Does this replace my team?",
+    answer:
+      "No. It removes repetitive work so your team can focus on sales, client delivery, and decisions that need people.",
+  },
+  {
+    question: "Can you work with my existing tools?",
+    answer:
+      "Yes. We connect the AIOS to the tools you already use, such as email, CRM, calendar, billing, and documents, so it can work from live data without copy-paste.",
+  },
+]
 
 export default function Contact() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -47,6 +71,10 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-x-clip">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(CONTACT_FAQS)) }}
+      />
       <div className="fixed inset-0 pointer-events-none">
         <div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur-3xl animate-float"
@@ -230,28 +258,7 @@ export default function Contact() {
           </div>
 
           <div className="space-y-6">
-            {[
-              {
-                question: "How long until it's running?",
-                answer:
-                  "Your AI Operating System is installed and live in 10 business days. We then measure recovered hours against your kickoff baseline over the following 30 days.",
-              },
-              {
-                question: "Do you run it for me, or just set it up?",
-                answer:
-                  "We run it. Beyond the install, our monthly plans cover monitoring, fixes, and shipping one new automation every week. You own everything we build.",
-              },
-              {
-                question: "Does this replace my team?",
-                answer:
-                  "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery.",
-              },
-              {
-                question: "Can you work with my existing tools?",
-                answer:
-                  "Yes, that's the point. We wire the AIOS into the tools you already use (email, CRM, calendar, billing, docs) so it works from live data, not copy-paste.",
-              },
-            ].map((faq, index) => (
+            {CONTACT_FAQS.map((faq, index) => (
               <div
                 key={faq.question}
                 className="backdrop-blur-xl bg-card/50 border border-border/50 p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:scale-[1.02] opacity-0 animate-fade-in-up group"

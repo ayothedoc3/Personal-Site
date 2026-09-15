@@ -6,6 +6,35 @@ import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import { testimonials } from "@/data/testimonials"
+import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
+
+const HOME_FAQS: FaqEntry[] = [
+  {
+    question: "Does this replace my team?",
+    answer:
+      "No. It removes repetitive work so your team can focus on sales, client delivery, and decisions that need people.",
+  },
+  {
+    question: "What happens if an automation breaks?",
+    answer:
+      "We monitor every workflow and fix issues as part of your plan. You get alerts and a clear log of every run, with no silent failures.",
+  },
+  {
+    question: "Who owns the system?",
+    answer:
+      "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system.",
+  },
+  {
+    question: "How fast until the first workflows are live?",
+    answer:
+      "The standard install target is 10 business days. We then measure recovered hours against the kickoff baseline over the following 30 days.",
+  },
+  {
+    question: "Do I need to be technical?",
+    answer:
+      "No. You bring the business context. We handle the build, connections, monitoring, and ongoing operation.",
+  },
+]
 
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
@@ -63,6 +92,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground overflow-x-clip relative transition-colors duration-500">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(HOME_FAQS)) }}
+      />
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div
@@ -378,19 +411,13 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold mb-4">Common questions</h2>
             </div>
             <div className="space-y-4">
-              {[
-                { q: "Does this replace my team?", a: "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery." },
-                { q: "What happens if an automation breaks?", a: "We monitor every workflow and fix issues as part of your plan. You get alerts and a clear log of every run, no silent failures." },
-                { q: "Who owns the system?", a: "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system." },
-                { q: "How fast until I see ROI?", a: "First automations are live within 10 business days. We measure recovered hours against your kickoff baseline over the following 30 days." },
-                { q: "Do I need to be technical?", a: "Not at all. You bring the business context; we handle the build, the connections, and the running of it." },
-              ].map((item) => (
-                <details key={item.q} className="group p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+              {HOME_FAQS.map((item) => (
+                <details key={item.question} className="group p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                   <summary className="cursor-pointer font-semibold text-lg list-none flex justify-between items-center">
-                    {item.q}
+                    {item.question}
                     <span className="text-lime-400 transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
                   </summary>
-                  <p className="text-muted-foreground leading-relaxed mt-4">{item.a}</p>
+                  <p className="text-muted-foreground leading-relaxed mt-4">{item.answer}</p>
                 </details>
               ))}
             </div>

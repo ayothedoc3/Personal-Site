@@ -65,32 +65,61 @@ export async function generateMetadata(): Promise<Metadata> {
 
 function structuredData(key: SiteKey) {
   if (key === "aios") {
-    return {
-      "@context": "https://schema.org",
+    const organization = {
       ...organizationJsonLd(sites.aios),
-      "@type": "ProfessionalService",
+      "@type": ["Organization", "ProfessionalService"],
       description:
         "AI operations and automation for agencies, consultants and service businesses. We install and run an AI Operating System wired into your tools.",
       areaServed: "Worldwide",
-      serviceType: "Managed AI Operations",
     }
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        organization,
+        {
+          "@type": "Service",
+          "@id": `${sites.aios.url}/#service`,
+          name: "Managed AI Operations",
+          description:
+            "AI operations systems installed and managed for agencies, consultants and service businesses.",
+          serviceType: "Managed AI Operations",
+          provider: { "@id": organization["@id"] },
+          areaServed: "Worldwide",
+          url: sites.aios.url,
+        },
+      ],
+    }
+  }
+  const organization = {
+    ...organizationJsonLd(sites.healthcare),
+    "@type": ["Organization", "ProfessionalService"],
+    description:
+      "Healthcare AI implementation practice helping healthtech companies and healthcare organisations design and deliver practical AI systems for real workflows.",
+    areaServed: "Worldwide",
+    knowsAbout: [
+      "Healthcare AI",
+      "Clinical workflow design",
+      "Agentic AI",
+      "Healthcare interoperability",
+      "Clinical data privacy",
+      "AI implementation",
+    ],
   }
   return {
     "@context": "https://schema.org",
-    ...organizationJsonLd(sites.healthcare),
-    "@type": "ProfessionalService",
-    description:
-      "Healthcare technology implementation and clinical innovation consultancy. We help healthtech, medical-device and healthcare organisations implement and scale technology in real clinical environments.",
-    areaServed: "Worldwide",
-    serviceType: "Healthcare Technology Implementation",
-    knowsAbout: [
-      "Medical technology implementation",
-      "Medical devices",
-      "Healthcare robotics",
-      "Digital health",
-      "Healthcare interoperability",
-      "Clinical workflow design",
-      "Healthcare AI",
+    "@graph": [
+      organization,
+      {
+        "@type": "Service",
+        "@id": `${sites.healthcare.url}/#service`,
+        name: "Healthcare AI Design and Implementation",
+        description:
+          "Practical healthcare AI strategy, workflow design, prototyping and implementation support.",
+        serviceType: "Healthcare AI Design and Implementation",
+        provider: { "@id": organization["@id"] },
+        areaServed: "Worldwide",
+        url: sites.healthcare.url,
+      },
     ],
   }
 }
