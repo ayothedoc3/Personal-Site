@@ -6,6 +6,7 @@ import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { getPostBySlug } from "@/lib/blog-store"
+import { buildMetadata } from "@/lib/seo"
 
 // Posts are DB-backed and managed from admin, so render on demand.
 export const dynamic = "force-dynamic"
@@ -30,23 +31,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const cover =
     post.coverImage ||
     `/blog/cover?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`
-  return {
+  return buildMetadata({
+    site: "aios",
+    path: `/blog/${post.slug}`,
     title: `${post.title} - Ayothedoc Blog`,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: "article",
-      images: [{ url: cover, width: 1200, height: 630 }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
-      images: [cover],
-    },
-  }
+    type: "article",
+    image: { url: cover, width: 1200, height: 630, alt: post.title },
+  })
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
@@ -60,7 +52,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <main className="relative">
+      <main id="main-content" tabIndex={-1} className="relative">
         <section className="relative px-6 py-20 lg:px-12 bg-gradient-to-b from-background to-muted/20">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">

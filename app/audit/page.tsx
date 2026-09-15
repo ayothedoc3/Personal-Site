@@ -142,7 +142,7 @@ export default function AuditPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <main id="main-content" tabIndex={-1} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {step === 'form' && (
           <div className="space-y-8">
             <div className="text-center mb-12">

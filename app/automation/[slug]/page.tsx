@@ -11,6 +11,7 @@ import {
   type ProgrammaticSeoPage,
   type ProgrammaticSeoSummary,
 } from "@/lib/programmatic-seo"
+import { buildMetadata } from "@/lib/seo"
 
 interface AutomationDetailProps {
   params: Promise<{
@@ -33,27 +34,13 @@ export async function generateMetadata({ params }: AutomationDetailProps): Promi
     }
   }
 
-  const url = `https://ayothedoc.com/automation/${page.slug}`
-
-  return {
+  return buildMetadata({
+    site: "aios",
+    path: `/automation/${page.slug}`,
     title: `${page.title} | Ayothedoc`,
     description: page.metaDescription,
-    alternates: {
-      canonical: `/automation/${page.slug}`,
-    },
-    openGraph: {
-      title: page.title,
-      description: page.metaDescription,
-      url,
-      type: "article",
-      siteName: "Ayothedoc",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: page.title,
-      description: page.metaDescription,
-    },
-  }
+    type: "article",
+  })
 }
 
 function renderHtml(html: string) {
@@ -195,7 +182,7 @@ export default async function AutomationDetailPage({ params }: AutomationDetailP
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         {jsonLdBlocks.map((block, idx) => (
           <script
             key={idx}

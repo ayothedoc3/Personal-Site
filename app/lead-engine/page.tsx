@@ -1,18 +1,18 @@
-import type { Metadata } from "next"
-
 import { SiteHeader } from "@/components/site-header"
 import { ContactForm } from "@/components/contact-form"
+import { buildMetadata } from "@/lib/seo"
 
 // Campaign landing page for cold outreach. Intentionally NOT in the nav, footer,
 // or sitemap, and noindex so it does not compete with the homepage in search.
 // Only people who get the link (from the outreach emails) land here.
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/lead-engine",
   title: "Your free 60-Second Lead Engine | Ayothedoc",
   description:
     "We build you a system that replies to every new lead in under 60 seconds, personalized, in your voice, with your booking link. The first one is free, on your real leads.",
   robots: { index: false, follow: false },
-  alternates: { canonical: "/lead-engine" },
-}
+})
 
 const STEPS = [
   {
@@ -37,7 +37,7 @@ export default function LeadEnginePage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <section className="text-center max-w-3xl mx-auto">

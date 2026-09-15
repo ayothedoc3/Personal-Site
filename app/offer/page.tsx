@@ -1,24 +1,16 @@
-import type { Metadata } from "next"
-
 import Link from "next/link"
 
 import { SiteHeader } from "@/components/site-header"
 import { CheckoutLink } from "@/components/checkout-link"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/offer",
   title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
   description:
     "Install your AI Operating System in 10 days, then run it on a monthly plan: Foundation $1,000, Operations $2,500, or Autonomous $5,000. Recover 40+ hours a month or we keep working free until you do.",
-  alternates: {
-    canonical: "/offer",
-  },
-  openGraph: {
-    title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
-    description:
-      "Install your AI Operating System in 10 days, then run it on a monthly plan. Recover 40+ hours a month or we keep working free until you do.",
-    url: "https://ayothedoc.com/offer",
-  },
-}
+})
 
 export default function OfferPage() {
   // Stripe Payment Links (set in env). Empty values fall back to /contact via CheckoutLink.
@@ -82,7 +74,7 @@ export default function OfferPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <section className="text-center">

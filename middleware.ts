@@ -14,6 +14,7 @@ import {
 // On non-production hosts (localhost, preview URLs) nothing is gated so both
 // route sets can be tested.
 const PROD_APEX = new Set(["ayothedoc.com", "www.ayothedoc.com"])
+const PROD_WWW = "www.ayothedoc.com"
 
 export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl
@@ -29,6 +30,12 @@ export function middleware(req: NextRequest) {
 
   const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase()
   const site = siteFromHost(host)
+
+  // Keep one canonical healthcare hostname. Preserve the path and query while
+  // permanently redirecting the duplicate www host to the apex domain.
+  if (host === PROD_WWW) {
+    return NextResponse.redirect(new URL(`${pathname}${search}`, sites.healthcare.url), 301)
+  }
 
   // Apex (production) requests to relocated AIOS routes -> 301 to the AIOS host.
   if (site === "healthcare" && PROD_APEX.has(host) && pathMatchesPrefix(pathname, AIOS_ONLY_PREFIXES)) {

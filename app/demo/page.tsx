@@ -1,23 +1,24 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 
 import { SiteHeader } from "@/components/site-header"
 import { DemoClient } from "@/components/demo-client"
 import { Button } from "@/components/ui/button"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/demo",
   title: "Live Demo: Watch the 60-Second Lead Engine Reply | Ayothedoc",
   description:
     "Play the lead. Type an enquiry and watch the Lead Engine draft a personalized reply in front of you, the same system that answers our own leads in seconds.",
-  alternates: { canonical: "/demo" },
-}
+})
 
 export default function DemoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <section className="text-center max-w-3xl mx-auto mb-12">

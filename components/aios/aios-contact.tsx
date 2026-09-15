@@ -62,6 +62,7 @@ export default function Contact() {
 
       <SiteHeader />
 
+      <main id="main-content" tabIndex={-1}>
       <section className="relative px-6 py-20 lg:px-12">
         <div className="max-w-6xl mx-auto text-center">
           <div
@@ -272,6 +273,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
+      </main>
 
       <style jsx>{`
         @keyframes fade-in-up {

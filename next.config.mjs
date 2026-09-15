@@ -48,9 +48,20 @@ const nextConfig = {
       },
       {
         source: '/automation/zapier-customer-onboarding-consulting',
-        destination: '/automation/client-onboarding-automation-consulting-firms',
+        destination: '/automation/ai-operating-system-consulting-firms',
         permanent: true,
       },
+      // Internal legacy links that never received generated destination pages.
+      // Route each one directly to the closest live pillar with no redirect chain.
+      { source: '/automation/automated-client-reporting-consulting-firms', destination: '/automation/ai-operating-system-consulting-firms', permanent: true },
+      { source: '/automation/client-onboarding-automation-consulting-firms', destination: '/automation/ai-operating-system-consulting-firms', permanent: true },
+      { source: '/automation/proposal-follow-up-consulting-firms', destination: '/automation/ai-operating-system-consulting-firms', permanent: true },
+      { source: '/automation/automated-client-reporting-marketing-agencies', destination: '/automation/ai-operating-system-marketing-agencies', permanent: true },
+      { source: '/automation/client-onboarding-automation-marketing-agencies', destination: '/automation/ai-operating-system-marketing-agencies', permanent: true },
+      { source: '/automation/proposal-follow-up-marketing-agencies', destination: '/automation/ai-operating-system-marketing-agencies', permanent: true },
+      { source: '/automation/automated-client-reporting-web-design-agencies', destination: '/automation/ai-operating-system-web-design-agencies', permanent: true },
+      { source: '/automation/crm-sync-no-copy-paste-agencies', destination: '/automation', permanent: true },
+      { source: '/automation/inbox-triage-reply-drafts-agencies', destination: '/automation', permanent: true },
       // Retired tool-led pages with no clean 1:1 mapping fall back to the
       // /automation index so traffic still lands somewhere useful.
       { source: '/automation/make-com-lead-generation-law-firms', destination: '/automation', permanent: true },
@@ -83,6 +94,14 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), geolocation=(), microphone=()',
           },
           {
             key: 'Content-Security-Policy',
