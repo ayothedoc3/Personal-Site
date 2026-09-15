@@ -1,5 +1,7 @@
 # Coolify Deployment Guide
 
+> Legacy general deployment guide. The application now serves two hostnames from one deployment. Use `README.md` and `DOMAIN_AND_SUBDOMAIN_SETUP.md` for the current architecture and environment checklist.
+
 This guide will help you deploy your Ayothedoc website using Coolify with GitHub integration.
 
 ## Prerequisites
@@ -21,7 +23,7 @@ Ensure your repository has all the necessary files:
 1. **Login to Coolify Dashboard**
 2. **Create New Application**:
    - Click "New Application"
-   - Select "Public Repository" 
+   - Select "Public Repository"
    - Enter your GitHub repository URL
    - Choose "main" branch
 
@@ -36,7 +38,7 @@ In Coolify, add these environment variables:
 
 ```env
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_emailjs_service_id
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_emailjs_template_id  
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 NODE_ENV=production
 ```
@@ -59,7 +61,7 @@ If not auto-detected, manually set:
 # Build Command
 npm run build
 
-# Start Command  
+# Start Command
 npm run start
 ```
 

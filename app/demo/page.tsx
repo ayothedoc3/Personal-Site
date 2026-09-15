@@ -1,23 +1,25 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 
 import { SiteHeader } from "@/components/site-header"
 import { DemoClient } from "@/components/demo-client"
+import { DemoVideo } from "@/components/demo-video"
 import { Button } from "@/components/ui/button"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Live Demo: Watch the 60-Second Lead Engine Reply | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/demo",
+  title: "60-Second Lead Engine Demo | AIOS",
   description:
-    "Play the lead. Type an enquiry and watch the Lead Engine draft a personalized reply in front of you, the same system that answers our own leads in seconds.",
-  alternates: { canonical: "/demo" },
-}
+    "Enter a sample agency enquiry and inspect the sandboxed Lead Engine draft, subject line, booking link and elapsed drafting time. No signup required.",
+})
 
 export default function DemoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <section className="text-center max-w-3xl mx-auto mb-12">
@@ -28,24 +30,15 @@ export default function DemoPage() {
               Don&apos;t take our word for it. <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">Watch it reply.</span>
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 leading-relaxed">
-              This is the same engine that answers our own leads. Type an enquiry as if you were a prospect, and watch
-              it draft the reply a real lead would get: personalized, on-voice, with a booking link.
+              Enter an enquiry as if you were a prospect and inspect the sandboxed draft: a tailored first response
+              based on the details you provide, with a clear next step and booking link.
             </p>
           </section>
 
           {/* Rendered walkthrough video */}
           <section className="max-w-4xl mx-auto mb-16">
             <div className="rounded-3xl overflow-hidden border border-border/50 shadow-2xl bg-card/40">
-              <video
-                className="w-full h-auto"
-                controls
-                playsInline
-                preload="metadata"
-                poster="/lead-engine-demo-poster.jpg"
-              >
-                <source src="/lead-engine-demo.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <DemoVideo />
             </div>
             <p className="text-center text-sm text-muted-foreground mt-3">
               The full loop, start to finish: a lead comes in, gets a personalized reply, and you get alerted. Prefer to
@@ -56,32 +49,28 @@ export default function DemoPage() {
           {/* The interactive demo */}
           <DemoClient />
 
-          {/* Honest proof: we run our own */}
+          {/* Verifiable proof: the visitor can run the workflow themselves. */}
           <section className="mt-20 max-w-3xl mx-auto">
             <div className="p-8 md:p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">We run our own. Here are the numbers.</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Test the workflow, not a marketing claim</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Every enquiry on this site&apos;s contact form is answered by the same Lead Engine we build for clients.
-                No human in the loop for the first reply, day or night.
+                The interactive demo above lets you submit a realistic enquiry and inspect the draft it produces. It is
+                a sandbox, so it does not email the draft or store the enquiry.
               </p>
               <div className="grid sm:grid-cols-3 gap-4 text-center">
                 <div className="rounded-xl bg-background/60 border border-border/40 p-5">
-                  <div className="text-3xl font-bold text-lime-400">7.8s</div>
-                  <div className="text-xs text-muted-foreground mt-1">full loop in a timed test: lead in, personalized reply sent, owner alerted (June 11, 2026)</div>
+                  <div className="text-xl font-bold text-lime-400">Interactive</div>
+                  <div className="text-xs text-muted-foreground mt-1">Use your own example or load the clearly labelled sample enquiry.</div>
                 </div>
                 <div className="rounded-xl bg-background/60 border border-border/40 p-5">
-                  <div className="text-3xl font-bold text-lime-400">24/7</div>
-                  <div className="text-xs text-muted-foreground mt-1">runs while we sleep, weekends and 2am enquiries included</div>
+                  <div className="text-xl font-bold text-lime-400">Visible</div>
+                  <div className="text-xs text-muted-foreground mt-1">Review the generated subject, reply and elapsed drafting time yourself.</div>
                 </div>
                 <div className="rounded-xl bg-background/60 border border-border/40 p-5">
-                  <div className="text-3xl font-bold text-lime-400">100%</div>
-                  <div className="text-xs text-muted-foreground mt-1">of inbound leads get a personal first reply, none sit unanswered</div>
+                  <div className="text-xl font-bold text-lime-400">Sandboxed</div>
+                  <div className="text-xs text-muted-foreground mt-1">The demonstration drafts only. It does not send email or create a lead record.</div>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-4">
-                Want to verify? Use the <Link href="/contact" className="text-lime-400 hover:underline">contact form</Link>{" "}
-                and time the reply yourself.
-              </p>
             </div>
           </section>
 
@@ -89,10 +78,12 @@ export default function DemoPage() {
           <section className="mt-16 max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Get this on your real leads, free</h2>
             <p className="text-muted-foreground text-lg mb-2 max-w-2xl mx-auto">
-              We build your first Lead Engine free: your voice, your booking link, your real leads. No card, no risk.
+              We build your first scoped Lead Engine free: approved voice examples, your booking rules and one agreed
+              lead source. No card is required.
             </p>
             <p className="text-sm font-semibold text-lime-400 mb-8">
-              And when you move to a plan: recover 40+ hours a month or we keep working free until you do.
+              Paid work is measured against a baseline agreed at kickoff.{" "}
+              <Link href="/refund" className="hover:underline">Read the guarantee terms</Link>.
             </p>
             <Link href="/contact">
               <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-lime-400/50">

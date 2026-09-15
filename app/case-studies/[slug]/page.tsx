@@ -1,26 +1,25 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, StatusLabel } from "@/components/healthcare/ui"
-import { caseStudies, caseStudyBySlug } from "@/lib/case-studies"
-import { sites } from "@/lib/site-config"
+import { verifiedCaseStudies, caseStudyBySlug } from "@/lib/case-studies"
+import { buildMetadata } from "@/lib/seo"
 
 export function generateStaticParams() {
-  return caseStudies.map((c) => ({ slug: c.slug }))
+  return verifiedCaseStudies().map((c) => ({ slug: c.slug }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const c = caseStudyBySlug(slug)
   if (!c) return {}
-  return {
-    title: `${c.name} (${c.status}) | Ayothedoc Case Studies`,
+  return buildMetadata({
+    site: "healthcare",
+    path: `/case-studies/${slug}`,
+    title: `${c.name} Case Study | Ayothedoc`,
     description: c.summary,
-    alternates: { canonical: `${sites.healthcare.url}/case-studies/${slug}` },
-    robots: c.verified ? undefined : { index: false, follow: false },
-  }
+  })
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -76,7 +75,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
       </section>
 
-      <CTASection heading="Planning something similar?" label="Discuss Your Project" />
+      <CTASection heading="Planning something similar?" label="Discuss a Healthcare AI Project" />
       <div className="mx-auto max-w-3xl px-6 pb-16 lg:px-8">
         <Link href="/case-studies" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">
           &larr; All case studies

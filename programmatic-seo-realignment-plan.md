@@ -1,5 +1,7 @@
 # Programmatic SEO Realignment Plan
 
+> Historical design document. The curated outcome-first pipeline is now implemented. Use `PROGRAMMATIC_SEO.md` for current commands and `docs/CONTENT_OFFER_AND_KEYWORD_PLAN.md` for the live keyword map.
+
 **Status:** Spec for review. No code changed yet.
 **Date:** 2026-05-27
 **Owner:** Ayo

@@ -11,6 +11,9 @@ import {
   type ProgrammaticSeoPage,
   type ProgrammaticSeoSummary,
 } from "@/lib/programmatic-seo"
+import { buildMetadata } from "@/lib/seo"
+import { sites } from "@/lib/site-config"
+import { organizationJsonLd } from "@/lib/structured-data"
 
 interface AutomationDetailProps {
   params: Promise<{
@@ -33,27 +36,13 @@ export async function generateMetadata({ params }: AutomationDetailProps): Promi
     }
   }
 
-  const url = `https://ayothedoc.com/automation/${page.slug}`
-
-  return {
-    title: `${page.title} | Ayothedoc`,
+  return buildMetadata({
+    site: "aios",
+    path: `/automation/${page.slug}`,
+    title: `${page.title} | AIOS`,
     description: page.metaDescription,
-    alternates: {
-      canonical: `/automation/${page.slug}`,
-    },
-    openGraph: {
-      title: page.title,
-      description: page.metaDescription,
-      url,
-      type: "article",
-      siteName: "Ayothedoc",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: page.title,
-      description: page.metaDescription,
-    },
-  }
+    type: "article",
+  })
 }
 
 function renderHtml(html: string) {
@@ -117,12 +106,8 @@ function parseFaq(html: string): Array<{ question: string; answer: string }> {
 }
 
 function buildJsonLd(page: ProgrammaticSeoPage): Array<Record<string, unknown>> {
-  const url = `https://ayothedoc.com/automation/${page.slug}`
-  const provider = {
-    "@type": "Organization",
-    name: "Ayothedoc",
-    url: "https://ayothedoc.com",
-  }
+  const url = `${sites.aios.url}/automation/${page.slug}`
+  const provider = organizationJsonLd(sites.aios)
 
   // Service schema replaces HowTo: this is done-for-you, not a DIY tutorial.
   const service: Record<string, unknown> = {
@@ -195,7 +180,7 @@ export default async function AutomationDetailPage({ params }: AutomationDetailP
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         {jsonLdBlocks.map((block, idx) => (
           <script
             key={idx}
@@ -268,7 +253,7 @@ export default async function AutomationDetailPage({ params }: AutomationDetailP
             </h2>
             <p className="text-lg mb-6 max-w-2xl">
               {page.tier === "wedge"
-                ? "We will build your 60-Second Lead Engine free, on your real leads. If it books calls you would have missed, we run the rest of your operations."
+                ? "We will build a scoped 60-Second Lead Engine free on one agreed lead source. If the pilot meets its success criteria, you choose whether to expand."
                 : "Score your AI readiness across the Four Cs in about 10 minutes. We send the audit and the three highest-leverage automations for your business."}
             </p>
             <div className="flex flex-wrap items-center gap-4">

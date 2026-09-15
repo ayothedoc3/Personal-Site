@@ -4,15 +4,12 @@ import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import emailjs from "emailjs-com"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Honeypot } from "@/components/ui/honeypot"
 import { Turnstile } from "@/components/turnstile"
-import { Loader2, CheckCircle, AlertCircle, Phone, Shield } from "lucide-react"
+import { Loader2, CheckCircle, AlertCircle, Shield } from "lucide-react"
 import { formRateLimiter } from "@/lib/rate-limiter"
 import { sanitizeInput, isValidEmail, isValidPhone, detectSpam, isBot, getClientFingerprint } from "@/lib/security-utils"
 import { trackEvent } from "@/lib/analytics"
@@ -23,9 +20,8 @@ const contactSchema = z.object({
     .max(50, "First name is too long")
     .regex(/^[a-zA-Z\s\-']+$/, "First name contains invalid characters"),
   lastName: z.string()
-    .min(2, "Last name must be at least 2 characters")
     .max(50, "Last name is too long")
-    .regex(/^[a-zA-Z\s\-']+$/, "Last name contains invalid characters"),
+    .optional(),
   email: z.string()
     .email("Please enter a valid email address")
     .max(320, "Email address is too long")
@@ -33,10 +29,8 @@ const contactSchema = z.object({
   phone: z.string()
     .optional()
     .refine((val) => !val || isValidPhone(val), "Invalid phone number format"),
-  company: z.string()
-    .min(2, "Company name must be at least 2 characters")
-    .max(100, "Company name is too long"),
-  service: z.string().min(1, "Please select a service"),
+  company: z.string().max(100, "Company name is too long").optional(),
+  service: z.string().default("free-lead-engine"),
   message: z.string()
     .min(10, "Message must be at least 10 characters")
     .max(2000, "Message is too long")
@@ -61,6 +55,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
   const [turnstileToken, setTurnstileToken] = useState("")
   const [formStartTime] = useState(Date.now())
   const [clientId, setClientId] = useState('temp-id')
+  const [startTracked, setStartTracked] = useState(false)
 
   // Set client ID only on client side
   useEffect(() => {
@@ -71,12 +66,15 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
     register,
     handleSubmit,
     reset,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
+      lastName: "",
+      company: "",
+      service: "free-lead-engine",
+      newsletter: false,
       website: "",
       formStartTime: formStartTime,
     },
@@ -87,7 +85,11 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
     setValue("formStartTime", formStartTime)
   }, [setValue, formStartTime])
 
-  const newsletterValue = watch("newsletter")
+  const onFirstInteract = () => {
+    if (startTracked) return
+    setStartTracked(true)
+    trackEvent("lead_form_start", { site: "aios", form_name: "free_lead_engine" })
+  }
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
@@ -116,10 +118,10 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       // Sanitize all input data
       const sanitizedData = {
         firstName: sanitizeInput(data.firstName),
-        lastName: sanitizeInput(data.lastName),
+        lastName: sanitizeInput(data.lastName || ""),
         email: sanitizeInput(data.email),
         phone: sanitizeInput(data.phone || ""),
-        company: sanitizeInput(data.company),
+        company: sanitizeInput(data.company || ""),
         service: sanitizeInput(data.service),
         message: sanitizeInput(data.message),
         newsletter: data.newsletter,
@@ -146,15 +148,16 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         service: sanitizedData.service,
         newsletter: sanitizedData.newsletter,
       })
+      trackEvent("generate_lead", { site: "aios", lead_type: "free_lead_engine" })
       setSubmitStatus("success")
-      setSubmitMessage("Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.")
+      setSubmitMessage("Thank you. Your request has been sent and we will reply with the next step.")
       reset({ 
         firstName: "",
         lastName: "",
         email: "",
         phone: "",
         company: "",
-        service: "",
+        service: "free-lead-engine",
         message: "",
         newsletter: false,
         website: "",
@@ -178,37 +181,22 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
 
   return (
     <div className={className}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Name Fields */}
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="group">
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
-            >
-              First Name *
-            </label>
-            <Input
-              id="firstName"
-              placeholder="John"
-              error={errors.firstName?.message}
-              {...register("firstName")}
-            />
-          </div>
-          <div className="group">
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
-            >
-              Last Name *
-            </label>
-            <Input
-              id="lastName"
-              placeholder="Doe"
-              error={errors.lastName?.message}
-              {...register("lastName")}
-            />
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)} onFocusCapture={onFirstInteract} className="space-y-6">
+        {/* Name */}
+        <div className="group">
+          <label
+            htmlFor="firstName"
+            className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
+          >
+            First Name *
+          </label>
+          <Input
+            id="firstName"
+            autoComplete="given-name"
+            placeholder="Your first name"
+            error={errors.firstName?.message}
+            {...register("firstName")}
+          />
         </div>
 
         {/* Email Field */}
@@ -222,30 +210,11 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           <Input
             id="email"
             type="email"
-            placeholder="john@example.com"
+            autoComplete="email"
+            placeholder="you@company.com"
             error={errors.email?.message}
             {...register("email")}
           />
-        </div>
-
-        {/* Phone Field */}
-        <div className="group">
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
-          >
-            Phone Number (Optional)
-          </label>
-          <div className="relative">
-            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              id="phone"
-              type="tel"
-              placeholder="+1 (555) 123-4567"
-              className="pl-10"
-              {...register("phone")}
-            />
-          </div>
         </div>
 
         {/* Company Field */}
@@ -254,37 +223,18 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             htmlFor="company"
             className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
           >
-            Company Name *
+            Company Name
           </label>
           <Input
             id="company"
+            autoComplete="organization"
             placeholder="Your Company"
             error={errors.company?.message}
             {...register("company")}
           />
         </div>
 
-        {/* Service Interest */}
-        <div className="group">
-          <label
-            htmlFor="service"
-            className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
-          >
-            Service Interest *
-          </label>
-          <Select
-            id="service"
-            error={errors.service?.message}
-            {...register("service")}
-          >
-            <option value="">What are you after?</option>
-            <option value="free-lead-engine">Free 60-Second Lead Engine</option>
-            <option value="aios-install-sprint">AIOS Install Sprint</option>
-            <option value="managed-ai-operations">Managed AI Operations</option>
-            <option value="lead-engine-care">Lead Engine Care</option>
-            <option value="not-sure">Not sure yet</option>
-          </Select>
-        </div>
+        <input type="hidden" {...register("service")} />
 
         {/* Message Field */}
         <div className="group">
@@ -292,24 +242,14 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             htmlFor="message"
             className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
           >
-            Project Details *
+            Where do leads arrive, and what happens now? *
           </label>
           <Textarea
             id="message"
             rows={5}
-            placeholder="Tell us about your project and how we can help..."
+            placeholder="For example: website form to Gmail, then someone replies and adds the lead to HubSpot."
             error={errors.message?.message}
             {...register("message")}
-          />
-        </div>
-
-        {/* Newsletter Checkbox */}
-        <div className="group">
-          <Checkbox
-            id="newsletter"
-            checked={newsletterValue}
-            onChange={(e) => setValue("newsletter", e.target.checked)}
-            label="Yes, send me AI operations, lead response, and agency systems notes"
           />
         </div>
 
@@ -334,28 +274,28 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
                 Sending Message...
               </>
             ) : (
-              "Send Message"
+              "Request My Free Lead Engine"
             )}
           </span>
         </Button>
 
         {/* Status Messages */}
         {submitStatus === "success" && (
-          <div className="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 animate-in fade-in-50 duration-300">
+          <div role="status" aria-live="polite" className="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 animate-in fade-in-50 duration-300">
             <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
             <p className="text-sm">{submitMessage}</p>
           </div>
         )}
 
         {submitStatus === "error" && (
-          <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 animate-in fade-in-50 duration-300">
+          <div role="alert" className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 animate-in fade-in-50 duration-300">
             <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
             <p className="text-sm">{submitMessage}</p>
           </div>
         )}
 
         {submitStatus === "blocked" && (
-          <div className="flex items-start gap-3 p-4 bg-orange-500/10 border border-orange-500/20 rounded-xl text-orange-400 animate-in fade-in-50 duration-300">
+          <div role="alert" className="flex items-start gap-3 p-4 bg-orange-500/10 border border-orange-500/20 rounded-xl text-orange-400 animate-in fade-in-50 duration-300">
             <Shield className="w-5 h-5 flex-shrink-0 mt-0.5" />
             <p className="text-sm">{submitMessage}</p>
           </div>

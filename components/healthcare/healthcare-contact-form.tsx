@@ -5,31 +5,26 @@ import { Turnstile } from "@/components/turnstile"
 import { trackEvent } from "@/lib/analytics"
 
 const projectTypes = [
-  "MedTech implementation",
-  "Robotics programme",
-  "Digital health implementation",
-  "Connected healthcare system",
-  "Product discovery",
-  "Clinical workflow assessment",
-  "Healthcare integration",
-  "AI or intelligent automation",
-  "African market-entry support",
+  "AI readiness and use-case assessment",
+  "Healthcare AI workflow automation",
+  "Healthcare AI product or prototype",
+  "AI safety, evaluation or governance",
+  "API, MCP or agent integration",
+  "Clinical data de-identification",
+  "African-market implementation research",
   "Other",
 ]
 const orgTypes = [
   "Healthtech startup",
-  "Medical-device company",
-  "Robotics company",
+  "MedTech or digital health company",
   "Hospital",
   "Clinic",
   "Health system",
-  "Consultancy",
-  "Investor",
-  "Non-profit or public-health organisation",
+  "Public-health or non-profit organisation",
+  "Consultancy or implementation partner",
   "Other",
 ]
-const stages = ["Idea", "Prototype", "Pilot planning", "In pilot", "In market", "Scaling"]
-const timelines = ["Exploring", "This quarter", "Next quarter", "This year", "Not sure"]
+const stages = ["Exploring", "Defined use case", "Prototype", "Pilot planning", "In pilot", "In market"]
 
 const labelCls = "block text-sm font-medium text-foreground"
 const fieldCls =
@@ -47,6 +42,7 @@ export function HealthcareContactForm() {
   const onFirstInteract = () => {
     if (!startedTracked) {
       trackEvent("healthtech_project_enquiry_started")
+      trackEvent("lead_form_start", { site: "healthcare", form_name: "healthcare_ai_project" })
       setStartedTracked(true)
     }
   }
@@ -60,12 +56,7 @@ export function HealthcareContactForm() {
 
     const message = [
       `Organisation type: ${get("orgType")}`,
-      `Country: ${get("country")}`,
       `Project stage: ${get("stage")}`,
-      `Main challenge: ${get("challenge")}`,
-      `Desired outcome: ${get("outcome")}`,
-      `Timeline: ${get("timeline")}`,
-      `Budget: ${get("budget") || "Not specified"}`,
       "",
       get("message"),
     ].join("\n")
@@ -92,6 +83,7 @@ export function HealthcareContactForm() {
         throw new Error(data.error || "Something went wrong. Please try again.")
       }
       trackEvent("healthtech_project_enquiry_submitted")
+      trackEvent("generate_lead", { site: "healthcare", lead_type: "healthcare_ai_project" })
       setStatus("success")
     } catch (err) {
       setErrorMsg((err as Error).message)
@@ -108,14 +100,14 @@ export function HealthcareContactForm() {
       >
         <h2 className="text-lg font-semibold text-foreground">Thank you, your enquiry has been sent</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
-          We will review it and respond to discuss your healthcare technology project.
+          We will review it and respond with the most useful next step for your healthcare AI project.
         </p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={onSubmit} onChange={onFirstInteract} className="space-y-5" aria-busy={status === "loading"}>
+    <form onSubmit={onSubmit} onFocusCapture={onFirstInteract} className="space-y-5" aria-busy={status === "loading"}>
       {/* Honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 
@@ -131,10 +123,6 @@ export function HealthcareContactForm() {
         <div>
           <label htmlFor="organisation" className={labelCls}>Organisation</label>
           <input id="organisation" name="organisation" autoComplete="organization" className={fieldCls} placeholder="Organisation name" />
-        </div>
-        <div>
-          <label htmlFor="country" className={labelCls}>Country</label>
-          <input id="country" name="country" autoComplete="country-name" className={fieldCls} placeholder="Country" />
         </div>
         <div>
           <label htmlFor="orgType" className={labelCls}>Organisation type</label>
@@ -157,30 +145,18 @@ export function HealthcareContactForm() {
             {stages.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
         </div>
-        <div>
-          <label htmlFor="timeline" className={labelCls}>Approximate timeline</label>
-          <select id="timeline" name="timeline" className={fieldCls} defaultValue="">
-            <option value="" disabled>Select...</option>
-            {timelines.map((o) => <option key={o} value={o}>{o}</option>)}
-          </select>
-        </div>
       </div>
 
       <div>
-        <label htmlFor="challenge" className={labelCls}>Main challenge</label>
-        <input id="challenge" name="challenge" className={fieldCls} placeholder="The core problem you want to solve" />
-      </div>
-      <div>
-        <label htmlFor="outcome" className={labelCls}>Desired outcome</label>
-        <input id="outcome" name="outcome" className={fieldCls} placeholder="What a good result looks like" />
-      </div>
-      <div>
-        <label htmlFor="budget" className={labelCls}>Approximate budget range (optional)</label>
-        <input id="budget" name="budget" className={fieldCls} placeholder="Optional" />
-      </div>
-      <div>
-        <label htmlFor="message" className={labelCls}>Message *</label>
-        <textarea id="message" name="message" required rows={5} className={fieldCls} placeholder="Tell us about your project" />
+        <label htmlFor="message" className={labelCls}>What are you trying to make work? *</label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={6}
+          className={fieldCls}
+          placeholder="Briefly describe the workflow, users, current problem and what a useful result would look like."
+        />
       </div>
 
       <Turnstile onToken={setToken} />
@@ -198,7 +174,7 @@ export function HealthcareContactForm() {
         disabled={status === "loading"}
         className="inline-flex items-center justify-center rounded-full bg-teal-600 px-7 py-3 text-sm font-medium text-white hover:bg-teal-700 disabled:opacity-60 transition-colors"
       >
-        {status === "loading" ? "Sending..." : "Submit Project Enquiry"}
+        {status === "loading" ? "Sending..." : "Send Healthcare AI Enquiry"}
       </button>
     </form>
   )

@@ -1,13 +1,14 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/refund",
   title: "Refund & Cancellation Policy | Ayothedoc",
   description: "How cancellations, the 40-hour guarantee, and refunds work for Ayothedoc plans.",
-  alternates: { canonical: "/refund" },
   robots: { index: true, follow: true },
-}
+})
 
 const UPDATED = "May 27, 2026"
 
@@ -15,7 +16,7 @@ export default function RefundPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">Refund &amp; Cancellation Policy</h1>
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>

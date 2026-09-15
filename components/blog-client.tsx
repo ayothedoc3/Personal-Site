@@ -287,11 +287,18 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
             Practical thinking on AI operations, lead response, and agency systems, delivered to your inbox.
           </p>
           <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
             <input
+              id="newsletter-email"
+              name="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
+              autoComplete="email"
+              required
               className="flex-1 px-4 py-3 bg-background/50 backdrop-blur-sm border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 hover:border-primary/50"
               disabled={isSubscribing}
             />
@@ -306,7 +313,7 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
             </Button>
           </form>
           {subscribeMessage && (
-            <p className={`text-sm mt-4 font-medium ${
+            <p role="status" aria-live="polite" className={`text-sm mt-4 font-medium ${
               subscribeMessage.includes("Successfully") 
                 ? "text-green-400" 
                 : subscribeMessage.includes("failed") 

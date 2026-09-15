@@ -6,6 +6,9 @@ import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { getPostBySlug } from "@/lib/blog-store"
+import { buildMetadata } from "@/lib/seo"
+import { sites } from "@/lib/site-config"
+import { organizationJsonLd } from "@/lib/structured-data"
 
 // Posts are DB-backed and managed from admin, so render on demand.
 export const dynamic = "force-dynamic"
@@ -30,23 +33,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const cover =
     post.coverImage ||
     `/blog/cover?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`
-  return {
+  return buildMetadata({
+    site: "aios",
+    path: `/blog/${post.slug}`,
     title: `${post.title} - Ayothedoc Blog`,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: "article",
-      images: [{ url: cover, width: 1200, height: 630 }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
-      images: [cover],
-    },
-  }
+    type: "article",
+    image: { url: cover, width: 1200, height: 630, alt: post.title },
+  })
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
@@ -55,12 +49,39 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) notFound()
 
   const html = await marked.parse(post.content || "", { gfm: true, breaks: false })
+  const pageUrl = `${sites.aios.url}/blog/${post.slug}`
+  const cover =
+    post.coverImage ||
+    `/blog/cover?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`
+  const imageUrl = new URL(cover, `${sites.aios.url}/`).toString()
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: [imageUrl],
+    datePublished: post.publishedAt || post.createdAt,
+    dateModified: post.updatedAt,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: organizationJsonLd(sites.aios),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <SiteHeader />
 
-      <main className="relative">
+      <main id="main-content" tabIndex={-1} className="relative">
         <section className="relative px-6 py-20 lg:px-12 bg-gradient-to-b from-background to-muted/20">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
@@ -142,7 +163,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="max-w-3xl mx-auto text-center bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 rounded-3xl p-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Stop losing leads to slow follow-up</h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-              We will build your 60-Second Lead Engine free, on your real leads. No card, no risk.
+              We will build a scoped 60-Second Lead Engine free on one agreed lead source. No card is required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">

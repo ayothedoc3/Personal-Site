@@ -53,6 +53,7 @@ export default function About() {
 
       <SiteHeader />
 
+      <main id="main-content" tabIndex={-1}>
       <section className="relative px-6 py-20 lg:px-12">
         <div className="max-w-6xl mx-auto text-center">
           <div
@@ -113,8 +114,8 @@ export default function About() {
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 hover:text-foreground/80 transition-colors duration-300">
                 Ayothedoc exists to take that operational layer off your plate. Not another tool to learn, an operating
                 system we build around how you already work, connect to the tools you already use, and run for you. It
-                starts with one thing that pays for itself fast: a Lead Engine that replies to every inbound lead in
-                under 60 seconds, in your voice.
+                can start with one clear, measurable workflow: a Lead Engine designed to reply to each eligible
+                inbound lead in under 60 seconds, in your voice.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed hover:text-foreground/80 transition-colors duration-300">
                 From there it grows into the full system: onboarding, reporting, follow-ups, all running on a schedule,
@@ -206,8 +207,8 @@ export default function About() {
               </p>
               <blockquote className="text-muted-foreground text-lg leading-relaxed italic border-l-4 border-primary/30 pl-6 group-hover:text-foreground/80 group-hover:border-primary/50 transition-all duration-300">
                 "I use the least AI necessary and the simplest workflow that reliably works. Fewer moving parts, fewer
-                failures, a system you can actually trust. And if it does not recover the hours we agreed on, I keep
-                working until it does."
+                failure points, and clearer ownership when something needs attention. We agree how the work will be
+                measured before the build starts."
               </blockquote>
             </div>
           </div>
@@ -235,7 +236,7 @@ export default function About() {
               id="values-subtitle"
               style={{ animationDelay: "1.8s" }}
             >
-              Three principles run through every system we build and every client we work with.
+              Three principles guide each system and engagement.
             </p>
           </div>
 
@@ -275,7 +276,7 @@ export default function About() {
                 ),
                 title: "Measured, not vibes",
                 description:
-                  "We capture your manual-hours baseline at kickoff and measure against it. The promise is concrete: recover 40+ hours a month or we keep working free until you do.",
+                  "We capture the relevant workflow baseline at kickoff, define the measurement method and keep failures and human overrides visible.",
               },
             ].map((value, index) => (
               <div
@@ -320,8 +321,8 @@ export default function About() {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            We build your 60-Second Lead Engine free, no card, no risk. If it books calls you would have missed, we
-            talk about running the rest of your operations.
+            We build a scoped Lead Engine free, with no card required. If it meets the success criteria agreed for the
+            pilot, you can choose whether to expand into managed AI operations.
           </p>
           <a href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
@@ -330,6 +331,7 @@ export default function About() {
           </a>
         </div>
       </section>
+      </main>
 
       <style jsx>{`
         @keyframes fade-in-up {

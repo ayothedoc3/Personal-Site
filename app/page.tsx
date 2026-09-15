@@ -1,25 +1,26 @@
-import type { Metadata } from "next"
 import { getSiteKey } from "@/lib/site.server"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 import AiosHome from "@/components/aios/aios-home"
 import { HealthcareHome } from "@/components/healthcare/healthcare-home"
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
   const key = await getSiteKey()
   if (key === "aios") {
-    return {
-      title: "Managed AI Operations for Agencies & Consultants | AIOS by Ayothedoc",
+    return buildMetadata({
+      site: "aios",
+      path: "/",
+      title: "Managed AI Operations for Agencies | AIOS",
       description:
-        "AIOS by Ayothedoc installs and runs your company's AI Operating System, wired into your tools and trained on your business. Live in 10 days.",
-      alternates: { canonical: `${sites.aios.url}/` },
-    }
+        "AIOS builds and manages connected lead-response and operations workflows for agencies and consultants, using your tools, rules and approved context.",
+    })
   }
-  return {
-    title: "Healthcare Technology Implementation & Clinical Innovation | Ayothedoc",
+  return buildMetadata({
+    site: "healthcare",
+    path: "/",
+    title: "Healthcare AI Consulting and Implementation | Ayothedoc",
     description:
-      "Ayothedoc helps healthtech, medical-device and healthcare organisations design, implement and scale technology for real clinical and operational workflows.",
-    alternates: { canonical: `${sites.healthcare.url}/` },
-  }
+      "Ayothedoc helps healthtech teams and healthcare organisations choose, design, prototype and implement practical AI systems for real workflows.",
+  })
 }
 
 export default async function Page() {

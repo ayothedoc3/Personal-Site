@@ -1,5 +1,7 @@
 # Subdomain Migration & Deployment Plan
 
+> Option B is implemented. This file remains as infrastructure history. Use `SITE_MIGRATION_MAP.md` for current routing and `docs/SITE_AUDIT_2026-09-15.md` for verification status.
+
 ## Recommended architecture
 **One Next app, host-based routing** (brief Option B). Rejected Option A
 (monorepo, two deployments) because the current setup is a single Coolify app

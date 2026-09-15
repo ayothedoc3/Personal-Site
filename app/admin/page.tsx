@@ -788,7 +788,7 @@ export default function AdminPage() {
               { label: "Google Analytics", href: "https://analytics.google.com", desc: "Traffic, sources, conversions" },
               { label: "Stripe Dashboard", href: "https://dashboard.stripe.com", desc: "Payments, subscriptions, payouts" },
               { label: "Resend", href: "https://resend.com/emails", desc: "Email delivery + domain verification" },
-              { label: "Live site", href: "https://ayothedoc.com", desc: "View the public site" },
+              { label: "Live AIOS site", href: "https://aios.ayothedoc.com", desc: "View the agency operations site" },
               { label: "Free AI Audit", href: "/audit", desc: "Your lead magnet" },
               { label: "Plans & Pricing", href: "/offer", desc: "Checkout links" },
             ].map((a) => (

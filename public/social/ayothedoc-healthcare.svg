@@ -24,11 +24,11 @@
     <text x="84" y="45" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="30" font-weight="700">Ayothedoc</text>
   </g>
 
-  <text x="76" y="230" fill="#5EEAD4" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.2">HEALTHCARE TECHNOLOGY IMPLEMENTATION</text>
-  <text x="76" y="282" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="50" font-weight="700">Healthcare technology</text>
-  <text x="76" y="343" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="50" font-weight="700">that works in the</text>
-  <text x="76" y="404" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="50" font-weight="700">real world</text>
-  <text x="76" y="460" fill="#A7B5B1" font-family="DejaVu Sans, Arial, sans-serif" font-size="23">Clinical insight. Practical implementation. Measurable adoption.</text>
+  <text x="76" y="230" fill="#5EEAD4" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.2">HEALTHCARE AI DESIGN &amp; IMPLEMENTATION</text>
+  <text x="76" y="282" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="50" font-weight="700">Practical AI systems</text>
+  <text x="76" y="343" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="50" font-weight="700">for real healthcare</text>
+  <text x="76" y="404" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="50" font-weight="700">workflows</text>
+  <text x="76" y="460" fill="#A7B5B1" font-family="DejaVu Sans, Arial, sans-serif" font-size="23">Workflow first. Human oversight. Evidence-led delivery.</text>
 
   <g transform="translate(858 205)">
     <rect x="0" y="0" width="258" height="260" rx="32" fill="#0B1714" stroke="#2DD4BF" stroke-opacity=".32" stroke-width="2"/>

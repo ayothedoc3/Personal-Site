@@ -1,15 +1,15 @@
-import type { Metadata } from "next"
-
 import { SiteHeader } from "@/components/site-header"
 import BlogClient from "@/components/blog-client"
 import { listPublishedPosts } from "@/lib/blog-store"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Blog | AI Operations for Agencies | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/blog",
+  title: "AI Operations Blog for Agencies | AIOS",
   description:
     "Practical thinking on AI operations for agencies and consultants: faster lead response, less busywork, and systems that run the repetitive work for you.",
-  alternates: { canonical: "/blog" },
-}
+})
 
 // Posts come from the database (managed in admin), so render dynamically and
 // reflect publish/edit changes immediately without a redeploy.
@@ -51,6 +51,7 @@ export default async function Blog() {
     <div className="min-h-screen bg-background text-foreground relative overflow-x-clip">
       <SiteHeader />
 
+      <main id="main-content" tabIndex={-1}>
       <section className="relative px-6 py-20 lg:px-12">
         <div className="max-w-6xl mx-auto text-center">
           <div
@@ -90,6 +91,7 @@ export default async function Blog() {
       </section>
 
       <BlogClient initialPosts={blogPosts} categories={categories} />
+      </main>
 
     </div>
   )

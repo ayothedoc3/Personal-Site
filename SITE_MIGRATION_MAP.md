@@ -1,49 +1,49 @@
-# Site Migration Map
+# Production URL migration map
 
-How every existing URL moves when the root domain becomes the healthcare site
-and AIOS relocates to `aios.ayothedoc.com`. One app, host-based routing, so
-"move" = "serve only on the AIOS host + redirect the root-host request."
+Updated: 2026-09-15
+Implementation: `middleware.ts`
 
-Redirect types: **301** permanent · **serve** (rendered on that host, no
-redirect) · **410** gone · **noindex** (kept, not indexed).
+## Root-domain migrations
 
-## AIOS routes (relocate to `aios.ayothedoc.com`)
+| Requested URL on `ayothedoc.com` | Destination | Status | Reason |
+|---|---|---:|---|
+| `/services` and `/services/*` | `https://ayothedoc.com/solutions` | 301 | Root services are now healthcare AI solutions. |
+| `/blog` | `https://ayothedoc.com/insights` | 301 | Root editorial content is healthcare AI insights. |
+| `/blog/[slug]` | `https://aios.ayothedoc.com/blog/[slug]` | 301 | Preserves already-indexed legacy AIOS posts on the correct property. |
+| `/offer` | Same path on `aios.ayothedoc.com` | 301 | AIOS commercial route. |
+| `/demo` | Same path on `aios.ayothedoc.com` | 301 | AIOS Lead Engine demo. |
+| `/lead-engine` | Same path on `aios.ayothedoc.com` | 301 | AIOS landing route, excluded from sitemap. |
+| `/audit` | Same path on `aios.ayothedoc.com` | 301 | AIOS readiness audit. |
+| `/automation/*` | Same path on `aios.ayothedoc.com` | 301 | AIOS playbook library. |
+| `/refund` | Same path on `aios.ayothedoc.com` | 301 | AIOS commerce policy. |
+| `/solutions/medtech-robotics-implementation` | `/solutions/healthcare-ai-product-development` | 301 | Closest focused healthcare AI replacement. |
+| `/solutions/digital-health-connected-systems` | `/solutions/ai-intelligent-automation` | 301 | Preserves the healthcare automation intent. |
+| `/solutions/clinical-product-implementation` | `/solutions/healthcare-ai-product-development` | 301 | Closest focused healthcare AI replacement. |
+| `/case-studies/exerscript-healthcare-ai-hackathon-pilot` | `/case-studies/exerscript-healthcare-ai-prototype` | 301 | Accurate project-status wording. |
+| Any remaining path on `www.ayothedoc.com` | Same path on `ayothedoc.com` | 301 | One canonical healthcare hostname. |
 
-| Existing URL | Purpose | Dest host | Dest URL | Type | Reason | Verified |
-|---|---|---|---|---|---|---|
-| ayothedoc.com/ | AIOS home | aios.ayothedoc.com | aios.ayothedoc.com/ | serve on aios; root shows healthcare | Root is now healthcare | pending |
-| ayothedoc.com/offer | Pricing ladder | aios | aios.ayothedoc.com/offer | 301 from root | AIOS offer | pending |
-| ayothedoc.com/demo | Lead Engine demo | aios | aios.ayothedoc.com/demo | 301 from root | AIOS | pending |
-| ayothedoc.com/lead-engine | Lead Engine landing | aios | aios.ayothedoc.com/lead-engine | 301 from root | AIOS | pending |
-| ayothedoc.com/services | How it works | aios | aios.ayothedoc.com/services | 301 from root | AIOS | pending |
-| ayothedoc.com/audit | AI-readiness audit | aios | aios.ayothedoc.com/audit | 301 from root | AIOS | pending |
-| ayothedoc.com/automation | Programmatic SEO index | aios | aios.ayothedoc.com/automation | 301 from root | AIOS | pending |
-| ayothedoc.com/automation/[slug] | Programmatic SEO pages | aios | aios.ayothedoc.com/automation/[slug] | 301 from root | AIOS; preserves 9 indexed slugs + existing internal redirects | pending |
-| ayothedoc.com/blog | Blog index | aios | aios.ayothedoc.com/blog | 301 from root | Agency content = AIOS resources | pending |
-| ayothedoc.com/blog/[slug] | Blog posts | aios | aios.ayothedoc.com/blog/[slug] | 301 from root | Agency posts | pending |
-| ayothedoc.com/refund | Refund (Stripe) | aios | aios.ayothedoc.com/refund | 301 from root | AIOS commerce only | pending |
+Migration rules run before the `www` rule, so a legacy `www` AIOS path reaches its final host in one redirect.
 
-## Shared routes (host-aware, no cross-host redirect)
+## Served on both hosts with distinct output
 
-| Existing URL | Purpose | Handling | Verified |
-|---|---|---|---|
-| /about | Founder/company | Root: NEW healthcare About. aios: AIOS About variant. Each self-canonical. | pending |
-| /contact | Enquiry form | Root: healthcare project form (hello@). aios: AIOS form (aios@). Host-aware categories + events. | pending |
-| /privacy | Privacy | Both hosts, host-aware branding + canonical | pending |
-| /terms | Terms | Both hosts, host-aware branding + canonical | pending |
-| /admin, /api/* | Backend | Host-agnostic, noindex, unchanged | pending |
+`/`, `/about`, `/contact`, `/privacy`, `/terms`, `/services` and `/blog` are host-aware. The root and AIOS versions self-canonicalise to their own host and render the appropriate brand, content and navigation.
 
-## New healthcare URLs (root host only; 404 on aios host)
+## Wrong-host behaviour
 
-`/` · `/solutions` · `/solutions/medtech-robotics-implementation` · `/solutions/digital-health-connected-systems` · `/solutions/clinical-product-implementation` · `/solutions/ai-intelligent-automation` · `/who-we-help` (+ 4 subpages) · `/method` · `/case-studies` (+ `/[slug]`) · `/insights` (+ categories) · `/ayo` · `/medical-disclaimer`.
+Healthcare-only prefixes return 404 on `aios.ayothedoc.com`:
 
-AIOS-only URLs (`/offer /demo /lead-engine /services /audit /automation /blog /refund`) return **404 on the root host**; healthcare-only URLs return **404 on the aios host**. Enforced in `middleware.ts`.
+`/solutions`, `/who-we-help`, `/method`, `/case-studies`, `/insights`, `/ayo`, `/medical-disclaimer`, `/tools`
 
-## Redirect implementation notes
-- Root-host 301s to the AIOS host are added in `next.config.mjs` `redirects()` **with a `has` host condition** (`host = ayothedoc.com`) so they only fire on the root host, plus `middleware.ts` as the host gate. Existing `/automation/*` internal 301s are preserved and re-scoped to the aios host.
-- `www.ayothedoc.com` → `ayothedoc.com` 301 (Cloudflare or Coolify redirect rule, see DOMAIN_AND_SUBDOMAIN_SETUP.md).
-- Do NOT redirect `ayothedoc.com` → `aios.ayothedoc.com`. Root must render healthcare.
-- No page is served on both hosts; canonical always matches the serving host.
+Explicit AIOS commercial prefixes on the root redirect to AIOS as listed above. API, admin and framework assets are excluded from marketing-route gating.
 
-## Verification status legend
-`pending` until validated on a Coolify preview with the `aios.` host bound. Update to `verified` in the completion report after the release checklist passes.
+## Validation
+
+The production-mode local test confirmed:
+
+- root `/services` to root `/solutions` in one 301;
+- root `/blog` to root `/insights` in one 301;
+- root `/demo` and `/offer` to the same AIOS path in one 301;
+- each old healthcare solution slug to its final replacement in one 301;
+- `www` root to the apex in one 301;
+- healthcare-only routes on AIOS return 404;
+- all 48 current sitemap pages return 200.

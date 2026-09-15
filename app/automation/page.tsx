@@ -1,28 +1,21 @@
 import Link from "next/link"
-import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { buildMetadata } from "@/lib/seo"
 import {
   getProgrammaticSummaries,
   getProgrammaticFilters,
   type FourC,
 } from "@/lib/programmatic-seo"
 
-export const metadata: Metadata = {
-  title: "AIOS Playbooks Library | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/automation",
+  title: "AI Automation Playbooks for Agencies | AIOS",
   description:
     "Browse what we install and run as your AI Operating System. Pages are organized by the Four Cs (Context, Connections, Capabilities, Cadence) and by industry.",
-  alternates: {
-    canonical: "/automation",
-  },
-  openGraph: {
-    title: "AIOS Playbooks Library | Ayothedoc",
-    description:
-      "Browse what we install and run as your AI Operating System. Pages are organized by the Four Cs and by industry.",
-    url: "https://ayothedoc.com/automation",
-  },
-}
+})
 
 type AutomationIndexProps = {
   searchParams?: Promise<{
@@ -99,7 +92,7 @@ export default async function AutomationIndex({ searchParams }: AutomationIndexP
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-lime-400/20 to-emerald-400/20 border border-lime-400/40 text-sm font-semibold tracking-wider text-lime-400 uppercase shadow-lg">

@@ -18,12 +18,12 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const geminiKey = await getProviderKey('gemini')
+    const anthropicKey = await getProviderKey('anthropic')
     const { stdout, stderr } = await execAsync('python3 scripts/programmatic_seo.py', {
       cwd: process.cwd(),
       env: {
         ...process.env,
-        GEMINI_API_KEY: geminiKey || process.env.GEMINI_API_KEY || '',
+        ANTHROPIC_API_KEY: anthropicKey || process.env.ANTHROPIC_API_KEY || '',
       },
     })
 

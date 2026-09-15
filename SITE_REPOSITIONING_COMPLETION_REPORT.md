@@ -1,5 +1,7 @@
 # Site Repositioning Completion Report
 
+> Historical first-release report. It is superseded by `docs/SITE_AUDIT_2026-09-15.md`, `docs/CONTENT_OFFER_AND_KEYWORD_PLAN.md` and `SITE_MIGRATION_MAP.md`.
+
 Branch: `healthcare-repositioning` (NOT deployed). Production build passes
 (`next build`, 50/50 static pages, exit 0).
 

@@ -1,16 +1,16 @@
-import type { Metadata } from "next"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, PageHero } from "@/components/healthcare/ui"
 import { methodSteps } from "@/lib/healthcare-content"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Our Method: From Healthcare Need to Practical Implementation | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/method",
+  title: "Healthcare AI Implementation Method | Ayothedoc",
   description:
-    "A five-stage method for healthcare technology: Discover, Design, De-risk, Deploy, and Monitor and improve, with human oversight and measurable outcomes.",
-  alternates: { canonical: `${sites.healthcare.url}/method` },
-}
+    "A five-stage method for healthcare AI: discover, design, de-risk, deliver and monitor, with human oversight and testable acceptance criteria.",
+})
 
 export default function MethodPage() {
   return (
@@ -24,8 +24,8 @@ export default function MethodPage() {
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Method" }]} />
           <PageHero
             eyebrow="Method"
-            title="From healthcare need to practical implementation"
-            intro="We work in five stages. Each one has a clear purpose, so technology is planned, de-risked and measured rather than dropped into a live clinical environment and hoped for."
+            title="From healthcare need to evaluated AI workflow"
+            intro="Each stage reduces a different uncertainty, from choosing the right problem through testing, ownership, launch and ongoing monitoring."
           />
         </div>
       </section>
@@ -58,7 +58,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      <CTASection heading="Have a project that needs this?" label="Discuss Your Implementation" />
+      <CTASection heading="Have a healthcare AI workflow to evaluate?" label="Discuss a Healthcare AI Project" />
 
       </main>
 

@@ -1,5 +1,7 @@
 # Site Repositioning Audit
 
+> Historical planning record. Option B is implemented and the healthcare offer was narrowed to healthcare AI on 2026-09-15. For current findings and status, use `docs/SITE_AUDIT_2026-09-15.md`. Do not use the branch, route or verification statuses below as current state.
+
 Branch: `healthcare-repositioning`. Nothing here is deployed until merged to main.
 
 ## Goal

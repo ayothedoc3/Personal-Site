@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -40,9 +40,12 @@ interface AuditPreview {
 const HOURS_TO_NUMBER: Record<string, number> = { "1-2": 2, "3-5": 4, "6+": 7 }
 
 export default function AuditPage() {
-  const [step, setStep] = useState<'form' | 'result' | 'complete'>('form')
+  const [step, setStep] = useState<'form' | 'result'>('form')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [auditPreview, setAuditPreview] = useState<AuditPreview | null>(null)
+  const [formError, setFormError] = useState("")
+  const [deliveryNotice, setDeliveryNotice] = useState("")
+  const [formStartTracked, setFormStartTracked] = useState(false)
   const [formData, setFormData] = useState<AuditFormData>({
     name: '',
     email: '',
@@ -62,6 +65,7 @@ export default function AuditPage() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setFormError("")
     trackEvent("lead_submit", { lead_type: "audit", industry: effectiveIndustry || "unknown" })
 
     try {
@@ -90,13 +94,14 @@ export default function AuditPage() {
       }
 
       if (data.preview) setAuditPreview(data.preview as AuditPreview)
+      setDeliveryNotice(String(data.message || "Your request has been received."))
       trackEvent("lead_submit_success", { lead_type: "audit" })
+      trackEvent("generate_lead", { site: "aios", lead_type: "readiness_audit" })
       setStep('result')
     } catch (error) {
       console.error('Audit submission failed:', error)
       trackEvent("lead_submit_error", { lead_type: "audit" })
-      // Still show results even if API fails, for better UX
-      setStep('result')
+      setFormError(error instanceof Error ? error.message : "The audit could not be submitted. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -108,11 +113,10 @@ export default function AuditPage() {
     if (industryLower.includes('web') || industryLower.includes('design')) {
       return {
         opportunities: [
-          { label: "60-second lead response", value: "Reply to every project enquiry while interest is hot, with your booking link and studio voice." },
+          { label: "60-second lead response", value: "Reply to eligible project enquiries against a clear service target, with your booking link and approved studio context." },
           { label: "Project intake automation", value: "Turn qualified enquiries into scoped intake packets before the first call." },
           { label: "Client handoff checklist", value: "Create kickoff tasks, folder structure, and stakeholder reminders without manual setup." }
         ],
-        hoursSaved: "12-20",
         exampleWorkflow: "New website enquiry triggers a personalized reply, CRM update, booking link, and internal project-fit alert."
       }
     } else if (industryLower.includes('agency') || industryLower.includes('marketing') || industryLower.includes('consulting')) {
@@ -122,17 +126,15 @@ export default function AuditPage() {
           { label: "Client onboarding automation", value: "Move signed clients into kickoff, docs, tasks, and reminders without owner follow-up." },
           { label: "Reporting workflow", value: "Pull recurring client updates from your tools and prepare review-ready summaries." }
         ],
-        hoursSaved: "12-20",
         exampleWorkflow: "New lead form submission triggers a personalized reply, CRM entry, booking link, and follow-up sequence."
       }
     } else {
       return {
         opportunities: [
-          { label: "60-second lead response", value: "Capture every inbound enquiry quickly before it goes cold." },
+          { label: "60-second lead response", value: "Capture eligible inbound enquiries against a clear response target and route exceptions to a person." },
           { label: "Client intake workflow", value: "Collect the right context, update your CRM, and prep the next human step." },
           { label: "Scheduling and follow-up", value: "Automate booking links, reminders, and no-reply follow-up in your voice." }
         ],
-        hoursSaved: "10-18",
         exampleWorkflow: "Contact form submissions create CRM entries, send a personalized reply, and alert the right person."
       }
     }
@@ -142,7 +144,7 @@ export default function AuditPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <main id="main-content" tabIndex={-1} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {step === 'form' && (
           <div className="space-y-8">
             <div className="text-center mb-12">
@@ -169,7 +171,7 @@ export default function AuditPage() {
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  GDPR friendly
+                  Marketing email optional
                 </span>
               </div>
             </div>
@@ -179,11 +181,23 @@ export default function AuditPage() {
                 <CardTitle>Get your free AIOS readiness audit</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleFormSubmit} className="space-y-6">
+                <form
+                  onSubmit={handleFormSubmit}
+                  onFocusCapture={() => {
+                    if (formStartTracked) return
+                    setFormStartTracked(true)
+                    trackEvent("lead_form_start", { site: "aios", form_name: "readiness_audit" })
+                  }}
+                  className="space-y-6"
+                  aria-busy={isSubmitting}
+                >
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Your name *</label>
+                      <label htmlFor="audit-name" className="block text-sm font-medium mb-2">Your name *</label>
                       <Input
+                        id="audit-name"
+                        name="name"
+                        autoComplete="name"
                         required
                         placeholder="John Doe"
                         value={formData.name}
@@ -192,9 +206,12 @@ export default function AuditPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium mb-2">Email address *</label>
+                      <label htmlFor="audit-email" className="block text-sm font-medium mb-2">Email address *</label>
                       <Input
+                        id="audit-email"
+                        name="email"
                         type="email"
+                        autoComplete="email"
                         required
                         placeholder="john@company.com"
                         value={formData.email}
@@ -204,8 +221,12 @@ export default function AuditPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Your website URL *</label>
+                    <label htmlFor="audit-website" className="block text-sm font-medium mb-2">Your website URL *</label>
                     <Input
+                      id="audit-website"
+                      name="website"
+                      type="url"
+                      autoComplete="url"
                       required
                       placeholder="https://yourwebsite.com"
                       value={formData.website}
@@ -214,8 +235,10 @@ export default function AuditPage() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Business type or industry *</label>
+                    <label htmlFor="audit-industry" className="block text-sm font-medium mb-2">Business type or industry *</label>
                     <select
+                      id="audit-industry"
+                      name="industry"
                       required
                       value={formData.industry}
                       onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
@@ -232,8 +255,10 @@ export default function AuditPage() {
 
                   {formData.industry === 'Other' && (
                     <div>
-                      <label className="block text-sm font-medium mb-2">Tell us your industry *</label>
+                      <label htmlFor="audit-custom-industry" className="block text-sm font-medium mb-2">Tell us your industry *</label>
                       <Input
+                        id="audit-custom-industry"
+                        name="customIndustry"
                         required
                         placeholder="e.g. recruiting firm, legal consultancy, fractional CFO practice"
                         value={formData.customIndustry}
@@ -244,8 +269,10 @@ export default function AuditPage() {
                   )}
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Hours per day on manual or repetitive work</label>
+                    <label htmlFor="audit-hours" className="block text-sm font-medium mb-2">Hours per day on manual or repetitive work</label>
                     <select
+                      id="audit-hours"
+                      name="hours"
                       value={formData.hours}
                       onChange={(e) => setFormData(prev => ({ ...prev, hours: e.target.value }))}
                       className="w-full bg-card border border-border rounded-lg px-3 py-2 text-sm"
@@ -258,8 +285,10 @@ export default function AuditPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Biggest blocker right now</label>
+                    <label htmlFor="audit-blocker" className="block text-sm font-medium mb-2">Biggest blocker right now</label>
                     <Input
+                      id="audit-blocker"
+                      name="blocker"
                       placeholder="Lead follow-up, client onboarding, reporting, scheduling"
                       value={formData.blocker}
                       onChange={(e) => setFormData(prev => ({ ...prev, blocker: e.target.value }))}
@@ -267,10 +296,18 @@ export default function AuditPage() {
                   </div>
 
                   <Checkbox
+                    id="audit-marketing-optin"
+                    name="optin_marketing"
                     checked={formData.optin_marketing}
                     onChange={(e) => setFormData(prev => ({ ...prev, optin_marketing: e.target.checked }))}
                     label="Also send me AI operations tips for agencies"
                   />
+
+                  {formError ? <p role="alert" className="text-sm text-red-500">{formError}</p> : null}
+
+                  <p aria-live="polite" className="sr-only">
+                    {isSubmitting ? "Generating your audit." : ""}
+                  </p>
 
                   <Button
                     type="submit"
@@ -345,9 +382,9 @@ export default function AuditPage() {
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="text-3xl font-bold text-lime-400 mb-2">
-                    {auditPreview?.hoursSavedPerMonth || getMiniResults().hoursSaved}
+                    Requires a measured baseline
                   </div>
-                  <p className="text-muted-foreground">Estimated hours saved per month</p>
+                  <p className="text-muted-foreground">Time-saving estimate</p>
                 </CardContent>
               </Card>
 
@@ -362,34 +399,13 @@ export default function AuditPage() {
             </div>
 
             <div className="text-center">
-              <p className="text-muted-foreground mb-6">Your full AIOS readiness report is on its way to {formData.email}</p>
-              <Button
-                onClick={() => {
-                  trackEvent("audit_result_continue")
-                  setStep("complete")
-                }}
-                className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105"
+              <p role="status" className="text-muted-foreground mb-6">{deliveryNotice}</p>
+              <Link
+                href="/offer"
+                onClick={() => trackEvent("cta_click", { cta: "audit_result_lead_engine", destination: "/offer" })}
               >
-                Continue
-              </Button>
-            </div>
-          </div>
-        )}
-
-
-        {step === 'complete' && (
-          <div className="text-center space-y-6">
-            <div className="text-6xl mb-2">✓</div>
-            <h2 className="text-3xl font-bold mb-2">Your full audit is on the way</h2>
-            <p className="text-xl text-muted-foreground mb-2">It usually arrives in 2 to 5 minutes.</p>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Want to see it work before anything else? We will build your 60-Second Lead Engine free, on your real leads.
-            </p>
-
-            <div className="flex justify-center pt-2">
-              <Link href="/offer" onClick={() => trackEvent("cta_click", { cta: "audit_complete_lead_engine", destination: "offer" })}>
                 <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105">
-                  Get your Lead Engine free
+                  View the free Lead Engine pilot
                 </Button>
               </Link>
             </div>

@@ -6,6 +6,35 @@ import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import { testimonials } from "@/data/testimonials"
+import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
+
+const HOME_FAQS: FaqEntry[] = [
+  {
+    question: "Does this replace my team?",
+    answer:
+      "No. It removes repetitive work so your team can focus on sales, client delivery, and decisions that need people.",
+  },
+  {
+    question: "What happens if an automation breaks?",
+    answer:
+      "Managed plans cover monitoring and fixes for the workflows in scope. Run logs, alerts and a human escalation path are configured during implementation.",
+  },
+  {
+    question: "Who owns the system?",
+    answer:
+      "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system.",
+  },
+  {
+    question: "How fast until the first workflows are live?",
+    answer:
+      "The standard install target is 10 business days after the required access and business context are available. Scope and timing are agreed before work starts.",
+  },
+  {
+    question: "Do I need to be technical?",
+    answer:
+      "No. You bring the business context. We handle the build, connections, monitoring, and ongoing operation.",
+  },
+]
 
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
@@ -63,6 +92,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground overflow-x-clip relative transition-colors duration-500">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(HOME_FAQS)) }}
+      />
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div
@@ -97,12 +130,12 @@ export default function Home() {
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-              Most agencies lose deals to slow follow-up. We&apos;ll build you a system that replies to every new
-              lead in under 60 seconds, personalized, in your voice, with your booking link, and we&apos;ll build
-              the first one <strong className="text-foreground">free</strong>. Then we run the rest of your operations.
+              Slow follow-up can leave agency leads waiting. We&apos;ll build you a system designed to reply to each
+              eligible lead in under 60 seconds, personalized, in your voice, with your booking link. We&apos;ll build
+              the first one <strong className="text-foreground">free</strong>, then you decide whether to expand.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-14">
+            <div className="flex justify-center items-center mb-6">
               <Link href="/contact">
                 <Button
                   onClick={() => trackEvent("cta_click", { cta: "home_hero_free_engine", destination: "/contact" })}
@@ -111,19 +144,23 @@ export default function Home() {
                   Get Your Lead Engine Free
                 </Button>
               </Link>
-              <Link href="/demo">
-                <Button
-                  onClick={() => trackEvent("cta_click", { cta: "home_hero_demo", destination: "/demo" })}
-                  variant="outline"
-                  className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110"
-                >
-                  Watch it reply, live
-                </Button>
-              </Link>
             </div>
 
+            <p className="text-sm text-muted-foreground mb-14">
+              Want to see it first?{" "}
+              <Link
+                href="/demo"
+                onClick={() => trackEvent("cta_click", { cta: "home_hero_demo", destination: "/demo" })}
+                className="font-medium text-lime-400 hover:underline"
+              >
+                Watch the live demo
+              </Link>
+              .
+            </p>
+
             <p className="text-sm text-muted-foreground -mt-8 mb-14">
-              Backed by a real guarantee: recover 40+ hours a month on a plan, or we keep working free until you do.
+              Paid work is measured against a workflow baseline agreed at kickoff.{" "}
+              <Link href="/refund" className="text-lime-400 hover:underline">Read the guarantee terms</Link>.
             </p>
 
             <p className="text-muted-foreground mb-6">Plugs into the tools you already run on</p>
@@ -146,8 +183,8 @@ export default function Home() {
             <p className="text-xl text-muted-foreground leading-relaxed mb-8">
               You have 17 tools already. What you&apos;re missing is the layer that connects them and
               actually does the work, answering leads in seconds, onboarding clients, chasing follow-ups,
-              and writing the reports nobody has time for. Hiring an operations manager costs $70–90k a year.
-              A developer builds something, then disappears. Your business knowledge stays trapped in your head.
+              and writing the reports nobody has time for. Hiring adds fixed cost. A one-off build still leaves
+              someone responsible for monitoring and improvement. Your business knowledge stays trapped in your head.
             </p>
             <p className="text-xl font-semibold">
               An AI Operating System fixes that, and we build it, run it, and keep improving it for you.
@@ -206,7 +243,8 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold mb-4">It starts free. This is where it can go.</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 First we build your Lead Engine free, as a pilot. If it works, the full AIOS install is a one-time
-                $7,500 (live in 10 business days), then we run and expand your system from $1,000/mo.{" "}
+                $7,500, with a standard 10-business-day target after access and context are available. Managed plans
+                start at $1,000/mo.{" "}
                 <Link href="/offer" className="text-lime-400 font-medium hover:underline">See the full path.</Link>
               </p>
             </div>
@@ -230,10 +268,10 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Operations, Most Popular */}
+              {/* Operations, core managed plan */}
               <div className="p-8 rounded-2xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border-2 border-lime-400 flex flex-col relative scale-105 shadow-2xl shadow-lime-400/10">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-lime-400 text-gray-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-                  Most Popular
+                  Core Managed Plan
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Operations</h3>
                 <div className="text-3xl font-bold text-lime-400 mb-1">$2,500<span className="text-base text-muted-foreground font-normal">/mo</span></div>
@@ -256,10 +294,10 @@ export default function Home() {
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 flex flex-col">
                 <h3 className="text-2xl font-bold mb-2">Autonomous</h3>
                 <div className="text-3xl font-bold text-lime-400 mb-1">$5,000<span className="text-base text-muted-foreground font-normal">/mo</span></div>
-                <p className="text-sm text-muted-foreground mb-6">A 24/7 AI operations layer running across your agency or consulting firm.</p>
+                <p className="text-sm text-muted-foreground mb-6">A scheduled and event-driven AI operations layer across your agency or consulting firm.</p>
                 <ul className="space-y-3 text-muted-foreground mb-8 flex-1">
                   <li>✓ Everything in Operations</li>
-                  <li>✓ Agents running 24/7 on a schedule</li>
+                  <li>✓ Scheduled and event-driven agents</li>
                   <li>✓ Multi-department coverage</li>
                   <li>✓ Dedicated strategist + same-day response</li>
                   <li>✓ Quarterly roadmap + KPI reviews</li>
@@ -290,12 +328,12 @@ export default function Home() {
         <section id="how" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-5xl mx-auto ${reveal("how")}`}>
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">From audit to autopilot in 30 days</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">From audit to a managed operating rhythm</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 { step: "01", title: "Audit", time: "Free · 10 minutes", body: "Score your AI readiness and surface the three highest-leverage automations for your agency or consulting firm." },
-                { step: "02", title: "Install", time: "10 business days", body: "We wire up your tools, train the system on your business, and ship your first working automations." },
+                { step: "02", title: "Install", time: "10-business-day target", body: "After the required access and context are available, we wire the agreed tools and ship the scoped workflows." },
                 { step: "03", title: "Operate", time: "Ongoing", body: "We run it, monitor it, and ship new leverage on your plan, measured against your kickoff baseline." },
               ].map((s) => (
                 <div key={s.step} className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
@@ -318,7 +356,7 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8">
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                 <h3 className="text-xl font-bold mb-3 text-lime-400">A baseline-backed guarantee</h3>
-                <p className="text-muted-foreground leading-relaxed">We capture your manual-hours baseline at kickoff and measure against it. Recover 40+ hours a month or we keep working free until you do.</p>
+                <p className="text-muted-foreground leading-relaxed">We agree the workflow baseline, measurement method and success criteria at kickoff. Where the work guarantee is offered, its terms are published clearly.</p>
               </div>
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                 <h3 className="text-xl font-bold mb-3 text-lime-400">You own everything</h3>
@@ -339,8 +377,8 @@ export default function Home() {
                 <div className="text-center sm:text-left">
                   <p className="text-lg md:text-xl leading-relaxed">
                     &ldquo;I design and run every system myself. You work directly with the person doing the build, not an
-                    account manager who hands it to someone junior. If it does not recover the hours we agreed on at
-                    kickoff, I keep working until it does.&rdquo;
+                    account manager who hands it to someone junior. We agree what the workflow must do and how it will
+                    be measured before the build starts.&rdquo;
                   </p>
                   <div className="mt-4 font-semibold">
                     Ayo
@@ -378,19 +416,13 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold mb-4">Common questions</h2>
             </div>
             <div className="space-y-4">
-              {[
-                { q: "Does this replace my team?", a: "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery." },
-                { q: "What happens if an automation breaks?", a: "We monitor every workflow and fix issues as part of your plan. You get alerts and a clear log of every run, no silent failures." },
-                { q: "Who owns the system?", a: "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system." },
-                { q: "How fast until I see ROI?", a: "First automations are live within 10 business days. We measure recovered hours against your kickoff baseline over the following 30 days." },
-                { q: "Do I need to be technical?", a: "Not at all. You bring the business context; we handle the build, the connections, and the running of it." },
-              ].map((item) => (
-                <details key={item.q} className="group p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
+              {HOME_FAQS.map((item) => (
+                <details key={item.question} className="group p-6 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                   <summary className="cursor-pointer font-semibold text-lg list-none flex justify-between items-center">
-                    {item.q}
+                    {item.question}
                     <span className="text-lime-400 transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
                   </summary>
-                  <p className="text-muted-foreground leading-relaxed mt-4">{item.a}</p>
+                  <p className="text-muted-foreground leading-relaxed mt-4">{item.answer}</p>
                 </details>
               ))}
             </div>
@@ -403,25 +435,16 @@ export default function Home() {
             <div className="p-12 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 backdrop-blur-sm">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">Stop losing leads to slow follow-up</h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                We&apos;ll build your 60-Second Lead Engine free, on your real leads, no card, no risk. If it books
-                calls you&apos;d have missed, we talk about running the rest of your operations.
+                We&apos;ll build a scoped 60-Second Lead Engine free, on one agreed lead source, with no card required. If
+                the pilot meets its agreed success criteria, you can choose whether to expand.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="flex justify-center items-center">
                 <Link href="/contact">
                   <Button
                     onClick={() => trackEvent("cta_click", { cta: "home_final_free_engine", destination: "/contact" })}
                     className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                   >
                     Get Your Lead Engine Free
-                  </Button>
-                </Link>
-                <Link href="/audit">
-                  <Button
-                    onClick={() => trackEvent("cta_click", { cta: "home_final_audit", destination: "/audit" })}
-                    variant="outline"
-                    className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110"
-                  >
-                    Score my AI readiness
                   </Button>
                 </Link>
               </div>

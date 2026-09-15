@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   if (key === "aios") {
     const base = sites.aios.url
-    const staticPaths = ["", "/services", "/offer", "/lead-engine", "/demo", "/audit", "/automation", "/blog", "/about", "/contact", "/privacy", "/terms", "/refund"]
+    const staticPaths = ["", "/services", "/offer", "/demo", "/audit", "/automation", "/blog", "/about", "/contact", "/privacy", "/terms", "/refund"]
     const staticPages: MetadataRoute.Sitemap = staticPaths.map((p) => ({
       url: `${base}${p}`,
       changeFrequency: "weekly",

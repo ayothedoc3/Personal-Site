@@ -1,80 +1,84 @@
-# Programmatic SEO Playbooks
+# AIOS programmatic SEO playbooks
 
-This repository now supports a programmatic SEO pipeline that generates automation playbooks and exposes them through the `/automation` route in the Next.js app.
+The `/automation` library belongs only to `aios.ayothedoc.com`. It contains a curated set of outcome-first pages for agencies and consultants. It is not a tool-name matrix and does not publish deterministic fallback copy.
 
-## Data Sources
+## Source files
 
-All programmatic data lives in `data/programmatic-seo/`:
+| Path | Purpose |
+|---|---|
+| `data/programmatic-seo/outcomes.csv` | Outcome, Four-C layer, tier and intent seeds. |
+| `data/programmatic-seo/industries.csv` | Approved audience segments. |
+| `data/programmatic-seo/pages/*.json` | Reviewed page records rendered by Next.js. |
+| `data/programmatic-seo/index.json` | Published manifest used by the index, sitemap and filters. |
+| `scripts/programmatic_seo.py` | Claude-backed generator and quality gate. |
+| `lib/programmatic-seo.ts` | Typed readers for the app. |
+| `app/automation/page.tsx` | Outcome, Four-C, industry and tier index. |
+| `app/automation/[slug]/page.tsx` | Detail renderer, Service schema and visible FAQPage schema. |
 
-- `tools.csv`, `use_cases.csv`, `industries.csv` � seed datasets that define the combinatorial content space.
-- `pages/*.json` � generated detail records for each playbook.
-- `index.json` � manifest of published playbooks consumed by the Next.js routes.
-- `templates/page_template.html` � HTML template used when producing static landing pages in `public/automation/`.
+There is no static HTML template or `public/automation` output. Next.js is the only renderer and therefore the only canonical metadata source.
 
-## Next.js Integration
+## Current editorial policy
 
-- `app/automation/page.tsx` renders the automation library with filter chips for tool, use case, and industry. It reads summaries from `lib/programmatic-seo.ts`.
-- `app/automation/[slug]/page.tsx` renders individual playbooks with full content, structured data markup, and related recommendations.
-- `lib/programmatic-seo.ts` exposes helpers to load summaries, detail records, and filter metadata from the filesystem using cached async functions.
+- Outcome-first and tool-agnostic.
+- Done-for-you framing, not a DIY tutorial.
+- One distinct search intent per page.
+- No invented client, metric, benchmark, salary, time-saving, revenue or conversion claim.
+- Service targets must define eligibility, access dependencies, human handoff and failure handling.
+- Expected results must be a measurement plan against the prospect's own baseline.
+- No em dashes, hype phrases or unqualified absolutes.
+- A failed quality gate skips the page. It never writes fallback filler.
 
-## Content Generation Script
+## Commands
 
-The generator lives in `scripts/programmatic_seo.py`. It can:
-
-1. Seed the CSV datasets (`create_sample_data`).
-2. Ensure the HTML template exists (`create_html_template`).
-3. Generate JSON records and optional static HTML pages (`generate_all_pages`).
-4. Create a manifest and sitemap so the static exports can be deployed.
-
-### Running the generator
+Install the Python dependency and supply an Anthropic key:
 
 ```bash
-# Optional: set your Gemini key for AI-generated copy
-export GEMINI_API_KEY=your_gemini_api_key_here
+python -m pip install anthropic
+export ANTHROPIC_API_KEY=your_key_here
+```
 
-# Generate 10 playbooks as a smoke test
+Preview the matrix without calling a model:
+
+```bash
+python scripts/programmatic_seo.py --dry-run
+python scripts/programmatic_seo.py --dry-run --limit 3
+```
+
+Generate only missing records:
+
+```bash
 python scripts/programmatic_seo.py
+python scripts/programmatic_seo.py --outcome 60-second-lead-response
+python scripts/programmatic_seo.py --industry "marketing agencies"
 ```
 
-Without an API key the script falls back to deterministic template content so development is reproducible.
+Overwrite only after editorial approval:
 
-### Adding new data
-
-1. Append rows to the CSVs or drop new JSON files into `data/programmatic-seo/pages`.
-2. Update `index.json` with a summary entry for anything you want the site to list.
-3. Re-run the generator (optional) to rebuild `index.json`, regenerate HTML, and refresh the sitemap.
-
-## Deployment & Scheduling
-
-### Option 1: GitHub Actions (Recommended)
-The repository includes `.github/workflows/generate-seo.yml` that runs weekly:
-- Executes every Sunday at midnight UTC
-- Generates new content automatically
-- Commits and pushes changes to trigger deployment
-- **Setup**: Add `GEMINI_API_KEY` to GitHub Secrets
-
-### Option 2: Coolify Cron Job
-Use the `Dockerfile.generator` which includes Python:
-1. Deploy with this Dockerfile
-2. In Coolify → Scheduled Tasks: `0 0 * * 0 cd /app && python3 scripts/programmatic_seo.py`
-3. Add `GEMINI_API_KEY` environment variable
-
-### Option 3: API Endpoint
-Trigger generation via HTTP POST to `/api/generate-seo`:
 ```bash
-curl -X POST https://yourdomain.com/api/generate-seo \
-  -H "Authorization: Bearer YOUR_SECRET_TOKEN"
+python scripts/programmatic_seo.py --force
 ```
-- Set `SEO_GENERATION_SECRET` in environment variables
-- Call from external cron services (cron-job.org, EasyCron, etc.)
 
-### Notes
-- Keep `index.json` in sync with the available `pages/*.json` files
-- Static HTML in `public/automation/` can be uploaded to a CDN
-- Regeneration triggers automatic Next.js rebuild on push (Coolify watches git)
+Rebuild the manifest from reviewed JSON without calling Claude:
 
-## Further Ideas
+```bash
+python scripts/programmatic_seo.py --rebuild-index
+```
 
-- Wire the library into a headless CMS or Airtable so non-technical teammates can curate new playbooks.
-- Add analytics tracking to the playbook CTAs to understand which tools and industries convert best.
-- Use the generator output to feed sitemap submissions or paid landing page experiments.
+## Publishing workflow
+
+`.github/workflows/generate-seo.yml` is intentionally manual through `workflow_dispatch`. Weekly auto-generation is paused because new pages require human review and should not expand merely because combinations exist.
+
+The protected API endpoint `/api/generate-seo` can run the same script when `SEO_GENERATION_SECRET` and `ANTHROPIC_API_KEY` are configured. A container invocation writes to its local filesystem only. It does not commit those files back to GitHub, so the GitHub workflow is the preferred persistent generation route.
+
+Before merging generated records:
+
+1. Run `python scripts/programmatic_seo.py --rebuild-index`.
+2. Validate every JSON file with `jq` or an equivalent parser.
+3. Run `npm run typecheck` and `npm run build`.
+4. Read each page for overlap, unsupported claims and buyer usefulness.
+5. Confirm title and description lengths in the rendered HTML.
+6. Confirm the intended CTA, Service schema, FAQ visibility and related-page links.
+
+## Expansion rule
+
+Do not expand the matrix until the existing set shows a distinct Search Console query pattern or a documented conversion use. Improve, consolidate or noindex overlapping pages instead of preserving thin inventory.

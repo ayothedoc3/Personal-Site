@@ -1,18 +1,18 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, PageHero, StatusLabel } from "@/components/healthcare/ui"
 import { verifiedCaseStudies } from "@/lib/case-studies"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Case Studies | Ayothedoc Healthcare Technology",
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/case-studies",
+  title: "Healthcare AI Projects and Prototypes | Ayothedoc",
   description:
-    "Accurately labelled healthcare technology work, from hackathon pilots and prototypes to implementation and usability studies.",
-  alternates: { canonical: `${sites.healthcare.url}/case-studies` },
-}
+    "Real, accurately labelled healthcare AI and safety work, including ExerScript, on-device clinical de-identification and Scam Shield.",
+})
 
 export default function CaseStudiesIndex() {
   const studies = verifiedCaseStudies()
@@ -28,8 +28,8 @@ export default function CaseStudiesIndex() {
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Case Studies" }]} />
           <PageHero
             eyebrow="Case studies"
-            title="Accurately labelled work"
-            intro="Every project is labelled by what it actually is: a hackathon pilot, a prototype, or an implementation study. We do not describe prototypes as deployed clinical systems, and we do not invent metrics."
+            title="Real AI work, labelled by what it is"
+            intro="These are prototypes and public demonstrations, not invented client stories or production healthcare deployments. Each write-up separates what was built from what still needs to be validated."
           />
         </div>
       </section>
@@ -73,7 +73,7 @@ export default function CaseStudiesIndex() {
         </div>
       </section>
 
-      <CTASection heading="Planning something similar?" label="Discuss Your Project" />
+      <CTASection heading="Planning a healthcare AI prototype or workflow?" label="Discuss a Healthcare AI Project" />
 
       </main>
 

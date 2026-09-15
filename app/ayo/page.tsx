@@ -1,45 +1,44 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
-import { caseStudies } from "@/lib/case-studies"
+import { verifiedCaseStudies } from "@/lib/case-studies"
 import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Ayokunle Ademola-John | Healthcare Technology Product & Implementation",
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/ayo",
+  title: "Ayokunle Ademola-John | Healthcare AI Delivery",
   description:
-    "Physician-trained healthcare technology product and implementation professional. Medical devices, digital health, clinical workflows, robotics adoption and AI systems.",
-  alternates: { canonical: `${sites.healthcare.url}/ayo` },
-}
+    "Technical project manager and agentic AI practitioner working on healthcare AI products, workflows, prototypes and responsible implementation.",
+})
 
 const capabilities = [
-  "Healthcare technology implementation",
+  "Healthcare AI readiness",
   "Clinical workflow mapping",
-  "Product requirements",
-  "Medical-device implementation planning",
-  "Digital health",
-  "Healthcare interoperability",
-  "FHIR",
-  "Robotics adoption",
-  "Human factors",
-  "Responsible AI",
+  "AI product requirements",
+  "Agentic AI systems",
+  "MCP servers",
+  "Agent-to-agent orchestration",
+  "AI workflow automation",
+  "Evaluation and human oversight",
   "Technical project delivery",
   "Cross-functional leadership",
 ]
 
 const interests = [
-  "Medical technology implementation",
-  "Healthcare and rehabilitation robotics",
-  "Connected healthcare systems",
-  "Healthcare interoperability",
-  "Responsible healthcare AI",
-  "African healthcare technology",
+  "Agentic AI in healthcare",
+  "Healthcare knowledge systems",
+  "Clinical data minimisation",
+  "Human-supervised automation",
+  "Responsible AI product design",
+  "Healthcare AI in African markets",
 ]
 
 const person = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Ayokunle Ademola-John",
-  jobTitle: "Healthcare Technology Product & Implementation Professional",
+  jobTitle: "Technical Project Manager and Agentic AI Practitioner",
   url: `${sites.healthcare.url}/ayo`,
   sameAs: ["https://www.linkedin.com/in/ayothedoc"],
 }
@@ -64,24 +63,21 @@ export default function PortfolioPage() {
           Professional profile
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl text-balance">
-          Physician-Trained Healthcare Technology Product &amp; Implementation Professional
+          Technical Project Manager and Agentic AI Practitioner
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Medical Devices &middot; Digital Health &middot; Clinical Workflows &middot; Robotics Adoption &middot; AI Systems
+          Healthcare AI &middot; Agentic Systems &middot; Product Delivery &middot; Workflow Implementation
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href="#selected-work"
+            href="mailto:hello@ayothedoc.com?subject=Professional%20opportunity"
             className="inline-flex items-center rounded-full bg-teal-600 px-6 py-3 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
           >
-            View Selected Work
-          </a>
-          <a
-            href="mailto:hello@ayothedoc.com?subject=Professional%20opportunity"
-            className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors"
-          >
             Discuss a Professional Opportunity
+          </a>
+          <a href="#selected-work" className="inline-flex items-center px-2 py-3 text-sm text-teal-700 dark:text-teal-400 hover:underline">
+            View selected work
           </a>
         </div>
 
@@ -89,10 +85,9 @@ export default function PortfolioPage() {
         <section className="mt-14">
           <h2 className="text-xl font-semibold tracking-tight">Professional summary</h2>
           <p className="mt-3 text-muted-foreground leading-relaxed">
-            Physician-trained professional working at the intersection of medicine, product and implementation. I help
-            healthcare technology move from concept to practical adoption by connecting clinical needs, product
-            decisions and technical delivery. My work spans medical devices, digital health, interoperability, robotics
-            adoption and responsible AI.
+            I design and deliver agentic AI products and workflows, with a focus on healthcare use cases that need clear
+            product requirements, human oversight and practical implementation. My work connects domain context,
+            technical architecture and cross-functional delivery.
           </p>
         </section>
 
@@ -113,7 +108,7 @@ export default function PortfolioPage() {
           <h2 className="text-xl font-semibold tracking-tight">Selected projects</h2>
           <p className="mt-2 text-sm text-muted-foreground">What I personally owned, designed or coordinated.</p>
           <div className="mt-5 space-y-4">
-            {caseStudies.map((c) => (
+            {verifiedCaseStudies().map((c) => (
               <div key={c.slug} className="rounded-xl border border-border bg-card p-6">
                 <span className="inline-flex rounded-full border border-teal-600/40 bg-teal-600/10 px-3 py-1 text-xs font-medium text-teal-700 dark:text-teal-400">
                   {c.status}
@@ -128,7 +123,7 @@ export default function PortfolioPage() {
 
         {/* Interests */}
         <section className="mt-12">
-          <h2 className="text-xl font-semibold tracking-tight">Healthcare technology interests</h2>
+          <h2 className="text-xl font-semibold tracking-tight">Current interests</h2>
           <div className="mt-4 flex flex-wrap gap-2.5">
             {interests.map((i) => (
               <span key={i} className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm text-foreground">
@@ -142,9 +137,16 @@ export default function PortfolioPage() {
         <section className="mt-12">
           <h2 className="text-xl font-semibold tracking-tight">Education</h2>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li>Doctor of Medicine (MD)</li>
-            <li>Postgraduate public-health training</li>
+            <li>Master of Public Health, Lithuanian Sports University, completed June 2026</li>
+            <li>Doctor of Medicine, Caucasus International University, 2018</li>
           </ul>
+        </section>
+
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold tracking-tight">Speaking</h2>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+            Presented at PyCon Estonia 2025 on demystifying AI and machine learning for real-world use.
+          </p>
         </section>
 
         <section className="mt-12 rounded-xl border border-border bg-muted/40 p-6">

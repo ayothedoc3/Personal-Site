@@ -1,24 +1,16 @@
-import type { Metadata } from "next"
-
 import Link from "next/link"
 
 import { SiteHeader } from "@/components/site-header"
 import { CheckoutLink } from "@/components/checkout-link"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "aios",
+  path: "/offer",
+  title: "AIOS Plans & Pricing | Managed AI Operations",
   description:
-    "Install your AI Operating System in 10 days, then run it on a monthly plan: Foundation $1,000, Operations $2,500, or Autonomous $5,000. Recover 40+ hours a month or we keep working free until you do.",
-  alternates: {
-    canonical: "/offer",
-  },
-  openGraph: {
-    title: "Plans & Pricing: Managed AI Operations | Ayothedoc",
-    description:
-      "Install your AI Operating System in 10 days, then run it on a monthly plan. Recover 40+ hours a month or we keep working free until you do.",
-    url: "https://ayothedoc.com/offer",
-  },
-}
+    "Start with a free Lead Engine pilot, then choose a managed AI operations plan for your agency or consultancy. See scope, pricing and guarantee terms.",
+})
 
 export default function OfferPage() {
   // Stripe Payment Links (set in env). Empty values fall back to /contact via CheckoutLink.
@@ -64,13 +56,13 @@ export default function OfferPage() {
       name: "Autonomous",
       price: "$5,000",
       cadence: "/mo",
-      tagline: "A 24/7 AI ops layer across the business.",
+      tagline: "A scheduled and event-driven AI ops layer across the business.",
       href: autonomousHref,
       cta: "offer_tier_autonomous",
       featured: false,
       features: [
         "Everything in Operations",
-        "Agents running 24/7 on a schedule",
+        "Scheduled and event-driven agents",
         "Multi-department coverage",
         "Dedicated strategist + same-day response",
         "Quarterly roadmap + KPI reviews",
@@ -82,7 +74,7 @@ export default function OfferPage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
       <SiteHeader />
 
-      <main className="relative px-6 py-16 lg:px-12">
+      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
         <div className="max-w-6xl mx-auto">
           {/* Hero */}
           <section className="text-center">
@@ -90,11 +82,11 @@ export default function OfferPage() {
               For agencies &amp; consultants
             </span>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6">
-              Start free. Pay only once it works.
+              Start with a free pilot. Expand if it fits.
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 max-w-3xl mx-auto leading-relaxed">
-              We build your 60-Second Lead Engine free as a pilot. If it books calls you would have missed, we
-              install and run the rest of your AI operations. You never pay before you have seen it work.
+              We build a scoped 60-Second Lead Engine free on one agreed lead source. If the workflow meets the success
+              criteria agreed for the pilot, you choose whether to keep it focused or expand into managed AI operations.
             </p>
             <div className="mt-10 flex justify-center">
               <Link href="/contact">
@@ -104,7 +96,7 @@ export default function OfferPage() {
               </Link>
             </div>
             <p className="mt-4 text-sm font-medium text-lime-400/90">
-              We take a limited number of free builds each month, so each one gets done properly.
+              No card is required to request the free build. Scope, access and timing are confirmed before work starts.
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
               Prefer to see it first?{" "}
@@ -122,10 +114,10 @@ export default function OfferPage() {
             </div>
             <div className="grid gap-4 md:grid-cols-4">
               {[
-                { n: "1", h: "Free pilot", s: "Your 60-Second Lead Engine, on one lead source, trained on your real replies. Live within 7 days. No card. Limited slots each month.", tag: "Free" },
+                { n: "1", h: "Free pilot", s: "A scoped 60-Second Lead Engine on one agreed lead source, using reply examples you approve. No card. Timeline confirmed after the fit check.", tag: "Free" },
                 { n: "2", h: "Keep it running", s: "Optional. We host, monitor, and tune the engine as your offers change.", tag: "$249/mo" },
-                { n: "3", h: "Full AIOS install", s: "One-time. We wire your whole stack and ship your first automations in 10 business days.", tag: "$7,500" },
-                { n: "4", h: "Managed operations", s: "We run and expand the system on a monthly plan. Choose how much we run for you.", tag: "$1k–$5k/mo" },
+                { n: "3", h: "Full AIOS install", s: "One-time. After access and context are available, we work toward a standard 10-business-day target for the agreed first workflows.", tag: "$7,500" },
+                { n: "4", h: "Managed operations", s: "We run and expand the system on a monthly plan. Choose how much we run for you.", tag: "$1k to $5k/mo" },
               ].map((step) => (
                 <div key={step.n} className="p-6 rounded-2xl bg-gradient-to-br from-card/70 to-card/20 border border-border/40 flex flex-col">
                   <div className="flex items-center justify-between">
@@ -169,8 +161,8 @@ export default function OfferPage() {
                 <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Step 1 · One-time</div>
                 <h2 className="text-2xl md:text-3xl font-bold mt-2">AIOS Install Sprint: $7,500</h2>
                 <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-                  In 10 business days we wire up your tools, train the system on your business, and ship your
-                  first working automations. You see recovered hours measured against your kickoff baseline.
+                  The standard target is 10 business days after the required access and context are available. We wire
+                  the agreed tools, configure the scoped workflows and measure them against the kickoff baseline.
                 </p>
               </div>
               <div className="shrink-0">
@@ -202,7 +194,7 @@ export default function OfferPage() {
                 >
                   {tier.featured ? (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-lime-400 text-gray-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-                      Most Popular
+                      Core Managed Plan
                     </div>
                   ) : null}
                   <h3 className="text-2xl font-bold">{tier.name}</h3>
@@ -282,6 +274,7 @@ export default function OfferPage() {
               <h2 className="text-3xl md:text-4xl font-bold">The 40-hour guarantee</h2>
               <p className="text-muted-foreground mt-4 leading-relaxed">
                 On the paid AIOS install and plans, here is exactly what we promise and how it is measured.
+                The full conditions are in the <Link href="/refund" className="text-lime-400 hover:underline">published guarantee terms</Link>.
               </p>
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-3 max-w-4xl mx-auto text-sm">
@@ -302,10 +295,10 @@ export default function OfferPage() {
 
           {/* Works with your stack */}
           <section className="mt-14 text-center p-10 rounded-3xl bg-gradient-to-br from-card/60 to-card/20 border border-border/40">
-            <h2 className="text-3xl md:text-4xl font-bold">Works with your stack</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Integration examples we can assess</h2>
             <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
               Gmail, Outlook, HubSpot, Pipedrive, ClickUp, Asana, Slack, Google Workspace, Stripe, QuickBooks,
-              Notion, and the rest of the tools you already run on.
+              and Notion. Fit depends on available APIs, permissions and the workflow&apos;s source-of-truth rules.
             </p>
             <div className="mt-8 flex justify-center">
               <Link href="/contact">

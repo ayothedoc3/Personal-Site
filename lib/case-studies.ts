@@ -1,13 +1,11 @@
-// Case-study data. CLAIMS POLICY: every entry carries an accurate status label,
-// no invented metrics (use "Not measured"), and a `verified` flag. Entries are
-// seeded from the brief's example projects but MUST be confirmed and completed
-// with real detail by the owner before publishing. See CONTENT_VERIFICATION_REQUIRED.md.
+// Case-study claims are limited to projects confirmed by the owner or directly
+// verifiable in this repository. No client outcomes or metrics are inferred.
 
 export interface CaseStudy {
   slug: string
   name: string
-  status: string // project-type label, e.g. "Healthcare AI Hackathon Pilot"
-  verified: boolean // false = do not present as a real, completed engagement
+  status: string
+  verified: boolean
   summary: string
   problem: string
   users: string
@@ -19,85 +17,105 @@ export interface CaseStudy {
   technology: string[]
   safety: string
   outcome: string
-  metrics: string // "Not measured" where evidence is unavailable
+  metrics: string
   lessons: string
   nextSteps: string
 }
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "exerscript-healthcare-ai-hackathon-pilot",
+    slug: "exerscript-healthcare-ai-prototype",
     name: "ExerScript",
-    status: "Healthcare AI Hackathon Pilot",
-    verified: false,
-    summary: "A pilot exploring AI-supported exercise prescription within a clinical workflow.",
-    problem: "Exercise prescription is time-consuming and inconsistent, and rarely fits neatly into a busy clinical workflow.",
-    users: "Clinicians prescribing exercise, and the patients receiving structured plans.",
-    context: "Built and demonstrated within a healthcare AI hackathon setting, not a live clinical deployment.",
-    role: "Concept, clinical workflow framing, product requirements and demonstration.",
+    status: "Healthcare AI Prototype",
+    verified: true,
+    summary:
+      "A physical-activity prescription agent demonstrating how healthcare-specific tools can work together through MCP and agent-to-agent orchestration.",
+    problem:
+      "Physical-activity prescription needs structured domain context and a workflow that keeps the output understandable and reviewable.",
+    users: "Healthcare professionals exploring structured support for physical-activity prescriptions.",
+    context: "An independent healthcare AI prototype, not a deployed clinical system.",
+    role: "Designed and built the prototype, its MCP server and its agent-to-agent orchestration.",
     requirements: [
-      "Fit the output into an existing prescription step",
-      "Keep a clinician in the loop for review",
-      "Produce plans in a consistent, reviewable format",
+      "Support a physical-activity prescription workflow",
+      "Expose healthcare-specific capabilities through an MCP server",
+      "Coordinate specialised components through agent-to-agent orchestration",
+      "Keep the result available for human review",
     ],
-    approach: "Framed the clinical need first, then scoped the smallest AI-supported step that could help, with human review retained.",
-    workflow: "Clinician input, drafted plan, clinician review and adjustment, patient-facing output.",
-    technology: ["Large language model", "Structured prompt and review workflow"],
-    safety: "Designed with human review on the clinical output; not intended for autonomous prescription.",
-    outcome: "Demonstrated the concept in a hackathon setting.",
+    approach:
+      "Separated domain capabilities into tools, then coordinated them through an agent workflow instead of relying on one undifferentiated prompt.",
+    workflow:
+      "Healthcare context enters the agent workflow, specialised tools contribute through MCP, and the orchestrated result is returned for review.",
+    technology: ["Model Context Protocol (MCP)", "Agent-to-agent orchestration", "AI agents"],
+    safety:
+      "The prototype is not validated for clinical use and is not presented as an autonomous diagnosis or treatment system. Any clinical use would require formal evaluation, governance and human oversight.",
+    outcome:
+      "Produced a working healthcare AI prototype that demonstrates physical-activity prescription support using an MCP server and agent-to-agent orchestration.",
     metrics: "Not measured",
-    lessons: "Value comes from fitting the existing workflow and keeping review in the loop, not from removing the clinician.",
-    nextSteps: "Validate the workflow with practising clinicians before any pilot in a real setting.",
+    lessons:
+      "Healthcare agent design is clearer when domain capabilities, orchestration and human review are explicit parts of the workflow.",
+    nextSteps:
+      "Define a specific intended-use case, test with representative users and data, and agree clinical, privacy and quality acceptance criteria before a real-world pilot.",
   },
   {
-    slug: "fhir-workflow-prototype",
-    name: "FHIR-enabled healthcare workflow prototype",
-    status: "Independent Prototype",
-    verified: false,
-    summary: "A prototype demonstrating FHIR-based data exchange between healthcare systems.",
-    problem: "Healthcare systems frequently cannot exchange information, forcing manual re-entry and fragmented records.",
-    users: "Technical and clinical teams responsible for integration.",
-    context: "An independent prototype built to demonstrate a connected data workflow, not a production integration.",
-    role: "Prototype design, data mapping and demonstration.",
+    slug: "on-device-clinical-de-identification-demo",
+    name: "On-device clinical de-identification",
+    status: "Public Healthcare AI Demo",
+    verified: true,
+    summary:
+      "A browser-based demonstration that removes common identifiers from clinical text without sending the pasted text to a server.",
+    problem:
+      "Teams need safer ways to explore text workflows without unnecessarily moving identifiable clinical information into remote services.",
+    users: "Healthtech and healthcare teams evaluating privacy-conscious clinical text workflows.",
+    context:
+      "A public technical demonstration on ayothedoc.com. It is not a certified de-identification product or a substitute for an organisation's privacy review.",
+    role: "Designed, built and published the browser-based demonstration.",
     requirements: [
-      "Use a recognised interoperability standard (FHIR)",
-      "Map data between two representative systems",
-      "Show a clean, reviewable data flow",
+      "Process pasted text locally in the browser",
+      "Detect common structured identifiers immediately",
+      "Offer optional in-browser name detection",
+      "Show the transformed text for user review",
     ],
-    approach: "Modelled a representative data flow using FHIR resources to show how systems could exchange information.",
-    workflow: "Source system, FHIR mapping, destination system, review.",
-    technology: ["FHIR", "Healthcare API patterns"],
-    safety: "No real patient data used; prototype only.",
-    outcome: "Demonstrated a connected data workflow concept.",
+    approach:
+      "Combined local pattern matching with an optional browser AI model so the source text can remain on the user's device.",
+    workflow:
+      "The user pastes text, local detection identifies candidate information, the browser transforms it, and the user reviews the result.",
+    technology: ["TypeScript", "Transformers.js", "Browser-based inference", "Pattern matching"],
+    safety:
+      "The page states its demonstration boundaries and keeps review with the user. Production use would require broader identifier coverage, validation, governance and monitoring.",
+    outcome:
+      "Published a working, inspectable demonstration of an on-device approach to clinical text de-identification.",
     metrics: "Not measured",
-    lessons: "Interoperability is as much about workflow and permissions as it is about the data format.",
-    nextSteps: "Define real integration requirements and permissions with a specific pair of systems.",
+    lessons:
+      "Data minimisation can be an architectural choice. Some useful healthcare AI processing can happen locally before a remote service is considered.",
+    nextSteps:
+      "Validate against representative documents, expand identifier coverage and define confidence thresholds and review rules for a specific production context.",
   },
   {
-    slug: "medical-device-usability-study",
-    name: "Medical-device usability study",
-    status: "Implementation Study",
-    verified: false,
-    summary: "A structured usability and human-factors assessment of a medical device in context.",
-    problem: "Devices are often assessed for function but not for how they fit real user workflows and environments.",
-    users: "Clinical and operational staff who would use the device.",
-    context: "A structured study of usability and human factors, framed as an implementation study rather than a deployment.",
-    role: "Study design, structured observation and synthesis of findings.",
-    requirements: [
-      "Assess usability against real tasks",
-      "Capture human-factors risks",
-      "Produce actionable findings",
-    ],
-    approach: "Structured the assessment around representative tasks and the environment the device would be used in.",
-    workflow: "Task definition, observation, synthesis, recommendations.",
-    technology: ["Human-factors assessment methods"],
-    safety: "Findings included human-factors risks and mitigations.",
-    outcome: "Produced a structured set of usability findings and recommendations.",
+    slug: "scam-shield-voice-deepfake-detection",
+    name: "Scam Shield",
+    status: "AI Safety Prototype",
+    verified: true,
+    summary:
+      "A real-time voice deepfake detection progressive web app, included as evidence of practical AI safety product delivery rather than a healthcare deployment.",
+    problem:
+      "People need a usable signal when a live voice interaction may be synthetic or manipulated.",
+    users: "People evaluating suspicious voice interactions.",
+    context: "An AI safety prototype. It is not presented as a healthcare product or a perfect fraud-detection system.",
+    role: "Designed and built the real-time voice deepfake detection PWA.",
+    requirements: ["Analyse voice signals in real time", "Present the experience as an installable progressive web app"],
+    approach:
+      "Packaged a real-time detection workflow into a focused web experience designed to surface a useful signal during a voice interaction.",
+    workflow: "Voice input is analysed by the detection workflow and a result is presented to the user in the PWA.",
+    technology: ["Progressive web app", "Real-time voice deepfake detection"],
+    safety:
+      "Detection results should support human judgement, not be treated as certainty. The case study makes no accuracy or production-readiness claim.",
+    outcome: "Produced a working PWA prototype for real-time voice deepfake detection.",
     metrics: "Not measured",
-    lessons: "Small workflow and interface issues drive adoption more than headline features.",
-    nextSteps: "Feed findings into the product and implementation plan.",
+    lessons:
+      "Safety-focused AI products need clear boundaries and a user experience that communicates uncertainty instead of hiding it.",
+    nextSteps: "Define the intended operating conditions and evaluate detection quality against a representative test set.",
   },
 ]
 
 export const verifiedCaseStudies = () => caseStudies.filter((c) => c.verified)
-export const caseStudyBySlug = (slug: string) => caseStudies.find((c) => c.slug === slug)
+export const caseStudyBySlug = (slug: string) => verifiedCaseStudies().find((c) => c.slug === slug)

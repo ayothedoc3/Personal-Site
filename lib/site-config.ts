@@ -17,7 +17,7 @@ export const sites: Record<SiteKey, SiteInfo> = {
   healthcare: {
     key: "healthcare",
     name: "Ayothedoc",
-    descriptor: "Healthcare Technology Implementation & Clinical Innovation",
+    descriptor: "Healthcare AI Design & Implementation",
     host: "ayothedoc.com",
     url: "https://ayothedoc.com",
     contactEmail: "hello@ayothedoc.com",
@@ -42,13 +42,13 @@ export const siteSocialImages = {
     url: "/social/ayothedoc-healthcare.png",
     width: 1200,
     height: 630,
-    alt: "Ayothedoc — healthcare technology implementation and clinical innovation",
+    alt: "Ayothedoc healthcare AI design and implementation",
   },
   aios: {
     url: "/social/aios.png",
     width: 1200,
     height: 630,
-    alt: "AIOS by Ayothedoc — managed AI operations",
+    alt: "AIOS by Ayothedoc managed AI operations",
   },
 } as const satisfies Record<SiteKey, { url: string; width: number; height: number; alt: string }>
 
@@ -69,10 +69,8 @@ export const AIOS_ONLY_PREFIXES = [
   "/offer",
   "/demo",
   "/lead-engine",
-  "/services",
   "/audit",
   "/automation",
-  "/blog",
   "/refund",
 ]
 

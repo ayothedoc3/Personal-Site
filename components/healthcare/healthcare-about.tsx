@@ -4,19 +4,21 @@ import { HealthcareFooter } from "./healthcare-footer"
 import { Breadcrumbs, CTASection, Eyebrow, PageHero } from "./ui"
 
 const howWeWork = [
-  { title: "Medical understanding", body: "We start from the clinical and operational reality, not the technology." },
-  { title: "Public-health perspective", body: "We consider systems, populations and how technology performs at scale." },
-  { title: "Product delivery", body: "We turn needs into clear requirements, pilots and implementable plans." },
-  { title: "Technical implementation", body: "We coordinate integrations, testing, training and adoption." },
+  { title: "Workflow first", body: "We define the user, task and operating context before choosing an AI approach." },
+  { title: "Smallest useful system", body: "We scope the narrowest prototype or workflow that can answer the next decision." },
+  { title: "Controls in the design", body: "Human review, privacy, failure handling and evaluation are product requirements." },
+  { title: "Evidence before expansion", body: "We use explicit acceptance criteria to decide whether a workflow should move forward." },
 ]
 
 const capabilities = [
-  "Healthcare technology implementation",
+  "Healthcare AI readiness",
   "Clinical workflow mapping",
-  "Product requirements",
-  "Medical-device implementation planning",
-  "Digital health and interoperability",
-  "Responsible healthcare AI",
+  "AI product requirements",
+  "Agentic AI prototyping",
+  "MCP and A2A orchestration",
+  "Healthcare workflow automation",
+  "AI evaluation and governance",
+  "Technical project delivery",
 ]
 
 export function HealthcareAbout() {
@@ -31,8 +33,8 @@ export function HealthcareAbout() {
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
           <PageHero
             eyebrow="About"
-            title="Clinical understanding, combined with practical technology delivery"
-            intro="Ayothedoc is a healthcare technology implementation and clinical innovation practice. We help healthcare technology move from concept to practical, measured adoption."
+            title="Healthcare AI, built around the workflow"
+            intro="Ayothedoc is a healthcare AI design and implementation practice. We help teams turn a useful problem into a testable system, with clear human ownership and evidence requirements."
           />
         </div>
       </section>
@@ -59,26 +61,25 @@ export function HealthcareAbout() {
             <div className="lg:col-span-2">
               <Eyebrow>Founder</Eyebrow>
               <p className="mt-4 text-lg text-foreground leading-relaxed">
-                Ayokunle Ademola-John is a physician-trained healthcare technology product and implementation
-                professional. His work combines medical understanding, public-health insight, technical product
-                delivery and implementation leadership.
+                Ayokunle Ademola-John is a technical project manager and agentic AI practitioner based in Vilnius.
+                His work combines healthcare workflow context, product thinking and hands-on AI delivery.
               </p>
               <ul className="mt-6 space-y-2.5 text-sm text-muted-foreground">
                 <li className="flex items-start gap-3">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
-                  Physician-trained, with a Doctor of Medicine degree
+                  Built ExerScript, a physical-activity prescription agent using MCP and agent-to-agent orchestration
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
-                  Postgraduate public-health training
+                  Built the on-device clinical de-identification demo available on this site
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
-                  Experience in technology product delivery, automation, integrations and implementation
+                  Presented at PyCon Estonia 2025 on making AI and machine learning understandable for real-world use
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
-                  Focused on connecting clinical needs, product decisions and practical implementation
+                  Healthcare credentials include an MD (2018) and an MPH completed in 2026
                 </li>
               </ul>
             </div>
@@ -115,7 +116,7 @@ export function HealthcareAbout() {
         </div>
       </section>
 
-      <CTASection heading="Want to talk through a project?" label="Discuss a Healthcare Technology Project" />
+      <CTASection heading="Want to talk through a healthcare AI problem?" label="Discuss a Healthcare AI Project" />
 
       </main>
 

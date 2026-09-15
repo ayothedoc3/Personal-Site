@@ -2,15 +2,12 @@
 // clients or metrics) plus the category taxonomy. Add more over time.
 
 export const insightCategories = [
-  "MedTech implementation",
-  "Healthcare robotics",
-  "Digital health",
-  "Connected healthcare systems",
-  "Clinical product development",
+  "Healthcare AI readiness",
+  "Healthcare AI workflows",
   "Healthcare interoperability",
-  "Human factors and usability",
-  "AI and intelligent automation",
-  "African healthcare technology",
+  "Human factors and adoption",
+  "Healthcare AI safety",
+  "Agentic healthcare AI",
 ] as const
 
 export type InsightCategory = (typeof insightCategories)[number]
@@ -33,31 +30,32 @@ export interface Insight {
 export const insights: Insight[] = [
   {
     slug: "what-a-hospital-readiness-assessment-covers",
-    title: "What a hospital-readiness assessment actually covers",
-    category: "MedTech implementation",
+    title: "What a Healthcare AI Readiness Assessment Covers",
+    category: "Healthcare AI readiness",
     date: "2026-06-01",
     excerpt:
-      "Before a device or robotic programme enters a hospital, readiness is about workflow, people and operations, not just the technology.",
+      "A practical healthcare AI readiness assessment covers the use case, workflow, data, integrations, controls, evidence and pilot decision.",
     image: {
       src: "/insights/hospital-readiness-assessment.png",
-      alt: "Illustration of a hospital, implementation checklist and connected clinical workflow",
+      alt: "Illustration of a hospital, AI readiness checklist and connected healthcare workflow",
       width: 1200,
       height: 675,
     },
     body: [
-      "A hospital-readiness assessment answers a practical question: if this technology arrived next month, would the site actually be able to use it well? The answer rarely depends on the device alone.",
-      "In practice, readiness covers the clinical workflow the technology has to fit into, the staff who will use it, the space and operational constraints, the integrations it depends on, and the way success will be measured. Each of these can quietly stop an otherwise good product from being adopted.",
-      "The output is not a pass or fail score. It is a clear picture of what needs to be in place, what has to change, and what the realistic path to adoption looks like. That picture is what turns a purchase into a working programme.",
-      "Done early, a readiness assessment saves far more than it costs, because it surfaces the workflow and operational issues while they are still cheap to fix.",
+      "A healthcare AI readiness assessment begins with the intended use. Who has the problem, what task needs support, who owns the workflow and what should be measurably different if the work succeeds?",
+      "Next comes the operating environment. The assessment maps the current workflow, available data, system connections, permissions and the points where a person must review, correct or stop the AI-assisted step.",
+      "Readiness also includes failure handling. Teams need to know what happens when information is missing, an integration is unavailable, output is uncertain or the system behaves outside its intended boundary.",
+      "The evidence plan should be defined before a pilot. That means a baseline, representative test scenarios, acceptance criteria and a clear decision about what would justify continuing, changing or stopping the work.",
+      "The useful output is not a generic score. It is a prioritised decision: which use case to pursue, which gaps must be addressed first and what a responsible prototype or pilot should test.",
     ],
   },
   {
     slug: "why-fhir-matters-connecting-healthcare-systems",
-    title: "Why FHIR matters when you connect healthcare systems",
+    title: "Why FHIR Matters for Healthcare AI Workflows",
     category: "Healthcare interoperability",
     date: "2026-06-08",
     excerpt:
-      "FHIR gives healthcare systems a common way to exchange information, but interoperability is as much about workflow and permissions as the format.",
+      "FHIR can provide structured healthcare context for an AI workflow, but useful integration still depends on semantics, permissions, provenance and review.",
     image: {
       src: "/insights/fhir-healthcare-systems.png",
       alt: "Illustration of connected healthcare systems exchanging clinical information",
@@ -65,19 +63,20 @@ export const insights: Insight[] = [
       height: 675,
     },
     body: [
-      "FHIR is a standard for exchanging healthcare information. It defines common resources, a patient, an observation, a referral, so that different systems can describe the same things in the same way.",
-      "That shared vocabulary matters because the alternative is bespoke, brittle integrations between every pair of systems. A common format reduces that cost and makes data flows easier to reason about.",
-      "But a format alone does not create interoperability. The harder questions are which data should flow, who is allowed to see it, when it should move, and how each system fits into the clinical workflow. Those decisions determine whether an integration is safe and useful.",
-      "The most reliable approach is to design the workflow and permissions first, then use FHIR to carry the data, rather than starting from the standard and hoping the workflow follows.",
+      "FHIR is a standard for exchanging healthcare information through defined resources such as patients, observations and referrals. It can give an AI-assisted workflow a more consistent structure than ad hoc text or one-off field mappings.",
+      "Structure does not make data automatically suitable for AI. Teams still need to define which fields are relevant, what each value means in context, where it came from and whether the workflow is permitted to use it.",
+      "A useful design starts with the task and the minimum necessary information. It then maps the required FHIR resources, permissions, validation checks and human review points around that task.",
+      "For agentic systems, the integration boundary matters as much as the model. Tools should expose only the actions and information the workflow needs, with clear authentication, logs, error handling and escalation.",
+      "FHIR can support traceable healthcare AI workflows, but it does not replace workflow design, data-quality checks, privacy controls or evaluation.",
     ],
   },
   {
     slug: "human-factors-and-medical-device-adoption",
-    title: "Human factors: the quiet driver of medical-device adoption",
-    category: "Human factors and usability",
+    title: "Human Factors in Healthcare AI Adoption",
+    category: "Human factors and adoption",
     date: "2026-06-15",
     excerpt:
-      "Devices are often assessed for function but not for how they fit real user workflows. Small usability issues drive adoption more than headline features.",
+      "Healthcare AI adoption depends on how the system fits real tasks, communicates uncertainty and supports review, correction and escalation.",
     image: {
       src: "/insights/human-factors-medical-device.png",
       alt: "Illustration of a clinician evaluating a medical device interface and workflow",
@@ -85,10 +84,11 @@ export const insights: Insight[] = [
       height: 675,
     },
     body: [
-      "When a device underperforms in a real setting, the cause is often not the core technology. It is the small friction points: an extra step, an unclear prompt, a workflow that does not match how staff actually work.",
-      "Human-factors assessment looks at the device against real tasks, in the environment it will be used in, with the people who will use it. It captures where errors are likely and where the design fights the workflow.",
-      "This matters because adoption is a human decision made many times a day. If a device is even slightly harder than the current way of working, busy staff will route around it, and utilisation quietly falls.",
-      "Assessing human factors early, and feeding the findings into the product and implementation plan, is one of the highest-leverage things a device company can do.",
+      "A model can perform well in a test and still be difficult to use inside a real healthcare task. People need to understand what the system did, what information it used and when the output requires closer review.",
+      "Human-factors work examines the AI-assisted step in context. It looks at workload, interruptions, handoffs, terminology, accessibility and the consequences of accepting, correcting or ignoring an output.",
+      "Human review must be a usable interaction, not only a statement in a policy. The interface should make uncertainty, source information, exceptions and escalation paths visible at the moment a decision is made.",
+      "A pilot should observe how representative users actually work with the system. Useful measures may include completion, corrections, overrides, time on task, failure recovery and whether the workflow creates new work elsewhere.",
+      "These findings belong in product requirements and acceptance criteria. Adoption is easier to evaluate when the expected user behaviour and support model are defined before rollout.",
     ],
   },
 ]

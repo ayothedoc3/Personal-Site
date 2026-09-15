@@ -1,18 +1,18 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, PageHero } from "@/components/healthcare/ui"
 import { insights, insightCategories } from "@/lib/insights"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Insights | Healthcare Technology Implementation | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/insights",
+  title: "Healthcare AI Implementation Insights | Ayothedoc",
   description:
-    "Practical writing on MedTech implementation, healthcare robotics, digital health, interoperability, human factors and responsible healthcare AI.",
-  alternates: { canonical: `${sites.healthcare.url}/insights` },
-}
+    "Practical writing on healthcare AI readiness, workflow design, data, evaluation, human oversight and responsible implementation.",
+})
 
 export default function InsightsIndex() {
   const activeCategories = insightCategories.filter((c) => insights.some((i) => i.category === c))
@@ -28,8 +28,8 @@ export default function InsightsIndex() {
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Insights" }]} />
           <PageHero
             eyebrow="Insights"
-            title="Practical thinking on healthcare technology"
-            intro="Short, concrete pieces on implementing technology in real clinical and operational settings."
+            title="Practical thinking on healthcare AI implementation"
+            intro="Concrete guidance on the workflows, data, controls and evidence around useful healthcare AI."
           />
           <div className="mt-8 flex flex-wrap gap-2.5">
             {activeCategories.map((c) => (
@@ -62,7 +62,7 @@ export default function InsightsIndex() {
         </div>
       </section>
 
-      <CTASection heading="Have a healthcare technology challenge?" label="Discuss a Project" />
+      <CTASection heading="Have a healthcare AI implementation question?" label="Discuss a Healthcare AI Project" />
 
       </main>
 

@@ -1,19 +1,17 @@
-// Centralized copy + data for the healthcare site so pages do not duplicate
-// strings. UK English throughout. Icons are lucide-react components.
+// Centralized healthcare AI copy and page data. UK English throughout.
 import {
-  Activity,
-  Network,
-  ClipboardList,
-  Cpu,
-  Rocket,
   Building2,
-  Hospital,
+  ClipboardCheck,
+  Cpu,
   Globe2,
-  Search,
-  PenTool,
-  ShieldCheck,
-  PlayCircle,
+  Hospital,
   LineChart,
+  Network,
+  PenTool,
+  PlayCircle,
+  Rocket,
+  Search,
+  ShieldCheck,
   type LucideIcon,
 } from "lucide-react"
 
@@ -27,63 +25,63 @@ export interface Pillar {
 
 export const pillars: Pillar[] = [
   {
-    slug: "medtech-robotics-implementation",
-    title: "MedTech and Robotics Implementation",
+    slug: "healthcare-ai-consulting",
+    title: "Healthcare AI Readiness and Strategy",
     positioning:
-      "Helping medical-device and robotics companies introduce technology into healthcare environments safely, practically and successfully.",
-    icon: Activity,
+      "Choose useful AI opportunities, test whether the data and workflow are ready, and leave with a practical delivery roadmap.",
+    icon: ClipboardCheck,
     services: [
-      "Hospital-readiness assessment",
-      "Clinical workflow mapping",
-      "Robotics programme planning",
-      "Device implementation roadmap",
-      "Training programme design",
-      "Adoption and utilisation planning",
-    ],
-  },
-  {
-    slug: "digital-health-connected-systems",
-    title: "Digital Health and Connected Systems",
-    positioning:
-      "Connecting healthcare products, data and workflows so technology supports rather than disrupts care delivery.",
-    icon: Network,
-    services: [
-      "Digital health implementation",
-      "Connected-device workflows",
-      "FHIR and healthcare API planning",
-      "Clinical data mapping",
-      "Referral and care-coordination workflows",
-      "Implementation programme management",
-    ],
-  },
-  {
-    slug: "clinical-product-implementation",
-    title: "Clinical Product and Implementation Consulting",
-    positioning:
-      "Translating healthcare needs into practical product requirements, implementation plans and measurable outcomes.",
-    icon: ClipboardList,
-    services: [
-      "Product discovery",
-      "Clinical workflow analysis",
-      "User and stakeholder requirements",
-      "Pilot planning",
-      "User acceptance testing",
-      "Change management and adoption",
+      "AI readiness assessment",
+      "Use-case discovery and prioritisation",
+      "Workflow and data-readiness review",
+      "Build, buy or integrate assessment",
+      "Risk and human-oversight planning",
+      "Pilot roadmap and acceptance criteria",
     ],
   },
   {
     slug: "ai-intelligent-automation",
-    title: "AI and Intelligent Automation",
+    title: "Healthcare AI Workflow Automation",
     positioning:
-      "Applying AI only where it creates meaningful healthcare value, with clear controls, human accountability and measurable outcomes.",
-    icon: Cpu,
+      "Design human-supervised agents and automations that reduce repetitive work without losing clinical or operational accountability.",
+    icon: Network,
     services: [
       "Administrative workflow automation",
       "Healthcare knowledge assistants",
-      "Documentation-support workflows",
-      "AI product evaluation",
+      "Document and intake workflows",
+      "Human-in-the-loop agent design",
+      "API, MCP and system integration",
+      "Monitoring and escalation workflows",
+    ],
+  },
+  {
+    slug: "healthcare-ai-product-development",
+    title: "Healthcare AI Product and Prototype Delivery",
+    positioning:
+      "Turn a healthcare AI idea into clear requirements, a testable prototype and an evidence-led pilot plan.",
+    icon: Cpu,
+    services: [
+      "Product discovery",
+      "Clinical workflow requirements",
+      "AI prototype design and build",
+      "Agent and tool orchestration",
+      "Evaluation scenarios and testing",
+      "Pilot and implementation planning",
+    ],
+  },
+  {
+    slug: "healthcare-ai-governance",
+    title: "Healthcare AI Safety, Privacy and Governance",
+    positioning:
+      "Build the controls around healthcare AI, including data minimisation, human review, failure handling, evaluation and monitoring.",
+    icon: ShieldCheck,
+    services: [
+      "AI risk and workflow assessment",
+      "Data minimisation and de-identification",
       "Human-review and escalation design",
-      "Monitoring and governance",
+      "Evaluation and acceptance criteria",
+      "Audit trails and failure handling",
+      "Post-launch monitoring plan",
     ],
   },
 ]
@@ -99,25 +97,25 @@ export const audiences: Audience[] = [
   {
     slug: "healthtech-startups",
     title: "Healthtech startups",
-    blurb: "Move from prototype to an implementable pilot that fits real clinical workflows.",
+    blurb: "Move from an AI concept to a testable product and a pilot that fits a real healthcare workflow.",
     icon: Rocket,
   },
   {
-    slug: "medtech-robotics-companies",
-    title: "Medical-device and robotics companies",
-    blurb: "Introduce devices and robotic programmes into hospitals with training, adoption and measurement.",
-    icon: Building2,
-  },
-  {
     slug: "healthcare-organisations",
-    title: "Hospitals and healthcare organisations",
-    blurb: "Turn technology investment into adopted, connected, measurable operational change.",
+    title: "Healthcare organisations",
+    blurb: "Prioritise safe, useful AI opportunities and introduce them with clear ownership and human oversight.",
     icon: Hospital,
   },
   {
+    slug: "medtech-robotics-companies",
+    title: "MedTech and digital health teams",
+    blurb: "Add AI capabilities that support product users, connected workflows and implementation teams.",
+    icon: Building2,
+  },
+  {
     slug: "africa-market-entry",
-    title: "International companies entering African markets",
-    blurb: "Understand local workflows, assess hospital readiness and plan practical implementation.",
+    title: "Healthcare AI teams entering African markets",
+    blurb: "Research local workflows and plan AI pilots around the operational realities of the intended market.",
     icon: Globe2,
   },
 ]
@@ -135,11 +133,10 @@ export const methodSteps: MethodStep[] = [
     title: "Discover",
     icon: Search,
     points: [
-      "Understand the healthcare problem",
-      "Map the existing workflow",
-      "Identify stakeholders",
-      "Establish the operational baseline",
-      "Define desired outcomes",
+      "Define the healthcare problem before choosing a model",
+      "Map the current workflow and responsible people",
+      "Identify available data and system constraints",
+      "Set the baseline and intended outcome",
     ],
   },
   {
@@ -147,11 +144,10 @@ export const methodSteps: MethodStep[] = [
     title: "Design",
     icon: PenTool,
     points: [
-      "Define requirements",
-      "Design the future workflow",
-      "Identify integration needs",
-      "Set user roles and responsibilities",
-      "Plan training and adoption",
+      "Choose the smallest useful AI-assisted workflow",
+      "Define inputs, outputs, roles and integrations",
+      "Design human review and escalation points",
+      "Agree success and acceptance criteria",
     ],
   },
   {
@@ -159,38 +155,62 @@ export const methodSteps: MethodStep[] = [
     title: "De-risk",
     icon: ShieldCheck,
     points: [
-      "Identify clinical, operational, technical and privacy risks",
-      "Define human oversight",
-      "Plan failure handling",
-      "Create test scenarios",
-      "Set acceptance criteria",
+      "Assess clinical, privacy, operational and technical risks",
+      "Use the minimum necessary data",
+      "Test expected, edge and failure cases",
+      "Document boundaries and fallback behaviour",
     ],
   },
   {
     n: "4",
-    title: "Deploy",
+    title: "Deliver",
     icon: PlayCircle,
     points: [
-      "Coordinate implementation",
-      "Support integration",
-      "Conduct testing",
-      "Train users",
-      "Manage launch activities",
+      "Build or integrate the agreed workflow",
+      "Run structured evaluation and user testing",
+      "Prepare training, ownership and support",
+      "Launch only against agreed acceptance criteria",
     ],
   },
   {
     n: "5",
-    title: "Monitor and improve",
+    title: "Monitor",
     icon: LineChart,
     points: [
-      "Measure adoption",
-      "Review utilisation",
-      "Track errors and incidents",
-      "Compare outcomes against the baseline",
-      "Improve the product or workflow",
+      "Track quality, adoption, errors and incidents",
+      "Review human overrides and escalations",
+      "Compare performance with the baseline",
+      "Improve or stop the workflow based on evidence",
     ],
   },
 ]
 
-export const primaryCta = { label: "Discuss a Healthcare Technology Project", href: "/contact" }
-export const secondaryCta = { label: "Explore Our Solutions", href: "/solutions" }
+export const healthcareFaqs = [
+  {
+    question: "What kinds of healthcare AI projects do you work on?",
+    answer:
+      "We work on AI readiness, workflow automation, knowledge assistants, agentic systems, healthcare AI product prototypes, integrations, evaluation and governance. We do not offer autonomous diagnosis or treatment systems.",
+  },
+  {
+    question: "Can you help us move from an idea to a pilot?",
+    answer:
+      "Yes. We can define the workflow and requirements, build or coordinate a testable prototype, design evaluation scenarios, and prepare a practical pilot plan with clear acceptance criteria.",
+  },
+  {
+    question: "How do you handle sensitive healthcare data?",
+    answer:
+      "We begin with data minimisation and the lowest-risk workable data path. Discovery and prototyping can use synthetic or de-identified data, and any access to real data must be agreed with the appropriate privacy, security and governance controls first.",
+  },
+  {
+    question: "Do healthcare professionals stay in control?",
+    answer:
+      "Yes. Human ownership, review and escalation are designed around the risk of the workflow. AI should support accountable decisions, not obscure who is responsible for them.",
+  },
+  {
+    question: "What does a first engagement produce?",
+    answer:
+      "The first engagement is scoped around your starting point. Typical outputs include a prioritised opportunity map, workflow and risk findings, requirements, a prototype brief, evaluation criteria or a pilot roadmap.",
+  },
+]
+
+export const primaryCta = { label: "Discuss a Healthcare AI Project", href: "/contact" }

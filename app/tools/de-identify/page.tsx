@@ -1,22 +1,16 @@
-import type { Metadata } from "next"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, CTASection, Eyebrow, PageHero } from "@/components/healthcare/ui"
 import { DeidentifyClient } from "@/components/healthcare/deidentify-client"
-import { sites, siteSocialImages } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/tools/de-identify",
   title: "On-Device Clinical De-identification Demo | Ayothedoc",
   description:
     "Remove protected health information from clinical text entirely in your browser, nothing uploaded. A demonstration of on-device de-identification.",
-  alternates: { canonical: `${sites.healthcare.url}/tools/de-identify` },
-  openGraph: {
-    title: "On-Device Clinical De-identification Demo | Ayothedoc",
-    description: "Remove PHI from clinical text entirely in your browser. Nothing uploaded.",
-    url: `${sites.healthcare.url}/tools/de-identify`,
-    images: [siteSocialImages.healthcare],
-  },
-}
+})
 
 const production = [
   "Full clinical NER models, not just pattern matching, running on your own infrastructure (on-prem, air-gapped, or mobile).",

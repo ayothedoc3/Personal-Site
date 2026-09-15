@@ -6,6 +6,30 @@ import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import { ContactForm } from "@/components/contact-form"
 import { useState, useEffect } from "react"
+import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
+
+const CONTACT_FAQS: FaqEntry[] = [
+  {
+    question: "How long until it is running?",
+    answer:
+      "The standard AI Operating System install target is 10 business days after the required access and context are available. Scope and timing are confirmed before work starts.",
+  },
+  {
+    question: "Do you run it for me, or just set it up?",
+    answer:
+      "We run it. Beyond the install, monthly plans cover monitoring, fixes, and new automation work. You own everything we build.",
+  },
+  {
+    question: "Does this replace my team?",
+    answer:
+      "No. It removes repetitive work so your team can focus on sales, client delivery, and decisions that need people.",
+  },
+  {
+    question: "Can you work with my existing tools?",
+    answer:
+      "Usually. We first confirm that the required integrations, permissions and source-of-truth rules are available for your email, CRM, calendar, billing and document tools.",
+  },
+]
 
 export default function Contact() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -47,6 +71,10 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-x-clip">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(CONTACT_FAQS)) }}
+      />
       <div className="fixed inset-0 pointer-events-none">
         <div
           className="absolute w-96 h-96 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur-3xl animate-float"
@@ -62,6 +90,7 @@ export default function Contact() {
 
       <SiteHeader />
 
+      <main id="main-content" tabIndex={-1}>
       <section className="relative px-6 py-20 lg:px-12">
         <div className="max-w-6xl mx-auto text-center">
           <div
@@ -94,9 +123,9 @@ export default function Contact() {
             id="contact-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Tell us about your business below. We&apos;ll build you a system that replies to every new lead in under 60
-            seconds, personalized, in your voice, with your booking link, on your real leads, free. If it books calls
-            you&apos;d have missed, we talk about running the rest of your operations.
+            Tell us where leads arrive and what happens now. We&apos;ll scope a free first workflow designed to reply to
+            eligible leads against a 60-second target, using approved context and your booking rules. If the pilot
+            meets the success criteria we agree, you can choose whether to expand.
           </p>
         </div>
       </section>
@@ -131,8 +160,8 @@ export default function Contact() {
                   How the free build works
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-8 hover:text-foreground/80 transition-colors duration-300">
-                  No card, no call required, no risk. We build your Lead Engine on your real leads so you can watch it
-                  work. Most builds are live within a few days.
+                  No card and no sales call are required to request the build. We confirm the lead source,
+                  integrations, reply rules, human handoff and timeline before enabling the workflow on real leads.
                 </p>
               </div>
 
@@ -149,11 +178,11 @@ export default function Contact() {
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "Replies to every new lead in under 60 seconds",
-                      "Personalized and written in your voice",
-                      "Your booking link built into every reply",
-                      "Instant alert to you on every new lead",
-                      "Built on your real leads, no card required",
+                      "Eligible leads measured against a 60-second reply target",
+                      "Approved business context and voice examples",
+                      "Your current booking and routing rules",
+                      "Human alerts, handoff and visible failure handling",
+                      "One agreed lead source, with no card required",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -182,9 +211,9 @@ export default function Contact() {
                   <ul className="space-y-3 text-muted-foreground">
                     {[
                       "Start free: we build your Lead Engine before you pay anything",
-                      "On paid plans: recover 40+ hours a month or we keep working free until you do",
-                      "Built on your tools and trained on your real replies",
-                      "We run and improve it for you, every week",
+                      "Paid work is measured against a baseline agreed at kickoff",
+                      "Built around your tools and approved reply examples",
+                      "Managed plans include monitoring, fixes and agreed improvements",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -229,28 +258,7 @@ export default function Contact() {
           </div>
 
           <div className="space-y-6">
-            {[
-              {
-                question: "How long until it's running?",
-                answer:
-                  "Your AI Operating System is installed and live in 10 business days. We then measure recovered hours against your kickoff baseline over the following 30 days.",
-              },
-              {
-                question: "Do you run it for me, or just set it up?",
-                answer:
-                  "We run it. Beyond the install, our monthly plans cover monitoring, fixes, and shipping one new automation every week. You own everything we build.",
-              },
-              {
-                question: "Does this replace my team?",
-                answer:
-                  "No. It removes the repetitive work so your team does the work only humans should. Most clients redeploy recovered hours into sales and client delivery.",
-              },
-              {
-                question: "Can you work with my existing tools?",
-                answer:
-                  "Yes, that's the point. We wire the AIOS into the tools you already use (email, CRM, calendar, billing, docs) so it works from live data, not copy-paste.",
-              },
-            ].map((faq, index) => (
+            {CONTACT_FAQS.map((faq, index) => (
               <div
                 key={faq.question}
                 className="backdrop-blur-xl bg-card/50 border border-border/50 p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:scale-[1.02] opacity-0 animate-fade-in-up group"
@@ -272,6 +280,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
+      </main>
 
       <style jsx>{`
         @keyframes fade-in-up {

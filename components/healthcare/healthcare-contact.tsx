@@ -15,13 +15,13 @@ export function HealthcareContact() {
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
           <PageHero
             eyebrow="Contact"
-            title="Discuss a healthcare technology project"
-            intro="Tell us about your product, pilot or implementation and we will respond to discuss how we can help."
+            title="Discuss a healthcare AI project"
+            intro="Tell us the workflow or product question you are trying to solve. We will review it and reply with the most useful next step."
           />
 
           <div className="mt-6 rounded-xl border border-border bg-muted/40 px-5 py-4 text-sm text-muted-foreground leading-relaxed">
-            Ayothedoc provides healthcare technology product and implementation services. It does not provide personal
-            medical diagnosis, treatment or emergency services.
+            Ayothedoc provides healthcare AI product and implementation services. It does not provide personal medical
+            diagnosis, treatment or emergency services.
           </div>
 
           <div className="mt-10">
