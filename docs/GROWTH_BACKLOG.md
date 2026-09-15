@@ -6,7 +6,7 @@ Date: 2026-09-15
 
 | Owner | Task | Why | Done when |
 |---|---|---|---|
-| Codex | Verify desktop and mobile rendering on both live hosts | Confirms host routing and responsive layout outside the local build | Home, contact and one detail page on each host pass visual and keyboard checks. |
+| Ayo or Codex with a mobile viewport | Verify narrow-viewport rendering on both live hosts | Desktop production QA passed, but the available audit browser did not expose mobile emulation | Home, contact and one detail page on each host pass at 390 CSS pixels without overflow or clipped controls. |
 | Ayo | Test one healthcare enquiry and one AIOS pilot request | Production mail and Lead Engine credentials cannot be proven by a code build | Both messages reach the correct monitored destination and show accurate success states. |
 | Ayo | Verify GA4 events in DebugView | The code emits events, but account reporting access was unavailable | `lead_form_start`, `generate_lead`, `cta_click`, `video_start` and `video_complete` are visible with the correct hostname. |
 | Ayo | Mark `generate_lead` as a GA4 key event | Makes conversion reporting usable | GA4 Admin shows it as a key event. |

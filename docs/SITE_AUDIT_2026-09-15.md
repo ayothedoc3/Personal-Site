@@ -89,7 +89,9 @@ The code is installed, but the connected account did not expose GA4 reporting ac
 
 ## Performance and mobile limitation
 
-The PageSpeed Insights API returned HTTP 429 for the requested production tests, and CrUX API data was not available through the current connection. No Lighthouse or Core Web Vitals score is invented in this report. The build size, responsive breakpoints and local rendered structure passed code-level checks. A live desktop and mobile visual pass is required after deployment, and field Core Web Vitals should be recorded once PageSpeed or CrUX access is available.
+The PageSpeed Insights API returned HTTP 429 for the requested production tests, and CrUX API data was not available through the current connection. No Lighthouse or Core Web Vitals score is invented in this report. The build size, responsive breakpoints and local rendered structure passed code-level checks.
+
+After deployment, a live browser pass at 1363 by 936 confirmed both homepages, both themes, the healthcare contact and detail pages, the AIOS contact, audit and demo pages, redirect destinations, no horizontal overflow and no site-origin console errors. The available cloud-browser session did not expose mobile viewport emulation, so a narrow-viewport visual pass and field Core Web Vitals remain open rather than being guessed.
 
 ## Open items that require owner access or confirmation
 
