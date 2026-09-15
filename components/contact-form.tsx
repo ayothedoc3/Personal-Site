@@ -181,7 +181,12 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
 
   return (
     <div className={className}>
-      <form onSubmit={handleSubmit(onSubmit)} onFocusCapture={onFirstInteract} className="space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onFocusCapture={onFirstInteract}
+        className="space-y-6"
+        aria-busy={isSubmitting}
+      >
         {/* Name */}
         <div className="group">
           <label
@@ -192,6 +197,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           </label>
           <Input
             id="firstName"
+            required
             autoComplete="given-name"
             placeholder="Your first name"
             error={errors.firstName?.message}
@@ -210,6 +216,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           <Input
             id="email"
             type="email"
+            required
             autoComplete="email"
             placeholder="you@company.com"
             error={errors.email?.message}
@@ -246,6 +253,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           </label>
           <Textarea
             id="message"
+            required
             rows={5}
             placeholder="For example: website form to Gmail, then someone replies and adds the lead to HubSpot."
             error={errors.message?.message}
