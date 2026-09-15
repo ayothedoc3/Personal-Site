@@ -1,18 +1,18 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { getSiteKey } from "@/lib/site.server"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
   const key = await getSiteKey()
-  return {
-    title: "Privacy Policy | Ayothedoc",
+  return buildMetadata({
+    site: key,
+    path: "/privacy",
+    title: key === "aios" ? "Privacy Policy | AIOS by Ayothedoc" : "Privacy Policy | Ayothedoc Healthcare AI",
     description: "How we collect, use, and protect your personal data, including your GDPR rights.",
-    alternates: { canonical: `${sites[key].url}/privacy` },
-  }
+  })
 }
 
 const UPDATED = "May 27, 2026"

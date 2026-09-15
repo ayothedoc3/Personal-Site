@@ -1,21 +1,21 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site-header"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { getSiteKey } from "@/lib/site.server"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
   const key = await getSiteKey()
-  return {
-    title: "Terms of Use | Ayothedoc",
+  return buildMetadata({
+    site: key,
+    path: "/terms",
+    title: key === "aios" ? "Terms of Use | AIOS by Ayothedoc" : "Terms of Use | Ayothedoc Healthcare AI",
     description:
       key === "aios"
         ? "The terms governing use of AIOS by Ayothedoc's AI operations services and website."
         : "The terms governing use of Ayothedoc's healthcare technology consulting services and website.",
-    alternates: { canonical: `${sites[key].url}/terms` },
-  }
+  })
 }
 
 const UPDATED = "May 27, 2026"

@@ -1,15 +1,15 @@
-import type { Metadata } from "next"
 import { HealthcareHeader } from "@/components/healthcare/healthcare-header"
 import { HealthcareFooter } from "@/components/healthcare/healthcare-footer"
 import { Breadcrumbs, PageHero } from "@/components/healthcare/ui"
-import { sites } from "@/lib/site-config"
+import { buildMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Medical Disclaimer | Ayothedoc",
+export const metadata = buildMetadata({
+  site: "healthcare",
+  path: "/medical-disclaimer",
+  title: "Medical Disclaimer | Healthcare AI | Ayothedoc",
   description:
     "Ayothedoc provides healthcare technology consulting. It does not provide individual medical advice, diagnosis, treatment or emergency services.",
-  alternates: { canonical: `${sites.healthcare.url}/medical-disclaimer` },
-}
+})
 
 export default function MedicalDisclaimerPage() {
   return (
