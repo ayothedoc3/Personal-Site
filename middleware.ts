@@ -15,6 +15,20 @@ import {
 // route sets can be tested.
 const PROD_APEX = new Set(["ayothedoc.com", "www.ayothedoc.com"])
 const PROD_WWW = "www.ayothedoc.com"
+const HEALTHCARE_PATH_MIGRATIONS = new Map([
+  ["/solutions/medtech-robotics-implementation", "/solutions/healthcare-ai-product-development"],
+  ["/solutions/digital-health-connected-systems", "/solutions/ai-intelligent-automation"],
+  ["/solutions/clinical-product-implementation", "/solutions/healthcare-ai-product-development"],
+  ["/case-studies/exerscript-healthcare-ai-hackathon-pilot", "/case-studies/exerscript-healthcare-ai-prototype"],
+])
+
+function healthcareMigration(pathname: string): string | null {
+  const exact = HEALTHCARE_PATH_MIGRATIONS.get(pathname)
+  if (exact) return exact
+  if (pathname === "/services" || pathname.startsWith("/services/")) return "/solutions"
+  if (pathname === "/blog") return "/insights"
+  return null
+}
 
 export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl
@@ -31,15 +45,28 @@ export function middleware(req: NextRequest) {
   const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase()
   const site = siteFromHost(host)
 
-  // Keep one canonical healthcare hostname. Preserve the path and query while
-  // permanently redirecting the duplicate www host to the apex domain.
-  if (host === PROD_WWW) {
-    return NextResponse.redirect(new URL(`${pathname}${search}`, sites.healthcare.url), 301)
-  }
+  if (site === "healthcare" && PROD_APEX.has(host)) {
+    const migratedPath = healthcareMigration(pathname)
+    if (migratedPath) {
+      return NextResponse.redirect(new URL(`${migratedPath}${search}`, sites.healthcare.url), 301)
+    }
 
-  // Apex (production) requests to relocated AIOS routes -> 301 to the AIOS host.
-  if (site === "healthcare" && PROD_APEX.has(host) && pathMatchesPrefix(pathname, AIOS_ONLY_PREFIXES)) {
-    return NextResponse.redirect(new URL(`${pathname}${search}`, sites.aios.url), 301)
+    // Preserve already-indexed legacy AIOS article URLs on their topical
+    // equivalent while keeping the root /blog index healthcare-specific.
+    if (pathname.startsWith("/blog/")) {
+      return NextResponse.redirect(new URL(pathname + search, sites.aios.url), 301)
+    }
+
+    // Explicit legacy AIOS routes keep their closest equivalent on the AIOS
+    // property. This also avoids a www -> apex -> AIOS redirect chain.
+    if (pathMatchesPrefix(pathname, AIOS_ONLY_PREFIXES)) {
+      return NextResponse.redirect(new URL(`${pathname}${search}`, sites.aios.url), 301)
+    }
+
+    // Keep one canonical healthcare hostname for every remaining path.
+    if (host === PROD_WWW) {
+      return NextResponse.redirect(new URL(`${pathname}${search}`, sites.healthcare.url), 301)
+    }
   }
 
   // AIOS host requests to healthcare-only routes -> 404.
