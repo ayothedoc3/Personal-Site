@@ -7,6 +7,7 @@ import path from 'path'
 
 import { insertAuditLead } from '@/lib/db'
 import { getProviderKey } from '@/lib/secrets'
+import { fetchPublicWebsiteText } from '@/lib/safe-public-url'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -255,43 +256,13 @@ export async function POST(request: NextRequest) {
     // Fetch website content (best effort) to ground the analysis.
     let websiteContent = ''
     try {
-      const parsed = new URL(website)
-      if (!['http:', 'https:'].includes(parsed.protocol)) {
-        throw new Error('Unsupported URL protocol')
-      }
-      const host = parsed.hostname.toLowerCase()
-      if (
-        host === 'localhost' ||
-        host === '127.0.0.1' ||
-        host === '0.0.0.0' ||
-        host.startsWith('127.') ||
-        host.startsWith('10.') ||
-        host.startsWith('192.168.') ||
-        /^172\.(1[6-9]|2\d|3[0-1])\./.test(host) ||
-        host === '::1'
-      ) {
-        throw new Error('Refusing to fetch private/localhost URLs')
-      }
-
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000)
-
-      const websiteResponse = await fetch(website, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; AyothedocBot/1.0)'
-        },
-        signal: controller.signal
-      })
-      clearTimeout(timeoutId)
-      if (websiteResponse.ok) {
-        const html = await websiteResponse.text()
-        websiteContent = html
-          .replace(/<script[^>]*>.*?<\/script>/gis, '')
-          .replace(/<style[^>]*>.*?<\/style>/gis, '')
-          .replace(/<[^>]*>/g, ' ')
-          .replace(/\s+/g, ' ')
-          .substring(0, 3000)
-      }
+      const html = await fetchPublicWebsiteText(website)
+      websiteContent = html
+        .replace(/<script[^>]*>.*?<\/script>/gis, '')
+        .replace(/<style[^>]*>.*?<\/style>/gis, '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .substring(0, 3000)
     } catch (error) {
       console.log('Could not fetch website content:', error)
       websiteContent = 'Website content could not be analyzed'
