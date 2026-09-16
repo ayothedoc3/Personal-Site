@@ -26,10 +26,9 @@ export function AttributionCapture() {
   useEffect(() => {
     try {
       const url = new URL(window.location.href)
-      const hasCampaign = ["utm_source", "utm_medium", "utm_campaign"].some((key) => url.searchParams.has(key))
       const existing = sessionStorage.getItem(STORAGE_KEY)
 
-      if (!existing || hasCampaign) {
+      if (!existing) {
         const attribution: LeadAttribution = {
           landingPage: url.pathname.slice(0, 300),
           referrer: safeReferrer(),
