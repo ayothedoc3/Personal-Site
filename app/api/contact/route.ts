@@ -154,15 +154,19 @@ export async function POST(req: NextRequest) {
         console.error("Resend healthcare enquiry failed:", error)
         return NextResponse.json({ error: "Could not send your enquiry right now." }, { status: 502 })
       }
-      const { error: acknowledgementError } = await resend.emails.send({
-        from,
-        to: [email],
-        replyTo: to,
-        subject: "We received your healthcare AI enquiry",
-        text: `Hello${firstName ? ` ${firstName}` : ""},\n\nWe received your healthcare AI enquiry and will review the workflow, project stage and requested next step.\n\nPlease do not send patient-identifiable data, credentials or other sensitive personal information by email. Ayothedoc does not provide personal medical diagnosis, treatment or emergency services.\n\nAyothedoc`,
-      })
-      if (acknowledgementError) {
-        console.error("Resend healthcare acknowledgement failed:", acknowledgementError)
+      try {
+        const { error: acknowledgementError } = await resend.emails.send({
+          from,
+          to: [email],
+          replyTo: to,
+          subject: "We received your healthcare AI enquiry",
+          text: `Hello${firstName ? ` ${firstName}` : ""},\n\nWe received your healthcare AI enquiry and will review the workflow, project stage and requested next step.\n\nPlease do not send patient-identifiable data, credentials or other sensitive personal information by email. Ayothedoc does not provide personal medical diagnosis, treatment or emergency services.\n\nAyothedoc`,
+        })
+        if (acknowledgementError) {
+          console.error("Resend healthcare acknowledgement failed:", acknowledgementError)
+        }
+      } catch (acknowledgementError) {
+        console.error("Resend healthcare acknowledgement unreachable:", acknowledgementError)
       }
       return NextResponse.json({ ok: true })
     } catch (e) {
