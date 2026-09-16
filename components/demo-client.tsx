@@ -189,7 +189,7 @@ export function DemoClient() {
                   onClick={() => trackEvent("cta_click", { cta: "demo_free_engine", destination: "/contact" })}
                   className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 rounded-full font-semibold"
                 >
-                  Get yours built free
+                  Apply for the free pilot
                 </Button>
               </Link>
             </div>
@@ -200,7 +200,7 @@ export function DemoClient() {
           <p className="text-muted-foreground text-sm">
             {error || "Something went wrong."} If the demo is busy, the real thing is better anyway:{" "}
             <Link href="/contact" className="text-lime-400 hover:underline">
-              get your Lead Engine built free
+              apply for the free pilot
             </Link>
             .
           </p>

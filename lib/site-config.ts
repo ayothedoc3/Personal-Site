@@ -79,6 +79,7 @@ export const HEALTHCARE_ONLY_PREFIXES = [
   "/who-we-help",
   "/method",
   "/case-studies",
+  "/healthcare-ai-pilot-readiness",
   "/insights",
   "/ayo",
   "/medical-disclaimer",

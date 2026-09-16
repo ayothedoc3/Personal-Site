@@ -73,6 +73,44 @@ export function HealthcareHome() {
         </div>
       </section>
 
+      {/* Flagship entry offer */}
+      <section className="border-b border-border bg-muted/30">
+        <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
+          <div className="grid gap-8 rounded-2xl border border-teal-600/40 bg-card p-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:p-10">
+            <div>
+              <Eyebrow>Focused entry engagement</Eyebrow>
+              <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
+                Healthcare AI Pilot Readiness Sprint
+              </h2>
+              <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed">
+                Turn one healthcare AI use case into a decision-ready pilot plan with the workflow, data needs, human
+                oversight, risks, evaluation criteria and implementation path made explicit.
+              </p>
+              <TrackedLink
+                href="/healthcare-ai-pilot-readiness"
+                eventParams={{ site: "healthcare", cta: "home_readiness_sprint", destination: "/healthcare-ai-pilot-readiness" }}
+                className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-teal-700"
+              >
+                Review the complete sprint
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </TrackedLink>
+            </div>
+            <ul className="grid gap-3 text-sm text-muted-foreground">
+              {[
+                "One defined use case",
+                "Seven-part decision pack",
+                "Five-business-day target after complete kickoff inputs",
+                "Scope-completion commitment on agreed deliverables",
+              ].map((item) => (
+                <li key={item} className="rounded-lg border border-border bg-background px-4 py-3.5">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* Audiences */}
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
@@ -283,15 +321,15 @@ export function HealthcareHome() {
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
           <div className="rounded-2xl border border-border bg-card px-8 py-14 text-center">
             <h2 className="mx-auto max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl">
-              Have a healthcare AI problem worth testing?
+              Need a decision-ready plan for one healthcare AI use case?
             </h2>
             <div className="mt-8">
               <TrackedLink
-                href="/contact"
-                eventParams={{ site: "healthcare", cta: "home_final_project", destination: "/contact" }}
+                href="/healthcare-ai-pilot-readiness"
+                eventParams={{ site: "healthcare", cta: "home_final_readiness_sprint", destination: "/healthcare-ai-pilot-readiness" }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-7 py-3.5 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
               >
-                Discuss a Healthcare AI Project
+                Start with the Pilot Readiness Sprint
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </TrackedLink>
             </div>

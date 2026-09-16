@@ -45,6 +45,11 @@ async function captchaOk(token: string, ip: string): Promise<boolean> {
 }
 
 export async function POST(req: NextRequest) {
+  const contentLength = Number(req.headers.get("content-length") || 0)
+  if (contentLength > 32_768) {
+    return NextResponse.json({ error: "Request body is too large" }, { status: 413 })
+  }
+
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
   if (rateLimited(ip)) {
     return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 })
@@ -75,19 +80,64 @@ export async function POST(req: NextRequest) {
   const lastName = String(body.lastName || "").trim()
   const email = String(body.email || "").trim()
   const message = String(body.message || "").trim()
-  if (!email || !message) {
+  const company = String(body.company || "").trim()
+  const source = String(body.source || "").trim()
+  const websiteUrl = String(body.websiteUrl || "").trim()
+  const leadSource = String(body.leadSource || "").trim()
+  const leadVolume = String(body.leadVolume || "").trim()
+  const sourcePage = String(body.sourcePage || "").trim().slice(0, 300)
+  const landingPage = String(body.landingPage || "").trim().slice(0, 300)
+  const referrer = String(body.referrer || "").trim().slice(0, 300)
+  const utmSource = String(body.utmSource || "").trim().slice(0, 100)
+  const utmMedium = String(body.utmMedium || "").trim().slice(0, 100)
+  const utmCampaign = String(body.utmCampaign || "").trim().slice(0, 150)
+  if (!email || !message || email.length > 320 || message.length > 4_000 || company.length > 150) {
     return NextResponse.json({ error: "email and message are required" }, { status: 400 })
+  }
+
+  if (source === "healthcare-contact") {
+    if (!company || body.dataAcknowledged !== true) {
+      return NextResponse.json(
+        { error: "Organisation and the sensitive-data acknowledgement are required" },
+        { status: 400 },
+      )
+    }
+  } else {
+    let parsedWebsite: URL | null = null
+    try {
+      parsedWebsite = new URL(websiteUrl)
+    } catch {
+      parsedWebsite = null
+    }
+    if (
+      !company ||
+      !parsedWebsite ||
+      !["http:", "https:"].includes(parsedWebsite.protocol) ||
+      !leadSource ||
+      !leadVolume ||
+      body.canProvideInputs !== true
+    ) {
+      return NextResponse.json({ error: "Complete the pilot qualification fields before submitting" }, { status: 400 })
+    }
   }
 
   const service = String(body.service || "").trim()
   const fullMessage = service ? `${message}\n\n[Interested in: ${service}]` : message
+  const attribution = [
+    sourcePage ? `Source page: ${sourcePage}` : "",
+    landingPage ? `First landing page: ${landingPage}` : "",
+    referrer ? `Referrer: ${referrer}` : "",
+    utmSource ? `UTM source: ${utmSource}` : "",
+    utmMedium ? `UTM medium: ${utmMedium}` : "",
+    utmCampaign ? `UTM campaign: ${utmCampaign}` : "",
+  ].filter(Boolean).join("\n")
 
-  // Healthcare enquiries (root site) email the inbox directly via Resend, with
-  // NO auto-reply. The Lead Engine path below is AIOS-only.
-  if (String(body.source || "") === "healthcare-contact") {
+  // Healthcare enquiries (root site) email the inbox directly via Resend and
+  // send a short acknowledgement. The Lead Engine path below is AIOS-only.
+  if (source === "healthcare-contact") {
     const apiKey = process.env.RESEND_API_KEY
     const to = process.env.HEALTHCARE_ENQUIRY_EMAIL || "ayothedoc3@gmail.com"
-    const from = process.env.AUDIT_FROM_EMAIL || "Ayothedoc <onboarding@resend.dev>"
+    const from = process.env.HEALTHCARE_FROM_EMAIL || process.env.AUDIT_FROM_EMAIL || "Ayothedoc <onboarding@resend.dev>"
     if (!apiKey || apiKey.includes("your_resend_api_key_here")) {
       return NextResponse.json({ error: "Email is not configured" }, { status: 500 })
     }
@@ -98,11 +148,21 @@ export async function POST(req: NextRequest) {
         to: [to],
         replyTo: email,
         subject: `New healthcare enquiry: ${firstName || email}${service ? ` (${service})` : ""}`,
-        text: `From: ${firstName} <${email}>\nCompany: ${String(body.company || "").trim() || "-"}\nProject type: ${service || "-"}\n\n${fullMessage}`,
+        text: `From: ${firstName} <${email}>\nCompany: ${company}\nProject type: ${service || "-"}\nSensitive-data acknowledgement: confirmed\n${attribution ? `\n${attribution}\n` : ""}\n${fullMessage}`,
       })
       if (error) {
         console.error("Resend healthcare enquiry failed:", error)
         return NextResponse.json({ error: "Could not send your enquiry right now." }, { status: 502 })
+      }
+      const { error: acknowledgementError } = await resend.emails.send({
+        from,
+        to: [email],
+        replyTo: to,
+        subject: "We received your healthcare AI enquiry",
+        text: `Hello${firstName ? ` ${firstName}` : ""},\n\nWe received your healthcare AI enquiry and will review the workflow, project stage and requested next step.\n\nPlease do not send patient-identifiable data, credentials or other sensitive personal information by email. Ayothedoc does not provide personal medical diagnosis, treatment or emergency services.\n\nAyothedoc`,
+      })
+      if (acknowledgementError) {
+        console.error("Resend healthcare acknowledgement failed:", acknowledgementError)
       }
       return NextResponse.json({ ok: true })
     } catch (e) {
@@ -111,7 +171,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // AIOS path: forward to the Lead Engine (sub-60s reply + operator alert).
+  // AIOS path: forward the qualified application to the Lead Engine.
   const url = process.env.LEAD_ENGINE_URL
   const secret = process.env.LEAD_ENGINE_SECRET
   if (!url || !secret) {
@@ -125,8 +185,15 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         name: `${firstName} ${lastName}`.trim() || undefined,
         email,
-        message: fullMessage,
-        company: String(body.company || "").trim() || undefined,
+        message: [
+          fullMessage,
+          `Company website: ${websiteUrl}`,
+          `Main inbound source: ${leadSource}`,
+          `Approximate qualified enquiries per month: ${leadVolume}`,
+          "Pilot inputs available: confirmed",
+          attribution,
+        ].filter(Boolean).join("\n\n"),
+        company,
         phone: String(body.phone || "").trim() || undefined,
         source: "Website contact form",
       }),

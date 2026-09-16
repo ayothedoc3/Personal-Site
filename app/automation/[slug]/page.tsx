@@ -77,7 +77,7 @@ const TIER_LABEL: Record<PageTier, string> = {
 //    lead with the free audit. Lead Engine is secondary.
 //  - Calendly is never primary; it lives as a quiet tertiary text link.
 function primaryCta(tier: PageTier): { href: string; label: string } {
-  if (tier === "wedge") return { href: "/offer", label: "Get your Lead Engine free" }
+  if (tier === "wedge") return { href: "/offer", label: "Apply for the free pilot" }
   return { href: "/audit", label: "Get your free AIOS readiness audit" }
 }
 

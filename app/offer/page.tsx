@@ -1,311 +1,236 @@
 import Link from "next/link"
+import { ArrowRight, CheckCircle2, ShieldCheck, XCircle } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
-import { CheckoutLink } from "@/components/checkout-link"
+import { TrackedLink } from "@/components/tracked-link"
 import { buildMetadata } from "@/lib/seo"
+import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
 
 export const metadata = buildMetadata({
   site: "aios",
   path: "/offer",
-  title: "AIOS Plans & Pricing | Managed AI Operations",
+  title: "Free Lead Response Pilot for Agencies | AIOS",
   description:
-    "Start with a free Lead Engine pilot, then choose a managed AI operations plan for your agency or consultancy. See scope, pricing and guarantee terms.",
+    "Apply for a free, scoped lead-response pilot on one agreed lead source. Validate the workflow against written technical criteria before deciding whether to expand.",
 })
 
+const valueStack = [
+  "Current lead-response workflow review",
+  "One agreed inbound lead source",
+  "Eligible-lead and exclusion rules",
+  "Approved business context and reply examples",
+  "Booking, routing and human-handoff rules",
+  "Alerts and visible failure handling",
+  "A written pilot scorecard and handover notes",
+]
+
+const goodFit = [
+  "You run an agency or consulting business with a clear offer",
+  "Genuine enquiries already arrive through a form, inbox or CRM",
+  "You can provide approved replies, booking rules and an accountable owner",
+  "You are willing to test one narrow workflow before expanding",
+]
+
+const notYet = [
+  "You do not yet receive genuine inbound enquiries",
+  "You want an autonomous sales system with no human ownership",
+  "You cannot provide access, approval rules or safe test data",
+  "You are looking for bulk unsolicited outreach or a generic chatbot",
+]
+
+const faqs: FaqEntry[] = [
+  {
+    question: "What makes the pilot free?",
+    answer:
+      "The first scoped build covers one agreed inbound lead source and its reply and handoff path. No card is required to apply. Broader integrations, ongoing operation and additional workflows are separate paid work only if you choose to continue.",
+  },
+  {
+    question: "What does success mean?",
+    answer:
+      "Before the build starts, we document which enquiries are eligible, the response-time target, required reply elements, routing rules, human handoff and failure handling. The pilot is reviewed against that written scorecard rather than an unmeasurable sales promise.",
+  },
+  {
+    question: "Does the pilot guarantee booked calls or revenue?",
+    answer:
+      "No. The pilot can validate the response workflow, but prospect behaviour, offer quality and sales outcomes remain outside the automation's control. We report observed workflow performance without inventing counterfactual results.",
+  },
+  {
+    question: "What happens after the pilot?",
+    answer:
+      "You receive the findings and decide whether to stop, keep the workflow focused or scope a managed AIOS engagement. Any paid scope, timing, support level and price are documented before work begins.",
+  },
+]
+
 export default function OfferPage() {
-  // Stripe Payment Links (set in env). Empty values fall back to /contact via CheckoutLink.
-  const installHref = process.env.NEXT_PUBLIC_STRIPE_SPRINT_LINK // one-time install ($7,500)
-  const careHref = process.env.NEXT_PUBLIC_STRIPE_CARE_LINK // Lead Engine Care ($249/mo)
-  const foundationHref = process.env.NEXT_PUBLIC_STRIPE_FOUNDATION_LINK
-  const operationsHref = process.env.NEXT_PUBLIC_STRIPE_OPERATIONS_LINK
-  const autonomousHref = process.env.NEXT_PUBLIC_STRIPE_AUTONOMOUS_LINK
-
-  const tiers = [
-    {
-      name: "Foundation",
-      price: "$1,000",
-      cadence: "/mo",
-      tagline: "The system in place. You drive it.",
-      href: foundationHref,
-      cta: "offer_tier_foundation",
-      featured: false,
-      features: [
-        "AIOS installed + tools connected",
-        "Context + voice trained on your business",
-        "Up to 2 core automations live",
-        "Monthly health check + fixes",
-      ],
-    },
-    {
-      name: "Operations",
-      price: "$2,500",
-      cadence: "/mo",
-      tagline: "We run it and ship new leverage weekly.",
-      href: operationsHref,
-      cta: "offer_tier_operations",
-      featured: true,
-      features: [
-        "Everything in Foundation",
-        "One new automation shipped weekly",
-        "Lead-to-follow-up engine (under 60s)",
-        "Automated client reporting",
-        "Priority support + monitoring",
-      ],
-    },
-    {
-      name: "Autonomous",
-      price: "$5,000",
-      cadence: "/mo",
-      tagline: "A scheduled and event-driven AI ops layer across the business.",
-      href: autonomousHref,
-      cta: "offer_tier_autonomous",
-      featured: false,
-      features: [
-        "Everything in Operations",
-        "Scheduled and event-driven agents",
-        "Multi-department coverage",
-        "Dedicated strategist + same-day response",
-        "Quarterly roadmap + KPI reviews",
-      ],
-    },
-  ]
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(faqs)) }}
+      />
       <SiteHeader />
 
-      <main id="main-content" tabIndex={-1} className="relative px-6 py-16 lg:px-12">
-        <div className="max-w-6xl mx-auto">
-          {/* Hero */}
-          <section className="text-center">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-lime-400/20 to-emerald-400/20 border border-lime-400/40 text-sm font-semibold tracking-wider text-lime-400 uppercase shadow-lg">
-              For agencies &amp; consultants
+      <main id="main-content" tabIndex={-1} className="px-6 py-16 lg:px-12">
+        <div className="mx-auto max-w-6xl">
+          <section className="mx-auto max-w-4xl text-center">
+            <span className="inline-flex rounded-full border border-lime-400/40 bg-lime-400/10 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-lime-400">
+              Application-based free pilot
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6">
-              Start with a free pilot. Expand if it fits.
+            <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">
+              Validate one lead-response workflow before you buy a larger system
             </h1>
-            <p className="text-muted-foreground text-lg md:text-xl mt-6 max-w-3xl mx-auto leading-relaxed">
-              We build a scoped 60-Second Lead Engine free on one agreed lead source. If the workflow meets the success
-              criteria agreed for the pilot, you choose whether to keep it focused or expand into managed AI operations.
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+              We build a scoped 60-Second Lead Response Pilot on one agreed inbound source, using your approved
+              context, booking rules and human handoff. You review it against written technical success criteria,
+              then decide whether expanding makes sense.
             </p>
-            <div className="mt-10 flex justify-center">
-              <Link href="/contact">
-                <span className="inline-flex items-center justify-center bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 rounded-full px-10 py-4 text-lg font-bold shadow-2xl hover:shadow-lime-400/25 transition-all duration-300 hover:scale-105 cursor-pointer">
-                  Get your free Lead Engine
-                </span>
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <TrackedLink
+                href="/contact"
+                eventParams={{ site: "aios", cta: "offer_apply_pilot", destination: "/contact" }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 px-10 py-4 text-lg font-bold text-gray-900 shadow-2xl transition hover:scale-105 hover:from-lime-500 hover:to-emerald-500"
+              >
+                Apply for the free pilot
+                <ArrowRight className="h-5 w-5" aria-hidden />
+              </TrackedLink>
+              <Link href="/demo" className="font-medium text-lime-400 hover:underline">
+                See the sandbox demonstration
               </Link>
             </div>
-            <p className="mt-4 text-sm font-medium text-lime-400/90">
-              No card is required to request the free build. Scope, access and timing are confirmed before work starts.
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Prefer to see it first?{" "}
-              <Link href="/demo" className="text-lime-400 font-medium hover:underline">
-                Watch it reply live
-              </Link>
+            <p className="mt-5 text-sm text-muted-foreground">
+              No card is required to apply. Fit, access, scope, timeline and the pilot scorecard are confirmed before
+              a build starts.
             </p>
           </section>
 
-          {/* The path: makes the free-to-paid sequence explicit */}
-          <section className="mt-16">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold">How it goes, step by step</h2>
-              <p className="text-muted-foreground mt-2">No surprises. Each step is a clear decision, and you only move up when you want to.</p>
-            </div>
-            <div className="grid gap-4 md:grid-cols-4">
-              {[
-                { n: "1", h: "Free pilot", s: "A scoped 60-Second Lead Engine on one agreed lead source, using reply examples you approve. No card. Timeline confirmed after the fit check.", tag: "Free" },
-                { n: "2", h: "Keep it running", s: "Optional. We host, monitor, and tune the engine as your offers change.", tag: "$249/mo" },
-                { n: "3", h: "Full AIOS install", s: "One-time. After access and context are available, we work toward a standard 10-business-day target for the agreed first workflows.", tag: "$7,500" },
-                { n: "4", h: "Managed operations", s: "We run and expand the system on a monthly plan. Choose how much we run for you.", tag: "$1k to $5k/mo" },
-              ].map((step) => (
-                <div key={step.n} className="p-6 rounded-2xl bg-gradient-to-br from-card/70 to-card/20 border border-border/40 flex flex-col">
-                  <div className="flex items-center justify-between">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-lime-400 to-emerald-400 text-gray-900 font-bold flex items-center justify-center text-sm">{step.n}</div>
-                    <span className="text-xs font-semibold text-lime-400">{step.tag}</span>
-                  </div>
-                  <h3 className="font-bold mt-4">{step.h}</h3>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{step.s}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Start small: the bridge between the free build and the full install */}
-          <section className="mt-16 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Start small · No install fee</div>
-                <h2 className="text-2xl md:text-3xl font-bold mt-2">Lead Engine Care: $249/mo</h2>
-                <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-                  Love your free Lead Engine but not ready for the full system? We keep it running for you: hosting,
-                  monitoring, and monthly tuning so the replies stay sharp as your offers change. Cancel anytime, and
-                  upgrade to a full plan whenever you&apos;re ready.
-                </p>
-              </div>
-              <div className="shrink-0">
-                <CheckoutLink
-                  href={careHref}
-                  label="Keep my engine running"
-                  cta="offer_lead_engine_care"
-                  className="bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 hover:from-lime-500 hover:to-emerald-500 rounded-full px-10"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* The install step */}
-          <section className="mt-16 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-card/70 to-card/20 border border-border/40">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Step 1 · One-time</div>
-                <h2 className="text-2xl md:text-3xl font-bold mt-2">AIOS Install Sprint: $7,500</h2>
-                <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-                  The standard target is 10 business days after the required access and context are available. We wire
-                  the agreed tools, configure the scoped workflows and measure them against the kickoff baseline.
-                </p>
-              </div>
-              <div className="shrink-0">
-                <CheckoutLink
-                  href={installHref}
-                  label="Book the Install"
-                  cta="offer_install_sprint"
-                  className="bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 hover:from-lime-500 hover:to-emerald-500 rounded-full px-10"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Monthly tiers */}
-          <section className="mt-12">
-            <div className="text-center mb-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Step 2 · Monthly</div>
-              <h2 className="text-3xl md:text-4xl font-bold mt-2">Choose how much we run for you</h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-3 mt-10">
-              {tiers.map((tier) => (
-                <div
-                  key={tier.name}
-                  className={`relative p-8 rounded-2xl flex flex-col ${
-                    tier.featured
-                      ? "bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border-2 border-lime-400 md:scale-105 shadow-2xl shadow-lime-400/10"
-                      : "bg-gradient-to-br from-card/70 to-card/20 border border-border/40"
-                  }`}
-                >
-                  {tier.featured ? (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-lime-400 text-gray-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-                      Core Managed Plan
-                    </div>
-                  ) : null}
-                  <h3 className="text-2xl font-bold">{tier.name}</h3>
-                  <div className="mt-2 mb-1">
-                    <span className="text-4xl font-bold text-lime-400">{tier.price}</span>
-                    <span className="text-base text-muted-foreground font-normal">{tier.cadence}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-6">{tier.tagline}</p>
-                  <ul className="space-y-3 text-sm text-muted-foreground mb-8 flex-1">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3">
-                        <span className="mt-1 w-2 h-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <CheckoutLink
-                    href={tier.href}
-                    label={`Choose ${tier.name}`}
-                    cta={tier.cta}
-                    variant={tier.featured ? "default" : "outline"}
-                    className={
-                      tier.featured
-                        ? "w-full bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 hover:from-lime-500 hover:to-emerald-500 rounded-full font-semibold"
-                        : "w-full border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 rounded-full font-semibold"
-                    }
-                  />
-                </div>
-              ))}
-            </div>
-            <p className="text-center text-muted-foreground mt-8">
-              Month-to-month. You own everything we build. Cancel anytime and keep the system.
-            </p>
-          </section>
-
-          {/* Top tier: invite-only */}
-          <section className="mt-12 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-foreground/[0.06] to-transparent border border-lime-400/30">
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-              <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-lime-400">Top tier · By application</div>
-                <h2 className="text-2xl md:text-3xl font-bold mt-2">AIOS Partner</h2>
-                <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-                  For agencies that want their operations run end to end. We own your AI Operating System across
-                  every department, ship against a weekly roadmap, and you get a direct line to me. Capped at a
-                  handful of partners so each one gets real attention.
-                </p>
-                <ul className="mt-5 grid sm:grid-cols-2 gap-2.5 text-sm text-muted-foreground max-w-2xl">
-                  {[
-                    "Everything in Autonomous",
-                    "We run your operations end to end, across departments",
-                    "Direct line to the founder, embedded in your team",
-                    "Weekly roadmap + same-day response",
-                    "Quarterly strategy + KPI ownership",
-                    "Capped partner roster",
-                  ].map((f) => (
-                    <li key={f} className="flex items-start gap-3">
-                      <span className="mt-1 w-2 h-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="shrink-0 text-center md:pt-1">
-                <div className="text-sm text-muted-foreground mb-3">Invite-only</div>
-                <Link href="/contact">
-                  <span className="inline-flex items-center justify-center border border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-gray-900 rounded-full px-10 py-3 font-semibold cursor-pointer transition-all duration-300">
-                    Apply for a partner slot
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* Guarantee */}
-          <section className="mt-16 p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold">The 40-hour guarantee</h2>
-              <p className="text-muted-foreground mt-4 leading-relaxed">
-                On the paid AIOS install and plans, here is exactly what we promise and how it is measured.
-                The full conditions are in the <Link href="/refund" className="text-lime-400 hover:underline">published guarantee terms</Link>.
+          <section className="mt-20">
+            <div className="mx-auto max-w-3xl text-center">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-lime-400">The complete pilot</div>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">Everything needed to test one real handoff</h2>
+              <p className="mt-4 text-muted-foreground">
+                The pilot is deliberately narrow. It is large enough to test with real operating rules and small
+                enough to inspect, approve and stop safely.
               </p>
             </div>
-            <div className="mt-8 grid gap-4 md:grid-cols-3 max-w-4xl mx-auto text-sm">
-              <div className="p-5 rounded-2xl bg-card/50 border border-border/40">
-                <div className="font-semibold text-lime-400">What counts</div>
-                <p className="text-muted-foreground mt-2 leading-relaxed">The hours you and your team spend on the workflows we automate: lead replies, follow-ups, scheduling, reporting, onboarding. We agree the list at kickoff.</p>
-              </div>
-              <div className="p-5 rounded-2xl bg-card/50 border border-border/40">
-                <div className="font-semibold text-lime-400">When it is measured</div>
-                <p className="text-muted-foreground mt-2 leading-relaxed">We capture your baseline at kickoff, then measure recovered hours over the first 30 days after your system goes live.</p>
-              </div>
-              <div className="p-5 rounded-2xl bg-card/50 border border-border/40">
-                <div className="font-semibold text-lime-400">If we miss it</div>
-                <p className="text-muted-foreground mt-2 leading-relaxed">If you have not recovered at least 40 hours that month, we keep building and tuning at no extra charge until you do.</p>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {valueStack.map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-2xl border border-border/50 bg-card/50 p-5">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-lime-400" aria-hidden />
+                  <span className="text-sm leading-relaxed">{item}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-20 grid gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border border-emerald-400/30 bg-emerald-400/[0.06] p-8">
+              <h2 className="text-2xl font-bold">A strong fit</h2>
+              <ul className="mt-6 space-y-4">
+                {goodFit.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-3xl border border-border/50 bg-card/40 p-8">
+              <h2 className="text-2xl font-bold">Not ready yet</h2>
+              <ul className="mt-6 space-y-4">
+                {notYet.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <XCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <section className="mt-20">
+            <div className="text-center">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-lime-400">One clear path</div>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">Apply, validate, then decide</h2>
+            </div>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {[
+                {
+                  n: "01",
+                  title: "Confirm the fit",
+                  body: "We review your lead source, current response path, access, reply examples and human owner. If the workflow is not ready, we say so before a build begins.",
+                },
+                {
+                  n: "02",
+                  title: "Build and test",
+                  body: "We configure the agreed workflow and review eligible leads, timing, reply content, routing, alerts and failures against the written pilot scorecard.",
+                },
+                {
+                  n: "03",
+                  title: "Review and choose",
+                  body: "You receive the observed results and handover notes. Continue into managed operations only if the workflow creates enough value to justify a broader scope.",
+                },
+              ].map((step) => (
+                <div key={step.n} className="rounded-2xl border border-border/50 bg-card/50 p-7">
+                  <div className="text-sm font-bold tracking-widest text-lime-400">STEP {step.n}</div>
+                  <h3 className="mt-3 text-xl font-bold">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-20 rounded-3xl border border-lime-400/30 bg-gradient-to-br from-lime-400/10 to-emerald-400/5 p-8 md:p-12">
+            <div className="mx-auto max-w-4xl">
+              <div className="flex items-start gap-4">
+                <ShieldCheck className="h-8 w-8 shrink-0 text-lime-400" aria-hidden />
+                <div>
+                  <h2 className="text-2xl font-bold md:text-3xl">The pilot risk reversal</h2>
+                  <p className="mt-4 leading-relaxed text-muted-foreground">
+                    The pilot starts free. If it does not meet the written technical success criteria, you have no
+                    obligation to buy a broader system. We do not guarantee booked calls or revenue because prospect
+                    behaviour and offer quality are outside the workflow&apos;s control.
+                  </p>
+                  <p className="mt-4 leading-relaxed text-muted-foreground">
+                    If you continue, the paid proposal states the exact workflows, responsibilities, delivery
+                    prerequisites, support level, measurement method and price. There is no automatic upgrade.
+                  </p>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* Works with your stack */}
-          <section className="mt-14 text-center p-10 rounded-3xl bg-gradient-to-br from-card/60 to-card/20 border border-border/40">
-            <h2 className="text-3xl md:text-4xl font-bold">Integration examples we can assess</h2>
-            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Gmail, Outlook, HubSpot, Pipedrive, ClickUp, Asana, Slack, Google Workspace, Stripe, QuickBooks,
-              and Notion. Fit depends on available APIs, permissions and the workflow&apos;s source-of-truth rules.
+          <section className="mx-auto mt-20 max-w-3xl">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold md:text-4xl">Common questions</h2>
+            </div>
+            <div className="mt-10 space-y-4">
+              {faqs.map((item) => (
+                <details key={item.question} className="group rounded-2xl border border-border/50 bg-card/50 p-6">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
+                    {item.question}
+                    <span className="text-2xl leading-none text-lime-400 transition-transform group-open:rotate-45">+</span>
+                  </summary>
+                  <p className="mt-4 leading-relaxed text-muted-foreground">{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-20 rounded-3xl border border-lime-400/30 bg-card/50 p-10 text-center md:p-14">
+            <h2 className="text-3xl font-bold md:text-4xl">Have a real inbound lead path worth testing?</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Apply with the source, current process and approximate lead volume. We will confirm whether the free
+              pilot is a responsible fit and what would need to be available before it starts.
             </p>
-            <div className="mt-8 flex justify-center">
-              <Link href="/contact">
-                <span className="inline-flex items-center justify-center bg-gradient-to-r from-lime-400 to-emerald-400 text-gray-900 hover:from-lime-500 hover:to-emerald-500 rounded-full px-10 py-4 font-bold cursor-pointer transition-all duration-300 hover:scale-105">
-                  Get your free Lead Engine
-                </span>
-              </Link>
+            <div className="mt-8">
+              <TrackedLink
+                href="/contact"
+                eventParams={{ site: "aios", cta: "offer_final_apply", destination: "/contact" }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 px-10 py-4 font-bold text-gray-900 transition hover:scale-105"
+              >
+                Apply for the free pilot
+                <ArrowRight className="h-5 w-5" aria-hidden />
+              </TrackedLink>
             </div>
           </section>
         </div>

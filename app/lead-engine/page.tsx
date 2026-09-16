@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo"
 export const metadata = buildMetadata({
   site: "aios",
   path: "/lead-engine",
-  title: "Your free 60-Second Lead Engine | Ayothedoc",
+  title: "Apply for a Free Lead Response Pilot | AIOS",
   description:
     "Request a free first lead-response workflow designed around a 60-second service target, approved business context, booking rules and human handoff.",
   robots: { index: false, follow: false },
@@ -17,18 +17,18 @@ export const metadata = buildMetadata({
 const STEPS = [
   {
     n: "01",
-    title: "You send us your business",
-    body: "Fill in the short form. We learn your voice, your offer, and where your leads come in.",
+    title: "You apply with one workflow",
+    body: "Share your offer, inbound source, approximate lead volume, current response path and human owner.",
   },
   {
     n: "02",
-    title: "We build it, free",
-    body: "We wire one agreed lead source, approved reply context, booking rules, alerts and human handoff. No card or sales call is required to request it.",
+    title: "We confirm the fit",
+    body: "We document the agreed source, approved reply context, booking rules, alerts, human handoff, prerequisites and scorecard before a build starts.",
   },
   {
     n: "03",
-    title: "You watch it work",
-    body: "After testing, it can run on eligible real leads. If it meets the success criteria we agree, you choose whether to expand.",
+    title: "You validate and decide",
+    body: "After testing, review the observed workflow performance and choose whether to stop, keep it focused or scope managed operations.",
   },
 ]
 
@@ -45,7 +45,7 @@ export default function LeadEnginePage() {
               For agencies and consultants
             </span>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6">
-              Leads going cold while you&apos;re in meetings?
+              Test one lead-response handoff before buying a larger system
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 leading-relaxed">
               A lead can arrive while your team is in meetings or client delivery. A clear first-response workflow
@@ -81,7 +81,7 @@ export default function LeadEnginePage() {
                   "Approved business context and voice examples",
                   "Current booking and routing rules",
                   "Human alerts, handoff and visible failures",
-                  "One agreed lead source, no card required",
+                  "One agreed lead source and a written pilot scorecard",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <span className="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shrink-0" />
@@ -97,7 +97,7 @@ export default function LeadEnginePage() {
 
             <div className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl">
               <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
-                Get your Lead Engine built free
+                Apply for the free pilot
               </h2>
               <ContactForm />
             </div>

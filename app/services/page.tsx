@@ -246,7 +246,7 @@ export default function Services() {
 
                   <Link href="/offer">
                     <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground rounded-xl shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group-hover:shadow-xl">
-                      <span className="group-hover:scale-110 transition-transform duration-200">See plans &amp; pricing</span>
+                      <span className="group-hover:scale-110 transition-transform duration-200">See the free pilot path</span>
                     </Button>
                   </Link>
                 </div>
@@ -276,7 +276,7 @@ export default function Services() {
           </p>
           <Link href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-              <span className="group-hover:scale-110 transition-transform duration-200">Get Your Lead Engine Free</span>
+              <span className="group-hover:scale-110 transition-transform duration-200">Apply for the Free Pilot</span>
             </Button>
           </Link>
         </div>

@@ -141,7 +141,7 @@ export default function About() {
                 </p>
                 <div className="space-y-4">
                   {[
-                    "Prove value free before you pay anything",
+                    "Validate one workflow free before considering a broader scope",
                     "Custom-built around your business, never off-the-shelf templates",
                     "You own everything: cancel anytime and keep the system",
                   ].map((item, index) => (
@@ -326,7 +326,7 @@ export default function About() {
           </p>
           <a href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-              <span className="group-hover:scale-110 transition-transform duration-200">Get your free Lead Engine</span>
+              <span className="group-hover:scale-110 transition-transform duration-200">Apply for the free pilot</span>
             </Button>
           </a>
         </div>

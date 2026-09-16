@@ -14,6 +14,7 @@ const whoWeHelp = [
   { href: "/who-we-help/africa-market-entry", label: "African Market Entry" },
 ]
 const company = [
+  { href: "/healthcare-ai-pilot-readiness", label: "Pilot Readiness Sprint" },
   { href: "/about", label: "About" },
   { href: "/method", label: "Method" },
   { href: "/case-studies", label: "Case Studies" },

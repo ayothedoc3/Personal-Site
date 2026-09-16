@@ -51,11 +51,11 @@ export function HealthcareHeader() {
 
         <div className="hidden lg:block">
           <Link
-            href="/contact"
-            onClick={() => trackEvent("cta_click", { site: "healthcare", cta: "header_project", destination: "/contact" })}
+            href="/healthcare-ai-pilot-readiness"
+            onClick={() => trackEvent("cta_click", { site: "healthcare", cta: "header_readiness_sprint", destination: "/healthcare-ai-pilot-readiness" })}
             className="inline-flex items-center rounded-full bg-teal-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
           >
-            Discuss an AI Project
+            Start a Readiness Sprint
           </Link>
         </div>
 
@@ -90,14 +90,14 @@ export function HealthcareHeader() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href="/healthcare-ai-pilot-readiness"
               onClick={() => {
                 setOpen(false)
-                trackEvent("cta_click", { site: "healthcare", cta: "mobile_header_project", destination: "/contact" })
+                trackEvent("cta_click", { site: "healthcare", cta: "mobile_header_readiness_sprint", destination: "/healthcare-ai-pilot-readiness" })
               }}
               className="mt-2 inline-flex items-center justify-center rounded-full bg-teal-600 px-5 py-2.5 text-sm font-medium text-white"
             >
-              Discuss an AI Project
+              Start a Readiness Sprint
             </Link>
           </nav>
         </div>

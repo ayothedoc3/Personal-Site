@@ -790,7 +790,7 @@ export default function AdminPage() {
               { label: "Resend", href: "https://resend.com/emails", desc: "Email delivery + domain verification" },
               { label: "Live AIOS site", href: "https://aios.ayothedoc.com", desc: "View the agency operations site" },
               { label: "Free AI Audit", href: "/audit", desc: "Your lead magnet" },
-              { label: "Plans & Pricing", href: "/offer", desc: "Checkout links" },
+              { label: "Offer & Pilot", href: "/offer", desc: "Public fit and scope page" },
             ].map((a) => (
               <a key={a.label} href={a.href} target={a.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">
                 <Card className="hover:border-lime-400/50 transition h-full">

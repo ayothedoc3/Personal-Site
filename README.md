@@ -49,12 +49,12 @@ python scripts/programmatic_seo.py --dry-run --limit 3
 See `.env.example` for the current variable list. Important production integrations include:
 
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID`
-- `RESEND_API_KEY`, `AUDIT_FROM_EMAIL`, `HEALTHCARE_ENQUIRY_EMAIL`
+- `RESEND_API_KEY`, `AUDIT_FROM_EMAIL`, `HEALTHCARE_FROM_EMAIL`, `HEALTHCARE_ENQUIRY_EMAIL`
 - `LEAD_ENGINE_URL`, `LEAD_ENGINE_SECRET`
 - `ANTHROPIC_API_KEY`
 - `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 - PostgreSQL connection variables
-- Stripe plan links
+- Optional post-submit booking links: `AIOS_BOOKING_URL`, `HEALTHCARE_BOOKING_URL`
 
 Never commit real secrets.
 
