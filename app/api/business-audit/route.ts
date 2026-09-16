@@ -436,7 +436,7 @@ Produce the AIOS readiness audit for this prospect.`
                 We will scope a free first Lead Engine on one agreed lead source. If the pilot meets the success criteria agreed with you, you choose whether to expand.
               </p>
               <a href="https://aios.ayothedoc.com/offer" style="display: inline-block; background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);">
-                Get your Lead Engine free
+                Apply for the free pilot
               </a>
             </div>
 

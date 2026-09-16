@@ -9,8 +9,8 @@ export async function generateMetadata() {
     return buildMetadata({
       site: "aios",
       path: "/contact",
-      title: "Request a Free Lead Engine | AIOS",
-      description: "Request a free, scoped lead-response workflow for your agency or consulting firm. No card required; scope and success criteria are agreed first.",
+      title: "Apply for a Free Lead Response Pilot | AIOS",
+      description: "Apply for a free, scoped lead-response pilot for one inbound source. Fit, access, scope and written technical success criteria are agreed first.",
     })
   }
   return buildMetadata({

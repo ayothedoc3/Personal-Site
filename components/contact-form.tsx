@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -13,6 +14,7 @@ import { Loader2, CheckCircle, AlertCircle, Shield } from "lucide-react"
 import { formRateLimiter } from "@/lib/rate-limiter"
 import { sanitizeInput, isValidEmail, isValidPhone, detectSpam, isBot, getClientFingerprint } from "@/lib/security-utils"
 import { trackEvent } from "@/lib/analytics"
+import { getLeadAttribution } from "@/components/attribution-capture"
 
 const contactSchema = z.object({
   firstName: z.string()
@@ -29,8 +31,12 @@ const contactSchema = z.object({
   phone: z.string()
     .optional()
     .refine((val) => !val || isValidPhone(val), "Invalid phone number format"),
-  company: z.string().max(100, "Company name is too long").optional(),
-  service: z.string().default("free-lead-engine"),
+  company: z.string().min(2, "Company name is required").max(100, "Company name is too long"),
+  websiteUrl: z.string().url("Enter a full website URL, including https://").max(300, "Website URL is too long"),
+  leadSource: z.string().min(1, "Select the main lead source"),
+  leadVolume: z.string().min(1, "Select the approximate monthly lead volume"),
+  canProvideInputs: z.boolean().refine((value) => value, "Confirm that the pilot inputs can be provided"),
+  service: z.string().default("Free 60-Second Lead Response Pilot"),
   message: z.string()
     .min(10, "Message must be at least 10 characters")
     .max(2000, "Message is too long")
@@ -48,6 +54,7 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ onSuccess, className }: ContactFormProps) {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error" | "blocked">("idle")
   const [submitMessage, setSubmitMessage] = useState("")
@@ -73,7 +80,11 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
     defaultValues: {
       lastName: "",
       company: "",
-      service: "free-lead-engine",
+      websiteUrl: "",
+      leadSource: "",
+      leadVolume: "",
+      canProvideInputs: false,
+      service: "Free 60-Second Lead Response Pilot",
       newsletter: false,
       website: "",
       formStartTime: formStartTime,
@@ -88,15 +99,16 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
   const onFirstInteract = () => {
     if (startTracked) return
     setStartTracked(true)
-    trackEvent("lead_form_start", { site: "aios", form_name: "free_lead_engine" })
+    trackEvent("lead_form_start", { site: "aios", form_name: "aios_free_pilot" })
   }
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
     setSubmitStatus("idle")
-    trackEvent("lead_submit", { lead_type: "contact" })
+    trackEvent("lead_submit", { site: "aios", lead_type: "aios_pilot" })
 
     try {
+      const attribution = getLeadAttribution()
       // Security checks
       const formDataWithHoneypot = { ...data, website: honeypotValue }
       
@@ -109,7 +121,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       // Bot detection
       if (isBot(formDataWithHoneypot)) {
         console.log('Bot detected, blocking submission')
-        trackEvent("lead_submit_blocked", { lead_type: "contact" })
+        trackEvent("lead_submit_blocked", { site: "aios", lead_type: "aios_pilot" })
         setSubmitStatus("blocked")
         setSubmitMessage("Submission blocked due to suspicious activity.")
         return
@@ -122,6 +134,10 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         email: sanitizeInput(data.email),
         phone: sanitizeInput(data.phone || ""),
         company: sanitizeInput(data.company || ""),
+        websiteUrl: data.websiteUrl.trim(),
+        leadSource: sanitizeInput(data.leadSource),
+        leadVolume: sanitizeInput(data.leadVolume),
+        canProvideInputs: data.canProvideInputs,
         service: sanitizeInput(data.service),
         message: sanitizeInput(data.message),
         newsletter: data.newsletter,
@@ -136,6 +152,12 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           website: honeypotValue, // honeypot, server silent-drops if filled
           formStartTime,
           turnstileToken, // captcha token (verified server-side when configured)
+          sourcePage: window.location.pathname,
+          landingPage: attribution.landingPage,
+          referrer: attribution.referrer,
+          utmSource: attribution.utmSource,
+          utmMedium: attribution.utmMedium,
+          utmCampaign: attribution.utmCampaign,
         }),
       })
       if (!res.ok) {
@@ -144,11 +166,12 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       }
 
       trackEvent("lead_submit_success", {
-        lead_type: "contact",
+        site: "aios",
+        lead_type: "aios_pilot",
         service: sanitizedData.service,
         newsletter: sanitizedData.newsletter,
       })
-      trackEvent("generate_lead", { site: "aios", lead_type: "free_lead_engine" })
+      trackEvent("generate_lead", { site: "aios", lead_type: "aios_pilot" })
       setSubmitStatus("success")
       setSubmitMessage("Thank you. Your request has been sent and we will reply with the next step.")
       reset({ 
@@ -157,7 +180,11 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         email: "",
         phone: "",
         company: "",
-        service: "free-lead-engine",
+        websiteUrl: "",
+        leadSource: "",
+        leadVolume: "",
+        canProvideInputs: false,
+        service: "Free 60-Second Lead Response Pilot",
         message: "",
         newsletter: false,
         website: "",
@@ -165,9 +192,10 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       })
       setHoneypotValue("")
       onSuccess?.()
+      router.push("/thank-you?type=aios_pilot")
     } catch (error: any) {
       console.error("Email sending failed:", error)
-      trackEvent("lead_submit_error", { lead_type: "contact" })
+      trackEvent("lead_submit_error", { site: "aios", lead_type: "aios_pilot" })
       setSubmitStatus("error")
       if (error.message.includes('Too many attempts')) {
         setSubmitMessage(error.message)
@@ -230,15 +258,75 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             htmlFor="company"
             className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
           >
-            Company Name
+            Company Name *
           </label>
           <Input
             id="company"
+            required
             autoComplete="organization"
             placeholder="Your Company"
             error={errors.company?.message}
             {...register("company")}
           />
+        </div>
+
+        <div className="group">
+          <label
+            htmlFor="websiteUrl"
+            className="block text-sm font-medium text-muted-foreground mb-2 group-focus-within:text-lime-400 transition-colors duration-200"
+          >
+            Company Website *
+          </label>
+          <Input
+            id="websiteUrl"
+            type="url"
+            required
+            autoComplete="url"
+            placeholder="https://yourcompany.com"
+            error={errors.websiteUrl?.message}
+            {...register("websiteUrl")}
+          />
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="group">
+            <label htmlFor="leadSource" className="block text-sm font-medium text-muted-foreground mb-2">
+              Main Inbound Lead Source *
+            </label>
+            <select
+              id="leadSource"
+              required
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime-400"
+              {...register("leadSource")}
+            >
+              <option value="">Select...</option>
+              <option value="Website form">Website form</option>
+              <option value="Email inbox">Email inbox</option>
+              <option value="CRM">CRM</option>
+              <option value="Calendar or booking form">Calendar or booking form</option>
+              <option value="Another inbound source">Another inbound source</option>
+            </select>
+            {errors.leadSource ? <p className="mt-1 text-xs text-red-400">{errors.leadSource.message}</p> : null}
+          </div>
+          <div className="group">
+            <label htmlFor="leadVolume" className="block text-sm font-medium text-muted-foreground mb-2">
+              Approximate Qualified Enquiries per Month *
+            </label>
+            <select
+              id="leadVolume"
+              required
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-lime-400"
+              {...register("leadVolume")}
+            >
+              <option value="">Select...</option>
+              <option value="None yet">None yet</option>
+              <option value="1-10">1-10</option>
+              <option value="11-50">11-50</option>
+              <option value="51-200">51-200</option>
+              <option value="More than 200">More than 200</option>
+            </select>
+            {errors.leadVolume ? <p className="mt-1 text-xs text-red-400">{errors.leadVolume.message}</p> : null}
+          </div>
         </div>
 
         <input type="hidden" {...register("service")} />
@@ -261,6 +349,20 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           />
         </div>
 
+        <label className="flex items-start gap-3 rounded-xl border border-border/60 bg-card/40 p-4 text-sm text-muted-foreground">
+          <input
+            type="checkbox"
+            required
+            className="mt-1 h-4 w-4 rounded border-border text-lime-400 focus:ring-lime-400"
+            {...register("canProvideInputs")}
+          />
+          <span>
+            We can provide one genuine inbound lead source, approved reply examples, booking or routing rules, and a
+            human owner for the pilot. *
+          </span>
+        </label>
+        {errors.canProvideInputs ? <p className="-mt-4 text-xs text-red-400">{errors.canProvideInputs.message}</p> : null}
+
         {/* Honeypot Field */}
         <Honeypot value={honeypotValue} onChange={setHoneypotValue} />
 
@@ -279,10 +381,10 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Sending Message...
+                Sending Application...
               </>
             ) : (
-              "Request My Free Lead Engine"
+            "Apply for the Free Pilot"
             )}
           </span>
         </Button>

@@ -150,7 +150,11 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
         </section>
       ) : null}
 
-      <CTASection heading="Ready to move this forward?" label={d.ctaLabel} />
+      <CTASection
+        heading="Ready to move this forward?"
+        label={d.ctaLabel}
+        href={slug === "healthcare-ai-consulting" ? "/healthcare-ai-pilot-readiness" : "/contact"}
+      />
 
       <div className="mx-auto max-w-6xl px-6 pb-16 lg:px-8">
         <Link href="/solutions" className="text-sm text-teal-700 dark:text-teal-400 hover:underline">

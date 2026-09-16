@@ -168,7 +168,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
-                  Get Your Lead Engine Free
+                  Apply for the Free Pilot
                 </Button>
               </Link>
               <Link href="/blog">

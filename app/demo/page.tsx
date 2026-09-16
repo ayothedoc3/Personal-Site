@@ -83,11 +83,11 @@ export default function DemoPage() {
             </p>
             <p className="text-sm font-semibold text-lime-400 mb-8">
               Paid work is measured against a baseline agreed at kickoff.{" "}
-              <Link href="/refund" className="hover:underline">Read the guarantee terms</Link>.
+              <Link href="/offer" className="hover:underline">Review the pilot scope and success criteria</Link>.
             </p>
             <Link href="/contact">
               <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-lime-400/50">
-                Get Your Lead Engine Free
+                Apply for the Free Pilot
               </Button>
             </Link>
           </section>

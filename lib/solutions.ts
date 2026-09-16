@@ -66,7 +66,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     boundaries:
       "Ayothedoc provides product, workflow and technical delivery support. We do not replace legal, regulatory, clinical-safety, information-security or data-protection specialists.",
     aiosNote: true,
-    ctaLabel: "Discuss a Healthcare AI Readiness Assessment",
+    ctaLabel: "Start with the Pilot Readiness Sprint",
   },
   "ai-intelligent-automation": {
     slug: "ai-intelligent-automation",

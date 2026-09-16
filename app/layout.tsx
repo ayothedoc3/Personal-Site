@@ -6,6 +6,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalyticsPageView } from "@/components/google-analytics"
+import { AttributionCapture } from "@/components/attribution-capture"
 import { getSiteKey } from "@/lib/site.server"
 import { sites, siteSocialImages, type SiteKey } from "@/lib/site-config"
 import { organizationJsonLd } from "@/lib/structured-data"
@@ -170,6 +171,7 @@ html {
       </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="ayothedoc-ui-theme">
+          <AttributionCapture />
           {gaMeasurementId ? (
             <Suspense fallback={null}>
               <GoogleAnalyticsPageView measurementId={gaMeasurementId} />

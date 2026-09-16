@@ -213,4 +213,7 @@ export const healthcareFaqs = [
   },
 ]
 
-export const primaryCta = { label: "Discuss a Healthcare AI Project", href: "/contact" }
+export const primaryCta = {
+  label: "Start with the Pilot Readiness Sprint",
+  href: "/healthcare-ai-pilot-readiness",
+}

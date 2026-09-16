@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/who-we-help",
     "/method",
     "/case-studies",
+    "/healthcare-ai-pilot-readiness",
     "/tools/de-identify",
     "/insights",
     "/about",

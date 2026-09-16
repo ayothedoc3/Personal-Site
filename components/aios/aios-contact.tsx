@@ -1,8 +1,5 @@
 "use client"
 
-import type React from "react"
-
-import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import { ContactForm } from "@/components/contact-form"
 import { useState, useEffect } from "react"
@@ -10,14 +7,14 @@ import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
 
 const CONTACT_FAQS: FaqEntry[] = [
   {
-    question: "How long until it is running?",
+    question: "How long until the pilot is running?",
     answer:
-      "The standard AI Operating System install target is 10 business days after the required access and context are available. Scope and timing are confirmed before work starts.",
+      "The timeline is confirmed after the fit check because it depends on the lead source, available integration, approved reply examples and access. No delivery clock starts before those prerequisites are documented.",
   },
   {
     question: "Do you run it for me, or just set it up?",
     answer:
-      "We run it. Beyond the install, monthly plans cover monitoring, fixes, and new automation work. You own everything we build.",
+      "The free pilot validates one response and handoff path. If you choose to continue, a separate managed scope can cover monitoring, fixes and agreed improvements. You own the work delivered under that scope.",
   },
   {
     question: "Does this replace my team?",
@@ -34,7 +31,6 @@ const CONTACT_FAQS: FaqEntry[] = [
 export default function Contact() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState({})
-  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -63,11 +59,6 @@ export default function Contact() {
       observer.disconnect()
     }
   }, [])
-
-  const handleFormSuccess = () => {
-    setShowSuccessAnimation(true)
-    setTimeout(() => setShowSuccessAnimation(false), 3000)
-  }
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-x-clip">
@@ -101,7 +92,7 @@ export default function Contact() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-sm border border-primary/30 rounded-full text-primary text-sm font-semibold tracking-wider uppercase shadow-lg">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              FREE BUILD, NO CARD
+              APPLICATION-BASED FREE PILOT
             </span>
           </div>
 
@@ -112,9 +103,9 @@ export default function Contact() {
             style={{ animationDelay: "0.4s" }}
           >
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Get your free
+              Apply for the free
             </span>{" "}
-            <span className="inline-block hover:scale-105 transition-transform duration-300">60-Second Lead Engine</span>
+            <span className="inline-block hover:scale-105 transition-transform duration-300">60-Second Lead Response Pilot</span>
           </h1>
 
           <p
@@ -123,9 +114,8 @@ export default function Contact() {
             id="contact-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Tell us where leads arrive and what happens now. We&apos;ll scope a free first workflow designed to reply to
-            eligible leads against a 60-second target, using approved context and your booking rules. If the pilot
-            meets the success criteria we agree, you can choose whether to expand.
+            Tell us where genuine inbound leads arrive, what happens now and who owns the response. We review the fit
+            before agreeing one scoped workflow, its required inputs and the technical criteria it must meet.
           </p>
         </div>
       </section>
@@ -143,9 +133,9 @@ export default function Contact() {
               <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-emerald-400/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
                 <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
-                  Request your free Lead Engine
+                  Apply for the free pilot
                 </h2>
-                <ContactForm onSuccess={handleFormSuccess} />
+                <ContactForm />
               </div>
             </div>
 
@@ -157,11 +147,11 @@ export default function Contact() {
                 style={{ animationDelay: "1.0s" }}
               >
                 <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  How the free build works
+                  How the application works
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-8 hover:text-foreground/80 transition-colors duration-300">
-                  No card and no sales call are required to request the build. We confirm the lead source,
-                  integrations, reply rules, human handoff and timeline before enabling the workflow on real leads.
+                  No card is required to apply. We first confirm that you have a real inbound source, approved reply
+                  examples, booking or routing rules, safe test conditions and an accountable human owner.
                 </p>
               </div>
 
@@ -174,7 +164,7 @@ export default function Contact() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Your free Lead Engine includes:
+                    The scoped pilot includes:
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
@@ -182,7 +172,7 @@ export default function Contact() {
                       "Approved business context and voice examples",
                       "Your current booking and routing rules",
                       "Human alerts, handoff and visible failure handling",
-                      "One agreed lead source, with no card required",
+                      "A written pilot scorecard and handover notes",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -206,14 +196,14 @@ export default function Contact() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Why Choose Ayothedoc?
+                    Why the pilot is lower risk
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "Start free: we build your Lead Engine before you pay anything",
-                      "Paid work is measured against a baseline agreed at kickoff",
-                      "Built around your tools and approved reply examples",
-                      "Managed plans include monitoring, fixes and agreed improvements",
+                      "One narrow workflow is tested before any broader commitment",
+                      "Technical success criteria are written down before the build",
+                      "No obligation to expand if the pilot does not meet those criteria",
+                      "No promise of booked calls or revenue that the workflow cannot control",
                     ].map((item, index) => (
                       <li
                         key={item}
