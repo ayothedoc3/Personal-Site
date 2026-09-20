@@ -428,7 +428,7 @@ export default function Home() {
                 <h4 className="font-bold mb-4">Legal</h4>
                 <ul className="space-y-2 text-muted-foreground">
                   <li><Link href="/terms" className="hover:text-lime-400">Terms of Service</Link></li>
-                  <li><Link href="/privacy" className="hover:text-lime-400">Privacy Policy</Link></li>
+                  <li><a href="https://ayothedoc.com/privacy" className="hover:text-lime-400">Privacy Policy</a></li>
                   <li><Link href="/refund" className="hover:text-lime-400">Refund &amp; Cancellation</Link></li>
                 </ul>
               </div>

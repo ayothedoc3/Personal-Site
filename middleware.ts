@@ -69,6 +69,13 @@ export function middleware(req: NextRequest) {
     }
   }
 
+  // Both hosts used to publish the same privacy-policy body with separate
+  // self-canonicals. Consolidate the shared legal policy on the main
+  // Ayothedoc host so search engines have one unambiguous canonical URL.
+  if (site === "aios" && pathname === "/privacy") {
+    return NextResponse.redirect(new URL(`/privacy${search}`, sites.healthcare.url), 301)
+  }
+
   // AIOS host requests to healthcare-only routes -> 404.
   if (site === "aios" && pathMatchesPrefix(pathname, HEALTHCARE_ONLY_PREFIXES)) {
     const url = req.nextUrl.clone()
