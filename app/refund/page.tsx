@@ -6,11 +6,11 @@ export const metadata = buildMetadata({
   site: "aios",
   path: "/refund",
   title: "Refund & Cancellation Policy | Ayothedoc",
-  description: "How cancellations, the 40-hour guarantee, and refunds work for Ayothedoc plans.",
+  description: "How the free AIOS pilot, any separately agreed paid work, cancellations and refunds are handled.",
   robots: { index: true, follow: true },
 })
 
-const UPDATED = "May 27, 2026"
+const UPDATED = "September 28, 2026"
 
 export default function RefundPage() {
   return (
@@ -22,34 +22,25 @@ export default function RefundPage() {
           <p className="text-muted-foreground mb-10">Last updated: {UPDATED}</p>
 
           <div className="space-y-8 text-muted-foreground leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_a]:text-lime-400 [&_a]:underline">
-            <h2>Monthly plans</h2>
-            <ul>
-              <li>Foundation, Operations, and Autonomous are billed monthly in advance.</li>
-              <li>You can cancel anytime; cancellation stops the next renewal. Your plan stays active until the end of the current paid month.</li>
-              <li>We don&apos;t prorate partial months unless required by law.</li>
-              <li>You keep everything we&apos;ve built in your own accounts.</li>
-            </ul>
-
-            <h2>One-time install (AIOS Install Sprint)</h2>
+            <h2>Free pilot</h2>
             <p>
-              The install is a fixed-scope service delivered over ~10 business days. Because work begins immediately,
-              it is generally non-refundable once kickoff has started. If we fail to deliver the agreed scope, we&apos;ll
-              make it right by completing the work.
+              Applying for the scoped lead response pilot does not require payment. If we agree to run a pilot,
+              its scope, prerequisites and success criteria are confirmed in writing before work begins. There is
+              no automatic upgrade or recurring charge when the pilot ends.
             </p>
 
-            <h2>The 40-hour guarantee</h2>
+            <h2>Paid work after the pilot</h2>
             <p>
-              Where offered, the guarantee is a <em>work guarantee</em>, not a money-back guarantee: if your AI
-              Operating System doesn&apos;t recover the agreed hours against your kickoff baseline within 30 days, we
-              keep working at no extra cost until it does. It does not entitle you to a cash refund unless we expressly
-              agree otherwise in writing.
+              Any paid continuation requires a separate written agreement. The scope, fees, billing schedule,
+              cancellation terms and any applicable refund terms are set out in that agreement. If you have an
+              existing paid agreement, its terms govern that work, subject to applicable law.
             </p>
 
             <h2>How to cancel or request a refund</h2>
             <p>
-              Email <a href="mailto:contact@ayothedoc.com">contact@ayothedoc.com</a> from the address on your account.
-              We&apos;ll confirm cancellation and process any eligible refund to your original payment method within
-              5–10 business days.
+              Email <a href="mailto:contact@ayothedoc.com">contact@ayothedoc.com</a> from the address used for
+              your application or agreement. Include the service and agreement concerned so we can review the
+              request and reply with the applicable terms.
             </p>
 
             <h2>Chargebacks</h2>
