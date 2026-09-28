@@ -25,8 +25,6 @@ const HEALTHCARE_PATH_MIGRATIONS = new Map([
 function healthcareMigration(pathname: string): string | null {
   const exact = HEALTHCARE_PATH_MIGRATIONS.get(pathname)
   if (exact) return exact
-  if (pathname === "/services" || pathname.startsWith("/services/")) return "/solutions"
-  if (pathname === "/blog") return "/insights"
   return null
 }
 
@@ -46,13 +44,18 @@ export function middleware(req: NextRequest) {
   const site = siteFromHost(host)
 
   if (site === "healthcare" && PROD_APEX.has(host)) {
+    if (pathname === "/services" || pathname.startsWith("/services/")) {
+      return NextResponse.redirect(new URL(`/services${search}`, sites.aios.url), 301)
+    }
+    if (pathname === "/blog") {
+      return NextResponse.redirect(new URL(`/blog${search}`, sites.aios.url), 301)
+    }
     const migratedPath = healthcareMigration(pathname)
     if (migratedPath) {
       return NextResponse.redirect(new URL(`${migratedPath}${search}`, sites.healthcare.url), 301)
     }
 
-    // Preserve already-indexed legacy AIOS article URLs on their topical
-    // equivalent while keeping the root /blog index healthcare-specific.
+    // Preserve already-indexed legacy AIOS article URLs on their topical equivalent.
     if (pathname.startsWith("/blog/")) {
       return NextResponse.redirect(new URL(pathname + search, sites.aios.url), 301)
     }
