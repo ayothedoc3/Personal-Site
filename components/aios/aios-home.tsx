@@ -38,14 +38,6 @@ const HOME_FAQS: FaqEntry[] = [
 
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState(new Set<string>())
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    setMousePosition({
-      x: (e.clientX / window.innerWidth) * 100,
-      y: (e.clientY / window.innerHeight) * 100,
-    })
-  }, [])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Tab") {
@@ -58,7 +50,6 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove)
     window.addEventListener("keydown", handleKeyDown)
     window.addEventListener("mousedown", handleMouseDown)
 
@@ -81,11 +72,10 @@ export default function Home() {
 
     return () => {
       observer.disconnect()
-      window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("keydown", handleKeyDown)
       window.removeEventListener("mousedown", handleMouseDown)
     }
-  }, [handleMouseMove, handleKeyDown, handleMouseDown])
+  }, [handleKeyDown, handleMouseDown])
 
   const reveal = (id: string) =>
     `transition-all duration-1000 ${visibleSections.has(id) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`
@@ -99,12 +89,10 @@ export default function Home() {
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div
-          className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-lime-400/10 to-emerald-400/5 rounded-full blur-3xl animate-pulse transition-transform duration-1000 ease-out"
-          style={{ transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)` }}
+          className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-lime-400/10 to-emerald-400/5 rounded-full blur-3xl"
         ></div>
         <div
-          className="absolute top-1/2 -left-40 w-80 h-80 bg-gradient-to-tr from-lime-400/8 to-cyan-400/4 rounded-full blur-3xl animate-pulse delay-1000 transition-transform duration-1000 ease-out"
-          style={{ transform: `translate(${mousePosition.x * -0.015}px, ${mousePosition.y * 0.015}px)` }}
+          className="absolute top-1/2 -left-40 w-80 h-80 bg-gradient-to-tr from-lime-400/8 to-cyan-400/4 rounded-full blur-3xl"
         ></div>
       </div>
 
@@ -123,8 +111,8 @@ export default function Home() {
 
             <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
               Give each qualified inbound lead
-              <br />
-              <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+              <br />{" "}
+              <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
                 a clear next step.
               </span>
             </h1>
