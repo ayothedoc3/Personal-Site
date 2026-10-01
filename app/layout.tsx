@@ -144,7 +144,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
         {gaMeasurementId ? (
           <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} strategy="afterInteractive" />
+            {/* Queue events below immediately; load the analytics library after
+                critical page resources so it does not compete with hero text. */}
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} strategy="lazyOnload" />
             <Script id="ga-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
