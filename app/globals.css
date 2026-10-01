@@ -138,12 +138,8 @@
   }
 }
 
-/* Added smooth theme transition animations */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
+/* Keep transitions opt-in through utilities. Animating every element during
+   theme initialization delays text rendering and creates hundreds of paint tasks. */
 
 /* Blog animations */
 @keyframes fade-in-up {
