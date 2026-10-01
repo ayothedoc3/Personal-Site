@@ -10,7 +10,7 @@ export const metadata = buildMetadata({
   robots: { index: true, follow: true },
 })
 
-const UPDATED = "September 28, 2026"
+const UPDATED = "October 1, 2026"
 
 export default function RefundPage() {
   return (
