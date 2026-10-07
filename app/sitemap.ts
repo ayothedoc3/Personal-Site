@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next"
 import { headers } from "next/headers"
+import { listPublishedPosts } from "@/lib/blog-store"
 import { getProgrammaticSummaries } from "@/lib/programmatic-seo"
 import { siteFromHost, sites } from "@/lib/site-config"
 import { solutionSlugs } from "@/lib/solutions"
@@ -26,7 +27,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }))
-    return [...staticPages, ...automationPages]
+    const posts = await listPublishedPosts()
+    const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
+      url: `${base}/blog/${post.slug}`,
+      lastModified: new Date(post.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }))
+    return [...staticPages, ...automationPages, ...blogPages]
   }
 
   // Healthcare
