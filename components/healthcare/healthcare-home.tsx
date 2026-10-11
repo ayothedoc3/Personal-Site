@@ -1,3 +1,4 @@
+import { WorkflowArt } from "@/components/motion/workflow-art"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { HealthcareHeader } from "./healthcare-header"
@@ -50,6 +51,7 @@ export function HealthcareHome() {
       {/* Hero */}
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-28">
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <div className="max-w-3xl">
             <Eyebrow>Healthcare AI Design &amp; Implementation</Eyebrow>
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl text-balance">
@@ -69,6 +71,8 @@ export function HealthcareHome() {
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </TrackedLink>
             </div>
+          </div>
+          <WorkflowArt variant="healthcare" />
           </div>
         </div>
       </section>
