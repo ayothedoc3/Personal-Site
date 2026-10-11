@@ -1,5 +1,6 @@
 "use client"
 
+import { WorkflowArt } from "@/components/motion/workflow-art"
 import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import { useEffect, useState, useCallback } from "react"
@@ -149,6 +150,8 @@ export default function Home() {
             <p className="text-sm text-muted-foreground -mt-8 mb-14">
               Application-based. Fit, scope, access and written success criteria are agreed before a pilot begins.
             </p>
+
+            <WorkflowArt />
 
             <p className="text-muted-foreground mb-6">Plugs into the tools you already run on</p>
             <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 opacity-70 text-lg font-semibold">
