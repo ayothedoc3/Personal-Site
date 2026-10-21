@@ -35,8 +35,8 @@ const contactSchema = z.object({
   websiteUrl: z.string().url("Enter a full website URL, including https://").max(300, "Website URL is too long"),
   leadSource: z.string().min(1, "Select the main lead source"),
   leadVolume: z.string().min(1, "Select the approximate monthly lead volume"),
-  canProvideInputs: z.boolean().refine((value) => value, "Confirm that the pilot inputs can be provided"),
-  service: z.string().default("Free 60-Second Lead Response Pilot"),
+  canProvideInputs: z.boolean().refine((value) => value, "Confirm that you already receive inbound leads"),
+  service: z.string().default("60-Second Lead Engine"),
   message: z.string()
     .min(10, "Message must be at least 10 characters")
     .max(2000, "Message is too long")
@@ -84,7 +84,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
       leadSource: "",
       leadVolume: "",
       canProvideInputs: false,
-      service: "Free 60-Second Lead Response Pilot",
+      service: "60-Second Lead Engine",
       newsletter: false,
       website: "",
       formStartTime: formStartTime,
@@ -99,7 +99,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
   const onFirstInteract = () => {
     if (startTracked) return
     setStartTracked(true)
-    trackEvent("lead_form_start", { site: "aios", form_name: "aios_free_pilot" })
+    trackEvent("lead_form_start", { site: "aios", form_name: "aios_lead_engine" })
   }
 
   const onSubmit = async (data: ContactFormData) => {
@@ -184,7 +184,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
         leadSource: "",
         leadVolume: "",
         canProvideInputs: false,
-        service: "Free 60-Second Lead Response Pilot",
+        service: "60-Second Lead Engine",
         message: "",
         newsletter: false,
         website: "",
@@ -310,7 +310,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
           </div>
           <div className="group">
             <label htmlFor="leadVolume" className="block text-sm font-medium text-muted-foreground mb-2">
-              Approximate Qualified Enquiries per Month *
+              Approximate Qualified Inquiries per Month *
             </label>
             <select
               id="leadVolume"
@@ -357,8 +357,7 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             {...register("canProvideInputs")}
           />
           <span>
-            We can provide one genuine inbound lead source, approved reply examples, booking or routing rules, and a
-            human owner for the pilot. *
+            We already receive real inbound leads through a form, inbox or ads. *
           </span>
         </label>
         {errors.canProvideInputs ? <p className="-mt-4 text-xs text-red-400">{errors.canProvideInputs.message}</p> : null}
@@ -381,10 +380,10 @@ export function ContactForm({ onSuccess, className }: ContactFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Sending Application...
+                Sending...
               </>
             ) : (
-            "Apply for the Free Pilot"
+            "Get started"
             )}
           </span>
         </Button>

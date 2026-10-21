@@ -66,7 +66,7 @@ const FOUR_C_BLURB: Record<FourC, string> = {
 
 const TIER_LABEL: Record<PageTier, string> = {
   pillar: "AIOS Overview",
-  wedge: "Free Build",
+  wedge: "Lead Engine",
   capability: "Installed Capability",
 }
 
@@ -77,13 +77,13 @@ const TIER_LABEL: Record<PageTier, string> = {
 //    lead with the free audit. Lead Engine is secondary.
 //  - Calendly is never primary; it lives as a quiet tertiary text link.
 function primaryCta(tier: PageTier): { href: string; label: string } {
-  if (tier === "wedge") return { href: "/offer", label: "Apply for the free pilot" }
+  if (tier === "wedge") return { href: "/offer", label: "See Lead Engine pricing" }
   return { href: "/audit", label: "Get your free AIOS readiness audit" }
 }
 
 function secondaryCta(tier: PageTier): { href: string; label: string } {
   if (tier === "wedge") return { href: "/audit", label: "Or score your AI readiness first" }
-  return { href: "/offer", label: "Or get your Lead Engine free" }
+  return { href: "/offer", label: "Or see Lead Engine pricing" }
 }
 
 // Strip raw HTML tags into plain text for the FAQPage JSON-LD.
@@ -253,7 +253,7 @@ export default async function AutomationDetailPage({ params }: AutomationDetailP
             </h2>
             <p className="text-lg mb-6 max-w-2xl">
               {page.tier === "wedge"
-                ? "We will build a scoped 60-Second Lead Engine free on one agreed lead source. If the pilot meets its success criteria, you choose whether to expand."
+                ? "Every new lead gets a personal reply in under 60 seconds, in your voice, or your setup fee back."
                 : "Score your AI readiness across the Four Cs in about 10 minutes. We send the audit and the three highest-leverage automations for your business."}
             </p>
             <div className="flex flex-wrap items-center gap-4">

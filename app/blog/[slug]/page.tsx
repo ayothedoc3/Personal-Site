@@ -158,17 +158,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </section>
 
-        {/* CTA: drive to the free Lead Engine, the primary site action */}
+        {/* CTA: drive to the Lead Engine, the primary site action */}
         <section className="relative px-6 py-16 lg:px-12">
           <div className="max-w-3xl mx-auto text-center bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 rounded-3xl p-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Stop losing leads to slow follow-up</h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-              We will build a scoped 60-Second Lead Engine free on one agreed lead source. No card is required.
+              Every new lead gets a personal reply in under 60 seconds, in your voice, or your setup fee back.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
-                  Apply for the Free Pilot
+                  Get started
                 </Button>
               </Link>
               <Link href="/blog">

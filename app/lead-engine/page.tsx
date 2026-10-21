@@ -1,5 +1,8 @@
 import { SiteHeader } from "@/components/site-header"
 import { ContactForm } from "@/components/contact-form"
+import Link from "next/link"
+
+import { GUARANTEE, PLANS, usd } from "@/lib/aios-offer"
 import { buildMetadata } from "@/lib/seo"
 
 // Campaign landing page for cold outreach. Intentionally NOT in the nav, footer,
@@ -8,27 +11,27 @@ import { buildMetadata } from "@/lib/seo"
 export const metadata = buildMetadata({
   site: "aios",
   path: "/lead-engine",
-  title: "Apply for a Free Lead Response Pilot | AIOS",
+  title: "Every Lead Answered in 60 Seconds | AIOS",
   description:
-    "Request a free first lead-response workflow designed around a 60-second service target, approved business context, booking rules and human handoff.",
+    "A personal reply to every inbound lead in under 60 seconds, in your voice, with your booking link. Live in 7 days, backed by the 60-Second Guarantee.",
   robots: { index: false, follow: false },
 })
 
 const STEPS = [
   {
     n: "01",
-    title: "You apply with one workflow",
-    body: "Share your offer, inbound source, approximate lead volume, current response path and human owner.",
+    title: "Tell us about your leads",
+    body: "Where they come from, roughly how many, and what happens to them today.",
   },
   {
     n: "02",
-    title: "We confirm the fit",
-    body: "We document the agreed source, approved reply context, booking rules, alerts, human handoff, prerequisites and scorecard before a build starts.",
+    title: "We build it in 7 days",
+    body: "We capture your voice from real emails you have sent, connect your form or inbox and test on sample leads you approve.",
   },
   {
     n: "03",
-    title: "You validate and decide",
-    body: "After testing, review the observed workflow performance and choose whether to stop, keep it focused or scope managed operations.",
+    title: "Every lead answered",
+    body: "Each new lead gets a personal reply in under 60 seconds, day or night. You get an alert with every reply sent.",
   },
 ]
 
@@ -45,15 +48,16 @@ export default function LeadEnginePage() {
               For agencies and consultants
             </span>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6">
-              Test one lead-response handoff before buying a larger system
+              Your next lead gets a reply in 60 seconds. Not 6 hours.
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 leading-relaxed">
               A lead can arrive while your team is in meetings or client delivery. A clear first-response workflow
               removes avoidable delay and keeps the next step visible.
             </p>
             <p className="text-lg md:text-xl mt-4 font-semibold">
-              We build a workflow designed to reply to eligible leads against a 60-second service target, using
-              approved context and your booking rules. The first scoped build is <span className="text-lime-400">free</span>.
+              We build and run a Lead Engine that replies to every new lead in your voice, with your booking link.
+              From <span className="text-lime-400">{usd(PLANS[0].monthly)}/month</span>, and founding clients pay half
+              the setup fee.
             </p>
           </section>
 
@@ -74,14 +78,10 @@ export default function LeadEnginePage() {
           {/* The offer + form */}
           <section className="mt-16 grid lg:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold">What you get, free</h2>
+              <h2 className="text-3xl md:text-4xl font-bold">What you get</h2>
               <ul className="mt-6 space-y-4 text-muted-foreground">
                 {[
-                  "Eligible enquiries measured against a 60-second target",
-                  "Approved business context and voice examples",
-                  "Current booking and routing rules",
-                  "Human alerts, handoff and visible failures",
-                  "One agreed lead source and a written pilot scorecard",
+                  ...PLANS[0].features,
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <span className="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 shrink-0" />
@@ -90,14 +90,17 @@ export default function LeadEnginePage() {
                 ))}
               </ul>
               <p className="mt-8 text-sm text-muted-foreground border-t border-border/40 pt-6 leading-relaxed">
-                We agree the pilot scope and success criteria before live use. After the pilot, you can keep the focused
-                workflow or discuss managed AI operations. There is no obligation to expand.
+                {GUARANTEE.body}{" "}
+                <Link href="/offer" className="text-lime-400 hover:underline">
+                  See both plans
+                </Link>
+                .
               </p>
             </div>
 
             <div className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl">
               <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
-                Apply for the free pilot
+                Tell us about your leads
               </h2>
               <ContactForm />
             </div>

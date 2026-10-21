@@ -11,7 +11,7 @@ export async function generateMetadata() {
   return buildMetadata({
     site,
     path: "/thank-you",
-    title: site === "aios" ? "Pilot Application Received | AIOS" : "Healthcare AI Enquiry Received | Ayothedoc",
+    title: site === "aios" ? "Request Received | AIOS" : "Healthcare AI Enquiry Received | Ayothedoc",
     description: "Confirmation that your enquiry has been received.",
     robots: { index: false, follow: false },
   })
@@ -27,12 +27,12 @@ export default async function ThankYouPage() {
         <main id="main-content" tabIndex={-1}>
           <LeadThankYou
             site="aios"
-            heading="Your pilot application is in"
-            message="We will review the lead source, volume, current process and required inputs before confirming whether the free pilot is a responsible fit. No build or paid engagement is created automatically."
+            heading="Got it. Check your inbox."
+            message="You should already have a reply from our own Lead Engine. Ayo will follow up within one business day with a fit check, the right plan and a start date."
             bookingUrl={process.env.AIOS_BOOKING_URL}
             contactEmail={sites.aios.contactEmail}
             nextHref="/offer"
-            nextLabel="Review the pilot scope and success criteria"
+            nextLabel="Review pricing and the guarantee"
           />
         </main>
       </div>
