@@ -310,9 +310,13 @@ export default function Home() {
             {/* Founder note: honest, owner-led trust signal (no fabricated proof) */}
             <div className="mt-12 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                <div className="shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-lime-400 to-emerald-400 flex items-center justify-center text-gray-900 text-2xl font-bold shadow-lg">
-                  A
-                </div>
+                <img
+                  src="/ayo.png"
+                  alt="Ayokunle Ademola-John"
+                  width={80}
+                  height={80}
+                  className="shrink-0 w-20 h-20 rounded-full bg-muted object-cover object-top shadow-lg"
+                />
                 <div className="text-center sm:text-left">
                   <p className="text-lg md:text-xl leading-relaxed">
                     &ldquo;I design and run every system myself. You work directly with the person doing the build, not an
@@ -320,7 +324,7 @@ export default function Home() {
                     be measured before the build starts.&rdquo;
                   </p>
                   <div className="mt-4 font-semibold">
-                    Ayo
+                    Ayokunle Ademola-John
                     <span className="text-muted-foreground font-normal">, founder of Ayothedoc</span>
                   </div>
                 </div>

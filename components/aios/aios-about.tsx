@@ -186,18 +186,16 @@ export default function About() {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative z-10">
               <div className="w-32 h-32 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full mx-auto mb-6 flex items-center justify-center border border-primary/30 group-hover:scale-110 transition-transform duration-300">
-                <div className="w-24 h-24 bg-gradient-to-br from-muted to-muted/50 rounded-full flex items-center justify-center">
-                  <svg className="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fillRule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
+                <img
+                  src="/ayo.png"
+                  alt="Ayokunle Ademola-John"
+                  width={120}
+                  height={120}
+                  className="w-[120px] h-[120px] rounded-full bg-muted object-cover object-top"
+                />
               </div>
               <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
-                Ayo
+                Ayokunle Ademola-John (Ayo)
               </h3>
               <p className="text-primary text-lg mb-6 font-semibold">Founder, Ayothedoc</p>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6 group-hover:text-foreground/80 transition-colors duration-300">
