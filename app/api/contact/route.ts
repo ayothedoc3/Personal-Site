@@ -201,7 +201,7 @@ export async function POST(req: NextRequest) {
         phone: String(body.phone || "").trim() || undefined,
         source: "Website contact form",
       }),
-      signal: AbortSignal.timeout(25_000),
+      signal: AbortSignal.timeout(50_000),
     })
     if (!r.ok) {
       const t = await r.text().catch(() => "")
