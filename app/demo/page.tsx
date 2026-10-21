@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import { PLANS, usd } from "@/lib/aios-offer"
+
 import { SiteHeader } from "@/components/site-header"
 import { DemoClient } from "@/components/demo-client"
 import { DemoVideo } from "@/components/demo-video"
@@ -11,7 +13,7 @@ export const metadata = buildMetadata({
   path: "/demo",
   title: "60-Second Lead Engine Demo | AIOS",
   description:
-    "Enter a sample agency enquiry and inspect the sandboxed Lead Engine draft, subject line, booking link and elapsed drafting time. No signup required.",
+    "Enter a sample agency inquiry and inspect the sandboxed Lead Engine draft, subject line, booking link and elapsed drafting time. No signup required.",
 })
 
 export default function DemoPage() {
@@ -30,7 +32,7 @@ export default function DemoPage() {
               Don&apos;t take our word for it. <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">Watch it reply.</span>
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mt-6 leading-relaxed">
-              Enter an enquiry as if you were a prospect and inspect the sandboxed draft: a tailored first response
+              Enter an inquiry as if you were a prospect and inspect the sandboxed draft: a tailored first response
               based on the details you provide, with a clear next step and booking link.
             </p>
           </section>
@@ -54,13 +56,13 @@ export default function DemoPage() {
             <div className="p-8 md:p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">Test the workflow, not a marketing claim</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                The interactive demo above lets you submit a realistic enquiry and inspect the draft it produces. It is
-                a sandbox, so it does not email the draft or store the enquiry.
+                The interactive demo above lets you submit a realistic inquiry and inspect the draft it produces. It is
+                a sandbox, so it does not email the draft or store the inquiry.
               </p>
               <div className="grid sm:grid-cols-3 gap-4 text-center">
                 <div className="rounded-xl bg-background/60 border border-border/40 p-5">
                   <div className="text-xl font-bold text-lime-400">Interactive</div>
-                  <div className="text-xs text-muted-foreground mt-1">Use your own example or load the clearly labelled sample enquiry.</div>
+                  <div className="text-xs text-muted-foreground mt-1">Use your own example or load the clearly labelled sample inquiry.</div>
                 </div>
                 <div className="rounded-xl bg-background/60 border border-border/40 p-5">
                   <div className="text-xl font-bold text-lime-400">Visible</div>
@@ -76,18 +78,18 @@ export default function DemoPage() {
 
           {/* Guarantee + CTA */}
           <section className="mt-16 max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Get this on your real leads, free</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Get this on your real leads</h2>
             <p className="text-muted-foreground text-lg mb-2 max-w-2xl mx-auto">
-              We build your first scoped Lead Engine free: approved voice examples, your booking rules and one agreed
-              lead source. No card is required.
+              We build your Lead Engine from real emails you have written, connect your form or inbox and go live in
+              7 days. Every new lead gets a reply in under 60 seconds, or your setup fee back.
             </p>
             <p className="text-sm font-semibold text-lime-400 mb-8">
-              Paid work is measured against a baseline agreed at kickoff.{" "}
-              <Link href="/offer" className="hover:underline">Review the pilot scope and success criteria</Link>.
+              From {usd(PLANS[0].monthly)}/month.{" "}
+              <Link href="/offer" className="hover:underline">See pricing and the guarantee</Link>.
             </p>
             <Link href="/contact">
               <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-lime-400/50">
-                Apply for the Free Pilot
+                Get started
               </Button>
             </Link>
           </section>

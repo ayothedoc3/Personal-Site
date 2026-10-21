@@ -323,9 +323,6 @@ export default function BlogClient({ initialPosts, categories }: BlogClientProps
               {subscribeMessage}
             </p>
           )}
-          <p className="text-muted-foreground text-sm mt-4">
-            Thank you for reading this post, don't forget to subscribe!
-          </p>
         </div>
       </section>
 

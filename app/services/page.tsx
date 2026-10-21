@@ -144,7 +144,7 @@ export default function Services() {
                 ),
                 title: "Lead-to-Booked Engine",
                 description:
-                  "Eligible enquiries are captured, routed and measured against the agreed response target, with a clear booking or human-handoff path.",
+                  "Eligible inquiries are captured, routed and measured against the agreed response target, with a clear booking or human-handoff path.",
                 features: [
                   "Form → CRM in real time",
                   "Instant first follow-up",
@@ -246,7 +246,7 @@ export default function Services() {
 
                   <Link href="/offer">
                     <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground rounded-xl shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-105 group-hover:shadow-xl">
-                      <span className="group-hover:scale-110 transition-transform duration-200">See the free pilot path</span>
+                      <span className="group-hover:scale-110 transition-transform duration-200">See pricing</span>
                     </Button>
                   </Link>
                 </div>
@@ -271,12 +271,12 @@ export default function Services() {
             </span>
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-            We&apos;ll build a scoped 60-Second Lead Engine free on one agreed lead source. If the pilot meets its agreed
-            success criteria, you can choose whether to expand into managed AI operations.
+            Start with the 60-Second Lead Engine: every new lead gets a personal reply in under 60 seconds, or your
+            setup fee back. Once it is running, we add the rest of your operations.
           </p>
           <Link href="/contact">
             <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-110 group">
-              <span className="group-hover:scale-110 transition-transform duration-200">Apply for the Free Pilot</span>
+              <span className="group-hover:scale-110 transition-transform duration-200">Get started</span>
             </Button>
           </Link>
         </div>

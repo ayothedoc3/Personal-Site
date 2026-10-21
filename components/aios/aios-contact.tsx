@@ -4,17 +4,22 @@ import { SiteHeader } from "@/components/site-header"
 import { ContactForm } from "@/components/contact-form"
 import { useState, useEffect } from "react"
 import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
+import { GUARANTEE, PLANS, usd } from "@/lib/aios-offer"
 
 const CONTACT_FAQS: FaqEntry[] = [
   {
-    question: "How long until the pilot is running?",
+    question: "How long until it's live?",
     answer:
-      "The timeline is confirmed after the fit check because it depends on the lead source, available integration, approved reply examples and access. No delivery clock starts before those prerequisites are documented.",
+      "Email replies go live within 7 days of kickoff. Text replies on Lead Engine Pro switch on once US carrier registration clears, usually 1 to 3 weeks.",
   },
   {
     question: "Do you run it for me, or just set it up?",
     answer:
-      "The free pilot validates one response and handoff path. If you choose to continue, a separate managed scope can cover monitoring, fixes and agreed improvements. You own the work delivered under that scope.",
+      "We run it. Monitoring, fixes and voice tuning are included in your monthly plan, and you get a monthly response-time report.",
+  },
+  {
+    question: "What does it cost?",
+    answer: `Lead Engine is ${usd(PLANS[0].monthly)}/month plus ${usd(PLANS[0].setup)} setup. Lead Engine Pro is ${usd(PLANS[1].monthly)}/month plus ${usd(PLANS[1].setup)} setup. Founding clients pay half the setup fee.`,
   },
   {
     question: "Does this replace my team?",
@@ -24,7 +29,7 @@ const CONTACT_FAQS: FaqEntry[] = [
   {
     question: "Can you work with my existing tools?",
     answer:
-      "Usually. We first confirm that the required integrations, permissions and source-of-truth rules are available for your email, CRM, calendar, billing and document tools.",
+      "Yes. Most website forms, inboxes and ad lead forms can send leads to the engine. HubSpot is built in, and other CRMs are connected during setup.",
   },
 ]
 
@@ -92,7 +97,7 @@ export default function Contact() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-sm border border-primary/30 rounded-full text-primary text-sm font-semibold tracking-wider uppercase shadow-lg">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              APPLICATION-BASED FREE PILOT
+              60-SECOND LEAD ENGINE
             </span>
           </div>
 
@@ -103,9 +108,9 @@ export default function Contact() {
             style={{ animationDelay: "0.4s" }}
           >
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">
-              Apply for the free
+              Get your leads answered
             </span>{" "}
-            <span className="inline-block hover:scale-105 transition-transform duration-300">60-Second Lead Response Pilot</span>
+            <span className="inline-block hover:scale-105 transition-transform duration-300">in under 60 seconds</span>
           </h1>
 
           <p
@@ -114,8 +119,8 @@ export default function Contact() {
             id="contact-subtitle"
             style={{ animationDelay: "0.6s" }}
           >
-            Tell us where genuine inbound leads arrive, what happens now and who owns the response. We review the fit
-            before agreeing one scoped workflow, its required inputs and the technical criteria it must meet.
+            Tell us where your leads come from and what happens to them today. We reply within one business day with a
+            fit check, the right plan and a start date.
           </p>
         </div>
       </section>
@@ -133,7 +138,7 @@ export default function Contact() {
               <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-emerald-400/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10">
                 <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
-                  Apply for the free pilot
+                  Tell us about your leads
                 </h2>
                 <ContactForm />
               </div>
@@ -147,11 +152,11 @@ export default function Contact() {
                 style={{ animationDelay: "1.0s" }}
               >
                 <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  How the application works
+                  What happens next
                 </h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-8 hover:text-foreground/80 transition-colors duration-300">
-                  No card is required to apply. We first confirm that you have a real inbound source, approved reply
-                  examples, booking or routing rules, safe test conditions and an accountable human owner.
+                  No payment today. We review your lead flow, recommend the right plan and send a start date. Email
+                  replies are live within 7 days of kickoff.
                 </p>
               </div>
 
@@ -164,15 +169,15 @@ export default function Contact() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    The scoped pilot includes:
+                    Every plan includes:
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "Eligible leads measured against a 60-second reply target",
-                      "Approved business context and voice examples",
-                      "Your current booking and routing rules",
-                      "Human alerts, handoff and visible failure handling",
-                      "A written pilot scorecard and handover notes",
+                      "A personal reply to every new lead in under 60 seconds",
+                      "Written in your voice, with your booking link",
+                      "An instant alert with every lead and the reply sent",
+                      "A backup reply if the AI is ever unavailable",
+                      "Monitoring, fixes and a monthly response-time report",
                     ].map((item, index) => (
                       <li
                         key={item}
@@ -196,14 +201,14 @@ export default function Contact() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    Why the pilot is lower risk
+                    Why it is low risk
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     {[
-                      "One narrow workflow is tested before any broader commitment",
-                      "Technical success criteria are written down before the build",
-                      "No obligation to expand if the pilot does not meet those criteria",
-                      "No promise of booked calls or revenue that the workflow cannot control",
+                      GUARANTEE.short,
+                      "You approve sample replies before anything goes live",
+                      "3-month minimum, then month to month",
+                      "Your prompts, templates and lead data stay yours",
                     ].map((item, index) => (
                       <li
                         key={item}

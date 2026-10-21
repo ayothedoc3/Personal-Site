@@ -8,6 +8,7 @@ import Link from "next/link"
 import { trackEvent } from "@/lib/analytics"
 import { testimonials } from "@/data/testimonials"
 import { faqPageJsonLd, type FaqEntry } from "@/lib/structured-data"
+import { GUARANTEE, PLANS, usd } from "@/lib/aios-offer"
 
 const HOME_FAQS: FaqEntry[] = [
   {
@@ -16,19 +17,23 @@ const HOME_FAQS: FaqEntry[] = [
       "No. It removes repetitive work so your team can focus on sales, client delivery, and decisions that need people.",
   },
   {
-    question: "What happens if an automation breaks?",
+    question: "What happens if something breaks?",
     answer:
-      "The pilot includes visible failure handling, alerts and a human escalation path. Any ongoing monitoring and repair responsibilities are stated explicitly in a separate managed scope if you continue.",
+      "If the AI is ever unavailable, a backup reply still goes out so no lead waits. We monitor every lead, get alerted on failures and fix them, all included in your monthly plan.",
   },
   {
-    question: "Who owns the system?",
+    question: "What do I own?",
     answer:
-      "You do. Every automation, prompt, and connection lives in your accounts. If you ever leave, you keep the entire system.",
+      "Your prompts, reply templates and lead data are yours. If you ever leave, we hand them over.",
   },
   {
-    question: "How fast until the pilot is live?",
+    question: "How fast can it be live?",
     answer:
-      "The timeline is confirmed after the fit check because it depends on the lead source, integration, approved reply examples and access. The delivery clock does not start until those prerequisites are documented and available.",
+      "Email replies go live within 7 days of kickoff. Text replies switch on once US carrier registration clears, usually 1 to 3 weeks.",
+  },
+  {
+    question: "What does it cost?",
+    answer: `Plans start at ${usd(PLANS[0].monthly)} a month plus a one-time setup fee, backed by the 60-Second Guarantee. Founding clients pay half the setup fee.`,
   },
   {
     question: "Do I need to be technical?",
@@ -111,26 +116,25 @@ export default function Home() {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-              Give each qualified inbound lead
+              Every new lead answered
               <br />{" "}
               <span className="bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                a clear next step.
+                in under 60 seconds.
               </span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-              Start with one inbound source and a workflow designed to reply to eligible leads against a 60-second
-              target, using your approved context, booking rules and human handoff. The scoped pilot starts{" "}
-              <strong className="text-foreground">free</strong>, then you decide whether to expand.
+              A personal reply in your voice, with your booking link, day or night. Then follow-ups until they book.
+              Done for you, from <strong className="text-foreground">{usd(PLANS[0].monthly)}/month</strong>.
             </p>
 
             <div className="flex justify-center items-center mb-6">
               <Link href="/contact">
                 <Button
-                  onClick={() => trackEvent("cta_click", { cta: "home_hero_free_engine", destination: "/contact" })}
+                  onClick={() => trackEvent("cta_click", { cta: "home_hero_start", destination: "/contact" })}
                   className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-semibold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                 >
-                  Apply for the Free Pilot
+                  Get started
                 </Button>
               </Link>
             </div>
@@ -147,9 +151,7 @@ export default function Home() {
               .
             </p>
 
-            <p className="text-sm text-muted-foreground -mt-8 mb-14">
-              Application-based. Fit, scope, access and written success criteria are agreed before a pilot begins.
-            </p>
+            <p className="text-sm text-muted-foreground -mt-8 mb-14">{GUARANTEE.short}</p>
 
             <WorkflowArt />
 
@@ -225,40 +227,42 @@ export default function Home() {
           </div>
         </section>
 
-        {/* One clear entry offer */}
+        {/* Pricing teaser */}
         <section id="pricing" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-6xl mx-auto ${reveal("pricing")}`}>
             <div className="text-center mb-12">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-lime-400">One clear starting point</div>
-              <h2 className="text-4xl md:text-5xl font-bold mt-3 mb-4">Test one real lead-response handoff</h2>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-lime-400">Simple pricing</div>
+              <h2 className="text-4xl md:text-5xl font-bold mt-3 mb-4">Start with the Lead Engine</h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                The free pilot is deliberately narrow: one inbound source, approved replies, booking and routing
-                rules, human handoff, alerts and a written scorecard. Validate the workflow first, then choose whether
-                a broader managed AIOS engagement is justified.
+                One clear system, done for you and monitored by a real person. {GUARANTEE.short}
               </p>
             </div>
-            <div className="grid gap-5 md:grid-cols-3">
-              {[
-                { title: "Apply", body: "Share the lead source, current process, approximate volume and who owns the response." },
-                { title: "Validate", body: "Test the scoped workflow against agreed timing, content, routing, handoff and failure criteria." },
-                { title: "Decide", body: "Review the findings and continue only if a wider managed system is worth the investment." },
-              ].map((step, index) => (
-                <div key={step.title} className="rounded-2xl border border-border/50 bg-card/50 p-8">
-                  <div className="text-sm font-bold tracking-widest text-lime-400">0{index + 1}</div>
-                  <h3 className="mt-3 text-2xl font-bold">{step.title}</h3>
-                  <p className="mt-3 leading-relaxed text-muted-foreground">{step.body}</p>
+            <div className="grid gap-6 md:grid-cols-2">
+              {PLANS.map((plan) => (
+                <div
+                  key={plan.id}
+                  className={`rounded-2xl border p-8 ${plan.highlight ? "border-lime-400/60 bg-lime-400/5" : "border-border/50 bg-card/50"}`}
+                >
+                  <h3 className="text-2xl font-bold">{plan.name}</h3>
+                  <p className="mt-2 text-muted-foreground">{plan.tagline}</p>
+                  <div className="mt-6 flex items-end gap-2">
+                    <span className="text-4xl font-bold">{usd(plan.monthly)}</span>
+                    <span className="pb-1 text-muted-foreground">/month</span>
+                  </div>
+                  <div className="mt-1 text-sm text-muted-foreground">+ {usd(plan.setup)} one-time setup</div>
                 </div>
               ))}
             </div>
             <div className="mt-10 flex flex-col items-center gap-4 text-center">
-              <Link href="/contact">
-                <Button className="rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 px-10 py-4 text-lg font-bold text-gray-900 hover:from-lime-500 hover:to-emerald-500">
-                  Apply for the Free Pilot
+              <Link href="/offer">
+                <Button
+                  onClick={() => trackEvent("cta_click", { cta: "home_pricing", destination: "/offer" })}
+                  className="rounded-full bg-gradient-to-r from-lime-400 to-emerald-400 px-10 py-4 text-lg font-bold text-gray-900 hover:from-lime-500 hover:to-emerald-500"
+                >
+                  See full pricing and the guarantee
                 </Button>
               </Link>
-              <Link href="/offer" className="text-sm font-medium text-lime-400 hover:underline">
-                Review the complete scope and fit criteria
-              </Link>
+              <p className="text-sm text-muted-foreground">Founding clients pay half the setup fee.</p>
             </div>
           </div>
         </section>
@@ -267,13 +271,13 @@ export default function Home() {
         <section id="how" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-5xl mx-auto ${reveal("how")}`}>
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">From application to an evidence-based decision</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Live in 7 days</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { step: "01", title: "Fit check", time: "Application review", body: "Confirm that a real inbound source, approved replies, access and an accountable human owner are available." },
-                { step: "02", title: "Pilot", time: "Timeline agreed before build", body: "Configure one scoped response and handoff path, then inspect it against the written pilot scorecard." },
-                { step: "03", title: "Decision", time: "No automatic upgrade", body: "Review observed performance and choose whether to stop, keep the workflow focused or scope managed operations." },
+                { step: "01", title: "Fit call", time: "15 minutes", body: "We look at where your leads come from, what you say to them today and where they should book." },
+                { step: "02", title: "Build", time: "Days 1 to 6", body: "We capture your voice from real emails, connect your form or inbox and test on sample leads you approve." },
+                { step: "03", title: "Live", time: "Day 7", body: "Every new lead gets a reply in under 60 seconds. We monitor it and send you a monthly report." },
               ].map((s) => (
                 <div key={s.step} className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                   <div className="text-lime-400 text-sm font-bold tracking-widest mb-2">STEP {s.step}</div>
@@ -290,16 +294,16 @@ export default function Home() {
         <section id="trust" className="py-20 px-6 lg:px-12 relative" data-animate>
           <div className={`max-w-6xl mx-auto ${reveal("trust")}`}>
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Why the pilot is lower risk</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Why agencies trust it</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
-                <h3 className="text-xl font-bold mb-3 text-lime-400">Success criteria first</h3>
-                <p className="text-muted-foreground leading-relaxed">Eligible leads, timing, required reply content, routing, human handoff and failure handling are written down before the build starts.</p>
+                <h3 className="text-xl font-bold mb-3 text-lime-400">Guaranteed speed</h3>
+                <p className="text-muted-foreground leading-relaxed">{GUARANTEE.body}</p>
               </div>
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
-                <h3 className="text-xl font-bold mb-3 text-lime-400">You own everything</h3>
-                <p className="text-muted-foreground leading-relaxed">You receive the workflow findings and handover notes. Any paid continuation is separately scoped and never automatic.</p>
+                <h3 className="text-xl font-bold mb-3 text-lime-400">Sounds like you</h3>
+                <p className="text-muted-foreground leading-relaxed">Replies are built from real emails you have written and reference what each lead actually asked. You approve samples before go-live.</p>
               </div>
               <div className="p-8 rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50">
                 <h3 className="text-xl font-bold mb-3 text-lime-400">Boring is beautiful</h3>
@@ -310,9 +314,13 @@ export default function Home() {
             {/* Founder note: honest, owner-led trust signal (no fabricated proof) */}
             <div className="mt-12 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                <div className="shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-lime-400 to-emerald-400 flex items-center justify-center text-gray-900 text-2xl font-bold shadow-lg">
-                  A
-                </div>
+                <img
+                  src="/ayo.png"
+                  alt="Ayokunle Ademola-John"
+                  width={80}
+                  height={80}
+                  className="shrink-0 w-20 h-20 rounded-full bg-muted object-cover object-top shadow-lg"
+                />
                 <div className="text-center sm:text-left">
                   <p className="text-lg md:text-xl leading-relaxed">
                     &ldquo;I design and run every system myself. You work directly with the person doing the build, not an
@@ -320,7 +328,7 @@ export default function Home() {
                     be measured before the build starts.&rdquo;
                   </p>
                   <div className="mt-4 font-semibold">
-                    Ayo
+                    Ayokunle Ademola-John
                     <span className="text-muted-foreground font-normal">, founder of Ayothedoc</span>
                   </div>
                 </div>
@@ -372,18 +380,18 @@ export default function Home() {
         <section className="py-20 px-6 lg:px-12 relative">
           <div className="max-w-4xl mx-auto text-center">
             <div className="p-12 rounded-3xl bg-gradient-to-br from-lime-400/10 to-emerald-400/10 border border-lime-400/30 backdrop-blur-sm">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Stop leaving qualified enquiries waiting</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Stop losing leads to slow replies</h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Apply for a scoped 60-Second Lead Response Pilot on one agreed inbound source. Review it against
-                written technical criteria, then choose whether a broader system makes sense.
+                Tell us where your leads come from. We will reply within one business day with a fit check and a
+                start date.
               </p>
               <div className="flex justify-center items-center">
                 <Link href="/contact">
                   <Button
-                    onClick={() => trackEvent("cta_click", { cta: "home_final_free_engine", destination: "/contact" })}
+                    onClick={() => trackEvent("cta_click", { cta: "home_final_start", destination: "/contact" })}
                     className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-12 py-4 rounded-full text-lg font-bold transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-lime-400/50"
                   >
-                    Apply for the Free Pilot
+                    Get started
                   </Button>
                 </Link>
               </div>
@@ -402,7 +410,7 @@ export default function Home() {
                 <h4 className="font-bold mb-4">Offer</h4>
                 <ul className="space-y-2 text-muted-foreground">
                   <li><Link href="/audit" className="hover:text-lime-400">Free AI Readiness Audit</Link></li>
-                  <li><Link href="/offer" className="hover:text-lime-400">Free Lead Response Pilot</Link></li>
+                  <li><Link href="/offer" className="hover:text-lime-400">Pricing</Link></li>
                   <li><Link href="/services" className="hover:text-lime-400">What we install</Link></li>
                 </ul>
               </div>

@@ -113,11 +113,11 @@ export default function AuditPage() {
     if (industryLower.includes('web') || industryLower.includes('design')) {
       return {
         opportunities: [
-          { label: "60-second lead response", value: "Reply to eligible project enquiries against a clear service target, with your booking link and approved studio context." },
-          { label: "Project intake automation", value: "Turn qualified enquiries into scoped intake packets before the first call." },
+          { label: "60-second lead response", value: "Reply to eligible project inquiries against a clear service target, with your booking link and approved studio context." },
+          { label: "Project intake automation", value: "Turn qualified inquiries into scoped intake packets before the first call." },
           { label: "Client handoff checklist", value: "Create kickoff tasks, folder structure, and stakeholder reminders without manual setup." }
         ],
-        exampleWorkflow: "New website enquiry triggers a personalized reply, CRM update, booking link, and internal project-fit alert."
+        exampleWorkflow: "New website inquiry triggers a personalized reply, CRM update, booking link, and internal project-fit alert."
       }
     } else if (industryLower.includes('agency') || industryLower.includes('marketing') || industryLower.includes('consulting')) {
       return {
@@ -131,7 +131,7 @@ export default function AuditPage() {
     } else {
       return {
         opportunities: [
-          { label: "60-second lead response", value: "Capture eligible inbound enquiries against a clear response target and route exceptions to a person." },
+          { label: "60-second lead response", value: "Capture eligible inbound inquiries against a clear response target and route exceptions to a person." },
           { label: "Client intake workflow", value: "Collect the right context, update your CRM, and prep the next human step." },
           { label: "Scheduling and follow-up", value: "Automate booking links, reminders, and no-reply follow-up in your voice." }
         ],
@@ -405,7 +405,7 @@ export default function AuditPage() {
                 onClick={() => trackEvent("cta_click", { cta: "audit_result_lead_engine", destination: "/offer" })}
               >
                 <Button className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 py-3 rounded-full font-semibold transition-all duration-500 hover:scale-105">
-                  View the free Lead Engine pilot
+                  See Lead Engine pricing
                 </Button>
               </Link>
             </div>

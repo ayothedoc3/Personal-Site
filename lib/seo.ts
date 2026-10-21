@@ -41,7 +41,7 @@ export function buildMetadata({
       description,
       url,
       siteName: info.name,
-      locale: "en_GB",
+      locale: site === "aios" ? "en_US" : "en_GB",
       type,
       images: [socialImage],
     },

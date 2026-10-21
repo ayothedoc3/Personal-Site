@@ -23,7 +23,7 @@ export function SiteHeader() {
     { href: "/", label: "Home" },
     { href: "/demo", label: "Live Demo" },
     { href: "/services", label: "How it works" },
-    { href: "/offer", label: "Free Pilot" },
+    { href: "/offer", label: "Pricing" },
     { href: "/contact", label: "Contact" },
   ]
 
@@ -85,9 +85,9 @@ export function SiteHeader() {
           >
             <Link
               href="/contact"
-              onClick={() => trackEvent("cta_click", { cta: "header_apply_pilot", destination: "/contact" })}
+              onClick={() => trackEvent("cta_click", { cta: "header_get_started", destination: "/contact" })}
             >
-              Apply for the Free Pilot
+              Get started
             </Link>
           </Button>
         </div>

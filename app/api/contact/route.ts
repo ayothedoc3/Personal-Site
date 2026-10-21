@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
       !leadVolume ||
       body.canProvideInputs !== true
     ) {
-      return NextResponse.json({ error: "Complete the pilot qualification fields before submitting" }, { status: 400 })
+      return NextResponse.json({ error: "Complete the required fields before submitting" }, { status: 400 })
     }
   }
 
@@ -194,7 +194,7 @@ export async function POST(req: NextRequest) {
           `Company website: ${websiteUrl}`,
           `Main inbound source: ${leadSource}`,
           `Approximate qualified enquiries per month: ${leadVolume}`,
-          "Pilot inputs available: confirmed",
+          "Already receives inbound leads: confirmed",
           attribution,
         ].filter(Boolean).join("\n\n"),
         company,

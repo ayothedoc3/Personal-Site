@@ -45,9 +45,13 @@ export function HealthcareAbout() {
           <div className="grid gap-10 lg:grid-cols-3">
             <div className="lg:col-span-1">
               <div className="rounded-2xl border border-border bg-card p-7">
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-teal-600 text-xl font-semibold text-white">
-                  AA
-                </div>
+                <img
+                  src="/ayo.png"
+                  alt="Ayokunle Ademola-John"
+                  width={96}
+                  height={96}
+                  className="h-24 w-24 rounded-full bg-muted object-cover object-top"
+                />
                 <h2 className="mt-4 text-lg font-semibold">Ayokunle Ademola-John</h2>
                 <p className="mt-1 text-sm text-muted-foreground">Founder</p>
                 <Link

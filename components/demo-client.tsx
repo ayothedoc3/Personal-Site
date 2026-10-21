@@ -81,7 +81,7 @@ export function DemoClient() {
       {/* The lead's side */}
       <div className="backdrop-blur-xl bg-card/50 border border-border/50 p-8 rounded-2xl shadow-xl">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">You are the lead. Send an enquiry.</h2>
+          <h2 className="text-xl font-bold">You are the lead. Send an inquiry.</h2>
           <button onClick={fillSample} className="text-sm text-lime-400 hover:underline" type="button">
             Use a sample
           </button>
@@ -113,7 +113,7 @@ export function DemoClient() {
               />
             </div>
           </div>
-          <label htmlFor="demo-message" className="sr-only">Lead enquiry</label>
+          <label htmlFor="demo-message" className="sr-only">Lead inquiry</label>
           <textarea
             id="demo-message"
             name="message"
@@ -154,9 +154,9 @@ export function DemoClient() {
 
         {phase === "idle" && (
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Submit an enquiry and watch the engine draft the reply a real lead would receive: personalized, in the
+            Submit an inquiry and watch the engine draft the reply a real lead would receive: personalized, in the
             owner&apos;s voice, with a booking link. A live workflow is configured and measured against the service target
-            agreed for eligible enquiries.
+            agreed for eligible inquiries.
           </p>
         )}
 
@@ -166,7 +166,7 @@ export function DemoClient() {
             <div className="h-3 w-full rounded bg-muted/50 animate-pulse" />
             <div className="h-3 w-5/6 rounded bg-muted/50 animate-pulse" />
             <div className="h-3 w-4/6 rounded bg-muted/40 animate-pulse" />
-            <p className="text-xs text-muted-foreground pt-2">Reading the enquiry, drafting in the brand voice...</p>
+            <p className="text-xs text-muted-foreground pt-2">Reading the inquiry, drafting in the brand voice...</p>
           </div>
         )}
 
@@ -182,14 +182,14 @@ export function DemoClient() {
             />
             <div className="pt-2 text-center">
               <p className="text-sm text-muted-foreground mb-3">
-                Now imagine this handling eligible enquiries while keeping exceptions and human takeovers visible.
+                Now imagine this handling eligible inquiries while keeping exceptions and human takeovers visible.
               </p>
               <Link href="/contact">
                 <Button
-                  onClick={() => trackEvent("cta_click", { cta: "demo_free_engine", destination: "/contact" })}
+                  onClick={() => trackEvent("cta_click", { cta: "demo_get_started", destination: "/contact" })}
                   className="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-500 hover:to-emerald-500 text-gray-900 px-8 rounded-full font-semibold"
                 >
-                  Apply for the free pilot
+                  Get started
                 </Button>
               </Link>
             </div>
@@ -200,7 +200,7 @@ export function DemoClient() {
           <p className="text-muted-foreground text-sm">
             {error || "Something went wrong."} If the demo is busy, the real thing is better anyway:{" "}
             <Link href="/contact" className="text-lime-400 hover:underline">
-              apply for the free pilot
+              get started
             </Link>
             .
           </p>

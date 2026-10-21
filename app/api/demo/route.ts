@@ -51,7 +51,7 @@ async function captchaOk(token: string, ip: string): Promise<boolean> {
 const SYSTEM_PROMPT = `You write the first reply to a new inbound lead for Ayothedoc.
 
 Ayothedoc installs and runs AI Operating Systems for small agencies and
-consultants. Its wedge offer: a free 60-Second Lead Engine that replies to
+consultants. Its entry offer: the 60-Second Lead Engine, which replies to
 every inbound lead in under a minute, personalized, in the client's voice,
 with their booking link.
 
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
   if (rateLimited(ip)) {
     return NextResponse.json(
-      { error: "Demo limit reached for now. Want it on your real leads instead? The first build is free." },
+      { error: "Demo limit reached for now. Want it on your real leads instead? See pricing at aios.ayothedoc.com/offer." },
       { status: 429 },
     )
   }
